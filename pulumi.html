@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>QA Report - Pulumi Module</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; max-width: 1200px; margin: 0 auto; padding: 20px; }
+        h1, h2, h3 { color: #333; }
+        .function-list { background: #f5f5f5; padding: 20px; border-radius: 5px; }
+        .suggestion { margin: 20px 0; padding: 15px; border-left: 4px solid #007bff; }
+        .code { background: #f8f9fa; padding: 15px; border-radius: 5px; font-family: monospace; }
+        .meme { max-width: 500px; margin: 20px 0; }
+        .error { color: #dc3545; }
+    </style>
+</head>
+<body>
+    <h1>QA Report - Pulumi Module</h1>
+    
+    <h2>Module Information</h2>
+    <ul>
+        <li><strong>Name:</strong> github.com/matipan/daggerverse/pulumi</li>
+        <li><strong>Author:</strong> matipan</li>
+        <li><strong>Latest Version:</strong> 0022951a290b16f0cd005fe6e3a6fa4bfd8b9126</li>
+        <li><strong>Release Date:</strong> Not specified in source</li>
+        <li><strong>Dagger Version Used:</strong> v0.17.2</li>
+    </ul>
+
+    <h2>Module Purpose</h2>
+    <p>This module provides a Dagger-native interface for working with Pulumi, an Infrastructure as Code platform. It allows users to:</p>
+    <ul>
+        <li>Execute Pulumi commands (up, preview, refresh, destroy)</li>
+        <li>Manage AWS credentials and Pulumi tokens</li>
+        <li>Work with Docker integration</li>
+        <li>Handle ESC (Enterprise Shared Credentials) for AWS OIDC</li>
+    </ul>
+
+    <h2>Available Functions</h2>
+    <div class="function-list">
+        <ul>
+            <li><strong>destroy()</strong> - Runs the pulumi destroy command for the given stack and directory</li>
+            <li><strong>docker()</strong> - Whether a Docker Engine will be bound to the Pulumi container</li>
+            <li><strong>escEnv()</strong> - The Pulumi ESC environment used for AWS OIDC</li>
+            <li><strong>fromVersion()</strong> - Optional function to specify the version of Pulumi's docker image to use as base</li>
+            <li><strong>output()</strong> - Gets the output value from the stack</li>
+            <li><strong>preview()</strong> - Runs the pulumi preview command for the given stack and directory</li>
+            <li><strong>refresh()</strong> - Runs the pulumi refresh command for the given stack and directory</li>
+            <li><strong>run()</strong> - Runs the specified pulumi command</li>
+            <li><strong>up()</strong> - Runs the pulumi up command for the given stack and directory</li>
+            <li><strong>version()</strong> - The version of the Pulumi base image</li>
+            <li><strong>withAwsCredentials()</strong> - Sets the AWS credentials to be used by Pulumi</li>
+            <li><strong>withDocker()</strong> - Sets up the Pulumi container with a Docker Engine Service container</li>
+            <li><strong>withEsc()</strong> - Use Pulumi ESC as the provider of AWS OIDC credentials</li>
+            <li><strong>withPulumiToken()</strong> - Sets the Pulumi token to be used by Pulumi</li>
+        </ul>
+    </div>
+
+    <h2>Quality Improvement Suggestions</h2>
+    
+    <div class="suggestion">
+        <h3>1. Add Input Validation</h3>
+        <p>Add validation for critical inputs like stack names and AWS credentials to prevent runtime errors.</p>
+        <div class="code">
+        func validateStack(stack string) error {
+            if stack == "" {
+                return fmt.Errorf("stack name cannot be empty")
+            }
+            if len(stack) > 100 {
+                return fmt.Errorf("stack name exceeds maximum length of 100 characters")
+            }
+            return nil
+        }
+        </div>
+    </div>
+
+    <div class="suggestion">
+        <h3>2. Implement Retry Logic</h3>
+        <p>Add retry mechanism for network-dependent operations like AWS authentication.</p>
+        <div class="code">
+        func withRetry(operation func() error, maxAttempts int) error {
+            var err error
+            for attempt := 1; attempt <= maxAttempts; attempt++ {
+                err = operation()
+                if err == nil {
+                    return nil
+                }
+                time.Sleep(time.Second * time.Duration(attempt))
+            }
+            return fmt.Errorf("operation failed after %d attempts: %v", maxAttempts, err)
+        }
+        </div>
+    </div>
+
+    <div class="suggestion">
+        <h3>3. Enhanced Error Reporting</h3>
+        <p>Improve error messages with context and potential solutions.</p>
+        <div class="code">
+        type PulumiError struct {
+            Operation   string
+            Cause      error
+            Resolution string
+        }
+
+        func (e *PulumiError) Error() string {
+            return fmt.Sprintf("Pulumi %s failed: %v\nSuggested resolution: %s",
+                e.Operation, e.Cause, e.Resolution)
+        }
+        </div>
+        <img src="https://i.imgur.com/HTisMpC.jpeg" alt="Debugging Meme" class="meme">
+    </div>
+
+    <h2>Testing Results</h2>
+    <ul>
+        <li>✅ Module installation successful</li>
+        <li>✅ Module build successful</li>
+        <li>✅ All functions properly documented</li>
+        <li>✅ No runtime errors encountered during basic testing</li>
+    </ul>
+
+    <h2>Raw Test Results</h2>
+    <p>For detailed crawl results, see: <a href="pulumi-crawl.html">Raw Crawl Results</a></p>
+</body>
+</html>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>QA Report - k3s Module</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
+        h1, h2 { color: #333; }
+        .success { color: green; }
+        .error { color: red; }
+        pre { background: #f4f4f4; padding: 15px; border-radius: 5px; }
+        .suggestion { margin: 20px 0; padding: 15px; border-left: 4px solid #007bff; }
+        .meme { text-align: center; margin: 20px 0; }
+    </style>
+</head>
+<body>
+    <h1>QA Report: k3s Module</h1>
+    
+    <h2>Module Information</h2>
+    <ul>
+        <li><strong>Name:</strong> github.com/nilium/dagdug/k3s</li>
+        <li><strong>Author:</strong> nilium</li>
+        <li><strong>Latest Version:</strong> c8a4824185c306c7ccb169eb2a0cff48f732c399</li>
+        <li><strong>Dagger Engine Version:</strong> v0.17.2</li>
+    </ul>
+
+    <h2>Module Purpose</h2>
+    <p>This module provides functionality to run a k3s server that can be accessed both locally and in pipelines. It offers the following functions:</p>
+    <ul>
+        <li><strong>container():</strong> Returns a configured container for k3s</li>
+        <li><strong>server():</strong> Returns initialized k3s cluster</li>
+        <li><strong>kubeconfig():</strong> Returns the kubeconfig file from the k3s container</li>
+    </ul>
+
+    <h2>Quality Improvement Suggestions</h2>
+    
+    <div class="suggestion">
+        <h3>1. Add Input Validation</h3>
+        <p>Add validation for the port number to ensure it's within valid range (0-65535)</p>
+        <pre>
+func validatePort(port int) error {
+    if port < 0 || port > 65535 {
+        return fmt.Errorf("port must be between 0 and 65535, got %d", port)
+    }
+    return nil
+}
+        </pre>
+    </div>
+
+    <div class="suggestion">
+        <h3>2. Add Health Check Function</h3>
+        <p>Implement a health check function to verify k3s server status</p>
+        <pre>
+func (k *K3S) healthCheck() *bool {
+    return k.container().
+        withExec([]string{"kubectl", "get", "nodes"}).
+        exitCode().
+        equals(0)
+}
+        </pre>
+    </div>
+
+    <div class="meme">
+        <p>When your k3s cluster won't start and you're debugging:</p>
+        <img src="https://api.memegen.link/images/fine/k3s_cluster_on_fire/this_is_fine.png" alt="Everything is fine meme" width="300">
+    </div>
+
+    <div class="suggestion">
+        <h3>3. Add Timeout Configuration</h3>
+        <p>Add configurable timeouts for server startup</p>
+        <pre>
+type K3SConfig struct {
+    StartupTimeoutSeconds int
+    HealthCheckInterval   int
+}
+        </pre>
+    </div>
+
+    <h2>Testing Results</h2>
+    <p class="success">✅ Module installation successful</p>
+    <p class="success">✅ Module build successful</p>
+    <p class="success">✅ All functions documented and working as expected</p>
+
+</body>
+</html>

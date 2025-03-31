@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>QA Report - uncommitted Module</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; line-height: 1.6; }
+        h1, h2 { color: #333; }
+        .function-list { background: #f5f5f5; padding: 20px; border-radius: 5px; }
+        .suggestion { margin: 20px 0; padding: 15px; border-left: 4px solid #2196F3; }
+        .error { color: #721c24; background-color: #f8d7da; padding: 10px; border-radius: 5px; }
+        .code { background: #f8f9fa; padding: 15px; border-radius: 5px; font-family: monospace; }
+        .meme { text-align: center; margin: 20px 0; }
+    </style>
+</head>
+<body>
+    <h1>QA Report - uncommitted Module</h1>
+    
+    <h2>Module Information</h2>
+    <ul>
+        <li><strong>Name:</strong> github.com/leonardoce/daggerverse/uncommitted</li>
+        <li><strong>Author:</strong> Leonardo Cecchi</li>
+        <li><strong>Latest Version:</strong> Commit bfb272fa0a70b90de23a403c6d4d9221c67a7c4c</li>
+        <li><strong>Release Date:</strong> Not specified</li>
+        <li><strong>Dagger Engine Version Used:</strong> v0.17.2</li>
+    </ul>
+
+    <h2>Module Purpose</h2>
+    <p>This module checks for uncommitted git changes in a repository. It provides a simple interface to verify if there are any pending changes that haven't been committed to git.</p>
+
+    <h2>Available Functions</h2>
+    <div class="function-list">
+        <ul>
+            <li><strong>checkUncommitted(source: Directory)</strong> - Runs a check for uncommitted git changes in the specified directory</li>
+        </ul>
+    </div>
+
+    <h2>Quality Improvement Suggestions</h2>
+    
+    <div class="suggestion">
+        <h3>1. Enhance Error Reporting</h3>
+        <p>The module could benefit from more detailed error reporting and status information.</p>
+        <div class="code">
+        ```typescript
+        type GitStatus struct {
+            HasChanges bool
+            Modified   []string
+            Untracked []string
+            Deleted   []string
+        }
+
+        func (u *Uncommitted) checkUncommitted(source *Directory) (*GitStatus, error) {
+            // Implementation returning detailed status
+            return &GitStatus{
+                HasChanges: false,
+                Modified: []string{},
+                Untracked: []string{},
+                Deleted: []string{},
+            }, nil
+        }
+        ```
+        </div>
+        <div class="meme">
+            <p>When the git status is clean:</p>
+            <img src="https://i.imgflip.com/2/1bij.jpg" alt="Git Clean Meme" width="300">
+        </div>
+    </div>
+
+    <div class="suggestion">
+        <h3>2. Add Configuration Options</h3>
+        <p>Allow users to customize the check behavior through configuration.</p>
+        <div class="code">
+        ```typescript
+        type UncommittedConfig struct {
+            IgnoreUntracked bool
+            IgnoreSubmodules bool
+            CustomIgnorePatterns []string
+        }
+
+        func (u *Uncommitted) withConfig(config UncommittedConfig) *Uncommitted {
+            // Implementation
+        }
+
+        func (u *Uncommitted) checkUncommitted(source *Directory, config UncommittedConfig) {
+            // Implementation using config
+        }
+        ```
+        </div>
+    </div>
+
+    <div class="suggestion">
+        <h3>3. Add Pre-commit Integration</h3>
+        <p>Provide integration with pre-commit hooks and CI/CD pipelines.</p>
+        <div class="code">
+        ```yaml
+        # .pre-commit-config.yaml
+        repos:
+        - repo: local
+          hooks:
+          - id: dagger-uncommitted
+            name: Check for uncommitted changes
+            entry: dagger call --module github.com/leonardoce/daggerverse/uncommitted check-uncommitted
+            language: system
+            pass_filenames: false
+        ```
+        </div>
+    </div>
+
+    <h2>Installation and Testing Results</h2>
+    <p>✅ Module installed successfully</p>
+    <p>✅ Module built successfully</p>
+    <p>✅ Function documentation present</p>
+    <p>⚠️ Limited configuration options</p>
+
+</body>
+</html>

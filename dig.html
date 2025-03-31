@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>QA Report - dig Module</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; line-height: 1.6; }
+        h1, h2 { color: #333; }
+        .function-list { background: #f5f5f5; padding: 20px; border-radius: 5px; }
+        .suggestion { margin: 20px 0; padding: 15px; border-left: 4px solid #2196F3; }
+        .error { color: #721c24; background-color: #f8d7da; padding: 10px; border-radius: 5px; }
+        .code { background: #f8f9fa; padding: 15px; border-radius: 5px; font-family: monospace; }
+        .meme { text-align: center; margin: 20px 0; }
+    </style>
+</head>
+<body>
+    <h1>QA Report - dig Module</h1>
+    
+    <h2>Module Information</h2>
+    <ul>
+        <li><strong>Name:</strong> github.com/felipepimentel/daggerverse/essentials/dig</li>
+        <li><strong>Author:</strong> Felipe Pimentel</li>
+        <li><strong>Latest Version:</strong> v0.0.0</li>
+        <li><strong>Release Date:</strong> Not specified</li>
+        <li><strong>Dagger Engine Version Used:</strong> v0.17.2</li>
+    </ul>
+
+    <h2>Module Purpose</h2>
+    <p>The dig module provides DNS query functionality through a simple interface. It allows users to perform various DNS record lookups including A, AAAA, MX, NS, and TXT records, as well as DNS trace operations and propagation verification.</p>
+
+    <h2>Available Functions</h2>
+    <div class="function-list">
+        <ul>
+            <li><strong>a(domain)</strong> - Performs A record lookup</li>
+            <li><strong>aaaa(domain)</strong> - Performs AAAA record lookup</li>
+            <li><strong>mx(domain)</strong> - Performs MX record lookup</li>
+            <li><strong>ns(domain)</strong> - Performs NS record lookup</li>
+            <li><strong>txt(domain)</strong> - Performs TXT record lookup</li>
+            <li><strong>trace(domain)</strong> - Performs DNS resolution trace</li>
+            <li><strong>verifyPropagation(domain, expectedValue)</strong> - Checks DNS record propagation</li>
+        </ul>
+    </div>
+
+    <h2>Quality Improvement Suggestions</h2>
+    
+    <div class="suggestion">
+        <h3>1. Add Comprehensive Documentation</h3>
+        <p>The module lacks detailed documentation for each function. Add examples and parameter descriptions.</p>
+        <div class="code">
+        ```markdown
+        # Function Documentation Template
+        ## a(domain)
+        Performs an A record lookup for the specified domain.
+
+        ### Parameters
+        - domain: The domain name to query (e.g., "example.com")
+
+        ### Example
+        ```typescript
+        dig.a("example.com")
+        ```
+
+        ### Returns
+        Returns the A record(s) for the specified domain
+        ```
+        </div>
+        <div class="meme">
+            <p>🤔 Documentation be like:</p>
+            <img src="https://i.imgflip.com/7px8k9.jpg" alt="Documentation Meme" width="300">
+        </div>
+    </div>
+
+    <div class="suggestion">
+        <h3>2. Add Error Handling and Validation</h3>
+        <p>Implement proper error handling and input validation for all functions.</p>
+        <div class="code">
+        ```typescript
+        func validateDomain(domain string) error {
+            if domain == "" {
+                return fmt.Errorf("domain cannot be empty")
+            }
+            // Add more validation rules
+            return nil
+        }
+
+        func (d *Dig) a(domain string) (*Container, error) {
+            if err := validateDomain(domain); err != nil {
+                return nil, err
+            }
+            // Existing implementation
+        }
+        ```
+        </div>
+    </div>
+
+    <div class="suggestion">
+        <h3>3. Add Testing and Examples</h3>
+        <p>Include unit tests and example implementations for each function.</p>
+        <div class="code">
+        ```typescript
+        func TestDig(t *testing.T) {
+            tests := []struct {
+                name     string
+                domain   string
+                wantErr  bool
+            }{
+                {
+                    name:    "Valid domain",
+                    domain:  "example.com",
+                    wantErr: false,
+                },
+                {
+                    name:    "Invalid domain",
+                    domain:  "",
+                    wantErr: true,
+                },
+            }
+            // Test implementation
+        }
+        ```
+        </div>
+    </div>
+
+    <h2>Installation and Testing Results</h2>
+    <p>✅ Module installed successfully</p>
+    <p>✅ Module built successfully</p>
+    <p>✅ All core functions are accessible</p>
+
+</body>
+</html>
