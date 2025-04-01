@@ -1,0 +1,129 @@
+<html><head><title>Vault Module Crawl</title></head><body><pre>Search
+
+- <a href="https://daggerverse.dev/mod/github.com/kpenfound/dagger-modules/vault@4c9d04b461f9e0fce3ff40399570f635f586d972#module-about">vault</a>
+- <a href="https://daggerverse.dev/mod/github.com/kpenfound/dagger-modules/vault@4c9d04b461f9e0fce3ff40399570f635f586d972#module-metadata">Installation</a>
+- <a href="https://daggerverse.dev/mod/github.com/kpenfound/dagger-modules/vault@4c9d04b461f9e0fce3ff40399570f635f586d972#vault.constructor">Entrypoint</a>
+- <a href="https://daggerverse.dev/mod/github.com/kpenfound/dagger-modules/vault@4c9d04b461f9e0fce3ff40399570f635f586d972#Types">Types</a>
+- <a href="https://daggerverse.dev/mod/github.com/kpenfound/dagger-modules/vault@4c9d04b461f9e0fce3ff40399570f635f586d972#Vault">Vault</a>
+  - <a href="https://daggerverse.dev/mod/github.com/kpenfound/dagger-modules/vault@4c9d04b461f9e0fce3ff40399570f635f586d972#Vault.approleId">approleId()</a>
+  - <a href="https://daggerverse.dev/mod/github.com/kpenfound/dagger-modules/vault@4c9d04b461f9e0fce3ff40399570f635f586d972#Vault.approleSecret">approleSecret()</a>
+  - <a href="https://daggerverse.dev/mod/github.com/kpenfound/dagger-modules/vault@4c9d04b461f9e0fce3ff40399570f635f586d972#Vault.address">address()</a>
+  - <a href="https://daggerverse.dev/mod/github.com/kpenfound/dagger-modules/vault@4c9d04b461f9e0fce3ff40399570f635f586d972#Vault.auth">auth()</a>
+  - <a href="https://daggerverse.dev/mod/github.com/kpenfound/dagger-modules/vault@4c9d04b461f9e0fce3ff40399570f635f586d972#Vault.getSecret">getSecret()</a>
+  - <a href="https://daggerverse.dev/mod/github.com/kpenfound/dagger-modules/vault@4c9d04b461f9e0fce3ff40399570f635f586d972#Vault.putSecret">putSecret()</a>
+
+# vault
+
+A utility module for working with secrets in HashiCorp Vault
+
+## Installation
+
+<code>dagger install github.com/kpenfound/dagger-modules/vault@v0.0.11</code>
+
+## Entrypoint
+
+##### Return Type
+
+<code>Vault</code>
+
+Example
+
+shellgopythonTypeScript
+
+<code>
+dagger -m github.com/kpenfound/dagger-modules/vault@4c9d04b461f9e0fce3ff40399570f635f586d972 call \
+</code>
+
+<code>
+func (m *myModule) example() *Vault  {
+	return dag.
+			Vault()
+}
+</code>
+
+<code>
+@function
+def example() -&gt; dag.Vault:
+	return (
+		dag.vault()
+	)
+</code>
+
+<code>
+@func()
+example(): Vault {
+	return dag
+		.vault()
+}
+</code>
+
+## Types
+
+### Vault 
+
+#### approleId() 
+
+##### Return Type
+
+<code>String !</code>
+
+#### approleSecret() 
+
+##### Return Type
+
+<code>String !</code>
+
+#### address() 
+
+##### Return Type
+
+<code>String !</code>
+
+#### auth() 
+
+Authenticate to Vault with an approle secret
+
+##### Return Type
+
+<code>Vault !</code>
+
+##### Arguments
+
+| Name | Type | Default Value | Description |
+| --- | --- | --- | --- |
+| approleId | String! | - | _No description provided_ |
+| approleSecret | String! | - | _No description provided_ |
+| address | String! | - | _No description provided_ |
+
+#### getSecret() 
+
+Get a secret from Vault
+
+##### Return Type
+
+<code>Secret !</code>
+
+##### Arguments
+
+| Name | Type | Default Value | Description |
+| --- | --- | --- | --- |
+| secret | String! | - | _No description provided_ |
+| key | String! | - | _No description provided_ |
+
+#### putSecret() 
+
+Put a secret in Vault
+
+##### Return Type
+
+<code>Vault !</code>
+
+##### Arguments
+
+| Name | Type | Default Value | Description |
+| --- | --- | --- | --- |
+| secret | String! | - | _No description provided_ |
+| key | String! | - | _No description provided_ |
+| value | String! | - | _No description provided_ |
+
+</pre></body></html>
