@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>QA Report - top-level module</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
+        h1 { color: #333; }
+        .metadata { background: #f5f5f5; padding: 20px; border-radius: 5px; }
+        .functions { margin: 20px 0; }
+        .suggestions { margin: 20px 0; }
+        .error { color: red; }
+        .code { background: #f8f8f8; padding: 10px; border-radius: 5px; font-family: monospace; }
+        .meme { max-width: 500px; margin: 20px 0; }
+    </style>
+</head>
+<body>
+    <h1>QA Report: top-level module</h1>
+
+    <div class="metadata">
+        <h2>Module Metadata</h2>
+        <p><strong>Name:</strong> github.com/sipsma/dagger-module-tests/top-level</p>
+        <p><strong>Author:</strong> sipsma</p>
+        <p><strong>Latest Version:</strong> 7ef471e24f56ff2dc902ca9feae24836b8f2e7e4</p>
+        <p><strong>Release Date:</strong> Not specified in module info</p>
+        <p><strong>Dagger Engine Version Used:</strong> v0.18.1</p>
+    </div>
+
+    <div class="functions">
+        <h2>Module Functionality</h2>
+        <p>This module provides a simple interface with the following functions:</p>
+        <ul>
+            <li><code>fn()</code> - Returns a String (no description provided)</li>
+        </ul>
+    </div>
+
+    <div class="suggestions">
+        <h2>Improvement Suggestions</h2>
+        
+        <h3>1. Add Proper Documentation</h3>
+        <p>The module lacks proper documentation which makes it difficult to understand its purpose and usage.</p>
+        <div class="code">
+        // Add module documentation
+        /**
+         * @module top-level
+         * @description A module that provides top-level functionality for XYZ purposes
+         * @example
+         * dag.topLevel().fn()
+         */
+        
+        // Add function documentation
+        /**
+         * @function fn
+         * @description Returns a specific string value
+         * @returns {string} The resulting string
+         */
+        func fn() string {
+            // implementation
+        }
+        </div>
+
+        <h3>2. Add Input Parameters</h3>
+        <p>The current function is very basic with no parameters. Consider adding configurable options.</p>
+        <div class="code">
+        func fn(input string, options *FnOptions) (string, error) {
+            if options == nil {
+                options = DefaultFnOptions()
+            }
+            // implementation with validation and error handling
+        }
+
+        type FnOptions struct {
+            Uppercase bool
+            Prefix    string
+        }
+        </div>
+
+        <h3>3. Add Error Handling</h3>
+        <p>The function should include proper error handling and return meaningful errors.</p>
+        <div class="code">
+        type ModuleError struct {
+            Code    string
+            Message string
+            Cause   error
+        }
+
+        func (e *ModuleError) Error() string {
+            return fmt.Sprintf("%s: %s", e.Code, e.Message)
+        }
+
+        func fn() (string, error) {
+            // Add validation and error handling
+            if err != nil {
+                return "", &ModuleError{
+                    Code:    "INVALID_STATE",
+                    Message: "Failed to process input",
+                    Cause:   err,
+                }
+            }
+            return result, nil
+        }
+        </div>
+        
+        <img src="https://i.imgflip.com/2/7q5n1t.jpg" alt="Documentation Meme" class="meme">
+    </div>
+
+    <div class="issues">
+        <h2>Issues Encountered</h2>
+        <ul>
+            <li>Module lacks any description or documentation</li>
+            <li>No clear purpose or use case described</li>
+            <li>Function 'fn()' has no description or documented return value meaning</li>
+        </ul>
+    </div>
+
+    <p><a href="github.com-sipsma-dagger-module-tests-top-level-crawl.html">View Raw Crawl Results</a></p>
+</body>
+</html>

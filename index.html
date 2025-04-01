@@ -1,37 +1,45 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Daggerverse Modules QA Summary</title>
+    <title>Dagger Modules QA Report Index</title>
     <style>
         body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
+        h1 { color: #333; }
         table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #ddd; }
+        th, td { padding: 10px; border: 1px solid #ddd; text-align: left; }
         th { background-color: #f5f5f5; }
-        .success { color: #28a745; font-size: 20px; }
-        .error { color: #dc3545; font-size: 20px; }
-        .module-name { font-weight: bold; }
+        .success { color: green; font-size: 20px; }
+        .error { color: red; font-size: 20px; }
+        .status-cell { text-align: center; }
     </style>
 </head>
 <body>
-    <h1>Daggerverse Modules QA Summary</h1>
+    <h1>Dagger Modules QA Report Index</h1>
     
     <table>
         <thead>
             <tr>
                 <th>Module Name</th>
                 <th>Status</th>
-                <th>Raw Crawl</th>
-                <th>Details</th>
+                <th>Links</th>
             </tr>
         </thead>
         <tbody>
             <tr>
-                <td class="module-name">daggerverse-cockpit</td>
-                <td><span class="success">✓</span></td>
-                <td><a href="daggerverse-cockpit-crawl.html">View Crawl</a></td>
-                <td><a href="daggerverse-cockpit.html">View Report</a></td>
+                <td>github.com/sipsma/dagger-module-tests/top-level</td>
+                <td class="status-cell"><span class="error">❌</span></td>
+                <td>
+                    <a href="github.com-sipsma-dagger-module-tests-top-level.html">QA Report</a> |
+                    <a href="github.com-sipsma-dagger-module-tests-top-level-crawl.html">Raw Crawl</a>
+                </td>
             </tr>
         </tbody>
     </table>
+
+    <p>
+        <strong>Legend:</strong><br>
+        ✅ - No errors found<br>
+        ❌ - Issues found
+    </p>
 </body>
 </html>
