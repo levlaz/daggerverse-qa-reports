@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>QA Report - openssh-server</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; max-width: 1200px; margin: 0 auto; padding: 20px; }
+        h1, h2 { color: #333; }
+        .function-list { background: #f5f5f5; padding: 20px; border-radius: 5px; }
+        .suggestion { margin: 20px 0; padding: 15px; border-left: 4px solid #007bff; }
+        .code { background: #f8f9fa; padding: 15px; border-radius: 5px; font-family: monospace; }
+        .error { color: #dc3545; }
+        .meme { max-width: 500px; margin: 20px 0; }
+    </style>
+</head>
+<body>
+    <h1>QA Report - openssh-server</h1>
+    
+    <h2>Module Information</h2>
+    <ul>
+        <li><strong>Name:</strong> openssh-server</li>
+        <li><strong>Author:</strong> jedevc (fork of sagikazarmark's module)</li>
+        <li><strong>Latest Version:</strong> a104424df38ca8b0b758f699dcfeeb0c2210cc2e</li>
+        <li><strong>Dagger Engine Version Used:</strong> v0.18.1</li>
+    </ul>
+
+    <h2>Module Purpose</h2>
+    <p>This module provides an OpenSSH server for testing SSH connections. It offers a convenient way to set up and configure an SSH server in your Dagger pipelines.</p>
+
+    <h2>Functions</h2>
+    <div class="function-list">
+        <ul>
+            <li><strong>host-keys()</strong> - Returns the SSH host keys</li>
+            <li><strong>known-hosts(host)</strong> - Returns a formatted SSH known_hosts file</li>
+            <li><strong>port()</strong> - Gets the current port number</li>
+            <li><strong>service()</strong> - Returns a service that runs the OpenSSH server</li>
+            <li><strong>with-authorized-key(publicKey, [user])</strong> - Authorizes a public key</li>
+            <li><strong>with-config(name, file)</strong> - Mounts a custom SSH configuration file</li>
+            <li><strong>with-port(port)</strong> - Sets the port number for the OpenSSH server</li>
+        </ul>
+    </div>
+
+    <h2>Quality Improvement Suggestions</h2>
+    
+    <div class="suggestion">
+        <h3>1. Add Input Validation</h3>
+        <p>The module could benefit from more robust input validation, especially for port numbers and file paths.</p>
+        <div class="code">
+        func validatePort(port int) error {
+            if port < 1 || port > 65535 {
+                return fmt.Errorf("port must be between 1 and 65535")
+            }
+            return nil
+        }
+
+        func (s *OpensshServer) WithPort(port int) *OpensshServer {
+            if err := validatePort(port); err != nil {
+                panic(err)
+            }
+            return s.withPort(port)
+        }
+        </div>
+    </div>
+
+    <div class="suggestion">
+        <h3>2. Implement Default Configuration Templates</h3>
+        <p>Provide pre-configured templates for common use cases.</p>
+        <div class="code">
+        func (s *OpensshServer) WithDefaultSecureConfig() *OpensshServer {
+            return s.
+                WithConfig("hardened.conf", `
+                    PermitRootLogin no
+                    PasswordAuthentication no
+                    X11Forwarding no
+                    AllowTcpForwarding yes
+                    MaxAuthTries 3
+                `)
+        }
+        </div>
+        <img src="https://i.imgflip.com/2/2qw5y.jpg" alt="Security Meme" class="meme">
+    </div>
+
+    <div class="suggestion">
+        <h3>3. Add Health Check Functionality</h3>
+        <p>Implement a health check method to verify the SSH server is running correctly.</p>
+        <div class="code">
+        func (s *OpensshServer) HealthCheck(ctx context.Context) (bool, error) {
+            service := s.Service()
+            port := s.Port()
+            
+            // Implement TCP connection test to verify server is listening
+            // Add basic SSH handshake verification
+            return true, nil
+        }
+        </div>
+    </div>
+
+    <h2>Testing Results</h2>
+    <ul>
+        <li>✅ Module Installation: Successful</li>
+        <li>✅ Module Build: Successful</li>
+        <li>✅ Function Discovery: All functions documented and working</li>
+    </ul>
+
+    <h2>Links</h2>
+    <ul>
+        <li><a href="/qa/openssh-server-crawl.html">Raw Crawl Results</a></li>
+        <li><a href="https://daggerverse.dev/mod/github.com/jedevc/daggerverse-sagikazarmark/openssh-server">Module Documentation</a></li>
+    </ul>
+</body>
+</html>
