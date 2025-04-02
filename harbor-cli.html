@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>QA Report - harbor-cli</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        h1 { color: #2c3e50; }
+        .section { margin: 20px 0; }
+        .function-list { background: #f8f9fa; padding: 15px; border-radius: 5px; }
+        .suggestion { background: #e9ecef; padding: 15px; margin: 10px 0; border-radius: 5px; }
+        code { background: #f1f1f1; padding: 2px 5px; border-radius: 3px; }
+        .error { color: #dc3545; }
+    </style>
+</head>
+<body>
+    <h1>QA Report: harbor-cli</h1>
+    
+    <div class="section">
+        <h2>Module Information</h2>
+        <ul>
+            <li><strong>Name:</strong> harbor-cli</li>
+            <li><strong>Author:</strong> bishal7679</li>
+            <li><strong>Latest Version:</strong> v0.6.4</li>
+            <li><strong>Release Date:</strong> Not specified in module info</li>
+            <li><strong>Dagger Engine Version Used:</strong> v0.18.1</li>
+            <li><strong>Dagger Cloud Trace:</strong> <a href="https://daggerverse.dev/mod/github.com/bishal7679/harbor-cli">View on Daggerverse</a></li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>Module Functionality</h2>
+        <p>This module provides CLI utilities for Harbor, including:</p>
+        <div class="function-list">
+            <ul>
+                <li><code>build-harbor()</code> - Build Harbor from source</li>
+                <li><code>container-echo()</code> - Echo string in container</li>
+                <li><code>echo()</code> - Simple echo function</li>
+                <li><code>grep-dir()</code> - Search for patterns in directory</li>
+                <li><code>lint-code()</code> - Lint Harbor code</li>
+                <li><code>pull-request()</code> - Handle pull requests</li>
+                <li><code>release()</code> - Handle releases</li>
+                <li><code>dockerPublish()</code> - Publish Docker images</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>Improvement Suggestions</h2>
+        
+        <div class="suggestion">
+            <h3>1. Add Function Documentation</h3>
+            <p><img src="https://media.giphy.com/media/3o7btZ1Gm7ZL25pLMs/giphy.gif" alt="Documentation meme" width="200"/></p>
+            <p>Many functions lack proper descriptions. Add detailed documentation:</p>
+            <code>
+                /**
+                 * @description Builds Harbor from source code
+                 * @param {Directory} directoryArg - Source directory containing Harbor code
+                 * @returns {Directory} - Built Harbor artifacts
+                 */
+                func buildHarbor(directoryArg: Directory): Directory
+            </code>
+        </div>
+
+        <div class="suggestion">
+            <h2>2. Add Error Handling</h2>
+            <p>Implement better error handling and return meaningful errors:</p>
+            <code>
+                func dockerPublish(...) (*string, error) {
+                    if cosignKey == nil {
+                        return nil, fmt.Errorf("cosign key is required")
+                    }
+                    // rest of the function
+                }
+            </code>
+        </div>
+
+        <div class="suggestion">
+            <h2>3. Add Input Validation</h2>
+            <p>Implement input validation for critical parameters:</p>
+            <code>
+                func validateInput(regUsername string, regPassword string) error {
+                    if len(regUsername) == 0 {
+                        return fmt.Errorf("registry username cannot be empty")
+                    }
+                    if len(regPassword) == 0 {
+                        return fmt.Errorf("registry password cannot be empty")
+                    }
+                    return nil
+                }
+            </code>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>Issues Found</h2>
+        <ul>
+            <li>Limited function documentation</li>
+            <li>No version constraints for dependencies</li>
+            <li>Missing error handling in some functions</li>
+        </ul>
+    </div>
+</body>
+</html>
