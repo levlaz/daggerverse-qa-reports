@@ -3,123 +3,144 @@
 <head>
     <title>QA Report - AWS CLI Module</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 40px; }
-        .container { max-width: 1200px; margin: 0 auto; }
-        .info-block { margin-bottom: 20px; }
-        .meme { max-width: 500px; margin: 20px 0; }
-        .function-list { background: #f5f5f5; padding: 20px; border-radius: 5px; }
-        .suggestion { border-left: 4px solid #007bff; padding-left: 20px; margin: 20px 0; }
-        .error { color: #dc3545; }
-        pre { background: #f8f9fa; padding: 10px; border-radius: 4px; }
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+        }
+        .function-list {
+            background-color: #f5f5f5;
+            padding: 15px;
+            border-radius: 5px;
+        }
+        .suggestion {
+            margin: 20px 0;
+            padding: 15px;
+            background-color: #e8f5e9;
+            border-left: 4px solid #4caf50;
+        }
+        .code-snippet {
+            background-color: #f8f9fa;
+            padding: 10px;
+            border-radius: 4px;
+            font-family: monospace;
+        }
+        .error {
+            color: #d32f2f;
+            background-color: #ffebee;
+            padding: 10px;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>QA Report - AWS CLI Module</h1>
-        
-        <div class="info-block">
-            <h2>Basic Information</h2>
-            <ul>
-                <li><strong>Module Name:</strong> aws-cli</li>
-                <li><strong>Author:</strong> Márk Sági-Kazár (@sagikazarmark)</li>
-                <li><strong>Latest Version:</strong> v0.2.0</li>
-                <li><strong>Release Info:</strong> Latest commit 9ee6739 on main branch</li>
-                <li><strong>Dagger Engine Version Used:</strong> v0.18.1</li>
-                <li><strong>Cloud Trace:</strong> <a href="https://daggerverse.dev/mod/github.com/sagikazarmark/daggerverse/aws-cli@9ee6739db1b1cc4c806ed9389ecd534bf9f5705a">View on Daggerverse</a></li>
-            </ul>
-        </div>
+    <h1>AWS CLI Module QA Report</h1>
+    
+    <h2>Module Information</h2>
+    <ul>
+        <li><strong>Module Name:</strong> aws-cli</li>
+        <li><strong>Author:</strong> luanmtruong</li>
+        <li><strong>Latest Version:</strong> 96c13b929c636316317f745ff36cda4e4c66f680</li>
+        <li><strong>Release Date:</strong> Not specified in module metadata</li>
+        <li><strong>Dagger Engine Version Used:</strong> v0.18.1</li>
+        <li><strong>Dagger Cloud Trace:</strong> <a href="https://daggerverse.dev/mod/github.com/luanmtruong/daggerverse/aws-cli@96c13b929c636316317f745ff36cda4e4c66f680">View Trace</a></li>
+    </ul>
 
-        <div class="info-block">
-            <h2>Module Purpose</h2>
-            <p>This module provides a generic interface to use AWS CLI in Dagger pipelines, along with high-level functions for AWS interactions. It's particularly useful for AWS operations within Dagger pipelines.</p>
-            
-            <h3>Available Functions:</h3>
-            <div class="function-list">
-                <ul>
-                    <li>container - Base container management</li>
-                    <li>ecr - Amazon ECR operations</li>
-                    <li>exec - Run AWS CLI commands</li>
-                    <li>region - Region management</li>
-                    <li>sts - AWS STS operations</li>
-                    <li>with-config - Config file mounting</li>
-                    <li>with-credentials - Credentials management</li>
-                    <li>with-profile - Profile selection</li>
-                    <li>with-region - Region setting</li>
-                    <li>with-static-credentials - Static credentials management</li>
-                    <li>with-temporary-credentials - Temporary credentials handling</li>
-                    <li>without-static-credentials - Credentials removal</li>
-                </ul>
-            </div>
-        </div>
+    <h2>Module Purpose</h2>
+    <p>This module provides a generic interface to use AWS CLI in Dagger pipelines. It offers functionality for:</p>
+    <ul class="function-list">
+        <li>AWS CLI command execution</li>
+        <li>ECR (Elastic Container Registry) operations</li>
+        <li>STS (Security Token Service) operations</li>
+        <li>Region configuration</li>
+        <li>Credential management</li>
+    </ul>
 
-        <div class="info-block">
-            <h2>Quality Improvement Suggestions</h2>
-            
-            <div class="suggestion">
-                <h3>1. Add Input Validation</h3>
-                <p>Add validation for AWS region formats and other critical inputs to prevent runtime errors.</p>
-                <pre>
-// Example implementation:
+    <h2>Available Functions</h2>
+    <ul>
+        <li>container() - Get container information</li>
+        <li>ecr() - ECR-related operations</li>
+        <li>exec() - Run AWS CLI commands</li>
+        <li>region() - Get/set AWS region</li>
+        <li>sts() - STS-related operations</li>
+        <li>with-config() - Mount AWS config file</li>
+        <li>with-credentials() - Mount credentials file</li>
+        <li>with-profile() - Set AWS profile</li>
+        <li>with-region() - Set AWS region</li>
+        <li>with-static-credentials() - Set static credentials</li>
+        <li>with-temporary-credentials() - Set temporary credentials</li>
+        <li>without-static-credentials() - Remove static credentials</li>
+    </ul>
+
+    <h2>Quality Improvement Suggestions</h2>
+    
+    <div class="suggestion">
+        <h3>1. Add Input Validation</h3>
+        <p>Add input validation for critical parameters like region codes and ARNs.</p>
+        <div class="code-snippet">
+            <pre>
 func validateRegion(region string) error {
-    regionPattern := regexp.MustCompile(`^[a-z]{2}-[a-z]+-\d{1}$`)
-    if !regionPattern.MatchString(region) {
-        return fmt.Errorf("invalid AWS region format: %s", region)
-    }
-    return nil
-}</pre>
-            </div>
-
-            <div class="suggestion">
-                <h3>2. Add Error Retry Mechanism</h3>
-                <p>Implement retries for AWS API calls to handle temporary failures.</p>
-                <pre>
-func withRetry(operation func() error, maxAttempts int) error {
-    var err error
-    for attempt := 1; attempt <= maxAttempts; attempt++ {
-        err = operation()
-        if err == nil {
+    validRegions := []string{"us-east-1", "us-west-2", "eu-west-1"} // etc
+    for _, r := range validRegions {
+        if region == r {
             return nil
         }
-        time.Sleep(time.Second * time.Duration(attempt))
     }
-    return err
-}</pre>
-            </div>
+    return fmt.Errorf("invalid AWS region: %s", region)
+}
 
-            <div class="suggestion">
-                <h3>3. Enhanced Documentation</h3>
-                <p>Add more examples and use cases in the documentation.</p>
-                <pre>
-// Example enhanced documentation:
-/**
- * @example
- * // Basic usage with region
- * dag.awsCli().withRegion("us-west-2")
- *
- * // Using with temporary credentials
- * dag.awsCli()
- *   .withTemporaryCredentials(accessKey, secretKey, sessionToken)
- *   .ecr()
- *   .login()
- */</pre>
-            </div>
-
-            <div class="meme">
-                <img src="https://i.imgflip.com/2k48t0.jpg" alt="AWS CLI Meme" />
-                <p><em>When your AWS credentials expire in production</em></p>
-            </div>
+// In withRegion function:
+if err := validateRegion(region); err != nil {
+    return nil, err
+}
+            </pre>
         </div>
-
-        <div class="info-block">
-            <h2>Testing Results</h2>
-            <p>No errors were encountered during the testing process. The module installed and built successfully.</p>
-            <ul>
-                <li>✅ Module Installation</li>
-                <li>✅ Module Building</li>
-                <li>✅ Function Documentation</li>
-                <li>✅ Basic Functionality Verification</li>
-            </ul>
-        </div>
+        <img src="https://i.imgflip.com/2k48t0.jpg" alt="Input validation meme" style="max-width: 300px;">
     </div>
+
+    <div class="suggestion">
+        <h3>2. Add Detailed Error Messages</h3>
+        <p>Enhance error messages with more context and potential solutions.</p>
+        <div class="code-snippet">
+            <pre>
+type awsError struct {
+    Operation   string
+    Message     string
+    Resolution  string
+}
+
+func (e *awsError) Error() string {
+    return fmt.Sprintf("AWS operation '%s' failed: %s\nSuggested resolution: %s",
+        e.Operation, e.Message, e.Resolution)
+}
+            </pre>
+        </div>
+        <img src="https://i.imgflip.com/2zo1ki.jpg" alt="Error handling meme" style="max-width: 300px;">
+    </div>
+
+    <div class="suggestion">
+        <h3>3. Add Documentation Examples</h3>
+        <p>Include more comprehensive examples in the documentation for common use cases.</p>
+        <div class="code-snippet">
+            <pre>
+// Example: Pulling from ECR
+func ExampleECRPull() {
+    cli := dag.AwsCli().
+        WithRegion("us-east-1").
+        WithCredentials(awsCredentials)
+    
+    registry := cli.Ecr().Login()
+    container := dag.Container().
+        WithRegistryAuth(registry.Address(), registry.Username(), registry.Password())
+}
+            </pre>
+        </div>
+        <img src="https://i.imgflip.com/2k0qad.jpg" alt="Documentation meme" style="max-width: 300px;">
+    </div>
+
+    <h2>Testing Issues</h2>
+    <p>No significant issues were encountered during testing. The module installed and built successfully, and all core functions were properly exposed.</p>
+
 </body>
 </html>
