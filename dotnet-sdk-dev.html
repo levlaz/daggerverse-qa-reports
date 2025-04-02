@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>QA Report - dotnet-sdk-dev</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        .error { color: red; }
+        .success { color: green; }
+        .suggestion { background-color: #f0f0f0; padding: 10px; margin: 10px 0; }
+        code { background-color: #eee; padding: 2px 5px; }
+    </style>
+</head>
+<body>
+    <h1>QA Report - dotnet-sdk-dev</h1>
+    
+    <h2>Module Information</h2>
+    <ul>
+        <li><strong>Name:</strong> dotnet-sdk-dev</li>
+        <li><strong>Author:</strong> grouville</li>
+        <li><strong>Latest Version:</strong> 12ca6dc467baebe3ce04f6774511abdbcdaa6f3d</li>
+        <li><strong>Release Date:</strong> Not available</li>
+        <li><strong>Dagger Version Used:</strong> v0.18.1</li>
+    </ul>
+
+    <h2>Module Purpose</h2>
+    <p>This module contains functions for developing the .NET SDK, including:</p>
+    <ul>
+        <li>Running tests</li>
+        <li>Generating introspection</li>
+        <li>Code formatting</li>
+        <li>Linting</li>
+    </ul>
+
+    <h2>Available Functions</h2>
+    <ul>
+        <li><code>container()</code> - Returns the base container</li>
+        <li><code>generate()</code> - Generate code from introspection json file</li>
+        <li><code>test()</code> - Testing the SDK</li>
+        <li><code>lint()</code> - Lint all CSharp source files in the SDK</li>
+        <li><code>check()</code> - Run test and lint</li>
+        <li><code>format()</code> - Format all CSharp source files</li>
+    </ul>
+
+    <h2>Errors Encountered</h2>
+    <div class="error">
+        <h3>Installation Error</h3>
+        <p>The module installation failed with the error:</p>
+        <code>git module source "github.com/grouville/dagger/sdk/dotnet/dev" does not contain a dagger config file</code>
+    </div>
+
+    <div class="error">
+        <h3>Build Error</h3>
+        <p>The module build failed with the error:</p>
+        <code>path "sdk/dotnet/dev" does not exist in git repo</code>
+    </div>
+
+    <h2>Quality Improvement Suggestions</h2>
+    
+    <div class="suggestion">
+        <h3>1. Add proper module configuration</h3>
+        <p>The module is missing a dagger.json configuration file. Here's how to add it:</p>
+        <pre><code>
+{
+    "name": "dotnet-sdk-dev",
+    "sdk": "go",
+    "dependencies": [],
+    "source": "sdk/dotnet/dev"
+}
+        </code></pre>
+        <img src="https://i.imgflip.com/2/7zfho5.jpg" alt="Configuration Missing Meme" />
+    </div>
+
+    <div class="suggestion">
+        <h3>2. Improve Error Handling</h3>
+        <p>Add better error handling for the introspection file parameter. Example:</p>
+        <pre><code>
+func (m *DotnetSdkDev) Generate(ctx context.Context, introspectionJson *File) (*Directory, error) {
+    if introspectionJson == nil {
+        return nil, fmt.Errorf("introspection JSON file is required")
+    }
+    // ... rest of the implementation
+}
+        </code></pre>
+    </div>
+
+    <div class="suggestion">
+        <h3>3. Add Documentation</h3>
+        <p>Add comprehensive documentation for each function. Example:</p>
+        <pre><code>
+// Format formats all C# source files in the SDK.
+// Returns a Directory containing the formatted files.
+//
+// Example:
+//   result, err := dev.Format(ctx)
+//   if err != nil {
+//       return err
+//   }
+func (m *DotnetSdkDev) Format(ctx context.Context) (*Directory, error) {
+    // Implementation
+}
+        </code></pre>
+    </div>
+
+    <h2>Links</h2>
+    <ul>
+        <li><a href="https://daggerverse.dev/mod/github.com/grouville/dagger/sdk/dotnet/dev@12ca6dc467baebe3ce04f6774511abdbcdaa6f3d">Module Page</a></li>
+        <li><a href="dotnet-sdk-dev.crawl.html">Raw Crawl Results</a></li>
+    </ul>
+</body>
+</html>
