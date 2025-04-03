@@ -3,119 +3,121 @@
 <head>
     <title>QA Report - Shellcheck Module</title>
     <style>
-        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 20px; }
-        h1 { color: #333; }
-        h2 { color: #666; }
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        h1, h2 { color: #333; }
         .container { max-width: 1200px; margin: 0 auto; }
-        .function-list { background-color: #f5f5f5; padding: 15px; border-radius: 5px; }
-        .suggestion { margin: 20px 0; padding: 15px; background-color: #e1f5fe; border-left: 4px solid #03a9f4; }
-        .error { color: #d32f2f; background-color: #ffebee; padding: 10px; border-radius: 4px; }
-        code { background-color: #f8f9fa; padding: 2px 5px; border-radius: 3px; }
+        .success { color: green; }
+        .error { color: red; }
+        pre { background: #f5f5f5; padding: 10px; border-radius: 5px; }
         .meme { max-width: 500px; margin: 20px 0; }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>QA Report - Shellcheck Module</h1>
+        <h1>QA Report: Shellcheck Module</h1>
         
-        <h2>Module Information</h2>
+        <h2>Basic Information</h2>
         <ul>
-            <li><strong>Name:</strong> shellcheck</li>
-            <li><strong>Author:</strong> aluzzardi</li>
-            <li><strong>Latest Version:</strong> aec13cdf85e7cc7aa5a933e3c73a2604f6e73b01</li>
+            <li><strong>Module Name:</strong> github.com/TomChv/dagger/modules/shellcheck</li>
+            <li><strong>Author:</strong> TomChv</li>
+            <li><strong>Latest Version:</strong> e45ebd5f4222708ca1db05ff34a68320e24b9ed4</li>
             <li><strong>Release Date:</strong> Not specified in metadata</li>
             <li><strong>Dagger Engine Version Used:</strong> v0.18.1</li>
-            <li><strong>Dagger Cloud Trace:</strong> <a href="https://dagger.cloud/">View Trace</a></li>
         </ul>
 
         <h2>Module Purpose</h2>
-        <p>The shellcheck module provides shell script analysis capabilities using the ShellCheck tool. It allows checking shell scripts for potential issues and provides various reporting formats.</p>
+        <p>This module provides shell script analysis functionality using shellcheck. It offers the following capabilities:</p>
+        <ul>
+            <li>Analyzing shell scripts for potential issues</li>
+            <li>Generating detailed reports of found issues</li>
+            <li>Providing fixes and diffs for identified problems</li>
+            <li>Offering both JSON and human-readable output formats</li>
+        </ul>
 
         <h2>Available Functions</h2>
-        <div class="function-list">
-            <h3>Main Functions:</h3>
-            <ul>
-                <li><code>check(file: File)</code> - Reports issues that need to be fixed in a given shell script file</li>
-            </ul>
-
-            <h3>Report Functions:</h3>
-            <ul>
-                <li><code>issues()</code> - Returns array of detected issues</li>
-                <li><code>jSon()</code> - Returns JSON format of the report</li>
-                <li><code>report()</code> - Returns human-readable report</li>
-                <li><code>fixedDiff()</code> - Shows differences in fixed version</li>
-                <li><code>assert()</code> - Validates if there are any issues</li>
-                <li><code>fixed()</code> - Returns fixed version of the file</li>
-            </ul>
-        </div>
+        <pre>
+- check(): Report the issues that need to be fixed on a given file
+- Report object methods:
+  - issues(): Get list of found issues
+  - jSON(): Get JSON format report
+  - report(): Get human readable report
+  - fixedDiff(): Get diff of fixes
+  - assert(): Verify no issues exist
+  - fixed(): Get fixed file content
+        </pre>
 
         <h2>Quality Improvement Suggestions</h2>
         
-        <div class="suggestion">
-            <h3>1. Add Comprehensive Documentation</h3>
-            <p>The module lacks detailed documentation about its usage and examples.</p>
-            <code>
-            # Add to README.md:
-            
-            # Shellcheck Module
-            
-            ## Usage Example
-            ```typescript
-            const script = dag.directory().with("script.sh", "#!/bin/bash\necho $foo")
-            const report = dag.shellcheck().check(script)
-            const issues = await report.issues()
-            ```
-            
-            ## Common Use Cases
-            - CI/CD pipeline shell script validation
-            - Automated shell script quality checks
-            - Shell script security scanning
-            </code>
-        </div>
+        <h3>1. Add Comprehensive Documentation</h3>
+        <p>The module lacks detailed documentation about its usage and examples.</p>
+        <pre>
+// Add a detailed README.md to the module:
+# Shellcheck Dagger Module
 
-        <div class="suggestion">
-            <h3>2. Add Configuration Options</h3>
-            <p>The module could benefit from customizable shellcheck options.</p>
-            <code>
-            // Add to main.go:
-            type Shellcheck struct {
-                Severity string    // error, warning, info, style
-                Exclude  []string // list of rules to exclude
-                Shell    string   // sh, bash, dash, ksh
-            }
-            
-            func (m *Module) WithSeverity(sev string) *Shellcheck {
-                m.Severity = sev
-                return m
-            }
-            </code>
-            <img src="https://i.imgflip.com/65hw2f.jpg" alt="Configuration Meme" class="meme">
-        </div>
+## Overview
+This module wraps shellcheck functionality for shell script analysis in your Dagger pipelines.
 
-        <div class="suggestion">
-            <h3>3. Add Batch Processing Support</h3>
-            <p>Currently only supports checking one file at a time.</p>
-            <code>
-            // Add to interface:
-            type Shellcheck interface {
-                CheckDirectory(dir *Directory) *BatchReport
-                CheckFiles(files []File) *BatchReport
-            }
-            
-            type BatchReport struct {
-                Reports map[string]*Report
-                Summary string
-            }
-            </code>
+## Usage Examples
+```go
+func example() {
+    shellcheck := dag.Shellcheck()
+    report := shellcheck.Check(dag.Host().File("./script.sh"))
+    issues := report.Issues()
+}
+```
+        </pre>
+
+        <h3>2. Include Input Validation</h3>
+        <p>Add validation for input files to ensure they are actually shell scripts.</p>
+        <pre>
+// Add validation check:
+func (m *Module) Check(file *File) (*Report, error) {
+    extension := filepath.Ext(file.Path())
+    if extension != ".sh" && extension != ".bash" {
+        return nil, fmt.Errorf("file must be a shell script (.sh or .bash)")
+    }
+    // proceed with check
+}
+        </pre>
+
+        <h3>3. Add Configuration Options</h3>
+        <p>Support customizable shellcheck options.</p>
+        <pre>
+// Add configuration struct:
+type Config struct {
+    Severity string   // error, warning, info, style
+    Exclude  []string // codes to exclude
+    Shell    string   // sh, bash, dash, ksh
+}
+
+func (m *Module) WithConfig(config Config) *Module {
+    // Apply configuration
+}
+        </pre>
+
+        <div class="meme">
+            <img src="https://i.imgflip.com/2/5d05vq.jpg" alt="Quality Code Meme" />
+            <p><em>When your shell script passes shellcheck with zero warnings</em></p>
         </div>
 
         <h2>Testing Results</h2>
-        <ul>
-            <li>✅ Module installation successful</li>
-            <li>✅ Basic functionality testing passed</li>
-            <li>✅ Function enumeration successful</li>
-            <li>⚠️ No test files included in the module</li>
-        </ul>
+        <div class="success">
+            <h3>Successes:</h3>
+            <ul>
+                <li>✅ Module successfully installed</li>
+                <li>✅ Module builds without errors</li>
+                <li>✅ Core functionality (check) is available</li>
+            </ul>
+        </div>
+
+        <div class="error">
+            <h3>Issues Encountered:</h3>
+            <ul>
+                <li>⚠️ Missing comprehensive documentation</li>
+                <li>⚠️ No version information in metadata</li>
+                <li>⚠️ Limited configuration options</li>
+            </ul>
+        </div>
     </div>
 </body>
 </html>
