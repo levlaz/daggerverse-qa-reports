@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>QA Report - Shellcheck Module</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 20px; }
+        h1 { color: #333; }
+        h2 { color: #666; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .function-list { background-color: #f5f5f5; padding: 15px; border-radius: 5px; }
+        .suggestion { margin: 20px 0; padding: 15px; background-color: #e1f5fe; border-left: 4px solid #03a9f4; }
+        .error { color: #d32f2f; background-color: #ffebee; padding: 10px; border-radius: 4px; }
+        code { background-color: #f8f9fa; padding: 2px 5px; border-radius: 3px; }
+        .meme { max-width: 500px; margin: 20px 0; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>QA Report - Shellcheck Module</h1>
+        
+        <h2>Module Information</h2>
+        <ul>
+            <li><strong>Name:</strong> shellcheck</li>
+            <li><strong>Author:</strong> aluzzardi</li>
+            <li><strong>Latest Version:</strong> aec13cdf85e7cc7aa5a933e3c73a2604f6e73b01</li>
+            <li><strong>Release Date:</strong> Not specified in metadata</li>
+            <li><strong>Dagger Engine Version Used:</strong> v0.18.1</li>
+            <li><strong>Dagger Cloud Trace:</strong> <a href="https://dagger.cloud/">View Trace</a></li>
+        </ul>
+
+        <h2>Module Purpose</h2>
+        <p>The shellcheck module provides shell script analysis capabilities using the ShellCheck tool. It allows checking shell scripts for potential issues and provides various reporting formats.</p>
+
+        <h2>Available Functions</h2>
+        <div class="function-list">
+            <h3>Main Functions:</h3>
+            <ul>
+                <li><code>check(file: File)</code> - Reports issues that need to be fixed in a given shell script file</li>
+            </ul>
+
+            <h3>Report Functions:</h3>
+            <ul>
+                <li><code>issues()</code> - Returns array of detected issues</li>
+                <li><code>jSon()</code> - Returns JSON format of the report</li>
+                <li><code>report()</code> - Returns human-readable report</li>
+                <li><code>fixedDiff()</code> - Shows differences in fixed version</li>
+                <li><code>assert()</code> - Validates if there are any issues</li>
+                <li><code>fixed()</code> - Returns fixed version of the file</li>
+            </ul>
+        </div>
+
+        <h2>Quality Improvement Suggestions</h2>
+        
+        <div class="suggestion">
+            <h3>1. Add Comprehensive Documentation</h3>
+            <p>The module lacks detailed documentation about its usage and examples.</p>
+            <code>
+            # Add to README.md:
+            
+            # Shellcheck Module
+            
+            ## Usage Example
+            ```typescript
+            const script = dag.directory().with("script.sh", "#!/bin/bash\necho $foo")
+            const report = dag.shellcheck().check(script)
+            const issues = await report.issues()
+            ```
+            
+            ## Common Use Cases
+            - CI/CD pipeline shell script validation
+            - Automated shell script quality checks
+            - Shell script security scanning
+            </code>
+        </div>
+
+        <div class="suggestion">
+            <h3>2. Add Configuration Options</h3>
+            <p>The module could benefit from customizable shellcheck options.</p>
+            <code>
+            // Add to main.go:
+            type Shellcheck struct {
+                Severity string    // error, warning, info, style
+                Exclude  []string // list of rules to exclude
+                Shell    string   // sh, bash, dash, ksh
+            }
+            
+            func (m *Module) WithSeverity(sev string) *Shellcheck {
+                m.Severity = sev
+                return m
+            }
+            </code>
+            <img src="https://i.imgflip.com/65hw2f.jpg" alt="Configuration Meme" class="meme">
+        </div>
+
+        <div class="suggestion">
+            <h3>3. Add Batch Processing Support</h3>
+            <p>Currently only supports checking one file at a time.</p>
+            <code>
+            // Add to interface:
+            type Shellcheck interface {
+                CheckDirectory(dir *Directory) *BatchReport
+                CheckFiles(files []File) *BatchReport
+            }
+            
+            type BatchReport struct {
+                Reports map[string]*Report
+                Summary string
+            }
+            </code>
+        </div>
+
+        <h2>Testing Results</h2>
+        <ul>
+            <li>✅ Module installation successful</li>
+            <li>✅ Basic functionality testing passed</li>
+            <li>✅ Function enumeration successful</li>
+            <li>⚠️ No test files included in the module</li>
+        </ul>
+    </div>
+</body>
+</html>
