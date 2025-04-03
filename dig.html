@@ -3,127 +3,117 @@
 <head>
     <title>QA Report - dig Module</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 40px; line-height: 1.6; }
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
         h1, h2 { color: #333; }
+        .section { margin: 20px 0; }
         .function-list { background: #f5f5f5; padding: 20px; border-radius: 5px; }
-        .suggestion { margin: 20px 0; padding: 15px; border-left: 4px solid #2196F3; }
-        .error { color: #721c24; background-color: #f8d7da; padding: 10px; border-radius: 5px; }
-        .code { background: #f8f9fa; padding: 15px; border-radius: 5px; font-family: monospace; }
-        .meme { text-align: center; margin: 20px 0; }
+        .suggestion { background: #e9f7ef; padding: 15px; margin: 10px 0; border-radius: 5px; }
+        .error { background: #ffebee; padding: 15px; margin: 10px 0; border-radius: 5px; }
+        code { background: #f8f9fa; padding: 2px 5px; border-radius: 3px; }
+        .meme { max-width: 500px; margin: 20px 0; }
     </style>
 </head>
 <body>
     <h1>QA Report - dig Module</h1>
-    
-    <h2>Module Information</h2>
-    <ul>
-        <li><strong>Name:</strong> github.com/felipepimentel/daggerverse/essentials/dig</li>
-        <li><strong>Author:</strong> Felipe Pimentel</li>
-        <li><strong>Latest Version:</strong> v0.0.0</li>
-        <li><strong>Release Date:</strong> Not specified</li>
-        <li><strong>Dagger Engine Version Used:</strong> v0.17.2</li>
-    </ul>
 
-    <h2>Module Purpose</h2>
-    <p>The dig module provides DNS query functionality through a simple interface. It allows users to perform various DNS record lookups including A, AAAA, MX, NS, and TXT records, as well as DNS trace operations and propagation verification.</p>
-
-    <h2>Available Functions</h2>
-    <div class="function-list">
+    <div class="section">
+        <h2>Module Information</h2>
         <ul>
-            <li><strong>a(domain)</strong> - Performs A record lookup</li>
-            <li><strong>aaaa(domain)</strong> - Performs AAAA record lookup</li>
-            <li><strong>mx(domain)</strong> - Performs MX record lookup</li>
-            <li><strong>ns(domain)</strong> - Performs NS record lookup</li>
-            <li><strong>txt(domain)</strong> - Performs TXT record lookup</li>
-            <li><strong>trace(domain)</strong> - Performs DNS resolution trace</li>
-            <li><strong>verifyPropagation(domain, expectedValue)</strong> - Checks DNS record propagation</li>
+            <li><strong>Name:</strong> dig</li>
+            <li><strong>Author:</strong> Felipe Pimentel</li>
+            <li><strong>Latest Version:</strong> main</li>
+            <li><strong>Release Date:</strong> Not specified</li>
+            <li><strong>Dagger Cloud Trace:</strong> <a href="https://daggerverse.dev/mod/github.com/felipepimentel/daggerverse/essentials/dig">View on Daggerverse</a></li>
         </ul>
     </div>
 
-    <h2>Quality Improvement Suggestions</h2>
-    
-    <div class="suggestion">
-        <h3>1. Add Comprehensive Documentation</h3>
-        <p>The module lacks detailed documentation for each function. Add examples and parameter descriptions.</p>
-        <div class="code">
-        ```markdown
-        # Function Documentation Template
-        ## a(domain)
-        Performs an A record lookup for the specified domain.
-
-        ### Parameters
-        - domain: The domain name to query (e.g., "example.com")
-
-        ### Example
-        ```typescript
-        dig.a("example.com")
-        ```
-
-        ### Returns
-        Returns the A record(s) for the specified domain
-        ```
-        </div>
-        <div class="meme">
-            <p>🤔 Documentation be like:</p>
-            <img src="https://i.imgflip.com/7px8k9.jpg" alt="Documentation Meme" width="300">
+    <div class="section">
+        <h2>Module Purpose</h2>
+        <p>The dig module provides functionality for DNS queries and verification. It offers various DNS lookup capabilities including A, AAAA, MX, NS, and TXT records, as well as DNS propagation verification.</p>
+        
+        <h3>Available Functions:</h3>
+        <div class="function-list">
+            <ul>
+                <li><code>a(domain)</code> - Performs A record lookup</li>
+                <li><code>aaaa(domain)</code> - Performs AAAA record lookup</li>
+                <li><code>mx(domain)</code> - Performs MX record lookup</li>
+                <li><code>ns(domain)</code> - Performs NS record lookup</li>
+                <li><code>txt(domain)</code> - Performs TXT record lookup</li>
+                <li><code>trace(domain)</code> - Performs DNS resolution trace</li>
+                <li><code>verify-propagation(domain, expectedValue)</code> - Checks DNS record propagation</li>
+                <li><code>query(config)</code> - (Advanced) Performs custom DNS queries</li>
+            </ul>
         </div>
     </div>
 
-    <div class="suggestion">
-        <h3>2. Add Error Handling and Validation</h3>
-        <p>Implement proper error handling and input validation for all functions.</p>
-        <div class="code">
-        ```typescript
-        func validateDomain(domain string) error {
-            if domain == "" {
-                return fmt.Errorf("domain cannot be empty")
-            }
-            // Add more validation rules
-            return nil
-        }
+    <div class="section">
+        <h2>Testing Environment</h2>
+        <p>Tested with Dagger Engine Version: v0.18.1</p>
+    </div>
 
-        func (d *Dig) a(domain string) (*Container, error) {
-            if err := validateDomain(domain); err != nil {
-                return nil, err
-            }
-            // Existing implementation
+    <div class="section">
+        <h2>Quality Improvement Suggestions</h2>
+        
+        <div class="suggestion">
+            <h3>1. Add Comprehensive Documentation</h3>
+            <p>The module lacks detailed documentation for each function parameter and return values.</p>
+            <img src="https://media.giphy.com/media/9o9dh1JRGThC1qxGTJ/giphy.gif" alt="Documentation Meme" class="meme">
+            <pre><code>
+/**
+ * Performs an A record lookup for the specified domain
+ * @param domain The domain name to query (e.g., "example.com")
+ * @returns Container with the A record results
+ * @example
+ * dig.a("example.com")
+ */
+func (d *Dig) A(domain string) *Container {
+    // existing implementation
+}
+</code></pre>
+        </div>
+
+        <div class="suggestion">
+            <h2>2. Add Input Validation</h2>
+            <p>Add domain name validation to prevent invalid queries.</p>
+            <pre><code>
+func isValidDomain(domain string) bool {
+    // Basic domain validation regex
+    pattern := `^([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9])\.([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\-]*[A-Za-z0-9])*\.([A-Za-z]{2,})$`
+    match, _ := regexp.MatchString(pattern, domain)
+    return match
+}
+
+func (d *Dig) A(domain string) *Container {
+    if !isValidDomain(domain) {
+        panic("Invalid domain name format")
+    }
+    // existing implementation
+}
+</code></pre>
+        </div>
+
+        <div class="suggestion">
+            <h3>3. Add Retry Mechanism with Backoff</h3>
+            <p>Implement exponential backoff for DNS queries to handle temporary failures.</p>
+            <pre><code>
+func (d *Dig) queryWithRetry(domain string, queryType string, maxRetries int) *Container {
+    for attempt := 0; attempt < maxRetries; attempt++ {
+        // Existing query logic
+        if err == nil {
+            return result
         }
-        ```
+        // Exponential backoff
+        time.Sleep(time.Second * time.Duration(math.Pow(2, float64(attempt))))
+    }
+    panic("Max retries exceeded")
+}
+</code></pre>
         </div>
     </div>
 
-    <div class="suggestion">
-        <h3>3. Add Testing and Examples</h3>
-        <p>Include unit tests and example implementations for each function.</p>
-        <div class="code">
-        ```typescript
-        func TestDig(t *testing.T) {
-            tests := []struct {
-                name     string
-                domain   string
-                wantErr  bool
-            }{
-                {
-                    name:    "Valid domain",
-                    domain:  "example.com",
-                    wantErr: false,
-                },
-                {
-                    name:    "Invalid domain",
-                    domain:  "",
-                    wantErr: true,
-                },
-            }
-            // Test implementation
-        }
-        ```
-        </div>
+    <div class="section">
+        <h2>Testing Results</h2>
+        <p>No errors were encountered during installation and building of the module.</p>
     </div>
-
-    <h2>Installation and Testing Results</h2>
-    <p>✅ Module installed successfully</p>
-    <p>✅ Module built successfully</p>
-    <p>✅ All core functions are accessible</p>
-
 </body>
 </html>
