@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>QA Report - github.com/kid/gha</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
+        h1, h2 { color: #333; }
+        .error { color: red; }
+        .function-list { padding-left: 20px; }
+        .suggestion { margin: 20px 0; padding: 15px; background: #f9f9f9; }
+        .code-snippet { background: #f4f4f4; padding: 10px; border-radius: 4px; }
+        .meme-container { margin: 20px 0; }
+    </style>
+</head>
+<body>
+    <h1>QA Report: github.com/kid/gha</h1>
+    
+    <h2>Module Information</h2>
+    <ul>
+        <li><strong>Name:</strong> github.com/kid/gha</li>
+        <li><strong>Author:</strong> kid</li>
+        <li><strong>Latest Version:</strong> e9e4d9e86664f561325acb1dca0887a8aa699f8d</li>
+        <li><strong>Release Date:</strong> Not available in crawl data</li>
+        <li><strong>Dagger Engine Version Used:</strong> v0.18.1</li>
+    </ul>
+
+    <h2>Module Purpose</h2>
+    <p>This module aims to simplify GitHub Actions workflow generation from Dagger pipelines. It allows you to generate YAML configurations programmatically using your preferred programming language.</p>
+
+    <h2>Module Functions</h2>
+    <ul class="function-list">
+        <li>settings() - Configure GitHub Actions project settings</li>
+        <li>validate(repo Directory!) - Validate GitHub Actions configuration</li>
+        <li>config() - Export configuration to .github directory</li>
+        <li>withPipeline(name, command, ...) - Add a pipeline with various configuration options</li>
+    </ul>
+
+    <h2>Issues Encountered</h2>
+    <div class="error">
+        <p>Error during build: The module requires Go version 1.23.0 or higher, but the current environment has Go 1.22.12</p>
+        <pre>go: go.mod requires go >= 1.23.0 (running go 1.22.12; GOTOOLCHAIN=local)</pre>
+    </div>
+
+    <h2>Quality Improvement Suggestions</h2>
+    
+    <div class="suggestion">
+        <h3>1. Version Compatibility</h3>
+        <p>Lower the Go version requirement or support multiple Go versions</p>
+        <div class="code-snippet">
+            <pre>
+// In go.mod:
+module github.com/kid/gha
+
+go 1.22 // Instead of 1.23
+
+// Add version compatibility check in main code:
+func checkGoVersion() error {
+    if runtime.Version() < "go1.22" {
+        return fmt.Errorf("this module requires Go 1.22 or higher")
+    }
+    return nil
+}</pre>
+        </div>
+        <div class="meme-container">
+            <img src="https://i.imgflip.com/2/65zxqw.jpg" alt="Backwards compatibility meme" />
+        </div>
+    </div>
+
+    <div class="suggestion">
+        <h3>2. Error Handling Improvement</h3>
+        <p>Add more descriptive error messages and validation</p>
+        <div class="code-snippet">
+            <pre>
+func (m *Gha) withPipeline(ctx context.Context, name string, cmd string, opts ...Option) (*Gha, error) {
+    if name == "" {
+        return nil, fmt.Errorf("pipeline name cannot be empty")
+    }
+    if cmd == "" {
+        return nil, fmt.Errorf("pipeline command cannot be empty")
+    }
+    // Validate other parameters...
+    return m.WithPipeline(name, cmd, opts...), nil
+}</pre>
+        </div>
+    </div>
+
+    <div class="suggestion">
+        <h3>3. Documentation Enhancement</h3>
+        <p>Add more detailed documentation with real-world examples</p>
+        <div class="code-snippet">
+            <pre>
+// Example documentation structure:
+/**
+ * WithPipeline creates a new GitHub Actions workflow
+ *
+ * @param name  The name of the workflow
+ * @param cmd   The Dagger command to execute
+ * @param opts  Additional options for configuring the workflow
+ *
+ * Example:
+ *   dag.Gha().WithPipeline(
+ *     "test",
+ *     "test --all",
+ *     WithBranch("main"),
+ *     WithSecrets("NPM_TOKEN"),
+ *   )
+ */</pre>
+        </div>
+    </div>
+</body>
+</html>
