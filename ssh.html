@@ -3,98 +3,84 @@
 <head>
     <title>QA Report - SSH Module</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 40px; }
-        h1 { color: #333; }
-        h2 { color: #666; }
-        .function { margin-left: 20px; }
-        .improvement { background-color: #f5f5f5; padding: 15px; margin: 10px 0; }
-        .error { color: red; }
-        code { background-color: #f0f0f0; padding: 2px 5px; }
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
+        h1, h2 { color: #333; }
+        .error { color: #ff0000; }
+        .success { color: #00aa00; }
+        code { background: #f4f4f4; padding: 2px 5px; border-radius: 3px; }
+        .meme { max-width: 500px; margin: 20px 0; }
     </style>
 </head>
 <body>
-    <h1>SSH Module QA Report</h1>
+    <h1>QA Report: SSH Module</h1>
     
-    <h2>Module Information</h2>
+    <h2>Basic Information</h2>
     <ul>
-        <li><strong>Name:</strong> github.com/seungyeop-lee/daggerverse/ssh</li>
-        <li><strong>Author:</strong> seungyeop-lee</li>
-        <li><strong>Latest Version:</strong> v0.2.5</li>
-        <li><strong>Release Date:</strong> Available in repository</li>
-        <li><strong>Dagger Cloud Trace:</strong> <a href="https://daggerverse.dev/mod/github.com/seungyeop-lee/daggerverse/ssh@05a5d11c78e35558e860540308c7dc73b370c795">View Trace</a></li>
+        <li><strong>Module Name:</strong> ssh</li>
+        <li><strong>Author:</strong> felipepimentel</li>
+        <li><strong>Latest Version:</strong> v0.0.0</li>
+        <li><strong>Release Date:</strong> Not specified</li>
+        <li><strong>Dagger Cloud Trace:</strong> <a href="https://daggerverse.dev/mod/github.com/felipepimentel/daggerverse/essentials/ssh@36e606fe6b7d1c9561dc60db82ab31614b838754">View Trace</a></li>
     </ul>
 
-    <h2>Module Purpose</h2>
-    <p>This module provides SSH functionality for executing commands on remote servers using either password or identity file authentication.</p>
+    <h2>Module Description</h2>
+    <p>This module provides SSH functionality for Dagger pipelines. It allows users to execute SSH commands and manage SSH connections.</p>
 
-    <h2>Functions</h2>
-    <div class="function">
-        <h3>Core Functions:</h3>
-        <ul>
-            <li><code>baseContainer()</code> - Creates the base container for SSH operations</li>
-            <li><code>config()</code> - Configures SSH connection settings</li>
-            <li><code>withPassword()</code> - Sets up password authentication</li>
-            <li><code>withIdentityFile()</code> - Sets up key-based authentication</li>
-            <li><code>command()</code> - Executes commands on the remote server</li>
-            <li><code>container()</code> - Returns a prepared container for SSH operations</li>
-        </ul>
-    </div>
+    <h2>Available Functions</h2>
+    <ul>
+        <li><code>baseCtr()</code> - Returns the base container</li>
+        <li><code>command(args []string)</code> - Executes SSH commands</li>
+        <li><code>destination()</code> - Returns the SSH destination</li>
+        <li><code>generateKeys()</code> - Generates SSH keys</li>
+        <li><code>opts()</code> - Returns SSH options</li>
+    </ul>
 
     <h2>Testing Environment</h2>
-    <p>Tested with Dagger Engine version: v0.18.1</p>
+    <p>Tested with Dagger v0.18.1</p>
 
-    <h2>Suggested Improvements</h2>
+    <h2>Suggestions for Improvement</h2>
     
-    <div class="improvement">
-        <h3>1. Add Connection Timeout Configuration</h3>
-        <p>Currently missing connection timeout settings which could be crucial for production environments.</p>
-        <code>
-        func (c *Config) WithTimeout(seconds int) *Config {
-            return &Config{
-                timeout: seconds,
-                ...
-            }
-        }
-        </code>
-        <img src="https://i.imgflip.com/2zqie1.jpg" alt="Timeout Meme" />
-    </div>
+    <h3>1. Add Comprehensive Documentation</h3>
+    <p>The module lacks detailed documentation for its functions and usage examples.</p>
+    <pre><code>
+// Example improved documentation
+/*
+* Execute SSH command on remote host
+* @param args List of command arguments
+* @return Container with command output
+* @example
+* ssh.command(["ls", "-la"]).stdout()
+*/
+func (s *Ssh) command(args []string) *Container
+    </code></pre>
 
-    <div class="improvement">
-        <h3>2. Implement Connection Retry Logic</h3>
-        <p>Add retry mechanism for more robust connections in unstable networks.</p>
-        <code>
-        func (c *Config) WithRetry(attempts int, delay time.Duration) *Config {
-            return &Config{
-                retryAttempts: attempts,
-                retryDelay: delay,
-                ...
-            }
-        }
-        </code>
-    </div>
+    <h3>2. Add Error Handling and Validation</h3>
+    <p>Implement better error handling for SSH connection failures and invalid parameters.</p>
+    <pre><code>
+func (s *Ssh) validateDestination() error {
+    if !strings.Contains(s.destination, "@") {
+        return fmt.Errorf("invalid destination format: must be user@host")
+    }
+    return nil
+}
+    </code></pre>
 
-    <div class="improvement">
-        <h3>3. Add Proxy Support</h3>
-        <p>Support for SSH proxy jumping would enhance the module's versatility.</p>
-        <code>
-        func (c *Config) WithProxy(proxyHost string, proxyPort int) *Config {
-            return &Config{
-                proxySettings: &ProxyConfig{
-                    host: proxyHost,
-                    port: proxyPort,
-                },
-                ...
-            }
-        }
-        </code>
-    </div>
+    <h3>3. Add Connection Testing Function</h3>
+    <p>Implement a test connection function to verify SSH connectivity before executing commands.</p>
+    <pre><code>
+func (s *Ssh) testConnection() *Container {
+    return s.command(["echo", "Connection successful"])
+}
+    </code></pre>
 
-    <h2>Testing Issues</h2>
+    <img src="https://i.imgflip.com/2/4m3khy.jpg" alt="SSH Security Meme" class="meme">
+
+    <h2>Issues Encountered</h2>
     <ul>
-        <li>Installation completed successfully</li>
-        <li>Build process completed without errors</li>
-        <li>All core functions are properly documented</li>
-        <li>No significant issues encountered during testing</li>
+        <li>No detailed documentation provided for function parameters and return values</li>
+        <li>No version history or changelog available</li>
+        <li>Missing examples for common use cases</li>
     </ul>
+
 </body>
 </html>
