@@ -3,76 +3,28 @@
 <head>
     <title>Module QA Index</title>
     <style>
-        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 20px; }
-        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        table { width: 100%; border-collapse: collapse; }
         th, td { padding: 10px; border: 1px solid #ddd; text-align: left; }
         th { background-color: #f5f5f5; }
-        .success { color: green; font-weight: bold; }
-        .error { color: red; font-weight: bold; }
+        .success { color: green; }
+        .error { color: red; }
     </style>
 </head>
 <body>
-    <h1>Module QA Results</h1>
+    <h1>Module QA Reports</h1>
     <table>
         <tr>
-            <th>Module Name</th>
+            <th>Module</th>
             <th>Status</th>
-            <th>QA Report</th>
-            <th>Raw Crawl Data</th>
+            <th>Report</th>
+            <th>Raw Crawl</th>
         </tr>
         <tr>
-            <td>github.com/jozu-ai/daggerverse/gguf</td>
-            <td><span class="success">✓</span></td>
-            <td><a href="gguf.html">QA Report</a></td>
-            <td><a href="gguf-crawl.html">Crawl Data</a></td>
-        </tr>
-        <tr>
-            <td>github.com/TomChv/dagger/modules/shellcheck</td>
-            <td><span class="success">✓</span></td>
-            <td><a href="shellcheck.html">QA Report</a></td>
-            <td><a href="shellcheck-crawl.html">Crawl Data</a></td>
-        </tr>
-        <tr>
-            <td>github.com/TomChv/dagger/sdk/dotnet/dev</td>
-            <td><span class="error">✗</span></td>
-            <td><a href="dotnet-sdk-dev.html">QA Report</a></td>
-            <td><a href="dotnet-sdk-dev.crawl.html">Crawl Data</a></td>
-        </tr>
-        <tr>
-            <td>gitlab.com/dagger-modules/test/.../samedir</td>
-            <td><span class="success">✓</span></td>
-            <td><a href="samedir.html">QA Report</a></td>
-            <td><a href="samedir-crawl.html">Crawl Data</a></td>
-        </tr>
-        <tr>
-            <td>github.com/mjb141/daggerverse/aws-ecr</td>
-            <td><span class="success">✓</span></td>
-            <td><a href="aws-ecr.html">QA Report</a></td>
-            <td><a href="aws-ecr-crawl.html">Crawl Data</a></td>
-        </tr>
-        <tr>
-            <td>github.com/dagger/dagger/modules/go</td>
-            <td><span class="success">✓</span></td>
-            <td><a href="github.com_dagger_dagger_modules_go.html">QA Report</a></td>
-            <td><a href="github.com_dagger_dagger_modules_go.crawl.html">Crawl Data</a></td>
-        </tr>
-        <tr>
-            <td>github.com/TomChv/dagger/modules/golangci</td>
-            <td><span class="success">✓</span></td>
-            <td><a href="golangci.html">QA Report</a></td>
-            <td><a href="golangci.crawl.html">Crawl Data</a></td>
-        </tr>
-        <tr>
-            <td>github.com/jedevc/daggerverse-sagikazarmark/registry/tests</td>
-            <td><span class="error">✗</span></td>
-            <td><a href="tests.html">QA Report</a></td>
-            <td><a href="tests-crawl.html">Crawl Data</a></td>
-        </tr>
-        <tr>
-            <td>github.com/seungyeop-lee/daggerverse/ssh</td>
-            <td><span class="success">✓</span></td>
-            <td><a href="ssh.html">QA Report</a></td>
-            <td><a href="ssh-crawl.html">Crawl Data</a></td>
+            <td>github.com/dagger/dagger/ci/std/shellcheck</td>
+            <td><span class="error">❌</span></td>
+            <td><a href="shellcheck.html">View Report</a></td>
+            <td><a href="shellcheck.crawl.html">View Crawl</a></td>
         </tr>
     </table>
 </body>
