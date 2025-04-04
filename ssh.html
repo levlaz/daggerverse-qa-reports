@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>QA Report - SSH Module</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        h1 { color: #333; }
+        h2 { color: #666; }
+        .function { margin-left: 20px; }
+        .improvement { background-color: #f5f5f5; padding: 15px; margin: 10px 0; }
+        .error { color: red; }
+        code { background-color: #f0f0f0; padding: 2px 5px; }
+    </style>
+</head>
+<body>
+    <h1>SSH Module QA Report</h1>
+    
+    <h2>Module Information</h2>
+    <ul>
+        <li><strong>Name:</strong> github.com/seungyeop-lee/daggerverse/ssh</li>
+        <li><strong>Author:</strong> seungyeop-lee</li>
+        <li><strong>Latest Version:</strong> v0.2.5</li>
+        <li><strong>Release Date:</strong> Available in repository</li>
+        <li><strong>Dagger Cloud Trace:</strong> <a href="https://daggerverse.dev/mod/github.com/seungyeop-lee/daggerverse/ssh@05a5d11c78e35558e860540308c7dc73b370c795">View Trace</a></li>
+    </ul>
+
+    <h2>Module Purpose</h2>
+    <p>This module provides SSH functionality for executing commands on remote servers using either password or identity file authentication.</p>
+
+    <h2>Functions</h2>
+    <div class="function">
+        <h3>Core Functions:</h3>
+        <ul>
+            <li><code>baseContainer()</code> - Creates the base container for SSH operations</li>
+            <li><code>config()</code> - Configures SSH connection settings</li>
+            <li><code>withPassword()</code> - Sets up password authentication</li>
+            <li><code>withIdentityFile()</code> - Sets up key-based authentication</li>
+            <li><code>command()</code> - Executes commands on the remote server</li>
+            <li><code>container()</code> - Returns a prepared container for SSH operations</li>
+        </ul>
+    </div>
+
+    <h2>Testing Environment</h2>
+    <p>Tested with Dagger Engine version: v0.18.1</p>
+
+    <h2>Suggested Improvements</h2>
+    
+    <div class="improvement">
+        <h3>1. Add Connection Timeout Configuration</h3>
+        <p>Currently missing connection timeout settings which could be crucial for production environments.</p>
+        <code>
+        func (c *Config) WithTimeout(seconds int) *Config {
+            return &Config{
+                timeout: seconds,
+                ...
+            }
+        }
+        </code>
+        <img src="https://i.imgflip.com/2zqie1.jpg" alt="Timeout Meme" />
+    </div>
+
+    <div class="improvement">
+        <h3>2. Implement Connection Retry Logic</h3>
+        <p>Add retry mechanism for more robust connections in unstable networks.</p>
+        <code>
+        func (c *Config) WithRetry(attempts int, delay time.Duration) *Config {
+            return &Config{
+                retryAttempts: attempts,
+                retryDelay: delay,
+                ...
+            }
+        }
+        </code>
+    </div>
+
+    <div class="improvement">
+        <h3>3. Add Proxy Support</h3>
+        <p>Support for SSH proxy jumping would enhance the module's versatility.</p>
+        <code>
+        func (c *Config) WithProxy(proxyHost string, proxyPort int) *Config {
+            return &Config{
+                proxySettings: &ProxyConfig{
+                    host: proxyHost,
+                    port: proxyPort,
+                },
+                ...
+            }
+        }
+        </code>
+    </div>
+
+    <h2>Testing Issues</h2>
+    <ul>
+        <li>Installation completed successfully</li>
+        <li>Build process completed without errors</li>
+        <li>All core functions are properly documented</li>
+        <li>No significant issues encountered during testing</li>
+    </ul>
+</body>
+</html>
