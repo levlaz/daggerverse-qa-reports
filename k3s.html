@@ -3,82 +3,89 @@
 <head>
     <title>QA Report - k3s Module</title>
     <style>
-        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 20px; }
         h1, h2 { color: #333; }
-        .success { color: green; }
+        .function-list { margin-left: 20px; }
         .error { color: red; }
-        pre { background: #f4f4f4; padding: 15px; border-radius: 5px; }
-        .suggestion { margin: 20px 0; padding: 15px; border-left: 4px solid #007bff; }
-        .meme { text-align: center; margin: 20px 0; }
+        .suggestion { background-color: #f0f0f0; padding: 10px; margin: 10px 0; }
+        code { background-color: #f4f4f4; padding: 2px 5px; border-radius: 3px; }
     </style>
 </head>
 <body>
-    <h1>QA Report: k3s Module</h1>
+    <h1>k3s Module QA Report</h1>
     
-    <h2>Module Information</h2>
+    <h2>Basic Information</h2>
     <ul>
-        <li><strong>Name:</strong> github.com/nilium/dagdug/k3s</li>
-        <li><strong>Author:</strong> nilium</li>
-        <li><strong>Latest Version:</strong> c8a4824185c306c7ccb169eb2a0cff48f732c399</li>
-        <li><strong>Dagger Engine Version:</strong> v0.17.2</li>
+        <li><strong>Module Name:</strong> k3s</li>
+        <li><strong>Author:</strong> jshbrntt</li>
+        <li><strong>Latest Version:</strong> 4d304818ffc95015d9ae7f41b7ee85529a10e14e</li>
+        <li><strong>Dagger Engine Version:</strong> v0.18.2</li>
     </ul>
 
     <h2>Module Purpose</h2>
-    <p>This module provides functionality to run a k3s server that can be accessed both locally and in pipelines. It offers the following functions:</p>
-    <ul>
-        <li><strong>container():</strong> Returns a configured container for k3s</li>
-        <li><strong>server():</strong> Returns initialized k3s cluster</li>
-        <li><strong>kubeconfig():</strong> Returns the kubeconfig file from the k3s container</li>
-    </ul>
+    <p>The k3s module provides functionality to run a k3s server that can be accessed both locally and in pipelines. It offers tools for managing Kubernetes clusters and includes integration with kubectl and k9s.</p>
+
+    <h2>Functions</h2>
+    <div class="function-list">
+        <ul>
+            <li><code>config()</code> - Returns the config file for the k3s cluster</li>
+            <li><code>container()</code> - Base container operations</li>
+            <li><code>kns()</code> - Runs k9s on the target k3s cluster</li>
+            <li><code>kubectl()</code> - Runs kubectl on the target k3s cluster</li>
+            <li><code>server()</code> - Returns a newly initialized kind cluster</li>
+            <li><code>withContainer()</code> - Returns a newly initialized kind cluster with custom container config</li>
+        </ul>
+    </div>
 
     <h2>Quality Improvement Suggestions</h2>
     
     <div class="suggestion">
         <h3>1. Add Input Validation</h3>
-        <p>Add validation for the port number to ensure it's within valid range (0-65535)</p>
-        <pre>
-func validatePort(port int) error {
-    if port < 0 || port > 65535 {
-        return fmt.Errorf("port must be between 0 and 65535, got %d", port)
+        <p>Add validation for the cluster name and other input parameters to prevent errors.</p>
+        <code>
+func validateName(name string) error {
+    if len(name) == 0 {
+        return fmt.Errorf("cluster name cannot be empty")
+    }
+    if len(name) > 63 {
+        return fmt.Errorf("cluster name must be less than 63 characters")
     }
     return nil
 }
-        </pre>
+        </code>
+        <img src="https://i.imgflip.com/2k48t0.jpg" alt="Input Validation Meme" width="300">
     </div>
 
     <div class="suggestion">
-        <h3>2. Add Health Check Function</h3>
-        <p>Implement a health check function to verify k3s server status</p>
-        <pre>
-func (k *K3S) healthCheck() *bool {
-    return k.container().
-        withExec([]string{"kubectl", "get", "nodes"}).
-        exitCode().
-        equals(0)
+        <h3>2. Improve Error Handling</h3>
+        <p>Add more detailed error messages and recovery mechanisms.</p>
+        <code>
+type K3sError struct {
+    Operation string
+    Err       error
 }
-        </pre>
-    </div>
 
-    <div class="meme">
-        <p>When your k3s cluster won't start and you're debugging:</p>
-        <img src="https://api.memegen.link/images/fine/k3s_cluster_on_fire/this_is_fine.png" alt="Everything is fine meme" width="300">
+func (e *K3sError) Error() string {
+    return fmt.Sprintf("k3s operation '%s' failed: %v", e.Operation, e.Err)
+}
+        </code>
     </div>
 
     <div class="suggestion">
-        <h3>3. Add Timeout Configuration</h3>
-        <p>Add configurable timeouts for server startup</p>
-        <pre>
-type K3SConfig struct {
-    StartupTimeoutSeconds int
-    HealthCheckInterval   int
-}
-        </pre>
+        <h3>3. Add Documentation</h3>
+        <p>Improve function documentation with examples and parameter descriptions.</p>
+        <code>
+// Server initializes and returns a new k3s cluster server
+// Parameters:
+//   - customConfig: Optional configuration for the server
+// Returns:
+//   - *Service: A running k3s server instance
+//   - error: Any error encountered during initialization
+func (k *K3S) Server(customConfig *ServerConfig) (*Service, error)
+        </code>
     </div>
 
     <h2>Testing Results</h2>
-    <p class="success">✅ Module installation successful</p>
-    <p class="success">✅ Module build successful</p>
-    <p class="success">✅ All functions documented and working as expected</p>
-
+    <p>The module was successfully installed and built. No major issues were encountered during testing.</p>
 </body>
 </html>
