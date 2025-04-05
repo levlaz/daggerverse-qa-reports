@@ -1,42 +1,37 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Module QA Reports Index</title>
+    <title>Dagger Modules QA Reports Index</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 40px; }
-        table { width: 100%; border-collapse: collapse; }
-        th, td { padding: 10px; border: 1px solid #ddd; text-align: left; }
-        .success { color: green; }
-        .error { color: red; }
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
+        h1 { color: #2c3e50; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #ddd; }
+        th { background-color: #f5f6fa; }
+        .success { color: #27ae60; }
+        .error { color: #c0392b; }
+        a { color: #3498db; text-decoration: none; }
+        a:hover { text-decoration: underline; }
     </style>
 </head>
 <body>
-    <h1>Module QA Reports Index</h1>
+    <h1>Dagger Modules QA Reports</h1>
     
     <table>
         <thead>
             <tr>
                 <th>Module Name</th>
                 <th>Status</th>
-                <th>Report Links</th>
+                <th>QA Report</th>
+                <th>Raw Crawl Data</th>
             </tr>
         </thead>
         <tbody>
             <tr>
-                <td>typescript-standalone</td>
-                <td><span class="error">❌ Has Errors</span></td>
-                <td>
-                    <a href="github.com_sipsma_dagger_sdk_typescript_standalone.html">QA Report</a> |
-                    <a href="github.com_sipsma_dagger_sdk_typescript_standalone_crawl.html">Crawl Results</a>
-                </td>
-            </tr>
-            <tr>
-                <td>module-template-light</td>
-                <td><span class="error">❌ Has Errors</span></td>
-                <td>
-                    <a href="module-template-light.html">QA Report</a> |
-                    <a href="module-template-light.crawl.html">Crawl Results</a>
-                </td>
+                <td>arc-tests</td>
+                <td><span class="success">✓</span></td>
+                <td><a href="arc-tests.html">View Report</a></td>
+                <td><a href="arc-tests-crawl.html">View Raw Data</a></td>
             </tr>
         </tbody>
     </table>
