@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>QA Report - FetchSpreadsheetData</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
+        h1, h2 { color: #333; }
+        .function-list { background: #f5f5f5; padding: 15px; border-radius: 5px; }
+        .suggestion { margin: 20px 0; padding: 15px; border-left: 4px solid #007bff; }
+        .error { color: #dc3545; }
+        .code { background: #f8f9fa; padding: 15px; border-radius: 5px; font-family: monospace; }
+        .meme { max-width: 500px; margin: 20px 0; }
+    </style>
+</head>
+<body>
+    <h1>QA Report: FetchSpreadsheetData</h1>
+    
+    <h2>Module Information</h2>
+    <ul>
+        <li><strong>Name:</strong> FetchSpreadsheetData</li>
+        <li><strong>Author:</strong> EmmS21</li>
+        <li><strong>Latest Version:</strong> v0.0.1</li>
+        <li><strong>Release Date:</strong> Not specified in module information</li>
+        <li><strong>Dagger Version Used:</strong> v0.18.2</li>
+    </ul>
+
+    <h2>Module Purpose</h2>
+    <p>This module automates the process of fetching transaction data from Google Spreadsheets that are populated by Tiller. It provides functionality to:</p>
+    <ul>
+        <li>Securely connect to Google Sheets</li>
+        <li>Retrieve transaction data</li>
+        <li>Parse spreadsheet data into structured JSON format</li>
+    </ul>
+
+    <h2>Available Functions</h2>
+    <div class="function-list">
+        <h3>fetch-data</h3>
+        <p>Fetches transaction data from a Google Spreadsheet.</p>
+        <p>Arguments:</p>
+        <ul>
+            <li>apiKey (Secret): Authentication key for Google Sheets API</li>
+            <li>sheet (Secret): Google Spreadsheet ID</li>
+        </ul>
+    </div>
+
+    <h2>Quality Improvement Suggestions</h2>
+    
+    <div class="suggestion">
+        <h3>1. Add Input Validation</h3>
+        <p>Add validation for the API key and sheet ID format before making API calls.</p>
+        <div class="code">
+        func validateInputs(apiKey string, sheetId string) error {
+            if len(apiKey) < 20 {
+                return fmt.Errorf("API key seems invalid: too short")
+            }
+            
+            // Google Sheet IDs are typically 44 characters
+            if len(sheetId) != 44 {
+                return fmt.Errorf("Sheet ID format appears invalid")
+            }
+            
+            return nil
+        }
+        </div>
+        <img src="https://i.imgflip.com/2ku5g9.jpg" alt="Validation Meme" class="meme">
+    </div>
+
+    <div class="suggestion">
+        <h3>2. Add Error Retries</h3>
+        <p>Implement exponential backoff for API calls to handle temporary failures.</p>
+        <div class="code">
+        func fetchWithRetry(ctx context.Context, apiKey *Secret, sheet *Secret, maxRetries int) (string, error) {
+            for attempt := 0; attempt < maxRetries; attempt++ {
+                result, err := FetchData(ctx, apiKey, sheet)
+                if err == nil {
+                    return result, nil
+                }
+                time.Sleep(time.Second * time.Duration(math.Pow(2, float64(attempt))))
+            }
+            return "", fmt.Errorf("max retries exceeded")
+        }
+        </div>
+    </div>
+
+    <div class="suggestion">
+        <h3>3. Add Result Caching</h3>
+        <p>Implement caching to avoid repeated API calls for the same data within a short time period.</p>
+        <div class="code">
+        type CachedResult struct {
+            Data      string
+            Timestamp time.Time
+        }
+
+        var cache = make(map[string]CachedResult)
+        
+        func fetchWithCache(ctx context.Context, apiKey *Secret, sheet *Secret, cacheDuration time.Duration) (string, error) {
+            cacheKey := sheet.String()
+            if cached, ok := cache[cacheKey]; ok {
+                if time.Since(cached.Timestamp) < cacheDuration {
+                    return cached.Data, nil
+                }
+            }
+            
+            result, err := FetchData(ctx, apiKey, sheet)
+            if err == nil {
+                cache[cacheKey] = CachedResult{
+                    Data:      result,
+                    Timestamp: time.Now(),
+                }
+            }
+            return result, err
+        }
+        </div>
+    </div>
+
+    <h2>Testing Issues</h2>
+    <p>No significant issues were encountered during testing. The module installed and built successfully.</p>
+</body>
+</html>
