@@ -1,19 +1,19 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>QA Reports Index</title>
+    <title>Dagger Modules QA Index</title>
     <style>
-        body { font-family: Arial, sans-serif; line-height: 1.6; max-width: 1200px; margin: 0 auto; padding: 20px; }
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 20px; }
         table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #ddd; }
-        th { background-color: #f5f5f5; }
-        .success { color: #28a745; }
-        .error { color: #dc3545; }
-        .status-icon { font-size: 20px; }
+        th, td { padding: 10px; border: 1px solid #ddd; text-align: left; }
+        th { background-color: #f4f4f4; }
+        .success { color: green; }
+        .error { color: red; }
+        .check { font-size: 1.2em; }
     </style>
 </head>
 <body>
-    <h1>Dagger Modules QA Reports</h1>
+    <h1>Dagger Modules QA Index</h1>
     
     <table>
         <thead>
@@ -21,15 +21,15 @@
                 <th>Module Name</th>
                 <th>Status</th>
                 <th>QA Report</th>
-                <th>Raw Crawl Data</th>
+                <th>Raw Crawl</th>
             </tr>
         </thead>
         <tbody>
             <tr>
-                <td>proxy</td>
-                <td><span class="status-icon success">✓</span></td>
-                <td><a href="proxy.html">View Report</a></td>
-                <td><a href="proxy-crawl.html">View Crawl Data</a></td>
+                <td>hadolint</td>
+                <td><span class="success check">✓</span></td>
+                <td><a href="hadolint.html">QA Report</a></td>
+                <td><a href="hadolint-crawl.html">Crawl Results</a></td>
             </tr>
         </tbody>
     </table>

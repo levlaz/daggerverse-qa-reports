@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>QA Report - Hadolint Module</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 20px; }
+        h1, h2 { color: #333; }
+        .success { color: green; }
+        .error { color: red; }
+        pre { background: #f4f4f4; padding: 10px; border-radius: 5px; }
+        .suggestion { margin: 20px 0; padding: 10px; background: #f9f9f9; }
+        .meme { max-width: 500px; margin: 20px 0; }
+    </style>
+</head>
+<body>
+    <h1>QA Report - Hadolint Module</h1>
+    
+    <h2>Basic Information</h2>
+    <ul>
+        <li><strong>Module Name:</strong> hadolint</li>
+        <li><strong>Author:</strong> softwaredevelop</li>
+        <li><strong>Latest Version:</strong> 4ae474ccbadd375a20ffb44bbcaf02f3450d9ad6</li>
+        <li><strong>Dagger Engine Version:</strong> v0.18.2</li>
+    </ul>
+
+    <h2>Module Purpose</h2>
+    <p>Hadolint is a module for checking Dockerfiles. It provides functionality to lint Dockerfile content with optional configuration support.</p>
+
+    <h2>Available Functions</h2>
+    <ul>
+        <li><strong>check()</strong> - Runs the hadolint-checker command on a specified directory</li>
+        <li><strong>checkWithConfig()</strong> - Runs the hadolint-checker command with a custom configuration file</li>
+    </ul>
+
+    <h2>Installation</h2>
+    <pre>dagger install github.com/softwaredevelop/daggerverse/hadolint@4ae474ccbadd375a20ffb44bbcaf02f3450d9ad6</pre>
+
+    <h2>Quality Improvement Suggestions</h2>
+    
+    <div class="suggestion">
+        <h3>1. Add Input Validation</h3>
+        <p>Add validation for the source directory to ensure it contains Dockerfiles before processing.</p>
+        <pre>
+func (m *Hadolint) validateInput(source *Directory) error {
+    files, err := source.Entries()
+    if err != nil {
+        return err
+    }
+    hasDockerfile := false
+    for _, file := range files {
+        if strings.Contains(strings.ToLower(file), "dockerfile") {
+            hasDockerfile = true
+            break
+        }
+    }
+    if !hasDockerfile {
+        return fmt.Errorf("no Dockerfile found in source directory")
+    }
+    return nil
+}
+        </pre>
+    </div>
+
+    <div class="suggestion">
+        <h3>2. Add Result Formatting Options</h3>
+        <p>Implement different output format options (JSON, XML, YAML) for better integration possibilities.</p>
+        <pre>
+type OutputFormat string
+
+const (
+    FormatJSON OutputFormat = "json"
+    FormatXML  OutputFormat = "xml"
+    FormatYAML OutputFormat = "yaml"
+)
+
+func (m *Hadolint) checkWithFormat(source *Directory, format OutputFormat) *Container {
+    return m.Container().
+        WithDirectory("/src", source).
+        WithExec([]string{"hadolint", fmt.Sprintf("--format=%s", format), "/src/Dockerfile"})
+}
+        </pre>
+    </div>
+
+    <div class="suggestion">
+        <h3>3. Implement Severity Filtering</h3>
+        <p>Add ability to filter issues based on severity levels.</p>
+        <img src="https://i.imgflip.com/65efzo.jpg" alt="Code Quality Meme" class="meme">
+        <pre>
+type Severity string
+
+const (
+    ERROR   Severity = "error"
+    WARNING Severity = "warning"
+    INFO    Severity = "info"
+)
+
+func (m *Hadolint) checkWithSeverity(source *Directory, minSeverity Severity) *Container {
+    return m.Container().
+        WithDirectory("/src", source).
+        WithExec([]string{"hadolint", fmt.Sprintf("--severity=%s", minSeverity), "/src/Dockerfile"})
+}
+        </pre>
+    </div>
+
+    <h2>Testing Results</h2>
+    <p class="success">✅ Module installation successful</p>
+    <p class="success">✅ Module build successful</p>
+    <p class="success">✅ All functions properly documented</p>
+
+    <h2>Links</h2>
+    <ul>
+        <li><a href="hadolint-crawl.html">Raw Crawl Results</a></li>
+        <li><a href="https://daggerverse.dev/mod/github.com/softwaredevelop/daggerverse/hadolint">Module Documentation</a></li>
+    </ul>
+</body>
+</html>
