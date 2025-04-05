@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>QA Report - TypeScript Standalone Module</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        .error { color: red; }
+        .function-list { margin-left: 20px; }
+        .suggestion { background-color: #f0f0f0; padding: 10px; margin: 10px 0; }
+        code { background-color: #f8f8f8; padding: 2px 5px; }
+    </style>
+</head>
+<body>
+    <h1>QA Report: TypeScript Standalone Module</h1>
+    
+    <h2>Basic Information</h2>
+    <ul>
+        <li><strong>Module Name:</strong> ts</li>
+        <li><strong>Path:</strong> github.com/sipsma/dagger/sdk/typescript/standalone</li>
+        <li><strong>Latest Version:</strong> 4c85e5047e9c4a1ed71b82a17fe710e53c1b93d8</li>
+        <li><strong>Author:</strong> sipsma</li>
+        <li><strong>Dagger Engine Version Used:</strong> v0.18.2</li>
+    </ul>
+
+    <h2>Module Description</h2>
+    <p>No long description provided.</p>
+
+    <h2>Functions</h2>
+    <ul class="function-list">
+        <li>moduleRuntime()</li>
+        <li>codegen()</li>
+        <li>requiredPaths()</li>
+    </ul>
+
+    <h2>Testing Results</h2>
+    <div class="error">
+        <h3>Installation Issues:</h3>
+        <p>Failed to install the module. Error: git module source does not contain a dagger config file</p>
+        
+        <h3>Build Issues:</h3>
+        <p>Failed to build the module. Error: path "sdk/typescript/standalone" does not exist in git repo</p>
+    </div>
+
+    <h2>Quality Improvement Suggestions</h2>
+    
+    <div class="suggestion">
+        <h3>1. Add proper module configuration</h3>
+        <p>The module is missing a dagger.json configuration file, which is required for proper installation.</p>
+        <code>
+        {
+            "name": "typescript-standalone",
+            "sdk": "typescript",
+            "description": "A TypeScript standalone module for Dagger",
+            "version": "0.1.0"
+        }
+        </code>
+    </div>
+
+    <div class="suggestion">
+        <h3>2. Improve Documentation</h3>
+        <p>Add comprehensive documentation for each function. Currently, the module lacks proper descriptions.</p>
+        <img src="https://i.imgflip.com/2/7zqnxs.jpg" alt="Documentation Meme" />
+        <code>
+        /**
+         * @description Generates TypeScript code from module source
+         * @param modSource The source module to generate code from
+         * @param introspectionJson The introspection JSON data
+         * @returns Generated TypeScript code
+         */
+        codegen(modSource: ModuleSource, introspectionJson: string): GeneratedCode
+        </code>
+    </div>
+
+    <div class="suggestion">
+        <h3>3. Add Error Handling</h3>
+        <p>Implement proper error handling and validation for the module functions.</p>
+        <code>
+        moduleRuntime(modSource: ModuleSource, introspectionJson: string): Container {
+            if (!modSource || !introspectionJson) {
+                throw new Error("Required parameters missing");
+            }
+            // Implementation
+        }
+        </code>
+    </div>
+
+    <h2>Links</h2>
+    <ul>
+        <li><a href="github.com_sipsma_dagger_sdk_typescript_standalone_crawl.html">Raw Crawl Results</a></li>
+        <li><a href="https://daggerverse.dev/mod/github.com/sipsma/dagger/sdk/typescript/standalone">Dagger Cloud Page</a></li>
+    </ul>
+</body>
+</html>

@@ -1,40 +1,36 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Dagger Modules QA Index</title>
+    <title>Module QA Reports Index</title>
     <style>
         body { font-family: Arial, sans-serif; margin: 40px; }
-        table { border-collapse: collapse; width: 100%; }
-        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-        th { background-color: #f5f5f5; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: 10px; border: 1px solid #ddd; text-align: left; }
         .success { color: green; }
         .error { color: red; }
     </style>
 </head>
 <body>
-    <h1>Dagger Modules QA Index</h1>
+    <h1>Module QA Reports Index</h1>
     
     <table>
-        <tr>
-            <th>Module</th>
-            <th>Status</th>
-            <th>Raw Crawl</th>
-        </tr>
-        <tr>
-            <td><a href="gale.html">gale</a></td>
-            <td class="error">❌ Failed</td>
-            <td><a href="gale-crawl.html">View Raw</a></td>
-        </tr>
-        <tr>
-            <td><a href="github.html">github</a></td>
-            <td class="success">✓ Success</td>
-            <td><a href="github-crawl.html">View Raw</a></td>
-        </tr>
-        <tr>
-            <td><a href="golangci-lint.html">golangci-lint</a></td>
-            <td class="error">❌ Failed</td>
-            <td><a href="golangci-lint-crawl.html">View Raw</a></td>
-        </tr>
+        <thead>
+            <tr>
+                <th>Module Name</th>
+                <th>Status</th>
+                <th>Report Links</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>typescript-standalone</td>
+                <td><span class="error">❌ Has Errors</span></td>
+                <td>
+                    <a href="github.com_sipsma_dagger_sdk_typescript_standalone.html">QA Report</a> |
+                    <a href="github.com_sipsma_dagger_sdk_typescript_standalone_crawl.html">Crawl Results</a>
+                </td>
+            </tr>
+        </tbody>
     </table>
 </body>
 </html>
