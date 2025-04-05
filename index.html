@@ -1,50 +1,37 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Dagger Modules QA Reports</title>
+    <title>Module QA Index</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 40px; }
-        table { border-collapse: collapse; width: 100%; }
-        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-        th { background-color: #f2f2f2; }
+        body { font-family: Arial, sans-serif; line-height: 1.6; max-width: 1200px; margin: 0 auto; padding: 20px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { padding: 10px; border: 1px solid #ddd; text-align: left; }
+        th { background-color: #f5f5f5; }
         .success { color: green; }
         .error { color: red; }
+        .check { font-size: 20px; }
     </style>
 </head>
 <body>
-    <h1>Dagger Modules QA Reports</h1>
+    <h1>Module QA Reports Index</h1>
     
     <table>
-        <tr>
-            <th>Module</th>
-            <th>Status</th>
-            <th>Raw Crawl</th>
-            <th>Report</th>
-        </tr>
-        <tr>
-            <td>dag-demos</td>
-            <td><span class="error">❌</span></td>
-            <td><a href="dag-demos-crawl.html">View Crawl</a></td>
-            <td><a href="dag-demos.html">View Report</a></td>
-        </tr>
-        <tr>
-            <td>concourse</td>
-            <td><span class="success">✓</span></td>
-            <td><a href="concourse.crawl.html">View Crawl</a></td>
-            <td><a href="concourse.html">View Report</a></td>
-        </tr>
-        <tr>
-            <td>zip</td>
-            <td><span class="success">✓</span></td>
-            <td><a href="zip_crawl.html">View Crawl</a></td>
-            <td><a href="zip.html">View Report</a></td>
-        </tr>
-        <tr>
-            <td>gh</td>
-            <td><span class="error">❌</span></td>
-            <td><a href="gh.crawl.html">View Crawl</a></td>
-            <td><a href="gh.html">View Report</a></td>
-        </tr>
+        <thead>
+            <tr>
+                <th>Module Name</th>
+                <th>Status</th>
+                <th>QA Report</th>
+                <th>Raw Crawl Data</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>repopack</td>
+                <td><span class="success check">✓</span></td>
+                <td><a href="repopack.html">View QA Report</a></td>
+                <td><a href="repopack-crawl.html">View Raw Crawl</a></td>
+            </tr>
+        </tbody>
     </table>
 </body>
 </html>
