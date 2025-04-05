@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>QA Report - github.com/shykes/dagger/docs</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; line-height: 1.6; }
+        h1 { color: #333; }
+        .section { margin: 20px 0; }
+        .function-list { background: #f5f5f5; padding: 15px; border-radius: 5px; }
+        .error { color: #d44; }
+        .suggestion { background: #e8f4f8; padding: 15px; margin: 10px 0; border-radius: 5px; }
+        code { background: #f0f0f0; padding: 2px 5px; border-radius: 3px; }
+        .meme { max-width: 500px; margin: 20px 0; }
+    </style>
+</head>
+<body>
+    <h1>QA Report - github.com/shykes/dagger/docs</h1>
+    
+    <div class="section">
+        <h2>Module Information</h2>
+        <ul>
+            <li><strong>Name:</strong> github.com/shykes/dagger/docs</li>
+            <li><strong>Author:</strong> shykes</li>
+            <li><strong>Latest Version:</strong> d01abae918cc70ed56615a94a1a4068355c2c5a3</li>
+            <li><strong>Dagger Engine Version Used:</strong> v0.18.2</li>
+            <li><strong>Raw Crawl Results:</strong> <a href="github.com-shykes-dagger-docs.crawl.html">View Results</a></li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>Module Description</h2>
+        <p>This module provides functionality for managing Dagger documentation, including building, generating, and deploying documentation sites.</p>
+        
+        <h3>Functions:</h3>
+        <div class="function-list">
+            <ul>
+                <li>source() - Access source files</li>
+                <li>site() - Build the docs website</li>
+                <li>server() - Build the docs server</li>
+                <li>lint() - Lint documentation files</li>
+                <li>generate() - Regenerate API schema and CLI reference docs</li>
+                <li>generateCli() - Regenerate CLI reference docs</li>
+                <li>generatePhp() - Generate PHP SDK API reference</li>
+                <li>generateSchema() - Regenerate API schema</li>
+                <li>generateSchemaReference() - Regenerate API Reference</li>
+                <li>generateConfigSchemas() - Regenerate config schemas</li>
+                <li>bump() - Bump Go SDK Engine dependency</li>
+                <li>deploy() - Deploy docs</li>
+                <li>publish() - Publish deployment to production</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>Testing Results</h2>
+        <div class="error">
+            <h3>Installation Error:</h3>
+            <pre>git module source "github.com/shykes/dagger/docs" does not contain a dagger config file</pre>
+        </div>
+        
+        <div class="error">
+            <h3>Build Error:</h3>
+            <pre>Failed to build module</pre>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>Quality Improvement Suggestions</h2>
+        
+        <div class="suggestion">
+            <h3>1. Add Module Configuration File</h3>
+            <p>The module is missing a dagger.json configuration file, which is essential for proper module functionality.</p>
+            <code>
+// dagger.json
+{
+    "name": "docs",
+    "sdk": "go",
+    "dependencies": [],
+    "source": "./",
+    "engineVersion": "v0.18.2"
+}
+            </code>
+            <img src="https://i.imgflip.com/65rfgh.jpg" alt="Configuration Missing Meme" class="meme">
+        </div>
+
+        <div class="suggestion">
+            <h3>2. Add Comprehensive Documentation</h3>
+            <p>Many functions lack detailed descriptions of their purpose and parameters.</p>
+            <code>
+// Example of improved function documentation
+/**
+ * Generates the documentation site
+ * @param {string} source - Path to source documentation files
+ * @param {string} template - Path to site template
+ * @returns {Directory} - Generated site files
+ */
+func (m *Module) site() (*Directory, error) {
+    // Implementation
+}
+            </code>
+        </div>
+
+        <div class="suggestion">
+            <h3>3. Implement Error Handling</h3>
+            <p>Add proper error handling and validation for all functions.</p>
+            <code>
+func (m *Module) deploy(ctx context.Context, netlifyToken *Secret) (string, error) {
+    if netlifyToken == nil {
+        return "", fmt.Errorf("netlify token is required")
+    }
+    
+    // Validate deployment configuration
+    if err := m.validateDeployConfig(); err != nil {
+        return "", fmt.Errorf("invalid deploy configuration: %w", err)
+    }
+    
+    // Implementation
+}
+            </code>
+        </div>
+    </div>
+</body>
+</html>

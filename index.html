@@ -1,19 +1,20 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Module QA Index</title>
+    <title>Dagger Modules QA Index</title>
     <style>
-        body { font-family: Arial, sans-serif; line-height: 1.6; max-width: 1200px; margin: 0 auto; padding: 20px; }
-        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        body { font-family: Arial, sans-serif; margin: 40px; line-height: 1.6; }
+        h1 { color: #333; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
         th, td { padding: 10px; border: 1px solid #ddd; text-align: left; }
         th { background-color: #f5f5f5; }
         .success { color: green; }
         .error { color: red; }
-        .check { font-size: 20px; }
+        .icon { font-weight: bold; }
     </style>
 </head>
 <body>
-    <h1>Module QA Reports Index</h1>
+    <h1>Dagger Modules QA Index</h1>
     
     <table>
         <thead>
@@ -21,15 +22,15 @@
                 <th>Module Name</th>
                 <th>Status</th>
                 <th>QA Report</th>
-                <th>Raw Crawl Data</th>
+                <th>Raw Crawl Results</th>
             </tr>
         </thead>
         <tbody>
             <tr>
-                <td>repopack</td>
-                <td><span class="success check">✓</span></td>
-                <td><a href="repopack.html">View QA Report</a></td>
-                <td><a href="repopack-crawl.html">View Raw Crawl</a></td>
+                <td>github.com/shykes/dagger/docs</td>
+                <td><span class="error icon">❌</span></td>
+                <td><a href="github.com-shykes-dagger-docs.html">View Report</a></td>
+                <td><a href="github.com-shykes-dagger-docs.crawl.html">View Crawl</a></td>
             </tr>
         </tbody>
     </table>
