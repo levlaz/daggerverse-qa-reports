@@ -1,39 +1,37 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Module QA Index</title>
+    <title>Module QA Reports Index</title>
     <style>
         body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
-        .container { max-width: 1200px; margin: 0 auto; }
-        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
         th, td { padding: 12px; text-align: left; border-bottom: 1px solid #ddd; }
         th { background-color: #f5f5f5; }
         .success { color: green; }
         .error { color: red; }
-        .status-icon { font-size: 20px; }
+        .check { font-size: 20px; }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Module QA Reports</h1>
-        <table>
-            <thead>
-                <tr>
-                    <th>Module Name</th>
-                    <th>Status</th>
-                    <th>QA Report</th>
-                    <th>Raw Crawl Data</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>gh-valid-pr-title</td>
-                    <td><span class="status-icon success">✓</span></td>
-                    <td><a href="gh-valid-pr-title.html">View Report</a></td>
-                    <td><a href="gh-valid-pr-title.crawl.html">View Crawl Data</a></td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+    <h1>Module QA Reports Index</h1>
+    
+    <table>
+        <thead>
+            <tr>
+                <th>Module Name</th>
+                <th>Status</th>
+                <th>QA Report</th>
+                <th>Raw Crawl Data</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>devenv</td>
+                <td><span class="success check">✓</span></td>
+                <td><a href="devenv.html">View Report</a></td>
+                <td><a href="devenv-crawl.html">View Crawl Data</a></td>
+            </tr>
+        </tbody>
+    </table>
 </body>
 </html>
