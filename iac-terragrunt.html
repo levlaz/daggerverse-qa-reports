@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>QA Report - iac-terragrunt</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; max-width: 1200px; margin: 0 auto; padding: 20px; }
+        h1 { color: #2c3e50; }
+        h2 { color: #34495e; margin-top: 30px; }
+        code { background: #f8f9fa; padding: 2px 5px; border-radius: 3px; }
+        pre { background: #f8f9fa; padding: 15px; border-radius: 5px; overflow-x: auto; }
+        .error { color: #e74c3c; }
+        .suggestion { background: #f1f8ff; padding: 15px; border-left: 4px solid #2196f3; margin: 20px 0; }
+        .meme { max-width: 500px; margin: 20px 0; }
+    </style>
+</head>
+<body>
+    <h1>QA Report for iac-terragrunt</h1>
+
+    <h2>Module Information</h2>
+    <ul>
+        <li><strong>Name:</strong> iac-terragrunt</li>
+        <li><strong>Latest Version:</strong> v1.3.0</li>
+        <li><strong>Author:</strong> excoriate</li>
+        <li><strong>Source:</strong> github.com/excoriate/daggerverse/iac-terragrunt</li>
+        <li><strong>Dagger Version Used:</strong> v0.18.2</li>
+    </ul>
+
+    <h2>Module Purpose</h2>
+    <p>This module provides a wrapper around Terragrunt operations, allowing users to execute various Terragrunt commands within a Dagger pipeline. The module includes functionality for:</p>
+    <ul>
+        <li>Initializing Terragrunt modules</li>
+        <li>Planning infrastructure changes</li>
+        <li>Applying infrastructure changes</li>
+        <li>Destroying infrastructure</li>
+        <li>Validating Terragrunt configurations</li>
+        <li>Formatting HCL files</li>
+    </ul>
+
+    <h2>Available Functions</h2>
+    <pre>
+- init() / initE(): Initialize a Terragrunt module
+- plan() / planE(): Plan Terragrunt changes
+- apply() / applyE(): Apply Terragrunt changes
+- destroy() / destroyE(): Destroy Terragrunt-managed infrastructure
+- validate() / validateE(): Validate Terragrunt configurations
+- hclfmt() / hclfmtE(): Format HCL files
+- withVersion(): Set Terragrunt version
+- withSource(): Set source directory
+- withEnvVar(): Add environment variables
+- withSecret(): Add secrets
+- withGitSshconfig(): Configure Git SSH
+- withCacheInvalidation(): Enable cache invalidation
+- withCommands(): Execute custom commands
+    </pre>
+
+    <h2>Installation Testing Results</h2>
+    <div class="error">
+        <p><strong>Error encountered during installation:</strong></p>
+        <pre>git module source "github.com/excoriate/daggerverse/iac-terragrunt" does not contain a dagger config file</pre>
+    </div>
+
+    <h2>Build Testing Results</h2>
+    <div class="error">
+        <p><strong>Error encountered during build:</strong></p>
+        <pre>failed to get configured module: input: moduleSource path "iac-terragrunt" does not exist in git repo</pre>
+    </div>
+
+    <h2>Quality Improvement Suggestions</h2>
+    
+    <div class="suggestion">
+        <h3>1. Add Missing Dagger Configuration File</h3>
+        <p>The module is missing a crucial dagger.json configuration file. This prevents proper installation and usage.</p>
+        <pre>
+{
+    "name": "iac-terragrunt",
+    "sdk": "go",
+    "dependencies": [],
+    "source": ".",
+    "root": "."
+}</pre>
+        <img src="https://media.giphy.com/media/wzE1IlaPMoNXi/giphy.gif" alt="Configuration Missing Meme" class="meme">
+    </div>
+
+    <div class="suggestion">
+        <h3>2. Add Comprehensive Documentation</h3>
+        <p>The module lacks detailed documentation about its usage and requirements.</p>
+        <pre>
+# Terragrunt Dagger Module
+
+## Prerequisites
+- Dagger CLI v0.18.2 or higher
+- Valid Terragrunt configuration
+- AWS credentials (if working with AWS)
+
+## Usage Example
+```go
+dag.IacTerragrunt().
+    WithVersion("v0.45.0").
+    WithSource(ctx.Host().Directory("./infra")).
+    Init("dev/vpc")
+```</pre>
+    </div>
+
+    <div class="suggestion">
+        <h3>3. Add Input Validation</h3>
+        <p>Implement proper input validation for critical parameters to prevent runtime errors.</p>
+        <pre>
+func (m *IacTerragrunt) validateInputs(module string, args []string) error {
+    if module == "" {
+        return fmt.Errorf("module path cannot be empty")
+    }
+    if !strings.HasPrefix(module, "./") && !strings.HasPrefix(module, "/") {
+        return fmt.Errorf("module path must be relative or absolute")
+    }
+    return nil
+}</pre>
+    </div>
+
+    <h2>Issues Encountered</h2>
+    <ul>
+        <li>Module is not properly configured with required Dagger files</li>
+        <li>Repository structure doesn't match expected path</li>
+        <li>Installation fails due to missing configuration</li>
+        <li>Unable to test actual functionality due to installation issues</li>
+    </ul>
+
+</body>
+</html>
