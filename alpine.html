@@ -3,36 +3,34 @@
 <head>
     <title>QA Report - Alpine Module</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 40px; }
+        body { font-family: Arial, sans-serif; max-width: 1200px; margin: 0 auto; padding: 20px; }
         h1, h2 { color: #333; }
-        .container { max-width: 800px; margin: 0 auto; }
-        .metadata { background: #f5f5f5; padding: 20px; border-radius: 5px; }
-        .functions { margin: 20px 0; }
-        .suggestions { margin: 20px 0; }
-        .error { color: red; }
-        .code { background: #f8f8f8; padding: 15px; border-radius: 5px; font-family: monospace; }
+        .details { margin: 20px 0; }
+        .function-list { background: #f5f5f5; padding: 15px; border-radius: 5px; }
+        .suggestions { margin-top: 20px; }
+        .code-snippet { background: #f8f8f8; padding: 10px; border-radius: 5px; font-family: monospace; }
+        .error { color: #ff0000; }
         .meme { max-width: 500px; margin: 20px 0; }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>QA Report: Alpine Module</h1>
-        
-        <div class="metadata">
-            <h2>Module Metadata</h2>
-            <p><strong>Name:</strong> alpine</p>
-            <p><strong>Author:</strong> shykes</p>
-            <p><strong>Latest Version:</strong> 66c509ab0495f53f5188cdc1310de799057cfbb3</p>
-            <p><strong>Release Date:</strong> N/A (not available in crawl data)</p>
-            <p><strong>Dagger Engine Version Used:</strong> v0.18.2</p>
-            <p><strong>Dagger Cloud Trace:</strong> <a href="https://daggerverse.dev/mod/github.com/shykes/dagger/modules/alpine@66c509ab0495f53f5188cdc1310de799057cfbb3">View Trace</a></p>
-        </div>
+    <h1>QA Report: Alpine Module</h1>
+    
+    <div class="details">
+        <h2>Module Information</h2>
+        <ul>
+            <li><strong>Name:</strong> Alpine</li>
+            <li><strong>Author:</strong> lgtdio</li>
+            <li><strong>Latest Version:</strong> 41bfb59fa3d8cdd3a620bdf47d973f8cfcf1579a</li>
+            <li><strong>Release Date:</strong> Found in commit history</li>
+            <li><strong>Dagger Cloud Trace:</strong> <a href="https://daggerverse.dev/mod/github.com/lgtdio/dagger/modules/alpine@41bfb59fa3d8cdd3a620bdf47d973f8cfcf1579a">View Trace</a></li>
+        </ul>
 
-        <div class="description">
-            <h2>Module Description</h2>
-            <p>The Alpine module is designed to integrate with Alpine Linux. It provides functionality to create and customize Alpine Linux containers with specific configurations.</p>
-            
-            <h3>Available Functions:</h3>
+        <h2>Module Description</h2>
+        <p>A Dagger Module to integrate with Alpine Linux. This module provides functionality to create and customize Alpine Linux containers.</p>
+
+        <h2>Module Functions</h2>
+        <div class="function-list">
             <ul>
                 <li><strong>arch()</strong> - The hardware architecture to build for</li>
                 <li><strong>branch()</strong> - The Alpine branch to download packages from</li>
@@ -42,48 +40,60 @@
             </ul>
         </div>
 
+        <h2>Testing Environment</h2>
+        <p><strong>Dagger Engine Version:</strong> v0.18.2</p>
+
+        <h2>Quality Improvement Suggestions</h2>
         <div class="suggestions">
-            <h2>Improvement Suggestions</h2>
-            
-            <h3>1. Add Input Validation</h3>
-            <p>Add validation for architecture values to ensure only supported architectures are used.</p>
-            <div class="code">
-            func validateArch(arch string) error {
-                supportedArchs := []string{"amd64", "arm64", "arm/v7"}
-                for _, supported := range supportedArchs {
-                    if arch == supported {
-                        return nil
-                    }
-                }
-                return fmt.Errorf("unsupported architecture: %s", arch)
-            }
+            <h3>1. Add Input Validation for Architecture</h3>
+            <div class="code-snippet">
+                <pre>
+func validateArch(arch string) error {
+    validArchs := []string{"amd64", "arm64", "arm/v7", "386"}
+    for _, valid := range validArchs {
+        if arch == valid {
+            return nil
+        }
+    }
+    return fmt.Errorf("unsupported architecture: %s", arch)
+}
+                </pre>
             </div>
 
-            <h3>2. Add Version Pinning</h3>
-            <p>Add ability to pin specific Alpine versions for better reproducibility.</p>
-            <div class="code">
-            func (a *Alpine) WithVersion(version string) *Alpine {
-                a.version = version
-                return a
-            }
+            <h3>2. Implement Version Pinning</h3>
+            <div class="code-snippet">
+                <pre>
+type AlpineConfig struct {
+    Version string `default:"3.18"`
+    Branch  string `default:"edge"`
+}
+
+func NewAlpine(config AlpineConfig) *Alpine {
+    return &Alpine{
+        version: config.Version,
+        branch:  config.Branch,
+    }
+}
+                </pre>
             </div>
 
-            <h3>3. Add Package Version Control</h3>
-            <p>Allow specifying package versions in the packages list.</p>
-            <div class="code">
-            func (a *Alpine) AddPackageWithVersion(pkg string, version string) *Alpine {
-                a.packages = append(a.packages, fmt.Sprintf("%s=%s", pkg, version))
-                return a
-            }
+            <h3>3. Add Package Verification</h3>
+            <div class="code-snippet">
+                <pre>
+func (a *Alpine) WithPackageVerification() *Alpine {
+    return a.WithExec([]string{
+        "apk", "update", "&&",
+        "apk", "verify", "--no-cache"
+    })
+}
+                </pre>
             </div>
 
-            <img src="https://i.imgflip.com/65efzo.jpg" alt="Docker Meme" class="meme">
+            <img src="https://i.imgflip.com/65efzo.jpg" alt="Alpine Linux Meme" class="meme">
         </div>
 
-        <div class="testing">
-            <h2>Testing Results</h2>
-            <p>No errors were encountered during testing. The module installed and built successfully.</p>
-        </div>
+        <h2>Testing Issues</h2>
+        <p>No significant issues were encountered during testing. The module installed and built successfully.</p>
     </div>
 </body>
 </html>
