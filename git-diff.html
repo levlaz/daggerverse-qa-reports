@@ -3,89 +3,120 @@
 <head>
     <title>QA Report - git-diff Module</title>
     <style>
-        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
-        h1, h2 { color: #333; }
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 20px; }
+        h1 { color: #333; }
+        .section { margin: 20px 0; }
         .function-list { background: #f5f5f5; padding: 15px; border-radius: 5px; }
-        .suggestion { margin: 20px 0; padding: 15px; border-left: 4px solid #007bff; }
-        .code-snippet { background: #f8f9fa; padding: 15px; border-radius: 5px; font-family: monospace; }
+        .suggestion { margin: 10px 0; padding: 10px; background: #e9f7ef; border-radius: 5px; }
+        .code-snippet { background: #f8f9fa; padding: 10px; border-radius: 5px; font-family: monospace; }
         .error { color: #dc3545; }
-        .meme { max-width: 500px; margin: 20px 0; }
+        .meme { max-width: 300px; margin: 10px 0; }
     </style>
 </head>
 <body>
     <h1>QA Report: git-diff Module</h1>
     
-    <h2>Module Information</h2>
-    <ul>
-        <li><strong>Name:</strong> git-diff</li>
-        <li><strong>Author:</strong> StaytunedLLP</li>
-        <li><strong>Latest Version:</strong> v0.1.32</li>
-        <li><strong>Release Date:</strong> Found in commit f3bd722d9454b351e81c8bfecb2f8ea47de12469</li>
-        <li><strong>Dagger Cloud Trace:</strong> <a href="https://daggerverse.dev/mod/github.com/StaytunedLLP/daggerverse/git-diff">View on Daggerverse</a></li>
-    </ul>
+    <div class="section">
+        <h2>Module Information</h2>
+        <ul>
+            <li><strong>Name:</strong> git-diff</li>
+            <li><strong>Author:</strong> StaytunedLLP</li>
+            <li><strong>Latest Version:</strong> v0.1.32</li>
+            <li><strong>Release Date:</strong> Not specified in documentation</li>
+            <li><strong>Dagger Cloud Trace:</strong> <a href="https://daggerverse.dev/mod/github.com/StaytunedLLP/daggerverse/git-diff@f3bd722d9454b351e81c8bfecb2f8ea47de12469">View Trace</a></li>
+            <li><strong>Dagger Engine Version Used:</strong> v0.18.2</li>
+        </ul>
+    </div>
 
-    <h2>Module Description</h2>
-    <p>This module provides functionality to get information about git changes in your repository, including:</p>
-    <ul class="function-list">
-        <li>getStagedFiles() - Get files staged for commit</li>
-        <li>getPreviousCommitFiles() - Get files from the previous commit</li>
-        <li>getFilesBetweenCommits() - Get files changed between two specific commits</li>
-    </ul>
+    <div class="section">
+        <h2>Module Purpose</h2>
+        <p>This module is designed to help developers track file changes in Git repositories within Dagger pipelines. It provides functionality to:</p>
+        <div class="function-list">
+            <ul>
+                <li><strong>getStagedFiles()</strong> - Retrieves an array of files that are staged for commit</li>
+                <li><strong>getPreviousCommitFiles()</strong> - Retrieves an array of files from the previous commit</li>
+                <li><strong>getFilesBetweenCommits()</strong> - Retrieves an array of files that have changed between two commits</li>
+            </ul>
+        </div>
+    </div>
 
-    <h2>Testing Environment</h2>
-    <p>Tested with Dagger Engine Version: v0.18.2</p>
+    <div class="section">
+        <h2>Quality Improvement Suggestions</h2>
+        
+        <div class="suggestion">
+            <h3>1. Add Input Validation</h3>
+            <p>Add proper validation for the commit range parameter to prevent invalid inputs.</p>
+            <div class="code-snippet">
+                <pre>
+func validateCommitRange(commitRange string) error {
+    if len(commitRange) == 0 {
+        return fmt.Errorf("commit range cannot be empty")
+    }
+    // Add regex validation for proper commit range format
+    matched, _ := regexp.MatchString(`^[a-f0-9]+\.\.[a-f0-9]+$`, commitRange)
+    if !matched {
+        return fmt.Errorf("invalid commit range format. Expected format: hash..hash")
+    }
+    return nil
+}</pre>
+            </div>
+        </div>
 
-    <h2>Improvement Suggestions</h2>
+        <div class="suggestion">
+            <h3>2. Add Error Details</h3>
+            <p>Enhance error messages with more context to help users troubleshoot issues.</p>
+            <div class="code-snippet">
+                <pre>
+func (m *Module) getStagedFiles(ctx context.Context, source *Directory) ([]string, error) {
+    if source == nil {
+        return nil, fmt.Errorf("source directory is required")
+    }
+    files, err := m.git.DiffIndex("HEAD")
+    if err != nil {
+        return nil, fmt.Errorf("failed to get staged files: %w", err)
+    }
+    return files, nil
+}</pre>
+            </div>
+            <img src="https://i.imgflip.com/65efzo.jpg" alt="Error Handling Meme" class="meme"/>
+        </div>
+
+        <div class="suggestion">
+            <h3>3. Add Caching Mechanism</h3>
+            <p>Implement caching for repeated operations to improve performance.</p>
+            <div class="code-snippet">
+                <pre>
+type GitDiffFiles struct {
+    cache map[string][]string
+    mutex sync.RWMutex
+}
+
+func (g *GitDiffFiles) getCachedOrCompute(key string, compute func() ([]string, error)) ([]string, error) {
+    g.mutex.RLock()
+    if result, ok := g.cache[key]; ok {
+        g.mutex.RUnlock()
+        return result, nil
+    }
+    g.mutex.RUnlock()
     
-    <div class="suggestion">
-        <h3>1. Add Input Validation</h3>
-        <p>Add validation for the commit range format to prevent invalid inputs.</p>
-        <div class="code-snippet">
-        func validateCommitRange(commitRange string) error {
-            if !strings.Contains(commitRange, "..") {
-                return fmt.Errorf("invalid commit range format. Expected format: 'commit1..commit2'")
-            }
-            return nil
-        }
-        </div>
-        <img src="https://i.imgflip.com/2no7yh.jpg" alt="Validation Meme" class="meme">
-    </div>
+    result, err := compute()
+    if err != nil {
+        return nil, err
+    }
 
-    <div class="suggestion">
-        <h3>2. Add Error Details</h3>
-        <p>Enhance error messages with more context about what went wrong.</p>
-        <div class="code-snippet">
-        func (g *GitDiffFiles) getStagedFiles(ctx context.Context, source *Directory) ([]string, error) {
-            files, err := g.exec("git", "diff", "--name-only", "--cached")
-            if err != nil {
-                return nil, fmt.Errorf("failed to get staged files: %w\nMake sure you're in a git repository", err)
-            }
-            return files, nil
-        }
+    g.mutex.Lock()
+    g.cache[key] = result
+    g.mutex.Unlock()
+    
+    return result, nil
+}</pre>
+            </div>
         </div>
     </div>
 
-    <div class="suggestion">
-        <h3>3. Add File Type Filtering</h3>
-        <p>Add ability to filter files by extension or pattern.</p>
-        <div class="code-snippet">
-        func (g *GitDiffFiles) getStagedFilesByPattern(ctx context.Context, source *Directory, pattern string) ([]string, error) {
-            files, err := g.getStagedFiles(ctx, source)
-            if err != nil {
-                return nil, err
-            }
-            filtered := []string{}
-            for _, file := range files {
-                if strings.HasSuffix(file, pattern) {
-                    filtered = append(filtered, file)
-                }
-            }
-            return filtered, nil
-        }
-        </div>
+    <div class="section">
+        <h2>Testing Results</h2>
+        <p>The module was successfully installed and built. No errors were encountered during the testing process.</p>
     </div>
-
-    <h2>Testing Issues</h2>
-    <p>No significant issues were encountered during testing. The module installed and built successfully.</p>
 </body>
 </html>
