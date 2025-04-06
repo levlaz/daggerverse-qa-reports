@@ -1,0 +1,21 @@
+Search
+
+- [linguist](https://daggerverse.dev/mod/github.com/helderco/daggerverse/linguist@d678847b11ec519333d3c0c45f320a02399be3ea#module-about)
+- [Installation](https://daggerverse.dev/mod/github.com/helderco/daggerverse/linguist@d678847b11ec519333d3c0c45f320a02399be3ea#module-metadata)
+- [Entrypoint](https://daggerverse.dev/mod/github.com/helderco/daggerverse/linguist@d678847b11ec519333d3c0c45f320a02399be3ea#linguist.constructor)
+- [Types](https://daggerverse.dev/mod/github.com/helderco/daggerverse/linguist@d678847b11ec519333d3c0c45f320a02399be3ea#Types)
+- [Linguist](https://daggerverse.dev/mod/github.com/helderco/daggerverse/linguist@d678847b11ec519333d3c0c45f320a02399be3ea#Linguist)
+  - [src()](https://daggerverse.dev/mod/github.com/helderco/daggerverse/linguist@d678847b11ec519333d3c0c45f320a02399be3ea#Linguist.src)
+  - [repo()](https://daggerverse.dev/mod/github.com/helderco/daggerverse/linguist@d678847b11ec519333d3c0c45f320a02399be3ea#Linguist.repo)
+  - [commit()](https://daggerverse.dev/mod/github.com/helderco/daggerverse/linguist@d678847b11ec519333d3c0c45f320a02399be3ea#Linguist.commit)
+  - [run()](https://daggerverse.dev/mod/github.com/helderco/daggerverse/linguist@d678847b11ec519333d3c0c45f320a02399be3ea#Linguist.run)
+
+# linguist
+
+Mostly used for confirming that a .gitattributes file correctly marks a given
+file as being generated.
+
+Note: there's an issue when cache is cold. The linguist repo is pulled with
+dag.git() which also pulls in the submodules. Every language in Linguist is
+in an external repo, commited as a submodule, so it takes approximately 10
+minutes to pull the entire thing.
