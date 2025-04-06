@@ -1,50 +1,38 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Module QA Reports Index</title>
+    <title>Dagger Modules QA Index</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 40px; }
-        table { border-collapse: collapse; width: 100%; }
-        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        body { font-family: Arial, sans-serif; line-height: 1.6; max-width: 1200px; margin: 0 auto; padding: 20px; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #ddd; }
         th { background-color: #f5f5f5; }
-        .success { color: green; }
-        .error { color: red; }
+        .success { color: #28a745; }
+        .error { color: #dc3545; }
+        .check::before { content: "✅"; }
+        .x::before { content: "❌"; }
     </style>
 </head>
 <body>
-    <h1>Module QA Reports Index</h1>
+    <h1>Dagger Modules QA Report Index</h1>
     
     <table>
-        <tr>
-            <th>Module Name</th>
-            <th>Status</th>
-            <th>Report</th>
-            <th>Raw Crawl Results</th>
-        </tr>
-        <tr>
-            <td>github.com/techdecline/dagger-pulumi/pulumi</td>
-            <td class="success">✓</td>
-            <td><a href="pulumi.html">View Report</a></td>
-            <td><a href="pulumi-crawl.html">View Crawl Results</a></td>
-        </tr>
-        <tr>
-            <td>github.com/fluent-ci-templates/snyk-pipeline</td>
-            <td class="success">✓</td>
-            <td><a href="snyk-pipeline.html">View Report</a></td>
-            <td><a href="snyk-pipeline-crawl.html">View Crawl Results</a></td>
-        </tr>
-        <tr>
-            <td>github.com/aluzzardi/dagger/sdk/python/dev</td>
-            <td class="error">✗</td>
-            <td><a href="github.com_aluzzardi_dagger_sdk_python_dev.html">View Report</a></td>
-            <td><a href="github.com_aluzzardi_dagger_sdk_python_dev.crawl.html">View Crawl Results</a></td>
-        </tr>
-        <tr>
-            <td>github.com/excoriate/daggerverse/iac-terragrunt</td>
-            <td class="error">✗</td>
-            <td><a href="iac-terragrunt.html">View Report</a></td>
-            <td><a href="iac-terragrunt.crawl.html">View Crawl Results</a></td>
-        </tr>
+        <thead>
+            <tr>
+                <th>Module Name</th>
+                <th>Status</th>
+                <th>QA Report</th>
+                <th>Raw Crawl Data</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>java-sdk</td>
+                <td><span class="check success"></span></td>
+                <td><a href="java-sdk.html">View Report</a></td>
+                <td><a href="java-sdk-crawl.html">View Crawl Data</a></td>
+            </tr>
+        </tbody>
     </table>
 </body>
 </html>
