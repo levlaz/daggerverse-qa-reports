@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>QA Report - dagger-heroes-decode</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        h1, h2 { color: #333; }
+        .error { color: red; }
+        .success { color: green; }
+        .container { max-width: 800px; margin: 0 auto; }
+        .meme { max-width: 500px; margin: 20px 0; }
+        code { background: #f4f4f4; padding: 2px 5px; border-radius: 3px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>QA Report: dagger-heroes-decode</h1>
+        
+        <h2>Module Information</h2>
+        <ul>
+            <li><strong>Name:</strong> dagger-heroes-decode</li>
+            <li><strong>Author:</strong> pjmagee</li>
+            <li><strong>Latest Version:</strong> v1.0.1</li>
+            <li><strong>Release Date:</strong> Not available</li>
+            <li><strong>Dagger Engine Version Used:</strong> v0.18.2</li>
+        </ul>
+
+        <h2>Module Purpose</h2>
+        <p>A dagger module of Heroes Decode by HeroesToolChest that decodes Heroes of the Storm replays.</p>
+
+        <h2>Available Functions</h2>
+        <ul>
+            <li><code>decode(file: File, args: [String!])</code> - Decodes a Heroes of the Storm replay file</li>
+        </ul>
+
+        <h2>Quality Improvement Suggestions</h2>
+        <h3>1. Add Input Validation</h3>
+        <pre><code>
+func (m *DaggerHeroesDecode) Decode(file File, args []string) (*Container, error) {
+    if file == nil {
+        return nil, errors.New("replay file is required")
+    }
+    // Validate file extension
+    if !strings.HasSuffix(file.Name(), ".StormReplay") {
+        return nil, errors.New("invalid file format: must be a .StormReplay file")
+    }
+    return m.decode(file, args)
+}
+        </code></pre>
+
+        <h3>2. Add Documentation and Examples</h3>
+        <pre><code>
+// Example in README.md
+## Usage Example
+
+```go
+dag.DaggerHeroesDecode().
+    Decode(
+        dag.Host().Directory("./replays").File("match.StormReplay"),
+        []string{"--json", "--detailed"}
+    )
+```
+        </code></pre>
+
+        <h3>3. Add Error Handling and Retry Logic</h3>
+        <pre><code>
+func (m *DaggerHeroesDecode) DecodeWithRetry(file File, args []string, maxRetries int) (*Container, error) {
+    var lastErr error
+    for i := 0; i < maxRetries; i++ {
+        result, err := m.Decode(file, args)
+        if err == nil {
+            return result, nil
+        }
+        lastErr = err
+        time.Sleep(time.Second * time.Duration(i+1))
+    }
+    return nil, fmt.Errorf("failed after %d retries: %v", maxRetries, lastErr)
+}
+        </code></pre>
+
+        <img src="https://i.imgflip.com/7qg3g9.jpg" alt="Error Handling Meme" class="meme">
+
+        <h2>Issues Encountered</h2>
+        <div class="error">
+            <p>1. Installation Error: Authentication failed for GitHub repository</p>
+            <pre>Error: failed to resolve git src to commit: failed to load cache key: error fetching default branch for repository https://github.com/pjmagee/dagger-heroes-decode</pre>
+            
+            <p>2. Build Error: Unable to build and inspect module functions due to authentication issues</p>
+            <pre>Error: failed to get configured module: input: moduleSource failed to resolve git src to commit</pre>
+        </div>
+
+        <h2>Trace Information</h2>
+        <p>Due to installation and build failures, no trace information is available.</p>
+    </div>
+</body>
+</html>
