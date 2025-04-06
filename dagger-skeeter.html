@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>QA Report - dagger-skeeter</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        h1 { color: #333; }
+        .error { color: red; }
+        .success { color: green; }
+        .suggestions { background-color: #f5f5f5; padding: 20px; }
+        pre { background-color: #eee; padding: 10px; }
+    </style>
+</head>
+<body>
+    <h1>QA Report: dagger-skeeter</h1>
+    
+    <h2>Basic Information</h2>
+    <ul>
+        <li><strong>Module Name:</strong> dagger-skeeter</li>
+        <li><strong>Latest Version:</strong> v0.0.1</li>
+        <li><strong>Author:</strong> jghiloni</li>
+        <li><strong>Release Date:</strong> Not Available</li>
+        <li><strong>Dagger Engine Version Used:</strong> v0.18.2</li>
+    </ul>
+
+    <h2>Module Description</h2>
+    <p>No description provided in the Daggerverse.</p>
+
+    <h2>Functions</h2>
+    <p>Unable to retrieve functions due to installation errors.</p>
+
+    <h2>Errors Encountered</h2>
+    <div class="error">
+        <h3>Installation Error:</h3>
+        <pre>Authentication failed for 'https://github.com/jghiloni/atproto-utils/'</pre>
+        <h3>Build Error:</h3>
+        <pre>Failed to resolve git source to commit due to authentication issues</pre>
+    </div>
+
+    <h2>Quality Improvement Suggestions</h2>
+    <div class="suggestions">
+        <h3>1. Add proper documentation</h3>
+        <p>The module lacks a proper description in the Daggerverse.</p>
+        <pre>
+# Add to dagger.json
+{
+    "name": "dagger-skeeter",
+    "sdk": "go",
+    "description": "A detailed description of what this module does and its main features"
+}
+        </pre>
+
+        <h3>2. Make the repository public or provide clear access instructions</h3>
+        <p><img src="https://i.imgflip.com/2k48t0.jpg" alt="Authentication is important" style="max-width: 300px"/></p>
+        <pre>
+# Update repository visibility settings in GitHub
+# Or add clear authentication instructions in README.md:
+
+## Authentication
+To use this module, you need to:
+1. Generate a GitHub Personal Access Token
+2. Configure it in your environment:
+   export GITHUB_TOKEN=your_token_here
+        </pre>
+
+        <h3>3. Add version compatibility information</h3>
+        <pre>
+# Add to README.md
+## Compatibility
+- Dagger SDK version: x.x.x
+- Go version: x.x.x
+- Operating Systems: Linux, macOS, Windows
+        </pre>
+    </div>
+</body>
+</html>
