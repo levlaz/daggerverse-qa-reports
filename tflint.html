@@ -1,18 +1,19 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>QA Report - TFLint Module</title>
+    <title>TFLint Module QA Report</title>
     <style>
-        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
-        h1 { color: #2c3e50; }
-        .error { color: #e74c3c; padding: 10px; background: #fadbd8; border-radius: 4px; }
-        .suggestion { margin: 20px 0; padding: 15px; background: #f8f9fa; border-left: 4px solid #2ecc71; }
-        code { background: #f8f9fa; padding: 2px 5px; border-radius: 3px; }
-        .meme { max-width: 500px; margin: 20px 0; }
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 20px; }
+        h1 { color: #333; }
+        h2 { color: #666; }
+        .error { color: #ff0000; }
+        .function-list { margin-left: 20px; }
+        .suggestion { background-color: #f0f0f0; padding: 10px; margin: 10px 0; }
+        .code { font-family: monospace; background-color: #f8f8f8; padding: 10px; }
     </style>
 </head>
 <body>
-    <h1>QA Report - TFLint Module</h1>
+    <h1>TFLint Module QA Report</h1>
     
     <h2>Module Information</h2>
     <ul>
@@ -20,92 +21,82 @@
         <li><strong>Author:</strong> Excoriate</li>
         <li><strong>Latest Version:</strong> v1.10.0</li>
         <li><strong>Release Date:</strong> Not available</li>
-        <li><strong>Dagger Engine Version Used:</strong> v0.17.2</li>
+        <li><strong>Dagger Version Used:</strong> v0.18.2</li>
     </ul>
 
     <h2>Module Purpose</h2>
-    <p>This module provides a Dagger interface for TFLint, a Terraform linter. It allows users to run TFLint checks on Terraform code with various configuration options and customizations.</p>
+    <p>TFLint is a module designed to run Terraform linting checks. It provides functionality to initialize and run linting on Terraform code.</p>
 
     <h2>Available Functions</h2>
-    <ul>
-        <li>version() - Get TFLint version</li>
-        <li>withSource() - Set source directory for linting</li>
-        <li>withInit() - Initialize TFLint plugins</li>
-        <li>runInit() - Execute initialization</li>
-        <li>lint() - Configure linting options</li>
-        <li>runLint() - Execute linting</li>
-        <li>base() - Set up base container configuration</li>
-        <li>run() - Execute arbitrary TFLint commands</li>
-    </ul>
+    <div class="function-list">
+        <ul>
+            <li>src() - Get the source directory</li>
+            <li>ctr() - Get the container configuration</li>
+            <li>base() - Set the base image and version</li>
+            <li>withSource() - Set the source directory</li>
+            <li>version() - Get TFLint version</li>
+            <li>run() - Execute TFLint commands</li>
+            <li>withInit() - Add init command configuration</li>
+            <li>runInit() - Execute init command</li>
+            <li>lint() - Configure lint operation</li>
+            <li>runLint() - Execute lint operation</li>
+        </ul>
+    </div>
 
-    <h2>Issues Encountered</h2>
+    <h2>Errors Encountered</h2>
     <div class="error">
-        <h3>Installation Error</h3>
-        <p>Failed to install the module due to missing dagger.json configuration file in the repository.</p>
-        <pre>Error: git module source "github.com/Excoriate/daggerverse/tflint" does not contain a dagger config file</pre>
+        <p>The following errors were encountered during testing:</p>
+        <ul>
+            <li>Installation failed: Module does not contain a dagger config file</li>
+            <li>Build failed: Path "tflint" does not exist in git repo</li>
+        </ul>
     </div>
 
     <h2>Quality Improvement Suggestions</h2>
     
     <div class="suggestion">
-        <h3>1. Add proper module configuration</h3>
-        <p>The module needs its dagger.json configuration file to be properly installable.</p>
-        <code>
-{
-    "name": "tflint",
-    "sdk": "go",
-    "dependencies": [],
-    "source": "./",
-    "engineVersion": "v0.17.2"
-}
-        </code>
+        <h3>1. Add Proper Module Configuration</h3>
+        <p>The module is missing a proper dagger.json configuration file, which is essential for module functionality.</p>
+        <div class="code">
+            // dagger.json
+            {
+                "name": "tflint",
+                "sdk": "go",
+                "dependencies": [],
+                "source": "./",
+                "engineVersion": "v0.18.2"
+            }
+        </div>
     </div>
 
     <div class="suggestion">
-        <h3>2. Add result parsing and formatting</h3>
-        <p>Implement structured output parsing for better integration with CI/CD pipelines.</p>
-        <code>
-type LintResult struct {
-    Files    []string `json:"files"`
-    Errors   []Error  `json:"errors"`
-    Warnings []Warning `json:"warnings"`
-}
-
-func (t *Tflint) runLintWithFormat(ctx context.Context) (*LintResult, error) {
-    output := t.runLint(ctx, "--format=json")
-    var result LintResult
-    if err := json.Unmarshal([]byte(output), &result); err != nil {
-        return nil, fmt.Errorf("failed to parse lint results: %w", err)
-    }
-    return &result, nil
-}
-        </code>
+        <h3>2. Add Input Validation</h3>
+        <p>Add proper input validation for the source directory and configuration files.</p>
+        <div class="code">
+            func (t *Tflint) withSource(src dagger.Directory) *Tflint {
+                if src == nil {
+                    panic("source directory cannot be nil")
+                }
+                return t.WithSource(src)
+            }
+        </div>
     </div>
 
     <div class="suggestion">
-        <h3>3. Add configuration validation</h3>
-        <p>Implement validation for TFLint configuration files before execution.</p>
-        <code>
-func (t *Tflint) validateConfig(cfg string) error {
-    if cfg == "" {
-        return nil
-    }
-    
-    // Check if config file exists in source
-    configExists := t.src.file(cfg).exists()
-    if !configExists {
-        return fmt.Errorf("config file %s not found in source directory", cfg)
-    }
-    
-    // Validate config format
-    return t.run(ctx, fmt.Sprintf("--config=%s --init"), cfg)
-}
-        </code>
-    </div>
-
-    <div class="meme">
-        <img src="https://i.imgflip.com/7qjc3f.jpg" alt="TFLint Meme" width="400">
-        <p><em>When TFLint finds that one misconfigured resource...</em></p>
+        <h3>3. Add Comprehensive Documentation</h3>
+        <p>Improve documentation with examples and usage patterns.</p>
+        <div class="code">
+            // Example usage documentation
+            /**
+             * @example
+             * dag.tflint().withSource(src).
+             *    withInit().
+             *    runInit().
+             *    lint().
+             *    runLint()
+             */
+        </div>
+        <img src="https://i.imgflip.com/2/3d5equ.jpg" alt="Documentation Meme" />
     </div>
 
 </body>
