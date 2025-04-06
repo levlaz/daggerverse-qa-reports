@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>QA Report - Docusaurus Module</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
+        h1, h2 { color: #333; }
+        .function-list { background: #f5f5f5; padding: 20px; border-radius: 5px; }
+        .error { color: #ff0000; }
+        .suggestion { margin: 20px 0; padding: 20px; background: #f9f9f9; border-left: 4px solid #007bff; }
+        .code-snippet { background: #f0f0f0; padding: 15px; border-radius: 5px; font-family: monospace; }
+        .meme { max-width: 500px; margin: 20px 0; }
+    </style>
+</head>
+<body>
+    <h1>Module QA Report: Docusaurus</h1>
+    
+    <h2>Basic Information</h2>
+    <ul>
+        <li><strong>Name:</strong> docusaurus</li>
+        <li><strong>Author:</strong> marcosnils (forked from levlaz)</li>
+        <li><strong>Latest Version:</strong> 2f4979b5b2bf245ecc530a97886500b1d5c4bb2d</li>
+        <li><strong>Dagger Engine Version:</strong> v0.18.2</li>
+    </ul>
+
+    <h2>Module Purpose</h2>
+    <p>This module allows you to run Docusaurus sites locally with Dagger without needing to install any additional dependencies. It's particularly useful for previewing documentation changes from remote git repositories.</p>
+
+    <h2>Available Functions</h2>
+    <div class="function-list">
+        <ul>
+            <li><strong>base()</strong> - Returns base container for running docusaurus with docs mounted and dependencies installed</li>
+            <li><strong>build()</strong> - Builds production docs</li>
+            <li><strong>serve()</strong> - Serves production docs locally as a service</li>
+            <li><strong>serveDev()</strong> - Builds and serves development docs as a service</li>
+            <li><strong>src()</strong> - Source directory accessor</li>
+            <li><strong>dir()</strong> - Directory path accessor</li>
+            <li><strong>disableCache()</strong> - Cache control function</li>
+            <li><strong>cacheVolumeName()</strong> - Cache volume name accessor</li>
+        </ul>
+    </div>
+
+    <h2>Quality Improvement Suggestions</h2>
+    
+    <div class="suggestion">
+        <h3>1. Add Input Validation</h3>
+        <p>The module would benefit from explicit input validation for the source directory and cache volume name.</p>
+        <div class="code-snippet">
+        func ValidateInputs(src *Directory, dir string) error {
+            if src == nil {
+                return fmt.Errorf("source directory cannot be nil")
+            }
+            if dir == "" {
+                return fmt.Errorf("directory path cannot be empty")
+            }
+            return nil
+        }
+        </div>
+    </div>
+
+    <div class="suggestion">
+        <h3>2. Add Progress Reporting</h3>
+        <p>Implement progress reporting during long-running operations like build.</p>
+        <img src="https://media.giphy.com/media/3o7TKv2sPwAyxochKE/giphy.gif" alt="Progress Bar Meme" class="meme">
+        <div class="code-snippet">
+        func (d *Docusaurus) build(ctx context.Context) (*Directory, error) {
+            fmt.Println("🚀 Starting Docusaurus build...")
+            // Build process
+            fmt.Println("📦 Installing dependencies...")
+            // npm install
+            fmt.Println("🏗️ Building documentation...")
+            // build process
+            fmt.Println("✅ Build complete!")
+            return buildDir, nil
+        }
+        </div>
+    </div>
+
+    <div class="suggestion">
+        <h3>3. Add Health Check for Serve Functions</h3>
+        <p>Implement health checks for the serve and serveDev functions to ensure the service is running correctly.</p>
+        <div class="code-snippet">
+        func (d *Docusaurus) serve() *Service {
+            return d.base().
+                WithExposedPort(3000).
+                WithHealthcheck(
+                    &Container.Healthcheck{
+                        Test: []string{"CMD", "curl", "-f", "http://localhost:3000"},
+                        Interval: 10 * time.Second,
+                        Timeout: 5 * time.Second,
+                        Retries: 3,
+                    },
+                )
+        }
+        </div>
+    </div>
+
+    <h2>Testing Results</h2>
+    <ul>
+        <li>✅ Module installation successful</li>
+        <li>✅ Module build successful</li>
+        <li>✅ All functions properly documented</li>
+    </ul>
+
+    <p>No errors were encountered during testing.</p>
+</body>
+</html>
