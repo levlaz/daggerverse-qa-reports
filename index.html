@@ -3,42 +3,34 @@
 <head>
     <title>Module QA Reports Index</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 40px; }
-        table { border-collapse: collapse; width: 100%; }
-        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-        th { background-color: #f4f4f4; }
-        .success { color: green; }
-        .error { color: red; }
+        body { font-family: Arial, sans-serif; line-height: 1.6; max-width: 1200px; margin: 0 auto; padding: 20px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { padding: 10px; border: 1px solid #ddd; text-align: left; }
+        th { background-color: #f5f5f5; }
+        .success { color: #28a745; }
+        .error { color: #dc3545; }
     </style>
 </head>
 <body>
     <h1>Module QA Reports Index</h1>
     
     <table>
-        <tr>
-            <th>Module Name</th>
-            <th>Status</th>
-            <th>Report</th>
-            <th>Raw Crawl Data</th>
-        </tr>
-        <tr>
-            <td>linguist</td>
-            <td><span class="error">❌</span></td>
-            <td><a href="linguist.html">View Report</a></td>
-            <td><a href="linguist_crawl.html">View Raw Data</a></td>
-        </tr>
-        <tr>
-            <td>alpine</td>
-            <td><span class="success">✓</span></td>
-            <td><a href="alpine.html">View Report</a></td>
-            <td><a href="alpine-crawl.html">View Raw Data</a></td>
-        </tr>
-        <tr>
-            <td>context-dir</td>
-            <td><span class="error">❌</span></td>
-            <td><a href="context-dir.html">View Report</a></td>
-            <td><a href="context-dir-crawl.html">View Raw Data</a></td>
-        </tr>
+        <thead>
+            <tr>
+                <th>Module Name</th>
+                <th>Status</th>
+                <th>Report</th>
+                <th>Raw Crawl Data</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>hello</td>
+                <td><span class="error">❌</span></td>
+                <td><a href="hello.html">View Report</a></td>
+                <td><a href="hello-crawl.html">View Crawl Data</a></td>
+            </tr>
+        </tbody>
     </table>
 </body>
 </html>
