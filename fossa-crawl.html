@@ -1,0 +1,23 @@
+Search
+
+- [fossa](https://daggerverse.dev/mod/github.com/jpadams/fossa@40ff1c78919316fb7e17e8455a7972bbd1d8ff2f#module-about)
+- [Installation](https://daggerverse.dev/mod/github.com/jpadams/fossa@40ff1c78919316fb7e17e8455a7972bbd1d8ff2f#module-metadata)
+- [Entrypoint](https://daggerverse.dev/mod/github.com/jpadams/fossa@40ff1c78919316fb7e17e8455a7972bbd1d8ff2f#fossa.constructor)
+- [Types](https://daggerverse.dev/mod/github.com/jpadams/fossa@40ff1c78919316fb7e17e8455a7972bbd1d8ff2f#Types)
+- [Fossa](https://daggerverse.dev/mod/github.com/jpadams/fossa@40ff1c78919316fb7e17e8455a7972bbd1d8ff2f#Fossa)
+  - [analyze()](https://daggerverse.dev/mod/github.com/jpadams/fossa@40ff1c78919316fb7e17e8455a7972bbd1d8ff2f#Fossa.analyze)
+  - [base()](https://daggerverse.dev/mod/github.com/jpadams/fossa@40ff1c78919316fb7e17e8455a7972bbd1d8ff2f#Fossa.base)
+
+# fossa
+
+Today this module has a base() function that returns a Container and an
+analyze() function that can take a token for the Fossa cloud service to
+update analysis or just print the information to stdout locally. You must
+provide a directory of source code for the tool to analyze.
+
+In the future, the module may add functions to take full advantage of fossa-cli
+capabilities including scanning container imgages.
+
+Note: as of this writing, fossa-cli only supports amd64 on linux and not arm so
+we explicitly specify that the container that we load the cli into should be
+linux/amd64.
