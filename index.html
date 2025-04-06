@@ -1,60 +1,35 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Dagger Modules QA Index</title>
+    <title>Module QA Reports Index</title>
     <style>
-        body { font-family: Arial, sans-serif; line-height: 1.6; max-width: 1200px; margin: 0 auto; padding: 20px; }
-        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
         th, td { padding: 12px; text-align: left; border-bottom: 1px solid #ddd; }
         th { background-color: #f5f5f5; }
-        .success { color: #28a745; }
-        .error { color: #dc3545; }
-        .check::before { content: "✅"; }
-        .x::before { content: "❌"; }
+        .success { color: green; }
+        .error { color: red; }
+        .icon { font-size: 20px; }
     </style>
 </head>
 <body>
-    <h1>Dagger Modules QA Report Index</h1>
+    <h1>Module QA Reports Index</h1>
     
     <table>
         <thead>
             <tr>
                 <th>Module Name</th>
                 <th>Status</th>
-                <th>QA Report</th>
+                <th>Report</th>
                 <th>Raw Crawl Data</th>
             </tr>
         </thead>
         <tbody>
             <tr>
-                <td>java-sdk</td>
-                <td><span class="check success"></span></td>
-                <td><a href="java-sdk.html">View Report</a></td>
-                <td><a href="java-sdk-crawl.html">View Crawl Data</a></td>
-            </tr>
-            <tr>
-                <td>github.com/lgtdio/dagger</td>
-                <td><span class="x error"></span></td>
-                <td><a href="github.com-lgtdio-dagger.html">View Report</a></td>
-                <td><a href="github.com-lgtdio-dagger.crawl.html">View Crawl Data</a></td>
-            </tr>
-            <tr>
-                <td>dagger-shared-module-functions</td>
-                <td><span class="check success"></span></td>
-                <td><a href="dagger-shared-module-functions.html">View Report</a></td>
-                <td><a href="dagger-shared-module-functions.crawl.html">View Crawl Data</a></td>
-            </tr>
-            <tr>
-                <td>helloSecret</td>
-                <td><span class="check success"></span></td>
-                <td><a href="helloSecret.html">View Report</a></td>
-                <td><a href="helloSecret-crawl.html">View Crawl Data</a></td>
-            </tr>
-            <tr>
-                <td>bazel-pipeline</td>
-                <td><span class="check success"></span></td>
-                <td><a href="bazel-pipeline.html">View Report</a></td>
-                <td><a href="bazel-pipeline-crawl.html">View Crawl Data</a></td>
+                <td>wolfi</td>
+                <td><span class="error icon">❌</span></td>
+                <td><a href="wolfi.html">View Report</a></td>
+                <td><a href="wolfi-crawl.html">View Crawl Data</a></td>
             </tr>
         </tbody>
     </table>
