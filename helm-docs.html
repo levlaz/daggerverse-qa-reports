@@ -1,97 +1,89 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>QA Report - helm-docs Module</title>
+    <title>QA Report - helm-docs</title>
     <style>
         body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
         h1, h2 { color: #333; }
-        .function-list { background: #f5f5f5; padding: 15px; border-radius: 5px; }
-        .suggestion { margin: 20px 0; padding: 15px; border-left: 4px solid #007bff; }
-        .error { color: #dc3545; }
-        code { background: #f8f9fa; padding: 2px 5px; border-radius: 3px; }
-        .meme { max-width: 500px; margin: 20px 0; }
+        .function { background: #f5f5f5; padding: 10px; margin: 10px 0; border-radius: 5px; }
+        .error { color: #ff0000; }
+        .suggestion { margin: 20px 0; }
+        code { background: #eee; padding: 2px 5px; border-radius: 3px; }
     </style>
 </head>
 <body>
-    <h1>QA Report: helm-docs Module</h1>
+    <h1>QA Report: helm-docs</h1>
     
     <h2>Module Information</h2>
     <ul>
         <li><strong>Name:</strong> helm-docs</li>
-        <li><strong>Author:</strong> luanmtruong</li>
-        <li><strong>Latest Version:</strong> 96c13b929c636316317f745ff36cda4e4c66f680</li>
-        <li><strong>Dagger Engine Version Used:</strong> v0.18.2</li>
+        <li><strong>Author:</strong> sagikazarmark</li>
+        <li><strong>Latest Version:</strong> v0.3.0</li>
+        <li><strong>Release Date:</strong> Not specified in the crawl data</li>
+        <li><strong>Dagger Cloud Trace:</strong> <a href="https://daggerverse.dev/mod/github.com/sagikazarmark/daggerverse/helm-docs@d814d0d7c421348f51cdda96870a05ca2aa8e96a">View Trace</a></li>
     </ul>
 
     <h2>Module Purpose</h2>
-    <p>A tool for automatically generating markdown documentation for helm charts.</p>
+    <p>This module is designed to automatically generate markdown documentation for Helm charts from requirements and values files.</p>
 
     <h2>Available Functions</h2>
-    <div class="function-list">
+    <div class="function">
         <h3>generate()</h3>
         <p>Generate markdown documentation for Helm charts from requirements and values files.</p>
-        <p><strong>Arguments:</strong></p>
+        <strong>Arguments:</strong>
         <ul>
-            <li>chart: Directory! - A directory containing a Helm chart.</li>
-            <li>templates: [File!] - A list of Go template files to use for rendering the documentation.</li>
-            <li>sortValuesOrder: String - Order in which to sort the values table ("alphanum" or "file"). (default "alphanum")</li>
+            <li>chart (Directory!) - A directory containing a Helm chart</li>
+            <li>templates ([File!]) - A list of Go template files to use for rendering the documentation</li>
+            <li>sortValuesOrder (String) - Order in which to sort the values table ("alphanum" or "file")</li>
         </ul>
     </div>
 
-    <h2>Quality Improvement Suggestions</h2>
+    <h2>Testing Environment</h2>
+    <p>Tested with Dagger Engine Version: v0.18.2</p>
+
+    <h2>Suggestions for Improvement</h2>
     
     <div class="suggestion">
-        <h3>1. Add Version Validation</h3>
-        <p>Add input validation for Helm chart version compatibility.</p>
+        <h3>1. Add Input Validation</h3>
+        <p>Add validation for the chart directory to ensure it contains a valid Helm chart structure.</p>
         <code>
-func validateChartVersion(version string) error {
-    semverPattern := regexp.MustCompile(`^v?\d+\.\d+\.\d+`)
-    if !semverPattern.MatchString(version) {
-        return fmt.Errorf("invalid chart version format: %s", version)
-    }
-    return nil
-}
-        </code>
-        <img src="https://i.imgur.com/QHuZ3PE.jpg" alt="Input validation meme" class="meme">
-    </div>
-
-    <div class="suggestion">
-        <h3>2. Implement Progress Reporting</h3>
-        <p>Add progress reporting for long-running documentation generation.</p>
-        <code>
-type ProgressReporter struct {
-    total int
-    current int
-    lastUpdate time.Time
-}
-
-func (p *ProgressReporter) Update(msg string) {
-    p.current++
-    if time.Since(p.lastUpdate) > time.Second {
-        fmt.Printf("Progress: %d/%d - %s\n", p.current, p.total, msg)
-        p.lastUpdate = time.Now()
-    }
-}
-        </code>
-    </div>
-
-    <div class="suggestion">
-        <h3>3. Add Documentation Template Validation</h3>
-        <p>Validate custom documentation templates before processing.</p>
-        <code>
-func validateTemplate(tmpl string) error {
-    _, err := template.New("test").Parse(tmpl)
-    if err != nil {
-        return fmt.Errorf("template validation failed: %w", err)
+func validateChart(chartDir *Directory) error {
+    // Check for required files
+    if _, err := chartDir.File("Chart.yaml").Contents(); err != nil {
+        return fmt.Errorf("invalid chart: Chart.yaml not found")
     }
     return nil
 }
         </code>
     </div>
 
-    <h2>Testing Results</h2>
-    <p>Module installation and build completed successfully. No errors were encountered during testing.</p>
+    <div class="suggestion">
+        <h3>2. Add Progress Reporting</h3>
+        <p><img src="https://media.giphy.com/media/3o7TKT7gSMOT8Thtss/giphy.gif" alt="Loading Progress" style="width:200px"/></p>
+        <p>Implement progress reporting during documentation generation for better user experience.</p>
+        <code>
+func (h *HelmDocs) WithProgress() *HelmDocs {
+    h = h.WithExec([]string{"echo", "Starting documentation generation..."})
+    return h
+}
+        </code>
+    </div>
 
-    <p><a href="helm-docs-crawl.html">View Raw Crawl Results</a></p>
+    <div class="suggestion">
+        <h3>3. Add Template Validation</h3>
+        <p>Implement template validation to ensure provided templates are properly formatted.</p>
+        <code>
+func validateTemplate(tmpl *File) error {
+    content := tmpl.Contents()
+    if !strings.Contains(content, "{{ .Chart }}") {
+        return fmt.Errorf("invalid template: missing required Chart variable")
+    }
+    return nil
+}
+        </code>
+    </div>
+
+    <h2>Issues Encountered</h2>
+    <p>No significant issues were encountered during testing. The module installed and built successfully.</p>
 </body>
 </html>
