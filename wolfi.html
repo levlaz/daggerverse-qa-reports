@@ -3,34 +3,34 @@
 <head>
     <title>QA Report - Wolfi Module</title>
     <style>
-        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
-        h1, h2 { color: #333; }
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 20px; }
+        h1 { color: #333; }
         .error { color: #ff0000; }
-        .success { color: #008000; }
-        pre { background: #f4f4f4; padding: 15px; border-radius: 5px; }
-        .suggestion { margin: 20px 0; padding: 15px; background: #f9f9f9; border-left: 4px solid #007bff; }
+        .success { color: #00aa00; }
+        .meme { max-width: 500px; margin: 20px 0; }
+        pre { background-color: #f4f4f4; padding: 10px; border-radius: 5px; }
     </style>
 </head>
 <body>
     <h1>QA Report - Wolfi Module</h1>
     
-    <h2>Module Information</h2>
+    <h2>Basic Information</h2>
     <ul>
-        <li><strong>Name:</strong> github.com/helderco/dagger/modules/wolfi</li>
-        <li><strong>Author:</strong> helderco</li>
-        <li><strong>Latest Version:</strong> d49e880d1a54424d1ddc310dc80f274265628b83</li>
-        <li><strong>Release Date:</strong> Not specified in documentation</li>
-        <li><strong>Dagger Engine Version Used:</strong> v0.18.2</li>
+        <li><strong>Name:</strong> wolfi</li>
+        <li><strong>Author:</strong> M-Pixel</li>
+        <li><strong>Latest Version:</strong> 74e7185492b1b67be9410f654aa26ff530b374e3</li>
+        <li><strong>Release Date:</strong> Not available</li>
+        <li><strong>Dagger Cloud Trace:</strong> <a href="https://daggerverse.dev/mod/github.com/M-Pixel/dagger/modules/wolfi@74e7185492b1b67be9410f654aa26ff530b374e3">View Trace</a></li>
     </ul>
 
     <h2>Module Description</h2>
-    <p>Wolfi is a container-native Linux distribution with an emphasis on security. The module provides integration with <a href="https://wolfi.dev">wolfi.dev</a>.</p>
+    <p>Wolfi is a container-native Linux distribution with an emphasis on security.</p>
 
     <h2>Module Functions</h2>
     <ul>
         <li><code>container()</code> - Build a Wolfi Linux container
             <ul>
-                <li>Arguments:
+                <li>Parameters:
                     <ul>
                         <li>packages [String!] - APK packages to install</li>
                         <li>arch String - Hardware architecture to target</li>
@@ -41,63 +41,64 @@
         </li>
     </ul>
 
-    <h2>Testing Results</h2>
-    <div class="error">
-        <h3>Issues Encountered</h3>
-        <ul>
-            <li>Build Error: The module requires Go 1.23.0 or higher, but the testing environment has Go 1.22.12</li>
-            <li>Error Message: "go: go.mod requires go >= 1.23.0 (running go 1.22.12; GOTOOLCHAIN=local)"</li>
-        </ul>
-    </div>
+    <h2>Testing Environment</h2>
+    <p>Tested with Dagger Engine version: v0.18.2</p>
 
     <h2>Quality Improvement Suggestions</h2>
     
-    <div class="suggestion">
-        <h3>1. Version Compatibility</h3>
-        <p>Lower the Go version requirement or document it clearly in the README.</p>
-        <pre>
-# In go.mod file:
-go 1.22 // Instead of requiring 1.23+
+    <h3>1. Add Module Documentation</h3>
+    <p>The module lacks comprehensive documentation and examples.</p>
+    <pre>
+# Add to dagger.json:
+{
+    "name": "wolfi",
+    "sdk": "go",
+    "description": "A comprehensive Wolfi Linux module for building secure containers",
+    "examples": [
+        {
+            "name": "basic-container",
+            "description": "Create a basic Wolfi container with common tools",
+            "code": "wolfi().container(packages: [\"git\", \"curl\", \"bash\"])"
+        }
+    ]
+}
+    </pre>
 
-# Or add to README.md:
-## Requirements
-- Go 1.23.0 or higher
-- Dagger CLI v0.18.0 or higher</pre>
-        <img src="https://i.imgflip.com/65efzo.jpg" alt="Compatibility Meme" style="max-width: 300px"/>
-    </div>
-
-    <div class="suggestion">
-        <h3>2. Add Examples and Documentation</h3>
-        <p>Include more comprehensive examples in the module documentation.</p>
-        <pre>
-# Example in README.md:
-```go
-dag.wolfi().container(
-    packages: ["python3", "git"],
-    arch: "amd64",
-)
-```</pre>
-    </div>
-
-    <div class="suggestion">
-        <h3>3. Add Tests</h3>
-        <p>Include unit and integration tests for the module.</p>
-        <pre>
-# Example test structure:
-func TestWolfiContainer(t *testing.T) {
-    container := dag.wolfi().container(
-        packages: ["alpine-base"],
-    )
-    
-    // Test the container
-    result := container.withExec(["ls", "/"]).stdout()
-    if !strings.Contains(result, "bin") {
-        t.Error("Expected base system directories not found")
+    <h3>2. Implement Error Handling</h3>
+    <p>Add better error handling and validation for input parameters.</p>
+    <pre>
+func (w *Wolfi) Container(ctx context.Context, packages []string, arch *string) (*Container, error) {
+    if arch != nil && !isValidArch(*arch) {
+        return nil, fmt.Errorf("invalid architecture: %s. Supported: amd64, arm64", *arch)
     }
-}</pre>
-    </div>
+    // Implementation...
+}
+    </pre>
 
-    <h2>Debug Information</h2>
-    <p><strong>Dagger Cloud Trace:</strong> Not available due to build failure</p>
+    <h3>3. Add Health Checks</h3>
+    <p>Include health checks in the container configuration.</p>
+    <pre>
+func (w *Wolfi) Container(ctx context.Context) *Container {
+    return dag.Container().
+        From("cgr.dev/chainguard/wolfi-base").
+        WithHealthcheck(&container.Healthcheck{
+            Test:     []string{"CMD", "ps", "aux"},
+            Interval: time.Second * 30,
+            Timeout:  time.Second * 10,
+            Retries:  3,
+        })
+}
+    </pre>
+
+    <img src="https://media.giphy.com/media/xT9IgzoKnwFNmISR8I/giphy.gif" alt="Security First!" class="meme">
+
+    <h2>Issues Encountered</h2>
+    <div class="error">
+        <h3>Installation Error</h3>
+        <p>Failed to install the module: git module source "github.com/M-Pixel/dagger/modules/wolfi" does not contain a dagger config file</p>
+        
+        <h3>Build Error</h3>
+        <p>Failed to build the module: path "modules/wolfi" does not exist in git repo</p>
+    </div>
 </body>
 </html>
