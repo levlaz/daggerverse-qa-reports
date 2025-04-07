@@ -1,104 +1,101 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>QA Report - shellcheck Module</title>
+    <title>QA Report - Shellcheck Module</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 40px; }
+        body { font-family: Arial, sans-serif; line-height: 1.6; padding: 20px; max-width: 1200px; margin: 0 auto; }
         h1, h2 { color: #333; }
-        .error { color: red; }
-        .success { color: green; }
-        .container { max-width: 800px; margin: auto; }
-        .suggestion { margin: 20px 0; padding: 10px; background: #f9f9f9; }
-        code { background: #f0f0f0; padding: 2px 5px; border-radius: 3px; }
+        .error { color: #ff0000; }
+        .success { color: #008000; }
+        pre { background: #f4f4f4; padding: 15px; border-radius: 5px; }
+        .suggestion { margin: 20px 0; padding: 15px; background: #f9f9f9; border-left: 4px solid #007bff; }
+        .meme { max-width: 500px; margin: 20px 0; }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>QA Report - shellcheck Module</h1>
+    <h1>QA Report - Shellcheck Module</h1>
+    
+    <h2>Basic Information</h2>
+    <ul>
+        <li><strong>Module Name:</strong> shellcheck</li>
+        <li><strong>Author:</strong> Dagger</li>
+        <li><strong>Latest Version:</strong> v0.12.0</li>
+        <li><strong>Release Date:</strong> Not available</li>
+        <li><strong>Dagger Engine Version Used:</strong> v0.18.2</li>
+    </ul>
+
+    <h2>Module Description</h2>
+    <p>The shellcheck module is designed to provide shell script static analysis functionality. It exposes the following functions:</p>
+    <ul>
+        <li><strong>check(file: File!)</strong> - Performs shellcheck analysis on a given file</li>
+        <li><strong>Report Functions:</strong>
+            <ul>
+                <li>issues() - Returns list of issues found</li>
+                <li>jSon() - Returns JSON format of the report</li>
+                <li>report() - Returns human-readable report</li>
+                <li>fixedDiff() - Shows differences in fixed version</li>
+                <li>assert() - Asserts no issues found</li>
+                <li>fixed() - Returns fixed version of the script</li>
+            </ul>
+        </li>
+    </ul>
+
+    <h2>Testing Results</h2>
+    <div class="error">
+        <h3>Installation Issues:</h3>
+        <pre>Error: git module source "github.com/dagger/dagger/dev/shellcheck" does not contain a dagger config file</pre>
         
-        <h2>Basic Information</h2>
-        <ul>
-            <li><strong>Module Name:</strong> github.com/dagger/dagger/ci/std/shellcheck</li>
-            <li><strong>Version tested:</strong> 87a0f1a74a763c2bdf6c2a2ab99fc39cda96917a</li>
-            <li><strong>Dagger Engine Version:</strong> v0.18.1</li>
-            <li><strong>Link to Cloud Trace:</strong> <a href="https://dagger.cloud/traces/kl8kertr3c5mzkgd8fjqzr0y6">View Trace</a></li>
-        </ul>
+        <h3>Build Issues:</h3>
+        <pre>Error: failed to get configured module: input: moduleSource path "dev/shellcheck" does not exist in git repo</pre>
+    </div>
 
-        <h2>Module Functionality</h2>
-        <p>This module provides shellcheck functionality with the following main features:</p>
-        <ul>
-            <li>Check shell scripts for syntax and semantic issues</li>
-            <li>Generate reports in different formats (JSON, plain text)</li>
-            <li>Provide detailed issue information including line numbers and error codes</li>
-            <li>Offer suggestions for fixing detected issues</li>
-        </ul>
-
-        <h2>Available Functions</h2>
-        <ul>
-            <li><code>check(file: File)</code> - Main function to perform shell script analysis</li>
-            <li><code>issues()</code> - Get list of detected issues</li>
-            <li><code>jSon()</code> - Get report in JSON format</li>
-            <li><code>report()</code> - Get human-readable report</li>
-            <li><code>fixedDiff()</code> - Get diff of applied fixes</li>
-            <li><code>assert()</code> - Verify if the script passes checks</li>
-            <li><code>fixed()</code> - Get fixed version of the script</li>
-        </ul>
-
-        <h2>Issues Encountered</h2>
-        <div class="error">
-            <h3>Installation Issues:</h3>
-            <pre>git module source "github.com/dagger/dagger/ci/std/shellcheck" does not contain a dagger config file</pre>
-            
-            <h3>Build Issues:</h3>
-            <pre>path "ci/std/shellcheck" does not exist in git repo</pre>
-        </div>
-
-        <h2>Suggestions for Improvement</h2>
-
-        <div class="suggestion">
-            <h3>1. Add proper module configuration</h3>
-            <p>The module is missing its dagger.json configuration file, which is crucial for proper installation and usage.</p>
-            <code>
+    <h2>Improvement Suggestions</h2>
+    
+    <div class="suggestion">
+        <h3>1. Add proper module configuration</h3>
+        <p>The module is missing its dagger.json configuration file, which is essential for proper installation and usage.</p>
+        <pre>
 {
     "name": "shellcheck",
     "sdk": "go",
-    "description": "A shell script static analysis tool",
-    "version": "0.1.0"
+    "dependencies": [],
+    "source": "dev/shellcheck",
+    "description": "Shell script static analysis tool integration for Dagger"
 }
-            </code>
-        </div>
+        </pre>
+        <img src="https://i.imgflip.com/65efzo.jpg" alt="Configuration Meme" class="meme">
+    </div>
 
-        <div class="suggestion">
-            <h3>2. Add comprehensive documentation</h3>
-            <p>The module would benefit from detailed documentation with examples.</p>
-            <code>
-// Example usage documentation
+    <div class="suggestion">
+        <h3>2. Improve Documentation</h3>
+        <p>Add comprehensive documentation including examples and use cases.</p>
+        <pre>
+// Example documentation in code
 /**
- * Example: Basic shell script checking
- * 
- * import { shellcheck } from "@dagger/shellcheck"
- * 
- * const result = await shellcheck()
- *    .check(file("./script.sh"))
- *    .report()
+ * Performs shell script static analysis
+ * @param {File} file The shell script to analyze
+ * @returns {Report} Analysis report
+ * @example
+ * dag.shellcheck().check(dag.file("./script.sh"))
  */
-            </code>
-            <img src="https://i.imgflip.com/1bij.jpg" alt="Documentation meme" width="300">
-        </div>
-
-        <div class="suggestion">
-            <h3>3. Add validation and error handling</h3>
-            <p>Implement better error handling and input validation.</p>
-            <code>
-// Example of improved error handling
-func (m *Module) check(file *File) (*Report, error) {
-    if file == nil {
-        return nil, fmt.Errorf("input file cannot be nil")
-    }
-    // ... rest of the implementation
+func (m *Module) Check(file File) (*Report, error) {
+    // Implementation
 }
-            </code>
-        </div>
+        </pre>
+    </div>
+
+    <div class="suggestion">
+        <h3>3. Add Version Compatibility Check</h3>
+        <p>Implement version compatibility checking to ensure the module works with different Dagger versions.</p>
+        <pre>
+func (m *Module) Init(ctx context.Context) error {
+    version := dag.Version()
+    if !semver.Satisfies(version, ">=0.18.0") {
+        return fmt.Errorf("shellcheck module requires Dagger v0.18.0 or higher")
+    }
+    return nil
+}
+        </pre>
     </div>
 </body>
 </html>

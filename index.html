@@ -1,49 +1,38 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Module QA Index</title>
+    <title>Dagger Modules QA Index</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 40px; }
-        table { width: 100%; border-collapse: collapse; }
+        body { font-family: Arial, sans-serif; line-height: 1.6; padding: 20px; max-width: 1200px; margin: 0 auto; }
+        h1 { color: #333; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
         th, td { padding: 10px; border: 1px solid #ddd; text-align: left; }
         th { background-color: #f5f5f5; }
-        .success { color: green; }
-        .error { color: red; }
+        .success { color: #008000; }
+        .error { color: #ff0000; }
+        .checkmark { font-size: 20px; }
     </style>
 </head>
 <body>
-    <h1>Module QA Reports</h1>
+    <h1>Dagger Modules QA Reports</h1>
+    
     <table>
-        <tr>
-            <th>Module</th>
-            <th>Status</th>
-            <th>QA Report</th>
-            <th>Raw Crawl</th>
-        </tr>
-        <tr>
-            <td>various-source-values/subdir</td>
-            <td><span class="success">✓</span></td>
-            <td><a href="various-source-values-subdir.html">QA Report</a></td>
-            <td><a href="various-source-values-subdir-crawl.html">Raw Crawl</a></td>
-        </tr>
-        <tr>
-            <td>sagikazarmark/daggerverse/arc/tests</td>
-            <td><span class="error">✗</span></td>
-            <td><a href="github.com+sagikazarmark+daggerverse+arc+tests.html">QA Report</a></td>
-            <td><a href="github.com+sagikazarmark+daggerverse+arc+tests.crawl.html">Raw Crawl</a></td>
-        </tr>
-        <tr>
-            <td>shykes/x/daggy</td>
-            <td><span class="success">✓</span></td>
-            <td><a href="daggy.html">QA Report</a></td>
-            <td><a href="daggy-crawl.html">Raw Crawl</a></td>
-        </tr>
-        <tr>
-            <td>aweris/gale/daggerverse/gha/actions/hello-world-javascript-action</td>
-            <td><span class="error">✗</span></td>
-            <td><a href="hello-world-javascript-action.html">QA Report</a></td>
-            <td><a href="hello-world-javascript-action-crawl.html">Raw Crawl</a></td>
-        </tr>
+        <thead>
+            <tr>
+                <th>Module Name</th>
+                <th>Status</th>
+                <th>Report</th>
+                <th>Raw Crawl Data</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>shellcheck</td>
+                <td><span class="error checkmark">❌</span></td>
+                <td><a href="shellcheck.html">View Report</a></td>
+                <td><a href="shellcheck-crawl.html">View Crawl Data</a></td>
+            </tr>
+        </tbody>
     </table>
 </body>
 </html>
