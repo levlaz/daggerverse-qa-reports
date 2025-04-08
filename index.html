@@ -1,28 +1,38 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Module QA Index</title>
+    <title>Module QA Reports Index</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 40px; }
-        table { width: 100%; border-collapse: collapse; }
-        th, td { padding: 10px; border: 1px solid #ddd; text-align: left; }
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #ddd; }
+        th { background-color: #f5f5f5; }
         .success { color: green; }
         .error { color: red; }
+        .status-icon { font-size: 20px; }
     </style>
 </head>
 <body>
-    <h1>Module QA Index</h1>
+    <h1>Module QA Reports</h1>
+    
     <table>
-        <tr>
-            <th>Module</th>
-            <th>Status</th>
-            <th>Raw Crawl</th>
-        </tr>
-        <tr>
-            <td><a href="drupal.html">drupal</a></td>
-            <td><span class="success">✓</span></td>
-            <td><a href="drupal-crawl.html">View Crawl</a></td>
-        </tr>
+        <thead>
+            <tr>
+                <th>Module Name</th>
+                <th>Status</th>
+                <th>Reports</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>timpkg</td>
+                <td><span class="status-icon error">❌</span></td>
+                <td>
+                    <a href="timpkg.html">QA Report</a> |
+                    <a href="timpkg-crawl.html">Crawl Results</a>
+                </td>
+            </tr>
+        </tbody>
     </table>
 </body>
 </html>
