@@ -3,84 +3,82 @@
 <head>
     <title>QA Report - SSH Module</title>
     <style>
-        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 2em; }
         h1, h2 { color: #333; }
-        .error { color: #ff0000; }
-        .success { color: #00aa00; }
-        code { background: #f4f4f4; padding: 2px 5px; border-radius: 3px; }
-        .meme { max-width: 500px; margin: 20px 0; }
+        .function-list { background: #f5f5f5; padding: 1em; border-radius: 5px; }
+        .suggestion { margin: 1em 0; padding: 1em; border-left: 4px solid #007bff; }
+        .code-snippet { background: #f8f9fa; padding: 1em; border-radius: 5px; font-family: monospace; }
+        .error { color: #dc3545; }
+        .meme { max-width: 500px; margin: 1em 0; }
     </style>
 </head>
 <body>
-    <h1>QA Report: SSH Module</h1>
+    <h1>SSH Module QA Report</h1>
     
-    <h2>Basic Information</h2>
+    <h2>Module Information</h2>
     <ul>
-        <li><strong>Module Name:</strong> ssh</li>
-        <li><strong>Author:</strong> felipepimentel</li>
-        <li><strong>Latest Version:</strong> v0.0.0</li>
-        <li><strong>Release Date:</strong> Not specified</li>
-        <li><strong>Dagger Cloud Trace:</strong> <a href="https://daggerverse.dev/mod/github.com/felipepimentel/daggerverse/essentials/ssh@36e606fe6b7d1c9561dc60db82ab31614b838754">View Trace</a></li>
+        <li><strong>Name:</strong> github.com/seungyeop-lee/daggerverse/ssh</li>
+        <li><strong>Author:</strong> seungyeop-lee</li>
+        <li><strong>Latest Version:</strong> v0.2.5</li>
+        <li><strong>Release Date:</strong> Found in crawl data</li>
+        <li><strong>Dagger Engine Version Used:</strong> v0.18.2</li>
     </ul>
 
-    <h2>Module Description</h2>
-    <p>This module provides SSH functionality for Dagger pipelines. It allows users to execute SSH commands and manage SSH connections.</p>
+    <h2>Module Purpose</h2>
+    <p>This module provides SSH functionality for Dagger pipelines, allowing users to execute commands on remote servers using either password or identity file authentication.</p>
 
-    <h2>Available Functions</h2>
-    <ul>
-        <li><code>baseCtr()</code> - Returns the base container</li>
-        <li><code>command(args []string)</code> - Executes SSH commands</li>
-        <li><code>destination()</code> - Returns the SSH destination</li>
-        <li><code>generateKeys()</code> - Generates SSH keys</li>
-        <li><code>opts()</code> - Returns SSH options</li>
-    </ul>
+    <h2>Functions</h2>
+    <div class="function-list">
+        <h3>Main Functions:</h3>
+        <ul>
+            <li><strong>baseContainer()</strong> - Get the base container for the SSH module</li>
+            <li><strong>config(destination, [port], [baseCtr])</strong> - Set configuration for SSH connections</li>
+            <li><strong>withPassword(secret)</strong> - Set password authentication</li>
+            <li><strong>withIdentityFile(secret)</strong> - Set up identity file authentication</li>
+            <li><strong>command(cmd)</strong> - Run a command on the remote server</li>
+            <li><strong>container()</strong> - Returns a container ready to launch SSH commands</li>
+        </ul>
+    </div>
 
-    <h2>Testing Environment</h2>
-    <p>Tested with Dagger v0.18.1</p>
-
-    <h2>Suggestions for Improvement</h2>
+    <h2>Quality Improvement Suggestions</h2>
     
-    <h3>1. Add Comprehensive Documentation</h3>
-    <p>The module lacks detailed documentation for its functions and usage examples.</p>
-    <pre><code>
-// Example improved documentation
-/*
-* Execute SSH command on remote host
-* @param args List of command arguments
-* @return Container with command output
-* @example
-* ssh.command(["ls", "-la"]).stdout()
-*/
-func (s *Ssh) command(args []string) *Container
-    </code></pre>
+    <div class="suggestion">
+        <h3>1. Add Timeout Configuration</h3>
+        <p>Add the ability to configure connection and command execution timeouts to prevent hanging operations.</p>
+        <div class="code-snippet">
+        func (c *Config) withTimeout(connectTimeout, commandTimeout time.Duration) *Config {
+            return c.WithEnvVariable("SSH_CONNECT_TIMEOUT", fmt.Sprintf("%d", int(connectTimeout.Seconds()))).
+                   WithEnvVariable("SSH_COMMAND_TIMEOUT", fmt.Sprintf("%d", int(commandTimeout.Seconds())))
+        }
+        </div>
+        <img src="https://i.imgflip.com/2/waiting.jpg" alt="Waiting meme" class="meme">
+    </div>
 
-    <h3>2. Add Error Handling and Validation</h3>
-    <p>Implement better error handling for SSH connection failures and invalid parameters.</p>
-    <pre><code>
-func (s *Ssh) validateDestination() error {
-    if !strings.Contains(s.destination, "@") {
-        return fmt.Errorf("invalid destination format: must be user@host")
-    }
-    return nil
-}
-    </code></pre>
+    <div class="suggestion">
+        <h3>2. Add SSH Key Generation</h3>
+        <p>Implement functionality to generate SSH keys directly within the module.</p>
+        <div class="code-snippet">
+        func (s *Ssh) GenerateKeyPair(bits int) (*Secret, *Secret, error) {
+            privateKey, publicKey := generateRSAKeyPair(bits)
+            return s.SetSecret("private_key", privateKey),
+                   s.SetSecret("public_key", publicKey),
+                   nil
+        }
+        </div>
+    </div>
 
-    <h3>3. Add Connection Testing Function</h3>
-    <p>Implement a test connection function to verify SSH connectivity before executing commands.</p>
-    <pre><code>
-func (s *Ssh) testConnection() *Container {
-    return s.command(["echo", "Connection successful"])
-}
-    </code></pre>
-
-    <img src="https://i.imgflip.com/2/4m3khy.jpg" alt="SSH Security Meme" class="meme">
+    <div class="suggestion">
+        <h3>3. Add Built-in Connection Testing</h3>
+        <p>Implement a test connection method to verify SSH connectivity before executing commands.</p>
+        <div class="code-snippet">
+        func (c *Commander) TestConnection(timeout time.Duration) error {
+            return c.WithTimeout(timeout).Command("echo 'Connection test'").Sync()
+        }
+        </div>
+    </div>
 
     <h2>Issues Encountered</h2>
-    <ul>
-        <li>No detailed documentation provided for function parameters and return values</li>
-        <li>No version history or changelog available</li>
-        <li>Missing examples for common use cases</li>
-    </ul>
+    <p>No significant issues were encountered during testing. The module installs and builds successfully, and its documentation is clear and comprehensive.</p>
 
 </body>
 </html>
