@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>QA Report - git-chglog</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        .success { color: green; }
+        .error { color: red; }
+        .code { background: #f4f4f4; padding: 10px; border-radius: 5px; }
+        .meme { max-width: 500px; margin: 20px 0; }
+    </style>
+</head>
+<body>
+    <h1>QA Report: git-chglog</h1>
+    
+    <h2>Module Information</h2>
+    <ul>
+        <li><strong>Name:</strong> git-chglog</li>
+        <li><strong>Author:</strong> vbehar</li>
+        <li><strong>Latest Version:</strong> v0.12.1</li>
+        <li><strong>Release Date:</strong> Not specified in the crawl</li>
+        <li><strong>Dagger Version Used:</strong> v0.18.2</li>
+    </ul>
+
+    <h2>Module Purpose</h2>
+    <p>Git-Changelog is a command-line tool that allows you to generate a changelog from a git repository.</p>
+    
+    <h2>Available Functions</h2>
+    <ul>
+        <li>changelog - Generates a changelog for a git repository and version</li>
+        <li>chglog-dir - Returns the directory containing chglog config and template</li>
+        <li>container - Returns a container with git-chglog installed and configured</li>
+        <li>image-repository - Gets the image repository information</li>
+        <li>image-tag - Gets the image tag information</li>
+    </ul>
+
+    <h2>Quality Improvement Suggestions</h2>
+    
+    <h3>1. Add Input Validation</h3>
+    <div class="code">
+    <pre>
+// Add version format validation
+func validateVersion(version string) error {
+    if !strings.HasPrefix(version, "v") {
+        return fmt.Errorf("version must start with 'v', got %s", version)
+    }
+    return nil
+}
+    </pre>
+    </div>
+
+    <h3>2. Implement Better Error Handling</h3>
+    <div class="code">
+    <pre>
+// Add detailed error handling
+if err != nil {
+    return fmt.Errorf("failed to generate changelog: %w", err)
+}
+    </pre>
+    </div>
+
+    <h3>3. Add Documentation Examples</h3>
+    <div class="code">
+    <pre>
+// Example usage
+/*
+import (
+    "dagger.io/dagger"
+    "github.com/vbehar/daggerverse/git-chglog"
+)
+
+func Example() {
+    chglog := dag.GitChglog()
+    changelog := chglog.Changelog(gitDir, "v1.0.0")
+}
+*/
+    </pre>
+    </div>
+
+    <img src="https://i.imgflip.com/65efzo.jpg" alt="Documentation Meme" class="meme">
+
+    <h2>Testing Results</h2>
+    <p class="success">✓ Module installation successful</p>
+    <p class="success">✓ Module build successful</p>
+    <p class="success">✓ All functions properly documented</p>
+
+    <h2>Additional Notes</h2>
+    <p>No errors were encountered during the testing process. The module appears to be well-structured and functional.</p>
+</body>
+</html>
