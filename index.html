@@ -1,80 +1,39 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>QA Reports Index</title>
+    <title>Dagger Modules QA Index</title>
     <style>
         body { font-family: Arial, sans-serif; margin: 40px; }
-        table { border-collapse: collapse; width: 100%; }
-        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-        th { background-color: #f4f4f4; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #ddd; }
+        th { background-color: #f5f5f5; }
         .success { color: green; }
         .error { color: red; }
-        .check { font-size: 1.2em; }
+        .container { max-width: 1200px; margin: 0 auto; }
     </style>
 </head>
 <body>
-    <h1>QA Reports Index</h1>
-    <table>
-        <tr>
-            <th>Module</th>
-            <th>Status</th>
-            <th>Raw Crawl</th>
-            <th>Report</th>
-        </tr>
-        <tr>
-            <td>github.com/dciangot/daggerverse/interlink</td>
-            <td><span class="success check">✓</span></td>
-            <td><a href="interlink-crawl.html">View Crawl</a></td>
-            <td><a href="interlink.html">View Report</a></td>
-        </tr>
-        <tr>
-            <td>github.com/M-Pixel/dagger/modules/wolfi</td>
-            <td><span class="error check">✗</span></td>
-            <td><a href="wolfi-crawl.html">View Crawl</a></td>
-            <td><a href="wolfi.html">View Report</a></td>
-        </tr>
-        <tr>
-            <td>github.com/vito/dagger/version</td>
-            <td><span class="success check">✓</span></td>
-            <td><a href="github.com_vito_dagger_version.crawl.html">View Crawl</a></td>
-            <td><a href="github.com_vito_dagger_version.html">View Report</a></td>
-        </tr>
-        <tr>
-            <td>github.com/sagikazarmark/daggerverse/xcaddy/tests</td>
-            <td><span class="error check">✗</span></td>
-            <td><a href="xcaddy-tests-crawl.html">View Crawl</a></td>
-            <td><a href="xcaddy-tests.html">View Report</a></td>
-        </tr>
-        <tr>
-            <td>github.com/sipsma/dagger-module-tests/subdir/dep2</td>
-            <td><span class="error check">✗</span></td>
-            <td><a href="dep2-crawl.html">View Crawl</a></td>
-            <td><a href="dep2.html">View Report</a></td>
-        </tr>
-        <tr>
-            <td>github.com/dagger/dagger/dev/go</td>
-            <td><span class="error check">✗</span></td>
-            <td><a href="github.com-dagger-dagger-dev-go.crawl.html">View Crawl</a></td>
-            <td><a href="github.com-dagger-dagger-dev-go.html">View Report</a></td>
-        </tr>
-        <tr>
-            <td>github.com/tsirysndr/daggerverse/kubeval</td>
-            <td><span class="success check">✓</span></td>
-            <td><a href="kubeval-crawl.html">View Crawl</a></td>
-            <td><a href="kubeval.html">View Report</a></td>
-        </tr>
-        <tr>
-            <td>github.com/sagikazarmark/daggerverse/checksum/tests</td>
-            <td><span class="error check">✗</span></td>
-            <td><a href="checksum-tests-crawl.html">View Crawl</a></td>
-            <td><a href="checksum-tests.html">View Report</a></td>
-        </tr>
-        <tr>
-            <td>github.com/quay/clair-workflows/claircore</td>
-            <td><span class="error check">✗</span></td>
-            <td><a href="claircore-crawl.html">View Crawl</a></td>
-            <td><a href="claircore.html">View Report</a></td>
-        </tr>
-    </table>
+    <div class="container">
+        <h1>Dagger Modules QA Results</h1>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Module Name</th>
+                    <th>Status</th>
+                    <th>QA Report</th>
+                    <th>Raw Crawl Data</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>envoyproxy</td>
+                    <td><span class="success">✓</span></td>
+                    <td><a href="envoyproxy.html">View Report</a></td>
+                    <td><a href="envoyproxy-crawl.html">View Crawl Data</a></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </body>
 </html>
