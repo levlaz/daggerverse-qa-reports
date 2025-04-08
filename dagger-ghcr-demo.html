@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>QA Report - dagger-ghcr-demo</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 2em; }
+        h1, h2 { color: #333; }
+        .function-list { background: #f5f5f5; padding: 1em; border-radius: 5px; }
+        .suggestion { margin: 1em 0; padding: 1em; border-left: 4px solid #007bff; }
+        .code { background: #f8f9fa; padding: 1em; border-radius: 5px; font-family: monospace; }
+        .meme { max-width: 500px; margin: 1em 0; }
+        .error { color: #dc3545; }
+    </style>
+</head>
+<body>
+    <h1>QA Report: dagger-ghcr-demo</h1>
+    
+    <h2>Module Information</h2>
+    <ul>
+        <li><strong>Name:</strong> dagger-ghcr-demo</li>
+        <li><strong>Author:</strong> lukemarsden</li>
+        <li><strong>Latest Version:</strong> v0.1.4</li>
+        <li><strong>Release Date:</strong> Not specified in crawl data</li>
+        <li><strong>Dagger Cloud Trace:</strong> Not available in current toolset</li>
+    </ul>
+
+    <h2>Module Purpose</h2>
+    <p>This module demonstrates how to push to a container registry (specifically GitHub's ghcr.io) from a GitHub action. It's designed as an example/demo rather than for direct use as a module.</p>
+
+    <h2>Module Functions</h2>
+    <div class="function-list">
+        <ul>
+            <li><strong>build(buildContext: Directory!):</strong> Application specific build logic</li>
+            <li><strong>buildAndPush(registry: String!, imageName: String!, username: String!, password: Secret!, buildContext: Directory!):</strong> Take the built container and push it</li>
+        </ul>
+    </div>
+
+    <h2>Testing Environment</h2>
+    <p>Tested with Dagger Engine version: v0.18.2</p>
+
+    <h2>Improvement Suggestions</h2>
+    
+    <div class="suggestion">
+        <h3>1. Add Function Documentation</h3>
+        <p>The functions lack detailed documentation about their parameters and return values.</p>
+        <div class="code">
+        // Example improvement:
+        /**
+         * Builds the container image from the provided context
+         * @param buildContext - Directory containing the source code and Dockerfile
+         * @returns Container - The built container image
+         * @example
+         * const built = await daggerGhcrDemo.build(dag.host().directory("./"))
+         */
+        func (m *DaggerGhcrDemo) Build(buildContext *Directory) *Container {
+            // existing implementation
+        }
+        </div>
+        <img src="https://i.imgflip.com/65efzo.jpg" alt="Documentation Meme" class="meme">
+    </div>
+
+    <div class="suggestion">
+        <h3>2. Add Input Validation</h3>
+        <p>The buildAndPush function should validate inputs before proceeding.</p>
+        <div class="code">
+        func (m *DaggerGhcrDemo) BuildAndPush(ctx context.Context, registry string, imageName string, username string, password *Secret, buildContext *Directory) error {
+            if registry == "" || imageName == "" || username == "" {
+                return fmt.Errorf("registry, imageName, and username must not be empty")
+            }
+            // rest of the implementation
+        }
+        </div>
+    </div>
+
+    <div class="suggestion">
+        <h3>3. Add Error Handling and Retries</h3>
+        <p>Network operations like pushing to registries should include retry logic.</p>
+        <div class="code">
+        func (m *DaggerGhcrDemo) BuildAndPush(...) error {
+            maxRetries := 3
+            for i := 0; i < maxRetries; i++ {
+                err := tryPush()
+                if err == nil {
+                    return nil
+                }
+                if i < maxRetries-1 {
+                    time.Sleep(time.Second * time.Duration(i+1))
+                }
+            }
+            return fmt.Errorf("failed to push after %d attempts", maxRetries)
+        }
+        </div>
+    </div>
+
+    <h2>Issues Encountered</h2>
+    <p>No major issues were encountered during testing. The module installed and built successfully.</p>
+</body>
+</html>
