@@ -1,89 +1,98 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>QA Report - Checksum Tests Module</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QA Report - checksum/tests Module</title>
     <style>
         body { font-family: Arial, sans-serif; line-height: 1.6; margin: 2em; }
+        h1, h2 { color: #333; }
+        .info { margin-bottom: 1em; }
+        .functions { margin: 1em 0; }
+        .suggestion { background: #f9f9f9; padding: 1em; margin: 1em 0; border-radius: 5px; }
         .error { color: red; }
-        .success { color: green; }
-        code { background: #f4f4f4; padding: 2px 5px; border-radius: 3px; }
-        .meme { max-width: 500px; margin: 20px 0; }
+        pre { background: #f0f0f0; padding: 1em; border-radius: 5px; }
+        img { max-width: 300px; }
     </style>
 </head>
 <body>
-    <h1>QA Report: Checksum Tests Module</h1>
+    <h1>QA Report: checksum/tests Module</h1>
     
-    <h2>Module Information</h2>
-    <ul>
-        <li><strong>Name:</strong> github.com/sagikazarmark/daggerverse/checksum/tests</li>
-        <li><strong>Author:</strong> sagikazarmark</li>
-        <li><strong>Latest Version:</strong> 99210b96578ffa14b9ed3ea2e890c19557ccafb2</li>
-        <li><strong>Dagger Version Used:</strong> v0.18.1</li>
-    </ul>
+    <div class="info">
+        <h2>Module Information</h2>
+        <ul>
+            <li><strong>Name:</strong> github.com/sagikazarmark/daggerverse/checksum/tests</li>
+            <li><strong>Author:</strong> sagikazarmark</li>
+            <li><strong>Latest Version:</strong> e6c14178bcaaff9e102e2a89173ca31479b80629</li>
+            <li><strong>Release Date:</strong> Not specified in crawl data</li>
+            <li><strong>Dagger Engine Version Used:</strong> v0.18.2</li>
+            <li><strong>Dagger Cloud Trace:</strong> <a href="https://dagger.cloud/trace" target="_blank">View Trace</a></li>
+        </ul>
+    </div>
 
-    <h2>Module Functionality</h2>
-    <p>This module appears to be a test suite for the checksum functionality. It provides the following functions:</p>
-    <ul>
-        <li><code>all()</code> - Executes all tests</li>
-        <li><code>calculateAndCheck()</code> - Performs checksum calculation and verification</li>
-    </ul>
+    <div class="functions">
+        <h2>Module Functionality</h2>
+        <p>This module provides test functionality for the checksum module. It includes:</p>
+        <ul>
+            <li><strong>all()</strong>: Executes all tests</li>
+            <li><strong>calculateAndCheck()</strong>: Performs checksum calculation and verification</li>
+        </ul>
+    </div>
 
-    <h2>Quality Improvement Suggestions</h2>
-    
-    <h3>1. Add Proper Documentation</h3>
-    <p>The module lacks comprehensive documentation. Here's how it could be improved:</p>
-    <pre><code>
-// Tests represents a test suite for checksum operations
-#[Object]
-struct Tests {
-    /// Executes all tests in the suite
-    /// Returns: void
-    /// Example: dag.tests().all()
-    #[Function]
-    fn all(&self) -> Result<()> {
-        // implementation
+    <div class="suggestions">
+        <h2>Improvement Suggestions</h2>
+        
+        <div class="suggestion">
+            <h3>1. Add Comprehensive Documentation</h3>
+            <p>The module lacks a detailed description and documentation for its functions.</p>
+            <pre>
+// Tests provides checksum verification functionality
+type Tests struct {}
+
+// CalculateAndCheck verifies file checksums
+// +doc:desc Calculates checksum for a given file and verifies it against an expected value
+func (t *Tests) CalculateAndCheck(ctx context.Context) error {
+    // Implementation
+}
+            </pre>
+            <img src="https://i.imgflip.com/65efzo.jpg" alt="Documentation Meme">
+        </div>
+
+        <div class="suggestion">
+            <h3>2. Add Error Handling Examples</h3>
+            <p>Provide examples of how to handle potential errors in the tests.</p>
+            <pre>
+func (t *Tests) CalculateAndCheck(ctx context.Context) error {
+    result, err := t.calculate()
+    if err != nil {
+        return fmt.Errorf("failed to calculate checksum: %w", err)
     }
+    return nil
 }
-    </code></pre>
+            </pre>
+        </div>
 
-    <h3>2. Add Error Handling</h3>
-    <p>Implement proper error handling and return meaningful error messages:</p>
-    <pre><code>
-#[Function]
-fn calculate_and_check(&self) -> Result<()> {
-    match self.perform_checksum() {
-        Ok(result) => Ok(()),
-        Err(e) => Err(format!("Checksum verification failed: {}", e))
+        <div class="suggestion">
+            <h3>3. Add Test Parameters</h3>
+            <p>Allow customization of test behavior through parameters.</p>
+            <pre>
+func (t *Tests) CalculateAndCheck(ctx context.Context, opts ...Option) error {
+    config := defaultConfig()
+    for _, opt := range opts {
+        opt(config)
     }
+    // Implementation using config
 }
-    </code></pre>
+            </pre>
+        </div>
+    </div>
 
-    <h3>3. Add Test Coverage</h3>
-    <p>Include more test cases and edge cases:</p>
-    <pre><code>
-#[Function]
-fn test_various_file_types(&self) -> Result<()> {
-    // Test empty files
-    self.check_empty_file()?;
-    
-    // Test large files
-    self.check_large_file()?;
-    
-    // Test binary files
-    self.check_binary_file()?;
-    
-    Ok(())
-}
-    </code></pre>
-
-    <img src="https://i.imgflip.com/1bij.jpg" alt="Test All The Things!" class="meme" />
-
-    <h2>Issues Encountered</h2>
-    <ul>
-        <li>Limited documentation for the <code>calculate-and-check</code> function</li>
-        <li>No description of expected inputs or outputs</li>
-        <li>No examples provided for common use cases</li>
-    </ul>
-
+    <div class="issues">
+        <h2>Issues Encountered</h2>
+        <ul>
+            <li>No long description provided in the module documentation</li>
+            <li>Limited documentation for the calculateAndCheck function</li>
+        </ul>
+    </div>
 </body>
 </html>
