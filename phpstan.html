@@ -3,84 +3,127 @@
 <head>
     <title>QA Report - PHPStan Module</title>
     <style>
-        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
+        body { font-family: Arial, sans-serif; margin: 40px; }
         h1, h2 { color: #333; }
-        .function-list { background: #f5f5f5; padding: 20px; border-radius: 5px; }
-        .suggestion { margin: 20px 0; padding: 20px; border: 1px solid #ddd; border-radius: 5px; }
-        .code { background: #f8f8f8; padding: 15px; border-radius: 5px; font-family: monospace; }
+        .function-list { background: #f5f5f5; padding: 15px; border-radius: 5px; }
+        .suggestion { margin: 20px 0; padding: 15px; border-left: 4px solid #007bff; }
+        .code { background: #f8f9fa; padding: 15px; border-radius: 5px; font-family: monospace; }
         .error { color: #dc3545; }
+        .meme { max-width: 500px; margin: 20px 0; }
     </style>
 </head>
 <body>
-    <h1>QA Report: PHPStan Module</h1>
+    <h1>PHPStan Module QA Report</h1>
     
     <h2>Module Information</h2>
     <ul>
         <li><strong>Name:</strong> phpstan</li>
-        <li><strong>Author:</strong> sagikazarmark</li>
-        <li><strong>Latest Version:</strong> v0.3.0</li>
-        <li><strong>Release Date:</strong> Extracted from git commit: 84e479601ced57c999880867f0beb56e2afd683d</li>
-        <li><strong>Dagger Cloud Trace:</strong> <a href="https://daggerverse.dev/mod/github.com/sagikazarmark/daggerverse/phpstan@84e479601ced57c999880867f0beb56e2afd683d">View Trace</a></li>
+        <li><strong>Author:</strong> luanmtruong</li>
+        <li><strong>Latest Version:</strong> 96c13b929c636316317f745ff36cda4e4c66f680</li>
+        <li><strong>Release Date:</strong> Not specified in source</li>
+        <li><strong>Dagger Engine Version Used:</strong> v0.18.2</li>
+        <li><strong>Raw Crawl Results:</strong> <a href="phpstan-crawl.html">View Results</a></li>
     </ul>
 
-    <h2>Module Purpose & Functions</h2>
-    <p>PHPStan is a PHP Static Analysis Tool that helps discover bugs in your code without running it. The module provides the following functions:</p>
+    <h2>Module Description</h2>
+    <p>PHP Static Analysis Tool - discover bugs in your code without running it!</p>
+
+    <h2>Module Functions</h2>
     <div class="function-list">
         <ul>
-            <li><strong>analyse()</strong> - Analyzes source code</li>
-            <li><strong>container()</strong> - Returns the base container</li>
-            <li><strong>generateBaseline()</strong> - Generates a baseline file</li>
+            <li><strong>analyse()</strong> - Analyse source code</li>
+            <li><strong>container()</strong> - Returns the container configuration</li>
+            <li><strong>generateBaseline()</strong> - Generate baseline file</li>
         </ul>
     </div>
 
-    <h2>Testing Environment</h2>
-    <p>Tested with Dagger Engine Version: v0.18.2</p>
-
-    <h2>Suggestions for Improvement</h2>
+    <h2>Quality Improvement Suggestions</h2>
+    
     <div class="suggestion">
-        <h3>1. Add Documentation for Return Values</h3>
-        <p>Add detailed documentation about what each function returns and potential error states.</p>
+        <h3>1. Add Comprehensive Documentation</h3>
+        <p>The module would benefit from more detailed documentation, including examples and use cases.</p>
         <div class="code">
-        // Example documentation improvement:
-        /**
-         * @function analyse
-         * @param {Directory} source - The source directory to analyze
-         * @param {string[]} paths - Specific paths to analyze
-         * @returns {Container} - Returns a container with analysis results
-         * @throws {Error} - When source directory is invalid or PHPStan encounters errors
-         */
-        </div>
-    </div>
-
-    <div class="suggestion">
-        <h3>2. Add Progress Reporting</h3>
-        <p>Implement progress reporting for long-running analyses.</p>
-        <div class="code">
-        func (p *Phpstan) analyse(source Directory, paths []string) *Container {
-            return p.container().
-                withProgressReporting().  // New method
-                withMountedDirectory("/src", source).
-                withWorkdir("/src").
-                withExec([]string{"phpstan", "analyse", "--progress"})
+        ```markdown
+        # PHPStan Module
+        
+        ## Usage Examples
+        
+        ```go
+        // Analyze a PHP project
+        func analyzeProject(src *Directory) *Container {
+            return dag.Phpstan().
+                WithPhpVersion("8.2").
+                Analyse(src, []string{"src/", "tests/"})
         }
+        
+        // Generate baseline
+        func createBaseline(src *Directory) *File {
+            return dag.Phpstan().
+                GenerateBaseline(src, []string{"src/"})
+        }
+        ```
+        
+        ## Configuration Options
+        - PHP Version Selection
+        - Custom PHPStan Rules
+        - Memory Limits
+        ```
         </div>
-        <img src="https://i.imgflip.com/2/3pdi3.jpg" alt="Progress Bar Meme" />
+        <img src="https://i.imgflip.com/65efzo.jpg" alt="Documentation Meme" class="meme">
     </div>
 
     <div class="suggestion">
-        <h3>3. Add Configuration Validation</h3>
-        <p>Add validation for PHP version compatibility and PHPStan configuration.</p>
+        <h3>2. Add Error Handling and Validation</h3>
+        <p>Implement better error handling and input validation for more robust operation.</p>
         <div class="code">
-        func (p *Phpstan) validateConfig() error {
-            if !isValidPHPVersion(p.phpVersion) {
-                return fmt.Errorf("unsupported PHP version: %s", p.phpVersion)
+        ```go
+        // Add validation for PHP version
+        func (p *Phpstan) WithPhpVersion(version string) *Phpstan {
+            if !regexp.MustCompile(`^8\.\d+$`).MatchString(version) {
+                panic("Unsupported PHP version. Use 8.x versions only.")
+            }
+            p.phpVersion = version
+            return p
+        }
+
+        // Add validation for source paths
+        func (p *Phpstan) validatePaths(paths []string) error {
+            for _, path := range paths {
+                if strings.Contains(path, "..") {
+                    return fmt.Errorf("invalid path: %s (path traversal not allowed)", path)
+                }
             }
             return nil
         }
+        ```
+        </div>
+    </div>
+
+    <div class="suggestion">
+        <h3>3. Add Configuration Options</h3>
+        <p>Expand the module's flexibility by adding more configuration options.</p>
+        <div class="code">
+        ```go
+        type PhpstanConfig struct {
+            Level            string   `json:"level"`
+            MemoryLimit     string   `json:"memory_limit"`
+            CustomRulesPath []string `json:"custom_rules"`
+            Extensions      []string `json:"extensions"`
+        }
+
+        func (p *Phpstan) WithConfig(config PhpstanConfig) *Phpstan {
+            // Implementation
+            return p
+        }
+        ```
         </div>
     </div>
 
     <h2>Issues Encountered</h2>
-    <p>No significant issues were encountered during testing. The module installed and built successfully.</p>
+    <ul>
+        <li>No explicit release date provided in the module metadata</li>
+        <li>Limited documentation about configuration options</li>
+        <li>No version history or changelog available</li>
+    </ul>
 </body>
 </html>
