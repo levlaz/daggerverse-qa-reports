@@ -1,18 +1,19 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Module QA Index</title>
+    <title>Module QA Reports Index</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 2em; }
-        table { border-collapse: collapse; width: 100%; }
-        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-        th { background-color: #f4f4f4; }
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { padding: 10px; border: 1px solid #ddd; text-align: left; }
+        th { background-color: #f5f5f5; }
         .success { color: green; }
         .error { color: red; }
+        .check { font-size: 20px; }
     </style>
 </head>
 <body>
-    <h1>Module QA Reports Index</h1>
+    <h1>Module QA Reports</h1>
     
     <table>
         <thead>
@@ -20,27 +21,15 @@
                 <th>Module</th>
                 <th>Status</th>
                 <th>QA Report</th>
-                <th>Raw Crawl Data</th>
+                <th>Raw Crawl</th>
             </tr>
         </thead>
         <tbody>
             <tr>
-                <td>ssh</td>
-                <td><span class="success">✓</span></td>
-                <td><a href="ssh.html">QA Report</a></td>
-                <td><a href="ssh-crawl.html">Crawl Data</a></td>
-            </tr>
-            <tr>
-                <td>concourse</td>
-                <td><span class="success">✓</span></td>
-                <td><a href="concourse.html">QA Report</a></td>
-                <td><a href="concourse-crawl.html">Crawl Data</a></td>
-            </tr>
-            <tr>
-                <td>gh</td>
-                <td><span class="success">✓</span></td>
-                <td><a href="gh.html">QA Report</a></td>
-                <td><a href="gh.crawl.html">Crawl Data</a></td>
+                <td>buf-pipeline</td>
+                <td><span class="success check">✓</span></td>
+                <td><a href="buf-pipeline.html">View Report</a></td>
+                <td><a href="buf-pipeline-crawl.html">View Crawl</a></td>
             </tr>
         </tbody>
     </table>
