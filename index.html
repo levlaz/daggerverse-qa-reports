@@ -3,37 +3,36 @@
 <head>
     <title>Dagger Modules QA Index</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 40px; }
+        body { font-family: Arial, sans-serif; margin: 20px; }
         table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #ddd; }
+        th, td { padding: 10px; border: 1px solid #ddd; text-align: left; }
         th { background-color: #f5f5f5; }
         .success { color: green; }
         .error { color: red; }
-        .container { max-width: 1200px; margin: 0 auto; }
+        .checkmark::before { content: "✓"; color: green; }
+        .xmark::before { content: "✗"; color: red; }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Dagger Modules QA Results</h1>
-        
-        <table>
-            <thead>
-                <tr>
-                    <th>Module Name</th>
-                    <th>Status</th>
-                    <th>QA Report</th>
-                    <th>Raw Crawl Data</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>envoyproxy</td>
-                    <td><span class="success">✓</span></td>
-                    <td><a href="envoyproxy.html">View Report</a></td>
-                    <td><a href="envoyproxy-crawl.html">View Crawl Data</a></td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+    <h1>Dagger Modules QA Reports</h1>
+    
+    <table>
+        <thead>
+            <tr>
+                <th>Module Name</th>
+                <th>Status</th>
+                <th>QA Report</th>
+                <th>Raw Crawl Data</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>dagger-readme-badge</td>
+                <td class="checkmark"></td>
+                <td><a href="dagger-readme-badge.html">View Report</a></td>
+                <td><a href="dagger-readme-badge-crawl.html">View Raw Crawl</a></td>
+            </tr>
+        </tbody>
+    </table>
 </body>
 </html>
