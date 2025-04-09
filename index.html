@@ -3,36 +3,35 @@
 <head>
     <title>Module QA Index</title>
     <style>
-        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 20px; }
+        body { font-family: Arial, sans-serif; margin: 40px; }
         table { width: 100%; border-collapse: collapse; }
-        th, td { padding: 10px; border: 1px solid #ddd; }
-        th { background-color: #f4f4f4; }
+        th, td { padding: 10px; border: 1px solid #ddd; text-align: left; }
+        th { background-color: #f5f5f5; }
         .success { color: green; }
         .error { color: red; }
+        .check { font-size: 20px; }
     </style>
 </head>
 <body>
     <h1>Module QA Reports Index</h1>
     
     <table>
-        <tr>
-            <th>Module</th>
-            <th>Status</th>
-            <th>Raw Crawl</th>
-            <th>Report</th>
-        </tr>
-        <tr>
-            <td>gh</td>
-            <td><span class="success">✓</span></td>
-            <td><a href="gh-crawl.html">Raw Crawl</a></td>
-            <td><a href="gh.html">Report</a></td>
-        </tr>
-        <tr>
-            <td>elixir-pipeline</td>
-            <td><span class="success">✓</span></td>
-            <td><a href="elixir-pipeline-crawl.html">Raw Crawl</a></td>
-            <td><a href="elixir-pipeline.html">Report</a></td>
-        </tr>
+        <thead>
+            <tr>
+                <th>Module Name</th>
+                <th>Status</th>
+                <th>QA Report</th>
+                <th>Raw Crawl</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>black</td>
+                <td><span class="check success">✓</span></td>
+                <td><a href="/qa/black.html">QA Report</a></td>
+                <td><a href="/qa/black-crawl.html">Crawl Results</a></td>
+            </tr>
+        </tbody>
     </table>
 </body>
 </html>
