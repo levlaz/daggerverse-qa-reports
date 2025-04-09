@@ -3,13 +3,14 @@
 <head>
     <title>QA Report - buf-pipeline</title>
     <style>
-        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
-        h1 { color: #333; }
-        .section { margin: 20px 0; }
-        .function-list { background: #f5f5f5; padding: 15px; border-radius: 5px; }
-        .suggestion { background: #e1f5fe; padding: 15px; margin: 10px 0; border-radius: 5px; }
-        .error { color: #d32f2f; }
-        pre { background: #f8f9fa; padding: 10px; border-radius: 4px; overflow-x: auto; }
+        body { font-family: Arial, sans-serif; line-height: 1.6; max-width: 1200px; margin: 0 auto; padding: 20px; }
+        h1 { color: #2c3e50; }
+        .section { margin: 20px 0; padding: 20px; border: 1px solid #eee; border-radius: 5px; }
+        .function-list { list-style-type: none; padding-left: 20px; }
+        .suggestion { background-color: #f9f9f9; padding: 15px; margin: 10px 0; border-radius: 5px; }
+        .error { color: #e74c3c; }
+        code { background-color: #f8f9fa; padding: 2px 5px; border-radius: 3px; }
+        pre { background-color: #f8f9fa; padding: 15px; border-radius: 5px; overflow-x: auto; }
         .meme { max-width: 500px; margin: 20px 0; }
     </style>
 </head>
@@ -19,110 +20,80 @@
     <div class="section">
         <h2>Module Information</h2>
         <ul>
-            <li><strong>Name:</strong> buf-pipeline</li>
+            <li><strong>Name:</strong> github.com/fluent-ci-templates/buf-pipeline</li>
             <li><strong>Author:</strong> fluent-ci-templates</li>
             <li><strong>Latest Version:</strong> 52f73c13b30d01b7c0ca571fe5b1e989e25354af</li>
-            <li><strong>Dagger Engine Version Used:</strong> v0.18.2</li>
-            <li><strong>Link to Dagger Cloud Trace:</strong> <a href="https://dagger.cloud/github.com/fluent-ci-templates/buf-pipeline@52f73c13b30d01b7c0ca571fe5b1e989e25354af">View Trace</a></li>
+            <li><strong>Release Date:</strong> N/A (not provided in module info)</li>
+            <li><strong>Dagger Version Used:</strong> v0.18.2</li>
+            <li><strong>Dagger Cloud Trace:</strong> <a href="https://dagger.cloud/traces">View Trace</a></li>
         </ul>
     </div>
 
     <div class="section">
-        <h2>Module Purpose</h2>
-        <p>This module provides functionality for working with Protocol Buffers (Protobuf) files using the Buf tool. It offers the following functions:</p>
-        <div class="function-list">
-            <ul>
-                <li><strong>push()</strong> - Push Protobuf files to the Buf Registry</li>
-                <li><strong>format()</strong> - Format Protobuf files</li>
-                <li><strong>lint()</strong> - Lint Protobuf files</li>
-            </ul>
-        </div>
+        <h2>Module Description</h2>
+        <p>This module provides functionality for working with Protocol Buffers (Protobuf) files using the Buf tool. It offers capabilities for formatting, linting, and pushing Protobuf files to the Buf Registry.</p>
+        
+        <h3>Available Functions:</h3>
+        <ul class="function-list">
+            <li><code>format()</code> - Format your Protobuf files</li>
+            <li><code>lint()</code> - Lint your Protobuf files</li>
+            <li><code>push()</code> - Push your Protobuf files to the Buf Registry</li>
+        </ul>
     </div>
 
     <div class="section">
-        <h2>Suggestions for Improvement</h2>
+        <h2>Quality Improvement Suggestions</h2>
         
         <div class="suggestion">
-            <h3>1. Add Input Validation</h3>
-            <p>Add validation for the source directory to ensure it contains valid Protobuf files.</p>
+            <h3>1. Add Comprehensive Documentation</h3>
+            <p>The module lacks detailed documentation about function parameters and usage examples.</p>
             <pre>
-func validateProtoFiles(src *Directory) error {
-    files, err := src.Entries(ctx)
-    if err != nil {
-        return err
-    }
-    
-    hasProto := false
-    for _, file := range files {
-        if strings.HasSuffix(file, ".proto") {
-            hasProto = true
-            break
-        }
-    }
-    
-    if !hasProto {
-        return fmt.Errorf("no .proto files found in source directory")
-    }
-    return nil
-}
-            </pre>
-            <img src="https://media.giphy.com/media/3o7TKSjRrfIPjeiVyv/giphy.gif" alt="Validation Meme" class="meme">
+# Example improvement in function documentation:
+/**
+ * Format Protobuf files according to buf standards
+ * @param {Directory} src - The source directory containing .proto files
+ * @returns {Directory} Formatted source directory
+ * @example
+ * const result = await dag.buf().format(src)
+ */
+format(src: Directory): Directory
+</pre>
+            <img src="https://i.imgflip.com/4/2k48t0.jpg" alt="Documentation Meme" class="meme">
         </div>
 
         <div class="suggestion">
-            <h3>2. Add Error Documentation</h3>
-            <p>Improve error messages and add detailed documentation for common issues.</p>
+            <h3>2. Add Input Validation</h3>
+            <p>Implement proper input validation for the source directory to ensure it contains .proto files.</p>
             <pre>
-type BufError struct {
-    Code    string
-    Message string
-    Details string
-}
-
-func (b *Buf) formatWithDetails(src *Directory) (*Directory, *BufError) {
-    result, err := b.Format(src)
-    if err != nil {
-        return nil, &BufError{
-            Code:    "FORMAT_ERROR",
-            Message: err.Error(),
-            Details: "Common causes:\n- Invalid proto syntax\n- Missing imports",
-        }
+func validateProtoFiles(src: Directory): boolean {
+    // Check if directory contains .proto files
+    const files = src.entries().filter(f => f.endsWith('.proto'))
+    if (files.length === 0) {
+        throw new Error("No .proto files found in source directory")
     }
-    return result, nil
+    return true
 }
-            </pre>
+</pre>
         </div>
 
         <div class="suggestion">
-            <h3>3. Add Progress Reporting</h3>
-            <p>Implement progress reporting for long-running operations.</p>
+            <h3>3. Add Error Handling and Recovery</h3>
+            <p>Implement better error handling and recovery mechanisms.</p>
             <pre>
-func (b *Buf) pushWithProgress(src *Directory, token *Secret) (*String, error) {
-    progress := 0
-    total := 100
-    
-    // Report progress at key points
-    b.ReportProgress("Validating files", progress, total)
-    // ... validation logic ...
-    progress += 20
-    
-    b.ReportProgress("Preparing upload", progress, total)
-    // ... preparation logic ...
-    progress += 30
-    
-    b.ReportProgress("Uploading to registry", progress, total)
-    // ... upload logic ...
-    progress = total
-    
-    return result, nil
+try {
+    const result = await buf.lint(src)
+    return result
+} catch (error) {
+    console.error("Linting failed:", error)
+    throw new Error(`Buf linting failed: ${error.message}`)
 }
-            </pre>
+</pre>
         </div>
     </div>
 
     <div class="section">
         <h2>Testing Issues</h2>
-        <p>No significant issues were encountered during testing. The module installed and built successfully.</p>
+        <p>No significant issues were encountered during testing. All core functions (format, lint, push) were properly exposed and documentated in the module interface.</p>
     </div>
 </body>
 </html>
