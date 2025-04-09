@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>QA Report - Docker Module</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 2em; }
+        h1, h2 { color: #333; }
+        .function-list { background: #f5f5f5; padding: 1em; border-radius: 5px; }
+        .error { color: #d32f2f; }
+        .suggestion { background: #e3f2fd; padding: 1em; margin: 1em 0; border-radius: 5px; }
+        code { background: #f8f9fa; padding: 0.2em 0.4em; border-radius: 3px; }
+        .meme { max-width: 500px; margin: 1em 0; }
+    </style>
+</head>
+<body>
+    <h1>QA Report - Docker Module</h1>
+    
+    <h2>Module Information</h2>
+    <ul>
+        <li><strong>Name:</strong> github.com/felipepimentel/daggerverse/libraries/docker</li>
+        <li><strong>Author:</strong> Felipe Pimentel</li>
+        <li><strong>Latest Version:</strong> v0.0.0</li>
+        <li><strong>Release Date:</strong> Not specified</li>
+        <li><strong>Dagger Engine Version Used:</strong> v0.18.2</li>
+        <li><strong>Raw Crawl Results:</strong> <a href="github.com_felipepimentel_daggerverse_libraries_docker.crawl.html">View Results</a></li>
+    </ul>
+
+    <h2>Module Purpose</h2>
+    <p>This is a Dagger Module for integrating with the Docker Engine. It provides functionality for managing Docker resources including images, networks, and volumes.</p>
+
+    <h2>Available Functions</h2>
+    <div class="function-list">
+        <ul>
+            <li>inspect-image - Returns information about a Docker image</li>
+            <li>list-networks - Lists all Docker networks</li>
+            <li>list-volumes - Lists all Docker volumes</li>
+            <li>remove-network - Removes a Docker network</li>
+            <li>remove-volume - Removes a Docker volume</li>
+            <li>tag-image - Tags a Docker image</li>
+            <li>verify-image-exists - Checks if an image exists in the registry</li>
+        </ul>
+        <p><em>Note: 6 additional functions were skipped due to unsupported types</em></p>
+    </div>
+
+    <h2>Quality Improvement Suggestions</h2>
+    
+    <div class="suggestion">
+        <h3>1. Add Input Validation and Error Handling</h3>
+        <p>The module would benefit from robust input validation and detailed error messages.</p>
+        <code>
+// Example implementation for verify-image-exists
+func verifyImageExists(repository string, tag string) (*bool, error) {
+    if repository == "" {
+        return nil, fmt.Errorf("repository cannot be empty")
+    }
+    if tag == "" {
+        tag = "latest"
+    }
+    // ... rest of the implementation
+}
+        </code>
+        <img src="https://media.giphy.com/media/3o7TKSjRrfIPjeiVyE/giphy.gif" alt="Error Handling Meme" class="meme">
+    </div>
+
+    <div class="suggestion">
+        <h3>2. Add Comprehensive Documentation</h3>
+        <p>Each function should have detailed documentation including examples and parameter descriptions.</p>
+        <code>
+// Example documentation format
+// TagImage tags a Docker image with a new name and/or tag
+//
+// Parameters:
+//   - sourceImage: The source image name (required)
+//   - targetImage: The target image name (required)
+//   - targetTag: The target tag (optional, defaults to 'latest')
+//
+// Returns:
+//   - error: Any error that occurred during the operation
+//
+func TagImage(sourceImage, targetImage, targetTag string) error {
+    // Implementation
+}
+        </code>
+    </div>
+
+    <div class="suggestion">
+        <h3>3. Add Integration Tests</h3>
+        <p>Create comprehensive integration tests to ensure reliability.</p>
+        <code>
+// Example test implementation
+func TestDockerOperations(t *testing.T) {
+    t.Run("VerifyImageExists", func(t *testing.T) {
+        exists, err := VerifyImageExists("nginx", "latest")
+        if err != nil {
+            t.Errorf("Failed to verify image: %v", err)
+        }
+        if !exists {
+            t.Error("Expected nginx:latest to exist")
+        }
+    })
+}
+        </code>
+    </div>
+
+    <h2>Issues Encountered</h2>
+    <ul>
+        <li class="error">6 functions with unsupported types were skipped during build:
+            <ul>
+                <li>with-registry</li>
+                <li>pull-image</li>
+                <li>push-image</li>
+                <li>build-image</li>
+                <li>create-volume</li>
+                <li>create-network</li>
+            </ul>
+        </li>
+        <li class="error">Release date information is not available in the module metadata</li>
+    </ul>
+
+</body>
+</html>
