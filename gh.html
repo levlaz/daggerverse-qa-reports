@@ -1,101 +1,90 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>QA Report - GitHub CLI Module</title>
+    <title>QA Report - gh Module</title>
     <style>
-        body { font-family: Arial, sans-serif; line-height: 1.6; max-width: 1200px; margin: 0 auto; padding: 20px; }
-        h1, h2 { color: #333; }
-        .module-info { background: #f5f5f5; padding: 20px; border-radius: 5px; }
-        .function-list { background: #fff; padding: 20px; }
-        code { background: #eee; padding: 2px 5px; border-radius: 3px; }
-        .suggestions { margin-top: 20px; }
-        .error { color: #d63031; }
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 20px; }
+        h1 { color: #333; }
+        .error { color: red; }
+        .success { color: green; }
         .meme { max-width: 500px; margin: 20px 0; }
+        pre { background-color: #f4f4f4; padding: 10px; border-radius: 5px; }
     </style>
 </head>
 <body>
-    <h1>QA Report - GitHub CLI Module</h1>
+    <h1>QA Report - gh Module</h1>
     
-    <div class="module-info">
-        <h2>Module Information</h2>
-        <ul>
-            <li><strong>Name:</strong> github.com/luanmtruong/daggerverse/gh</li>
-            <li><strong>Author:</strong> luanmtruong</li>
-            <li><strong>Latest Version:</strong> 03d45e70a7b356a9fc7c081d48b8d2e042a7a76c</li>
-            <li><strong>Release Date:</strong> Not specified in module metadata</li>
-            <li><strong>Dagger Cloud Trace:</strong> <a href="https://dagger.cloud/trace/gh">View Trace</a></li>
-        </ul>
-    </div>
+    <h2>Basic Information</h2>
+    <ul>
+        <li><strong>Module Name:</strong> gh</li>
+        <li><strong>Author:</strong> adore-me</li>
+        <li><strong>Latest Version:</strong> 0ba2b92c138708db1949b0552b6e6f13f3e5fdb2</li>
+        <li><strong>Release Date:</strong> Not specified in metadata</li>
+        <li><strong>Dagger Cloud Trace:</strong> <a href="https://daggerverse.dev/mod/github.com/adore-me/daggerverse/gh@0ba2b92c138708db1949b0552b6e6f13f3e5fdb2">View on Daggerverse</a></li>
+    </ul>
 
-    <div class="function-list">
-        <h2>Module Functionality</h2>
-        <p>This module provides a wrapper around the GitHub CLI (gh) with the following functions:</p>
-        <ul>
-            <li><code>clone</code> - Clone a GitHub repository</li>
-            <li><code>exec</code> - Run a GitHub CLI command with arguments</li>
-            <li><code>pull-request</code> - Work with GitHub pull requests</li>
-            <li><code>release</code> - Manage releases</li>
-            <li><code>repo</code> - Work with GitHub repositories</li>
-            <li><code>run</code> - Run a GitHub CLI command as a string</li>
-            <li><code>source</code> - Git repository source management</li>
-            <li><code>terminal</code> - Open an interactive terminal</li>
-            <li><code>with-git-exec</code> - Run git commands</li>
-            <li><code>with-repo</code> - Set GitHub repository context</li>
-            <li><code>with-source</code> - Load Git repository source</li>
-            <li><code>with-token</code> - Set GitHub token</li>
-        </ul>
-    </div>
+    <h2>Module Functionality</h2>
+    <p>This module provides GitHub CLI integration with two main functions:</p>
+    <ul>
+        <li><strong>run-gh:</strong> Runs commands using the GitHub CLI</li>
+        <li><strong>run-git:</strong> Runs commands using the Git CLI</li>
+    </ul>
 
-    <div class="version-info">
-        <h2>Testing Environment</h2>
-        <p>Tested with Dagger Engine version: v0.18.2</p>
-    </div>
+    <h2>Testing Environment</h2>
+    <p>Tested with Dagger Engine Version: v0.18.2</p>
 
-    <div class="suggestions">
-        <h2>Improvement Suggestions</h2>
-        
-        <h3>1. Add Input Validation</h3>
-        <p>Add validation for repository names and other inputs to prevent errors:</p>
-        <pre><code>
-func validateRepo(repo string) error {
-    if !strings.Contains(repo, "/") {
-        return fmt.Errorf("invalid repository format. Expected 'owner/repo', got %s", repo)
+    <h2>Quality Improvement Suggestions</h2>
+    
+    <h3>1. Add Comprehensive Documentation</h3>
+    <p>The module lacks a detailed description and usage examples.</p>
+    <pre>
+# Add to dagger.json:
+{
+    "name": "gh",
+    "description": "A comprehensive GitHub CLI integration module that provides seamless interaction with GitHub repositories and workflows through Dagger pipelines.",
+    "documentation": "https://github.com/adore-me/daggerverse/blob/main/gh/README.md"
+}
+    </pre>
+
+    <h3>2. Implement Error Handling and Return Types</h3>
+    <p>Add better error handling and structured return types.</p>
+    <pre>
+// Current:
+func RunGh(repoPath *Directory, cmd string) string
+
+// Improved:
+type GhResponse struct {
+    Output string
+    Error  string
+    ExitCode int
+}
+
+func RunGh(repoPath *Directory, cmd string) *GhResponse
+    </pre>
+
+    <h3>3. Add Command Validation and Sanitization</h3>
+    <p>Implement command validation to prevent unsafe operations.</p>
+    <pre>
+func validateGhCommand(cmd string) error {
+    forbiddenCommands := []string{"delete", "force", "--force"}
+    for _, forbidden := range forbiddenCommands {
+        if strings.Contains(cmd, forbidden) {
+            return fmt.Errorf("command contains forbidden operation: %s", forbidden)
+        }
     }
     return nil
 }
-        </code></pre>
-        <img src="https://media.giphy.com/media/QMHoU66sBXqqLqYvGO/giphy.gif" alt="Input validation meme" class="meme">
+    </pre>
 
-        <h3>2. Implement Retry Logic</h3>
-        <p>Add retry mechanism for network operations:</p>
-        <pre><code>
-func withRetry(operation func() error, maxAttempts int) error {
-    var err error
-    for i := 0; i < maxAttempts; i++ {
-        if err = operation(); err == nil {
-            return nil
-        }
-        time.Sleep(time.Second * time.Duration(i+1))
-    }
-    return err
-}
-        </code></pre>
-
-        <h3>3. Add Comprehensive Error Messages</h3>
-        <p>Enhance error reporting with context:</p>
-        <pre><code>
-func (g *Gh) Clone(ctx context.Context, repo string) (*Directory, error) {
-    if err := validateRepo(repo); err != nil {
-        return nil, fmt.Errorf("clone failed: %w", err)
-    }
-    // ... existing clone logic
-}
-        </code></pre>
+    <div class="meme">
+        <img src="https://i.imgflip.com/2/7zq6z1.jpg" alt="GitHub CLI Meme" />
+        <p><em>When your CLI commands need better error handling...</em></p>
     </div>
 
-    <div class="errors">
-        <h2>Testing Issues</h2>
-        <p>No significant issues were encountered during testing. The module installed and built successfully.</p>
-    </div>
+    <h2>Issues Encountered</h2>
+    <ul>
+        <li>No significant issues were encountered during testing</li>
+        <li>Module installation and building completed successfully</li>
+    </ul>
 </body>
 </html>
