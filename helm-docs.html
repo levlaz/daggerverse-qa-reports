@@ -4,86 +4,99 @@
     <title>QA Report - helm-docs</title>
     <style>
         body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
-        h1, h2 { color: #333; }
-        .function { background: #f5f5f5; padding: 10px; margin: 10px 0; border-radius: 5px; }
-        .error { color: #ff0000; }
-        .suggestion { margin: 20px 0; }
-        code { background: #eee; padding: 2px 5px; border-radius: 3px; }
+        h1 { color: #2c3e50; }
+        .section { margin: 20px 0; }
+        .function-list { background: #f8f9fa; padding: 15px; border-radius: 5px; }
+        .suggestion { margin: 20px 0; padding: 15px; border-left: 4px solid #3498db; }
+        .error { color: #e74c3c; }
+        pre { background: #f8f9fa; padding: 10px; border-radius: 5px; overflow-x: auto; }
+        .meme { max-width: 500px; margin: 20px 0; }
     </style>
 </head>
 <body>
     <h1>QA Report: helm-docs</h1>
     
-    <h2>Module Information</h2>
-    <ul>
-        <li><strong>Name:</strong> helm-docs</li>
-        <li><strong>Author:</strong> sagikazarmark</li>
-        <li><strong>Latest Version:</strong> v0.3.0</li>
-        <li><strong>Release Date:</strong> Not specified in the crawl data</li>
-        <li><strong>Dagger Cloud Trace:</strong> <a href="https://daggerverse.dev/mod/github.com/sagikazarmark/daggerverse/helm-docs@d814d0d7c421348f51cdda96870a05ca2aa8e96a">View Trace</a></li>
-    </ul>
-
-    <h2>Module Purpose</h2>
-    <p>This module is designed to automatically generate markdown documentation for Helm charts from requirements and values files.</p>
-
-    <h2>Available Functions</h2>
-    <div class="function">
-        <h3>generate()</h3>
-        <p>Generate markdown documentation for Helm charts from requirements and values files.</p>
-        <strong>Arguments:</strong>
+    <div class="section">
+        <h2>Module Information</h2>
         <ul>
-            <li>chart (Directory!) - A directory containing a Helm chart</li>
-            <li>templates ([File!]) - A list of Go template files to use for rendering the documentation</li>
-            <li>sortValuesOrder (String) - Order in which to sort the values table ("alphanum" or "file")</li>
+            <li><strong>Name:</strong> helm-docs</li>
+            <li><strong>Author:</strong> sagikazarmark</li>
+            <li><strong>Latest Version:</strong> v0.3.0</li>
+            <li><strong>Release Date:</strong> Found in commit d814d0d7c421348f51cdda96870a05ca2aa8e96a</li>
+            <li><strong>Dagger Engine Version Used:</strong> v0.18.2</li>
+            <li><strong>Dagger Cloud Trace:</strong> Not available in current context</li>
         </ul>
     </div>
 
-    <h2>Testing Environment</h2>
-    <p>Tested with Dagger Engine Version: v0.18.2</p>
+    <div class="section">
+        <h2>Module Purpose</h2>
+        <p>A tool for automatically generating markdown documentation for helm charts.</p>
+        
+        <h3>Available Functions:</h3>
+        <div class="function-list">
+            <ul>
+                <li><strong>generate()</strong> - Generate markdown documentation for Helm charts from requirements and values files.</li>
+            </ul>
+        </div>
+    </div>
 
-    <h2>Suggestions for Improvement</h2>
-    
-    <div class="suggestion">
-        <h3>1. Add Input Validation</h3>
-        <p>Add validation for the chart directory to ensure it contains a valid Helm chart structure.</p>
-        <code>
+    <div class="section">
+        <h2>Quality Improvement Suggestions</h2>
+        
+        <div class="suggestion">
+            <h3>1. Add Input Validation</h3>
+            <p>Add validation for the chart directory to ensure it contains valid Helm chart structure.</p>
+            <pre>
 func validateChart(chartDir *Directory) error {
     // Check for required files
-    if _, err := chartDir.File("Chart.yaml").Contents(); err != nil {
-        return fmt.Errorf("invalid chart: Chart.yaml not found")
+    files := []string{"Chart.yaml", "values.yaml"}
+    for _, file := range files {
+        if !chartDir.File(file).Exists() {
+            return fmt.Errorf("required file %s not found in chart directory", file)
+        }
     }
     return nil
 }
-        </code>
-    </div>
+            </pre>
+            <img src="https://i.imgflip.com/2k48t0.jpg" alt="Input validation meme" class="meme">
+        </div>
 
-    <div class="suggestion">
-        <h3>2. Add Progress Reporting</h3>
-        <p><img src="https://media.giphy.com/media/3o7TKT7gSMOT8Thtss/giphy.gif" alt="Loading Progress" style="width:200px"/></p>
-        <p>Implement progress reporting during documentation generation for better user experience.</p>
-        <code>
-func (h *HelmDocs) WithProgress() *HelmDocs {
-    h = h.WithExec([]string{"echo", "Starting documentation generation..."})
-    return h
+        <div class="suggestion">
+            <h3>2. Add Progress Reporting</h3>
+            <p>Implement progress reporting to provide feedback during documentation generation.</p>
+            <pre>
+type HelmDocs struct {
+    events chan string
 }
-        </code>
-    </div>
 
-    <div class="suggestion">
-        <h3>3. Add Template Validation</h3>
-        <p>Implement template validation to ensure provided templates are properly formatted.</p>
-        <code>
+func (h *HelmDocs) generate(chart Directory) (*File, error) {
+    h.events <- "Starting documentation generation..."
+    h.events <- "Processing values.yaml..."
+    h.events <- "Generating markdown..."
+    // ... existing generation code
+}
+            </pre>
+        </div>
+
+        <div class="suggestion">
+            <h3>3. Add Template Validation</h3>
+            <p>Add validation for custom templates to ensure they are properly formatted.</p>
+            <pre>
 func validateTemplate(tmpl *File) error {
     content := tmpl.Contents()
-    if !strings.Contains(content, "{{ .Chart }}") {
-        return fmt.Errorf("invalid template: missing required Chart variable")
+    _, err := template.New("test").Parse(content)
+    if err != nil {
+        return fmt.Errorf("invalid template: %w", err)
     }
     return nil
 }
-        </code>
+            </pre>
+        </div>
     </div>
 
-    <h2>Issues Encountered</h2>
-    <p>No significant issues were encountered during testing. The module installed and built successfully.</p>
+    <div class="section">
+        <h2>Issues Encountered</h2>
+        <p>No significant issues were encountered during testing. The module installed and built successfully.</p>
+    </div>
 </body>
 </html>
