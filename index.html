@@ -1,33 +1,71 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Dagger Modules QA Reports Index</title>
+    <title>Dagger Module QA Reports Index</title>
     <style>
         body { font-family: Arial, sans-serif; margin: 20px; }
+        h1 { color: #333; text-align: center; margin-bottom: 30px; }
         table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-        th, td { padding: 10px; border: 1px solid #ddd; text-align: left; }
-        th { background-color: #f5f5f5; }
-        tr:hover { background-color: #f9f9f9; }
-        .pass { color: green; font-size: 1.2em; }
-        .fail { color: red; font-size: 1.2em; }
-        .status { text-align: center; }
+        th, td { padding: 12px; border: 1px solid #ddd; text-align: left; }
+        th { background-color: #f5f5f5; font-weight: bold; }
+        tr:nth-child(even) { background-color: #f9f9f9; }
+        tr:hover { background-color: #f5f5f5; }
+        .pass { color: green; font-size: 24px; }
+        .fail { color: red; font-size: 24px; }
+        a { color: #0066cc; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .description { max-width: 400px; }
     </style>
 </head>
 <body>
-    <h1>Dagger Modules QA Reports</h1>
+    <h1>Dagger Module QA Reports Index</h1>
     <table>
-        <tr>
-            <th>Module Name</th>
-            <th>Brief Description</th>
-            <th>Status</th>
-            <th>Full Report</th>
-        </tr>
-        <tr>
-            <td>placeholder</td>
-            <td>placeholder</td>
-            <td class="status">✓</td>
-            <td><a href="#">View Report</a></td>
-        </tr>
+        <thead>
+            <tr>
+                <th>Module Name</th>
+                <th>Brief Description</th>
+                <th>Status</th>
+                <th>Full Report</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>SpokaneTech_Py</td>
+                <td class="description">Python/Django development and production environment with built-in linting, testing, and documentation capabilities</td>
+                <td class="pass">✔️</td>
+                <td><a href="SpokaneTech_Py.html">View Report</a></td>
+            </tr>
+            <tr>
+                <td>Alpine</td>
+                <td class="description">A Dagger Module to integrate with Alpine Linux. Provides functionality to create and customize Alpine Linux containers.</td>
+                <td class="pass">✔️</td>
+                <td><a href="alpine.html">View Report</a></td>
+            </tr>
+            <tr>
+                <td>apko</td>
+                <td class="description">Module to build container images from apk packages. Provides functionality to work with both Alpine and Wolfi base configurations.</td>
+                <td class="pass">✔️</td>
+                <td><a href="apko.html">View Report</a></td>
+            </tr>
+            <tr>
+                <td>apt</td>
+                <td class="description">APT module for managing Debian/Ubuntu packages using the APT package manager within Dagger pipelines.</td>
+                <td class="fail">❌</td>
+                <td><a href="apt.html">View Report</a></td>
+            </tr>
+            <tr>
+                <td>arc-tests</td>
+                <td class="description">Module for working with various archive formats, providing tools for archiving files and directories with multiple compression formats.</td>
+                <td class="pass">✔️</td>
+                <td><a href="arc-tests.html">View Report</a></td>
+            </tr>
+            <tr>
+                <td>aws-cli</td>
+                <td class="description">Generic interface for AWS CLI in Dagger pipelines, providing functionality for ECR, STS operations, and credential management.</td>
+                <td class="pass">✔️</td>
+                <td><a href="aws-cli.html">View Report</a></td>
+            </tr>
+        </tbody>
     </table>
 </body>
 </html>
