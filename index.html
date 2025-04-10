@@ -1,21 +1,19 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Dagger Modules QA Report Index</title>
+    <title>Dagger Module QA Reports</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 20px; }
         table { border-collapse: collapse; width: 100%; }
         th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
         th { background-color: #f2f2f2; }
         .pass { color: green; }
         .fail { color: red; }
-        a { color: #0366d6; text-decoration: none; }
-        a:hover { text-decoration: underline; }
+        .status-pass::before { content: "✅"; }
+        .status-fail::before { content: "❌"; }
     </style>
 </head>
 <body>
-    <h1>Dagger Modules QA Report Index</h1>
-    <p>Index of all Dagger module QA reports, generated automatically.</p>
+    <h1>Dagger Module QA Reports</h1>
     <table>
         <tr>
             <th>Module Name</th>
@@ -24,64 +22,10 @@
             <th>Full Report</th>
         </tr>
         <tr>
-            <td>Alpine</td>
-            <td>Base Alpine Linux container module</td>
-            <td>✅</td>
-            <td><a href="alpine.html">View Report</a></td>
-        </tr>
-        <tr>
-            <td>AWS CLI</td>
-            <td>AWS Command Line Interface integration</td>
-            <td>✅</td>
-            <td><a href="aws-cli.html">View Report</a></td>
-        </tr>
-        <tr>
-            <td>Docker</td>
-            <td>Docker container management utilities</td>
-            <td>✅</td>
-            <td><a href="github.com_felipepimentel_daggerverse_libraries_docker.html">View Report</a></td>
-        </tr>
-        <tr>
-            <td>Go SDK</td>
-            <td>Go language SDK and development tools</td>
-            <td>✅</td>
-            <td><a href="golang.html">View Report</a></td>
-        </tr>
-        <tr>
-            <td>Python SDK</td>
-            <td>Python development environment and tools</td>
-            <td>✅</td>
-            <td><a href="github.com_aluzzardi_dagger_sdk_python_dev.html">View Report</a></td>
-        </tr>
-        <tr>
-            <td>Node.js Runtime</td>
-            <td>Node.js execution environment</td>
-            <td>✅</td>
-            <td><a href="inline-node.html">View Report</a></td>
-        </tr>
-        <tr>
-            <td>Terraform</td>
-            <td>Infrastructure as Code pipeline</td>
-            <td>✅</td>
-            <td><a href="iac-terragrunt.html">View Report</a></td>
-        </tr>
-        <tr>
-            <td>PostgreSQL</td>
-            <td>PostgreSQL database service</td>
-            <td>✅</td>
-            <td><a href="postgres.html">View Report</a></td>
-        </tr>
-        <tr>
-            <td>Kubernetes</td>
-            <td>Kind cluster management</td>
-            <td>✅</td>
-            <td><a href="kind.html">View Report</a></td>
-        </tr>
-        <tr>
-            <td>Hugo</td>
-            <td>Static site generator</td>
-            <td>✅</td>
-            <td><a href="hugo.html">View Report</a></td>
+            <td>SpokaneTech_Py</td>
+            <td>Python/Django development and production environment with linting, testing, and documentation capabilities</td>
+            <td><span class="status-pass"></span></td>
+            <td><a href="SpokaneTech_Py.html">View Report</a></td>
         </tr>
     </table>
 </body>
