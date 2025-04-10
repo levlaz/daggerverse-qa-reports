@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>QA Report - Supabase Pipeline</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .section { margin-bottom: 30px; }
+        h1, h2 { color: #333; }
+        code { background: #f4f4f4; padding: 2px 5px; border-radius: 3px; }
+        .suggestion { margin: 20px 0; padding: 15px; background: #f9f9f9; border-left: 4px solid #007bff; }
+        .error { color: #721c24; background-color: #f8d7da; padding: 15px; border-radius: 4px; }
+        .meme { max-width: 500px; margin: 20px 0; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>QA Report: Supabase Pipeline</h1>
+        
+        <div class="section">
+            <h2>Module Information</h2>
+            <ul>
+                <li><strong>Name:</strong> supabase-pipeline</li>
+                <li><strong>Author:</strong> fluent-ci-templates</li>
+                <li><strong>Latest Version:</strong> v0.5.1</li>
+                <li><strong>Dagger Engine Version Used:</strong> v0.18.2</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>Module Purpose</h2>
+            <p>This module provides functionality to deploy to Supabase Edge Functions. It offers a streamlined approach for handling Supabase deployments within your CI/CD pipeline.</p>
+            
+            <h3>Available Functions:</h3>
+            <ul>
+                <li><strong>deploy()</strong> - Deploys to Supabase Edge Functions
+                    <ul>
+                        <li>Required parameters:
+                            <ul>
+                                <li>src: Directory! - The directory to deploy</li>
+                                <li>token: Secret! - Supabase access token</li>
+                                <li>projectId: String! - The Supabase project ID</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>Quality Improvement Suggestions</h2>
+            
+            <div class="suggestion">
+                <h3>1. Add Input Validation</h3>
+                <p>Currently, the module accepts inputs without validation. Adding input validation would improve reliability.</p>
+                <code>
+                func validateProjectId(projectId string) error {
+                    if len(projectId) < 20 {
+                        return fmt.Errorf("invalid project ID format")
+                    }
+                    return nil
+                }
+                </code>
+            </div>
+
+            <div class="suggestion">
+                <h3>2. Implement Retry Logic</h3>
+                <p>Add retry mechanism for deployment failures.</p>
+                <code>
+                func deploy(src Directory, token Secret, projectId string, maxRetries int) error {
+                    for i := 0; i < maxRetries; i++ {
+                        err := attemptDeploy(src, token, projectId)
+                        if err == nil {
+                            return nil
+                        }
+                        time.Sleep(time.Second * time.Duration(i+1))
+                    }
+                    return fmt.Errorf("deployment failed after %d retries", maxRetries)
+                }
+                </code>
+            </div>
+
+            <div class="suggestion">
+                <h3>3. Add Deployment Progress Feedback</h3>
+                <p>Enhance user experience with detailed deployment progress information.</p>
+                <code>
+                func deployWithProgress(src Directory, token Secret, projectId string) {
+                    fmt.Println("📦 Preparing deployment...")
+                    fmt.Println("🚀 Uploading functions...")
+                    fmt.Println("✅ Deployment complete!")
+                }
+                </code>
+                <img src="https://media.giphy.com/media/SUQMrR8U54Bj8dQ7Nf/giphy.gif" alt="Deployment Progress Meme" class="meme">
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Testing Notes</h2>
+            <p>No significant issues were encountered during testing. The module installed and built successfully.</p>
+        </div>
+    </div>
+</body>
+</html>
