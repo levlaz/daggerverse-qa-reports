@@ -3,45 +3,143 @@
 <head>
     <title>Dagger Modules QA Report Index</title>
     <style>
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
-        }
-        th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: left;
-        }
-        th {
-            background-color: #f2f2f2;
-        }
-        .pass {
-            color: green;
-            font-size: 20px;
-        }
-        .fail {
-            color: red;
-            font-size: 20px;
-        }
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        table { border-collapse: collapse; width: 100%; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+        .pass { color: green; font-weight: bold; }
+        .fail { color: red; font-weight: bold; }
     </style>
 </head>
 <body>
     <h1>Dagger Modules QA Report Index</h1>
     <table>
-        <thead>
-            <tr>
-                <th>Module Name</th>
-                <th>Brief Description</th>
-                <th>Status</th>
-                <th>Full Report</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td colspan="4">Index being generated...</td>
-            </tr>
-        </tbody>
+        <tr>
+            <th>Module Name</th>
+            <th>Brief Description</th>
+            <th>Status</th>
+            <th>Full Report</th>
+        </tr>
+        <tr>
+            <td>Alpine</td>
+            <td>Base Alpine Linux container management</td>
+            <td><span class="pass">✓</span></td>
+            <td><a href="alpine.html">View Report</a></td>
+        </tr>
+        <tr>
+            <td>APKO</td>
+            <td>Alpine Package Keeper Operations</td>
+            <td><span class="pass">✓</span></td>
+            <td><a href="apko.html">View Report</a></td>
+        </tr>
+        <tr>
+            <td>APT</td>
+            <td>Debian/Ubuntu package management</td>
+            <td><span class="pass">✓</span></td>
+            <td><a href="apt.html">View Report</a></td>
+        </tr>
+        <tr>
+            <td>AWS CLI</td>
+            <td>AWS Command Line Interface tools</td>
+            <td><span class="pass">✓</span></td>
+            <td><a href="aws-cli.html">View Report</a></td>
+        </tr>
+        <tr>
+            <td>AWS ECR</td>
+            <td>Amazon Elastic Container Registry integration</td>
+            <td><span class="pass">✓</span></td>
+            <td><a href="aws-ecr.html">View Report</a></td>
+        </tr>
+        <tr>
+            <td>Bluesky</td>
+            <td>Bluesky social platform integration</td>
+            <td><span class="pass">✓</span></td>
+            <td><a href="bluesky.html">View Report</a></td>
+        </tr>
+        <tr>
+            <td>Docker Context</td>
+            <td>Docker context management and operations</td>
+            <td><span class="pass">✓</span></td>
+            <td><a href="context-dir.html">View Report</a></td>
+        </tr>
+        <tr>
+            <td>Drupal</td>
+            <td>Drupal CMS deployment and management</td>
+            <td><span class="pass">✓</span></td>
+            <td><a href="drupal.html">View Report</a></td>
+        </tr>
+        <tr>
+            <td>Elixir Pipeline</td>
+            <td>Elixir development and build pipeline</td>
+            <td><span class="pass">✓</span></td>
+            <td><a href="elixir-pipeline.html">View Report</a></td>
+        </tr>
+        <tr>
+            <td>Go Development</td>
+            <td>Golang development environment and tools</td>
+            <td><span class="pass">✓</span></td>
+            <td><a href="go.html">View Report</a></td>
+        </tr>
+        <tr>
+            <td>Helm</td>
+            <td>Kubernetes package manager integration</td>
+            <td><span class="pass">✓</span></td>
+            <td><a href="helm-docs.html">View Report</a></td>
+        </tr>
+        <tr>
+            <td>Hugo</td>
+            <td>Static site generator pipeline</td>
+            <td><span class="pass">✓</span></td>
+            <td><a href="hugo.html">View Report</a></td>
+        </tr>
+        <tr>
+            <td>Java SDK</td>
+            <td>Java development kit and runtime</td>
+            <td><span class="pass">✓</span></td>
+            <td><a href="java-sdk.html">View Report</a></td>
+        </tr>
+        <tr>
+            <td>Kubernetes Kind</td>
+            <td>Local Kubernetes cluster management</td>
+            <td><span class="pass">✓</span></td>
+            <td><a href="kind.html">View Report</a></td>
+        </tr>
+        <tr>
+            <td>MinIO</td>
+            <td>S3-compatible object storage</td>
+            <td><span class="pass">✓</span></td>
+            <td><a href="minio.html">View Report</a></td>
+        </tr>
+        <tr>
+            <td>PostgreSQL</td>
+            <td>PostgreSQL database management</td>
+            <td><span class="pass">✓</span></td>
+            <td><a href="postgres.html">View Report</a></td>
+        </tr>
+        <tr>
+            <td>Python Runtime</td>
+            <td>Python development and execution environment</td>
+            <td><span class="pass">✓</span></td>
+            <td><a href="inline-python-mod.html">View Report</a></td>
+        </tr>
+        <tr>
+            <td>Rust</td>
+            <td>Rust development toolchain</td>
+            <td><span class="pass">✓</span></td>
+            <td><a href="rust.html">View Report</a></td>
+        </tr>
+        <tr>
+            <td>Terraform</td>
+            <td>Infrastructure as Code automation</td>
+            <td><span class="pass">✓</span></td>
+            <td><a href="terratest.html">View Report</a></td>
+        </tr>
+        <tr>
+            <td>TypeScript Runtime</td>
+            <td>TypeScript/Node.js environment</td>
+            <td><span class="pass">✓</span></td>
+            <td><a href="typescript-runtime.html">View Report</a></td>
+        </tr>
     </table>
 </body>
 </html>

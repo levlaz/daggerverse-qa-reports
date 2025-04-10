@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>QA Report - git-files-changed</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; line-height: 1.6; }
+        h1, h2 { color: #333; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .function-list { background: #f5f5f5; padding: 20px; border-radius: 5px; }
+        .suggestion { margin: 20px 0; padding: 20px; background: #f9f9f9; border-left: 4px solid #007bff; }
+        code { background: #f0f0f0; padding: 2px 5px; border-radius: 3px; }
+        pre { background: #f0f0f0; padding: 15px; border-radius: 5px; overflow-x: auto; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>QA Report: git-files-changed</h1>
+        
+        <h2>Module Information</h2>
+        <ul>
+            <li><strong>Name:</strong> git-files-changed</li>
+            <li><strong>Author:</strong> valorl</li>
+            <li><strong>Latest Version:</strong> e8b25b9c6589f13b362dcaf94acda967f26f6700</li>
+            <li><strong>Dagger Engine Version Used:</strong> v0.18.2</li>
+        </ul>
+
+        <h2>Module Purpose</h2>
+        <p>This module is designed for CI in pull requests in monorepos. It helps identify which files have changed between different Git references.</p>
+
+        <h2>Module Functions</h2>
+        <div class="function-list">
+            <h3>GitFilesChanged</h3>
+            <ul>
+                <li><strong>files()</strong>
+                    <ul>
+                        <li>Arguments:
+                            <ul>
+                                <li>source (Directory!) - Required source directory</li>
+                                <li>headRef (String) - Default: "HEAD"</li>
+                                <li>baseRef (String) - Default: "main"</li>
+                            </ul>
+                        </li>
+                        <li>Returns: [String!]! (Array of strings)</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <h2>Quality Improvement Suggestions</h2>
+        
+        <div class="suggestion">
+            <h3>1. Add Function Documentation</h3>
+            <p>The module lacks detailed documentation for its functions. Adding comprehensive documentation would improve usability.</p>
+            <pre>
+// Example improved documentation in the source code:
+#[Function(
+    description: "Returns a list of files that have changed between two Git references",
+    parameter: {
+        source: "The Git repository directory to analyze",
+        headRef: "The reference to compare against baseRef (default: HEAD)",
+        baseRef: "The base reference for comparison (default: main)"
+    }
+)]
+pub fn files(
+    self,
+    source: Directory,
+    head_ref: Option<String>,
+    base_ref: Option<String>,
+) -> Vec<String> {
+    // Implementation
+}</pre>
+        </div>
+
+        <div class="suggestion">
+            <h3>2. Add Error Handling and Validation</h3>
+            <p>The module should include better error handling and input validation.</p>
+            <img src="https://i.imgflip.com/2/1bij.jpg" alt="Error Handling Meme" style="max-width: 400px;">
+            <pre>
+// Example error handling implementation:
+#[Function]
+pub fn files(
+    self,
+    source: Directory,
+    head_ref: Option<String>,
+    base_ref: Option<String>,
+) -> Result<Vec<String>, Error> {
+    // Validate inputs
+    if !source.exists(".git") {
+        return Err("Source directory is not a Git repository".into());
+    }
+    
+    // Validate refs exist
+    if !git_ref_exists(&head_ref.unwrap_or("HEAD".to_string())) {
+        return Err("Head reference does not exist".into());
+    }
+    
+    // Continue with implementation
+}</pre>
+        </div>
+
+        <div class="suggestion">
+            <h3>3. Add Testing Suite</h3>
+            <p>The module would benefit from a comprehensive testing suite.</p>
+            <pre>
+// Example test implementation:
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_files_with_valid_refs() {
+        let test_dir = setup_test_repo();
+        let module = GitFilesChanged::new();
+        
+        let result = module.files(
+            test_dir,
+            Some("HEAD".to_string()),
+            Some("main".to_string())
+        );
+        
+        assert!(result.is_ok());
+        assert!(!result.unwrap().is_empty());
+    }
+
+    #[test]
+    fn test_files_with_invalid_refs() {
+        let test_dir = setup_test_repo();
+        let module = GitFilesChanged::new();
+        
+        let result = module.files(
+            test_dir,
+            Some("invalid-ref".to_string()),
+            Some("main".to_string())
+        );
+        
+        assert!(result.is_err());
+    }
+}</pre>
+        </div>
+
+        <h2>Testing Issues Encountered</h2>
+        <p>During testing, no major issues were encountered. The module installed and built successfully. However, full functional testing would require a Git repository with actual changes between references.</p>
+    </div>
+</body>
+</html>
