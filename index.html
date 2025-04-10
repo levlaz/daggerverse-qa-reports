@@ -1,15 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Dagger Module QA Reports Index</title>
+    <title>Dagger Module QA Reports</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 20px; }
         table { border-collapse: collapse; width: 100%; }
         th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-        th { background-color: #f4f4f4; }
-        .pass { color: green; }
-        .fail { color: red; }
-        .status-icon { font-size: 1.2em; }
+        th { background-color: #f2f2f2; }
+        .pass { color: green; font-weight: bold; }
+        .fail { color: red; font-weight: bold; }
+        .status-cell { text-align: center; }
     </style>
 </head>
 <body>
@@ -23,34 +22,40 @@
         </tr>
         <tr>
             <td>Alpine</td>
-            <td>A Dagger Module to integrate with Alpine Linux, providing functionality to create and customize Alpine Linux containers</td>
-            <td><span class="pass status-icon">✓</span></td>
+            <td>A Dagger Module to integrate with Alpine Linux. Provides functionality to create and customize Alpine Linux containers.</td>
+            <td class="status-cell"><span class="pass">✓</span></td>
             <td><a href="alpine.html">View Report</a></td>
         </tr>
         <tr>
-            <td>Apko</td>
-            <td>Module designed to build container images from apk packages, supporting both Alpine and Wolfi base configurations</td>
-            <td><span class="pass status-icon">✓</span></td>
+            <td>apko</td>
+            <td>A module designed to build container images from apk packages, supporting both Alpine and Wolfi base configurations.</td>
+            <td class="status-cell"><span class="pass">✓</span></td>
             <td><a href="apko.html">View Report</a></td>
         </tr>
         <tr>
-            <td>APT</td>
-            <td>Module for managing Debian/Ubuntu packages using the APT package manager within Dagger pipelines</td>
-            <td><span class="fail status-icon">✗</span></td>
+            <td>apt</td>
+            <td>Module for managing Debian/Ubuntu packages using the APT package manager within Dagger pipelines.</td>
+            <td class="status-cell"><span class="fail">✗</span></td>
             <td><a href="apt.html">View Report</a></td>
         </tr>
         <tr>
-            <td>AWS CLI</td>
-            <td>Generic interface to use AWS CLI in Dagger pipelines, providing ECR, STS operations and credential management</td>
-            <td><span class="pass status-icon">✓</span></td>
+            <td>arc-tests</td>
+            <td>Module providing functionality for working with various archive formats, including tools for archiving both files and directories.</td>
+            <td class="status-cell"><span class="pass">✓</span></td>
+            <td><a href="arc-tests.html">View Report</a></td>
+        </tr>
+        <tr>
+            <td>aws-cli</td>
+            <td>A generic interface to use AWS CLI in Dagger pipelines, providing functionality for ECR, STS operations, and credential management.</td>
+            <td class="status-cell"><span class="pass">✓</span></td>
             <td><a href="aws-cli.html">View Report</a></td>
         </tr>
         <tr>
-            <td>AWS ECR</td>
-            <td>Module for interacting with Amazon Elastic Container Registry (ECR), providing push operations and credential management</td>
-            <td><span class="pass status-icon">✓</span></td>
+            <td>aws-ecr</td>
+            <td>Module for interacting with Amazon Elastic Container Registry (ECR), providing push operations and credential management.</td>
+            <td class="status-cell"><span class="pass">✓</span></td>
             <td><a href="aws-ecr.html">View Report</a></td>
         </tr>
-</table>
+    </table>
 </body>
 </html>
