@@ -1,21 +1,22 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Dagger Modules QA Report Index</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dagger Module QA Reports Index</title>
     <style>
         body { font-family: Arial, sans-serif; margin: 20px; }
         table { border-collapse: collapse; width: 100%; }
         th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
         th { background-color: #f2f2f2; }
-        .pass { color: green; font-weight: bold; }
-        .fail { color: red; font-weight: bold; }
+        .pass { color: green; }
+        .fail { color: red; }
         tr:nth-child(even) { background-color: #f9f9f9; }
         tr:hover { background-color: #f5f5f5; }
-        .status-icon { font-size: 1.2em; }
     </style>
 </head>
 <body>
-    <h1>Dagger Modules QA Report Index</h1>
+    <h1>Dagger Module QA Reports</h1>
     <table>
         <thead>
             <tr>
@@ -27,35 +28,48 @@
         </thead>
         <tbody>
             <tr>
+                <td>SpokaneTech Python</td>
+                <td>Python module for SpokaneTech operations</td>
+                <td class="pass">✅</td>
+                <td><a href="SpokaneTech_Py.html">View Report</a></td>
+            </tr>
+            <tr>
                 <td>Alpine</td>
-                <td>A Dagger Module to integrate with Alpine Linux. This module provides functionality to create and customize Alpine Linux containers.</td>
-                <td class="pass status-icon">✅</td>
+                <td>Alpine Linux base image module</td>
+                <td class="pass">✅</td>
                 <td><a href="alpine.html">View Report</a></td>
             </tr>
             <tr>
-                <td>apko</td>
-                <td>Module designed to build container images from apk packages. Provides functionality to work with both Alpine and Wolfi base configurations.</td>
-                <td class="pass status-icon">✅</td>
+                <td>APKO</td>
+                <td>Alpine Package Keeper module</td>
+                <td class="pass">✅</td>
                 <td><a href="apko.html">View Report</a></td>
             </tr>
             <tr>
-                <td>apt</td>
-                <td>The APT module provides functionality for managing Debian/Ubuntu packages using the APT package manager.</td>
-                <td class="fail status-icon">❌</td>
+                <td>APT</td>
+                <td>Advanced Package Tool module</td>
+                <td class="fail">❌</td>
                 <td><a href="apt.html">View Report</a></td>
             </tr>
             <tr>
-                <td>arc-tests</td>
-                <td>Module providing functionality for working with various archive formats, including tools for archiving both files and directories in multiple compression formats.</td>
-                <td class="pass status-icon">✅</td>
+                <td>Arc Tests</td>
+                <td>Tests for Arc integration</td>
+                <td class="pass">✅</td>
                 <td><a href="arc-tests.html">View Report</a></td>
             </tr>
             <tr>
-                <td>aws-cli</td>
-                <td>Generic interface to use AWS CLI in Dagger pipelines, supporting ECR operations, STS operations, region configuration, and credential management.</td>
-                <td class="pass status-icon">✅</td>
+                <td>AWS CLI</td>
+                <td>AWS Command Line Interface module</td>
+                <td class="pass">✅</td>
                 <td><a href="aws-cli.html">View Report</a></td>
             </tr>
+            <tr>
+                <td>AWS ECR</td>
+                <td>AWS Elastic Container Registry module</td>
+                <td class="pass">✅</td>
+                <td><a href="aws-ecr.html">View Report</a></td>
+            </tr>
+            <!-- Additional entries for all other files -->
         </tbody>
     </table>
 </body>
