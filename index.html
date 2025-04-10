@@ -7,12 +7,15 @@
         table { border-collapse: collapse; width: 100%; }
         th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
         th { background-color: #f2f2f2; }
-        .pass { color: green; font-weight: bold; }
-        .fail { color: red; font-weight: bold; }
+        .pass { color: green; }
+        .fail { color: red; }
+        a { color: #0366d6; text-decoration: none; }
+        a:hover { text-decoration: underline; }
     </style>
 </head>
 <body>
     <h1>Dagger Modules QA Report Index</h1>
+    <p>Index of all Dagger module QA reports, generated automatically.</p>
     <table>
         <tr>
             <th>Module Name</th>
@@ -22,123 +25,63 @@
         </tr>
         <tr>
             <td>Alpine</td>
-            <td>Base Alpine Linux container management</td>
-            <td><span class="pass">✓</span></td>
+            <td>Base Alpine Linux container module</td>
+            <td>✅</td>
             <td><a href="alpine.html">View Report</a></td>
         </tr>
         <tr>
-            <td>APKO</td>
-            <td>Alpine Package Keeper Operations</td>
-            <td><span class="pass">✓</span></td>
-            <td><a href="apko.html">View Report</a></td>
-        </tr>
-        <tr>
-            <td>APT</td>
-            <td>Debian/Ubuntu package management</td>
-            <td><span class="pass">✓</span></td>
-            <td><a href="apt.html">View Report</a></td>
-        </tr>
-        <tr>
             <td>AWS CLI</td>
-            <td>AWS Command Line Interface tools</td>
-            <td><span class="pass">✓</span></td>
+            <td>AWS Command Line Interface integration</td>
+            <td>✅</td>
             <td><a href="aws-cli.html">View Report</a></td>
         </tr>
         <tr>
-            <td>AWS ECR</td>
-            <td>Amazon Elastic Container Registry integration</td>
-            <td><span class="pass">✓</span></td>
-            <td><a href="aws-ecr.html">View Report</a></td>
+            <td>Docker</td>
+            <td>Docker container management utilities</td>
+            <td>✅</td>
+            <td><a href="github.com_felipepimentel_daggerverse_libraries_docker.html">View Report</a></td>
         </tr>
         <tr>
-            <td>Bluesky</td>
-            <td>Bluesky social platform integration</td>
-            <td><span class="pass">✓</span></td>
-            <td><a href="bluesky.html">View Report</a></td>
+            <td>Go SDK</td>
+            <td>Go language SDK and development tools</td>
+            <td>✅</td>
+            <td><a href="golang.html">View Report</a></td>
         </tr>
         <tr>
-            <td>Docker Context</td>
-            <td>Docker context management and operations</td>
-            <td><span class="pass">✓</span></td>
-            <td><a href="context-dir.html">View Report</a></td>
+            <td>Python SDK</td>
+            <td>Python development environment and tools</td>
+            <td>✅</td>
+            <td><a href="github.com_aluzzardi_dagger_sdk_python_dev.html">View Report</a></td>
         </tr>
         <tr>
-            <td>Drupal</td>
-            <td>Drupal CMS deployment and management</td>
-            <td><span class="pass">✓</span></td>
-            <td><a href="drupal.html">View Report</a></td>
-        </tr>
-        <tr>
-            <td>Elixir Pipeline</td>
-            <td>Elixir development and build pipeline</td>
-            <td><span class="pass">✓</span></td>
-            <td><a href="elixir-pipeline.html">View Report</a></td>
-        </tr>
-        <tr>
-            <td>Go Development</td>
-            <td>Golang development environment and tools</td>
-            <td><span class="pass">✓</span></td>
-            <td><a href="go.html">View Report</a></td>
-        </tr>
-        <tr>
-            <td>Helm</td>
-            <td>Kubernetes package manager integration</td>
-            <td><span class="pass">✓</span></td>
-            <td><a href="helm-docs.html">View Report</a></td>
-        </tr>
-        <tr>
-            <td>Hugo</td>
-            <td>Static site generator pipeline</td>
-            <td><span class="pass">✓</span></td>
-            <td><a href="hugo.html">View Report</a></td>
-        </tr>
-        <tr>
-            <td>Java SDK</td>
-            <td>Java development kit and runtime</td>
-            <td><span class="pass">✓</span></td>
-            <td><a href="java-sdk.html">View Report</a></td>
-        </tr>
-        <tr>
-            <td>Kubernetes Kind</td>
-            <td>Local Kubernetes cluster management</td>
-            <td><span class="pass">✓</span></td>
-            <td><a href="kind.html">View Report</a></td>
-        </tr>
-        <tr>
-            <td>MinIO</td>
-            <td>S3-compatible object storage</td>
-            <td><span class="pass">✓</span></td>
-            <td><a href="minio.html">View Report</a></td>
-        </tr>
-        <tr>
-            <td>PostgreSQL</td>
-            <td>PostgreSQL database management</td>
-            <td><span class="pass">✓</span></td>
-            <td><a href="postgres.html">View Report</a></td>
-        </tr>
-        <tr>
-            <td>Python Runtime</td>
-            <td>Python development and execution environment</td>
-            <td><span class="pass">✓</span></td>
-            <td><a href="inline-python-mod.html">View Report</a></td>
-        </tr>
-        <tr>
-            <td>Rust</td>
-            <td>Rust development toolchain</td>
-            <td><span class="pass">✓</span></td>
-            <td><a href="rust.html">View Report</a></td>
+            <td>Node.js Runtime</td>
+            <td>Node.js execution environment</td>
+            <td>✅</td>
+            <td><a href="inline-node.html">View Report</a></td>
         </tr>
         <tr>
             <td>Terraform</td>
-            <td>Infrastructure as Code automation</td>
-            <td><span class="pass">✓</span></td>
-            <td><a href="terratest.html">View Report</a></td>
+            <td>Infrastructure as Code pipeline</td>
+            <td>✅</td>
+            <td><a href="iac-terragrunt.html">View Report</a></td>
         </tr>
         <tr>
-            <td>TypeScript Runtime</td>
-            <td>TypeScript/Node.js environment</td>
-            <td><span class="pass">✓</span></td>
-            <td><a href="typescript-runtime.html">View Report</a></td>
+            <td>PostgreSQL</td>
+            <td>PostgreSQL database service</td>
+            <td>✅</td>
+            <td><a href="postgres.html">View Report</a></td>
+        </tr>
+        <tr>
+            <td>Kubernetes</td>
+            <td>Kind cluster management</td>
+            <td>✅</td>
+            <td><a href="kind.html">View Report</a></td>
+        </tr>
+        <tr>
+            <td>Hugo</td>
+            <td>Static site generator</td>
+            <td>✅</td>
+            <td><a href="hugo.html">View Report</a></td>
         </tr>
     </table>
 </body>
