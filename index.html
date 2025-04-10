@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Dagger Module QA Reports</title>
+    <title>Dagger Module QA Reports Index</title>
     <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
         table { border-collapse: collapse; width: 100%; }
         th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-        th { background-color: #f2f2f2; }
+        th { background-color: #f4f4f4; }
         .pass { color: green; }
         .fail { color: red; }
-        .status-pass::before { content: "✅"; }
-        .status-fail::before { content: "❌"; }
+        .status-icon { font-size: 1.2em; }
     </style>
 </head>
 <body>
@@ -22,11 +22,35 @@
             <th>Full Report</th>
         </tr>
         <tr>
-            <td>SpokaneTech_Py</td>
-            <td>Python/Django development and production environment with linting, testing, and documentation capabilities</td>
-            <td><span class="status-pass"></span></td>
-            <td><a href="SpokaneTech_Py.html">View Report</a></td>
+            <td>Alpine</td>
+            <td>A Dagger Module to integrate with Alpine Linux, providing functionality to create and customize Alpine Linux containers</td>
+            <td><span class="pass status-icon">✓</span></td>
+            <td><a href="alpine.html">View Report</a></td>
         </tr>
-    </table>
+        <tr>
+            <td>Apko</td>
+            <td>Module designed to build container images from apk packages, supporting both Alpine and Wolfi base configurations</td>
+            <td><span class="pass status-icon">✓</span></td>
+            <td><a href="apko.html">View Report</a></td>
+        </tr>
+        <tr>
+            <td>APT</td>
+            <td>Module for managing Debian/Ubuntu packages using the APT package manager within Dagger pipelines</td>
+            <td><span class="fail status-icon">✗</span></td>
+            <td><a href="apt.html">View Report</a></td>
+        </tr>
+        <tr>
+            <td>AWS CLI</td>
+            <td>Generic interface to use AWS CLI in Dagger pipelines, providing ECR, STS operations and credential management</td>
+            <td><span class="pass status-icon">✓</span></td>
+            <td><a href="aws-cli.html">View Report</a></td>
+        </tr>
+        <tr>
+            <td>AWS ECR</td>
+            <td>Module for interacting with Amazon Elastic Container Registry (ECR), providing push operations and credential management</td>
+            <td><span class="pass status-icon">✓</span></td>
+            <td><a href="aws-ecr.html">View Report</a></td>
+        </tr>
+</table>
 </body>
 </html>

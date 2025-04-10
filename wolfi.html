@@ -3,102 +3,108 @@
 <head>
     <title>QA Report - Wolfi Module</title>
     <style>
-        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 20px; }
-        h1 { color: #333; }
-        .error { color: #ff0000; }
-        .success { color: #00aa00; }
-        .meme { max-width: 500px; margin: 20px 0; }
-        pre { background-color: #f4f4f4; padding: 10px; border-radius: 5px; }
+        body { font-family: Arial, sans-serif; line-height: 1.6; max-width: 1200px; margin: 0 auto; padding: 20px; }
+        h1, h2 { color: #333; }
+        .error { color: #dc3545; padding: 10px; background-color: #f8d7da; border-radius: 4px; }
+        .suggestion { padding: 10px; background-color: #f8f9fa; border-radius: 4px; margin: 10px 0; }
+        code { background-color: #f4f4f4; padding: 2px 5px; border-radius: 3px; }
     </style>
 </head>
 <body>
-    <h1>QA Report - Wolfi Module</h1>
+    <h1>QA Report: Wolfi Module</h1>
     
-    <h2>Basic Information</h2>
+    <h2>Module Information</h2>
     <ul>
-        <li><strong>Name:</strong> wolfi</li>
-        <li><strong>Author:</strong> M-Pixel</li>
-        <li><strong>Latest Version:</strong> 74e7185492b1b67be9410f654aa26ff530b374e3</li>
-        <li><strong>Release Date:</strong> Not available</li>
-        <li><strong>Dagger Cloud Trace:</strong> <a href="https://daggerverse.dev/mod/github.com/M-Pixel/dagger/modules/wolfi@74e7185492b1b67be9410f654aa26ff530b374e3">View Trace</a></li>
+        <li><strong>Name:</strong> github.com/aluzzardi/dagger/modules/wolfi</li>
+        <li><strong>Author:</strong> aluzzardi</li>
+        <li><strong>Latest Version:</strong> aec13cdf85e7cc7aa5a933e3c73a2604f6e73b01</li>
+        <li><strong>Dagger Version Used:</strong> v0.18.2</li>
     </ul>
 
     <h2>Module Description</h2>
-    <p>Wolfi is a container-native Linux distribution with an emphasis on security.</p>
+    <p>Wolfi is a container-native Linux distribution with an emphasis on security. The module provides functionality to work with Wolfi Linux containers.</p>
 
     <h2>Module Functions</h2>
     <ul>
         <li><code>container()</code> - Build a Wolfi Linux container
             <ul>
-                <li>Parameters:
+                <li>Arguments:
                     <ul>
-                        <li>packages [String!] - APK packages to install</li>
-                        <li>arch String - Hardware architecture to target</li>
-                        <li>overlays [Container!] - Overlay images to merge on top of the base</li>
+                        <li><code>packages: [String!]</code> - APK packages to install</li>
+                        <li><code>arch: String</code> - Hardware architecture to target</li>
+                        <li><code>overlays: [Container!]</code> - Overlay images to merge on top of the base</li>
                     </ul>
                 </li>
             </ul>
         </li>
     </ul>
 
-    <h2>Testing Environment</h2>
-    <p>Tested with Dagger Engine version: v0.18.2</p>
+    <h2>Issues Encountered</h2>
+    <div class="error">
+        <h3>Build Error</h3>
+        <p>Encountered an error while trying to build the module:</p>
+        <pre>go: go.mod requires go >= 1.23.0 (running go 1.22.12; GOTOOLCHAIN=local)</pre>
+    </div>
 
     <h2>Quality Improvement Suggestions</h2>
     
-    <h3>1. Add Module Documentation</h3>
-    <p>The module lacks comprehensive documentation and examples.</p>
-    <pre>
-# Add to dagger.json:
-{
-    "name": "wolfi",
-    "sdk": "go",
-    "description": "A comprehensive Wolfi Linux module for building secure containers",
-    "examples": [
-        {
-            "name": "basic-container",
-            "description": "Create a basic Wolfi container with common tools",
-            "code": "wolfi().container(packages: [\"git\", \"curl\", \"bash\"])"
-        }
-    ]
-}
-    </pre>
+    <div class="suggestion">
+        <h3>1. Add Go Version Compatibility Information</h3>
+        <p>The module requires Go 1.23.0 but this isn't documented. Add this information to the README.md:</p>
+        <pre>
+## Requirements
 
-    <h3>2. Implement Error Handling</h3>
-    <p>Add better error handling and validation for input parameters.</p>
-    <pre>
-func (w *Wolfi) Container(ctx context.Context, packages []string, arch *string) (*Container, error) {
-    if arch != nil && !isValidArch(*arch) {
-        return nil, fmt.Errorf("invalid architecture: %s. Supported: amd64, arm64", *arch)
-    }
-    // Implementation...
-}
-    </pre>
-
-    <h3>3. Add Health Checks</h3>
-    <p>Include health checks in the container configuration.</p>
-    <pre>
-func (w *Wolfi) Container(ctx context.Context) *Container {
-    return dag.Container().
-        From("cgr.dev/chainguard/wolfi-base").
-        WithHealthcheck(&container.Healthcheck{
-            Test:     []string{"CMD", "ps", "aux"},
-            Interval: time.Second * 30,
-            Timeout:  time.Second * 10,
-            Retries:  3,
-        })
-}
-    </pre>
-
-    <img src="https://media.giphy.com/media/xT9IgzoKnwFNmISR8I/giphy.gif" alt="Security First!" class="meme">
-
-    <h2>Issues Encountered</h2>
-    <div class="error">
-        <h3>Installation Error</h3>
-        <p>Failed to install the module: git module source "github.com/M-Pixel/dagger/modules/wolfi" does not contain a dagger config file</p>
-        
-        <h3>Build Error</h3>
-        <p>Failed to build the module: path "modules/wolfi" does not exist in git repo</p>
+- Go 1.23.0 or higher
+- Dagger CLI v0.18.2 or higher</pre>
     </div>
+
+    <div class="suggestion">
+        <h3>2. Add Input Validation</h3>
+        <p>Add validation for the container() function arguments. Example implementation:</p>
+        <pre>
+func (w *Wolfi) Container(ctx context.Context, packages []string, arch Optional[string], overlays []Container) (*Container, error) {
+    // Validate architecture
+    if arch.Has() {
+        validArchs := []string{"amd64", "arm64"}
+        isValid := false
+        for _, validArch := range validArchs {
+            if arch.Value == validArch {
+                isValid = true
+                break
+            }
+        }
+        if !isValid {
+            return nil, fmt.Errorf("invalid architecture: %s", arch.Value)
+        }
+    }
+    // ... rest of the implementation
+}</pre>
+    </div>
+
+    <div class="suggestion">
+        <h3>3. Add Examples and Documentation</h3>
+        <p>Enhance documentation with practical examples. Add to README.md:</p>
+        <pre>
+## Examples
+
+```go
+// Basic Wolfi container
+container := dag.Wolfi().Container()
+
+// Wolfi container with custom packages
+container := dag.Wolfi().Container(
+    WithPackages([]string{"python3", "git"}),
+    WithArch("arm64"),
+)
+
+// Wolfi container with overlay
+base := dag.Container().From("alpine")
+container := dag.Wolfi().Container(
+    WithOverlays([]Container{base}),
+)
+```</pre>
+        <img src="https://i.imgflip.com/7zlvn9.jpg" alt="Documentation Meme" style="max-width: 400px;"/>
+    </div>
+
 </body>
 </html>
