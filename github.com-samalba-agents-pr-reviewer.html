@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>QA Report - PR Reviewer Module</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
+        h1, h2 { color: #333; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .section { margin-bottom: 30px; }
+        .function-list { background-color: #f5f5f5; padding: 20px; border-radius: 5px; }
+        .suggestion { margin: 20px 0; padding: 20px; background-color: #f0f8ff; border-radius: 5px; }
+        .code { background-color: #f4f4f4; padding: 15px; border-radius: 5px; font-family: monospace; }
+        .error { color: #ff0000; }
+        .meme { max-width: 500px; margin: 20px 0; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>QA Report: PR Reviewer Module</h1>
+        
+        <div class="section">
+            <h2>Module Information</h2>
+            <ul>
+                <li><strong>Name:</strong> github.com/samalba/agents/pr-reviewer</li>
+                <li><strong>Author:</strong> samalba</li>
+                <li><strong>Latest Version:</strong> d128343dc6623253dcff12f2b2689e0d8dbaea3d</li>
+                <li><strong>Release Date:</strong> Not specified in the documentation</li>
+                <li><strong>Dagger Engine Version Used:</strong> v0.18.2</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>Module Purpose</h2>
+            <p>This module is designed to review Pull Requests. It can analyze both the PR description and the diff, providing automated code review capabilities using LLM technology.</p>
+            
+            <h3>Available Functions:</h3>
+            <div class="function-list">
+                <h4>reviewPr()</h4>
+                <ul>
+                    <li><strong>Description:</strong> Review a PR, analyzing both the PR description and the diff</li>
+                    <li><strong>Required Arguments:</strong>
+                        <ul>
+                            <li>githubToken (Secret!): GitHub authentication token</li>
+                            <li>query (String!): Arguments supported by the gh cli</li>
+                            <li>repoUrl (String!): Repository URL</li>
+                        </ul>
+                    </li>
+                    <li><strong>Optional Arguments:</strong>
+                        <ul>
+                            <li>additionalInstructions (String): Extra instructions for the LLM</li>
+                        </ul>
+                    </li>
+                    <li><strong>Return Type:</strong> String (URL of the PR comment created by the LLM)</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Quality Improvement Suggestions</h2>
+            
+            <div class="suggestion">
+                <h3>1. Add Input Validation</h3>
+                <p>The module could benefit from proper input validation for the repoUrl and query parameters.</p>
+                <div class="code">
+                func validateInput(repoUrl string, query string) error {
+                    if !strings.HasPrefix(repoUrl, "https://github.com/") {
+                        return fmt.Errorf("invalid repository URL format")
+                    }
+                    if strings.TrimSpace(query) == "" {
+                        return fmt.Errorf("query cannot be empty")
+                    }
+                    return nil
+                }
+                </div>
+                <img src="https://i.imgflip.com/2k48t0.jpg" alt="Input Validation Meme" class="meme">
+            </div>
+
+            <div class="suggestion">
+                <h3>2. Add Retry Mechanism</h3>
+                <p>Implement a retry mechanism for API calls to handle temporary failures.</p>
+                <div class="code">
+                func reviewPrWithRetry(ctx context.Context, attempts int) (string, error) {
+                    var lastErr error
+                    for i := 0; i < attempts; i++ {
+                        result, err := reviewPr(ctx)
+                        if err == nil {
+                            return result, nil
+                        }
+                        lastErr = err
+                        time.Sleep(time.Second * time.Duration(i+1))
+                    }
+                    return "", fmt.Errorf("failed after %d attempts: %v", attempts, lastErr)
+                }
+                </div>
+            </div>
+
+            <div class="suggestion">
+                <h3>3. Add Detailed Documentation</h3>
+                <p>Enhance documentation with examples and error handling scenarios.</p>
+                <div class="code">
+                // Example documentation block
+                /**
+                 * ReviewPR reviews a pull request using LLM technology
+                 * @param {Secret} githubToken - GitHub personal access token with PR access
+                 * @param {string} query - PR query (e.g., "owner/repo#123" or URL)
+                 * @param {string} repoUrl - Full repository URL
+                 * @param {string} additionalInstructions - Optional LLM instructions
+                 * @returns {Promise<string>} URL of the created review comment
+                 * @throws {Error} When GitHub API calls fail
+                 * @example
+                 * const result = await reviewPr({
+                 *   githubToken: "secret_token",
+                 *   query: "owner/repo#123",
+                 *   repoUrl: "https://github.com/owner/repo"
+                 * });
+                 */
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Testing Issues</h2>
+            <p>No significant issues were encountered during the testing process. The module installed and built successfully.</p>
+        </div>
+    </div>
+</body>
+</html>
