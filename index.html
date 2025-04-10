@@ -1,20 +1,21 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Dagger Modules QA Reports Index</title>
+    <title>Dagger Modules QA Report Index</title>
     <style>
         body { font-family: Arial, sans-serif; margin: 20px; }
         table { border-collapse: collapse; width: 100%; }
         th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
         th { background-color: #f2f2f2; }
-        .pass { color: green; font-size: 1.2em; }
-        .fail { color: red; font-size: 1.2em; }
-        a { color: #0066cc; text-decoration: none; }
-        a:hover { text-decoration: underline; }
+        .pass { color: green; font-weight: bold; }
+        .fail { color: red; font-weight: bold; }
+        tr:nth-child(even) { background-color: #f9f9f9; }
+        tr:hover { background-color: #f5f5f5; }
+        .status-icon { font-size: 1.2em; }
     </style>
 </head>
 <body>
-    <h1>Dagger Modules QA Reports Index</h1>
+    <h1>Dagger Modules QA Report Index</h1>
     <table>
         <thead>
             <tr>
@@ -28,38 +29,32 @@
             <tr>
                 <td>Alpine</td>
                 <td>A Dagger Module to integrate with Alpine Linux. This module provides functionality to create and customize Alpine Linux containers.</td>
-                <td><span class="pass">✓</span></td>
+                <td class="pass status-icon">✅</td>
                 <td><a href="alpine.html">View Report</a></td>
             </tr>
             <tr>
-                <td>Apko</td>
+                <td>apko</td>
                 <td>Module designed to build container images from apk packages. Provides functionality to work with both Alpine and Wolfi base configurations.</td>
-                <td><span class="pass">✓</span></td>
+                <td class="pass status-icon">✅</td>
                 <td><a href="apko.html">View Report</a></td>
             </tr>
             <tr>
-                <td>APT</td>
-                <td>Module for managing Debian/Ubuntu packages using the APT package manager within Dagger pipelines.</td>
-                <td><span class="fail">✗</span></td>
+                <td>apt</td>
+                <td>The APT module provides functionality for managing Debian/Ubuntu packages using the APT package manager.</td>
+                <td class="fail status-icon">❌</td>
                 <td><a href="apt.html">View Report</a></td>
             </tr>
             <tr>
-                <td>AWS CLI</td>
-                <td>A generic interface to use AWS CLI in Dagger pipelines, providing functionality for ECR, STS operations, region configuration, and credential management.</td>
-                <td><span class="pass">✓</span></td>
+                <td>arc-tests</td>
+                <td>Module providing functionality for working with various archive formats, including tools for archiving both files and directories in multiple compression formats.</td>
+                <td class="pass status-icon">✅</td>
+                <td><a href="arc-tests.html">View Report</a></td>
+            </tr>
+            <tr>
+                <td>aws-cli</td>
+                <td>Generic interface to use AWS CLI in Dagger pipelines, supporting ECR operations, STS operations, region configuration, and credential management.</td>
+                <td class="pass status-icon">✅</td>
                 <td><a href="aws-cli.html">View Report</a></td>
-            </tr>
-            <tr>
-                <td>AWS ECR</td>
-                <td>Module for interacting with Amazon Elastic Container Registry (ECR), providing functionality for pushing container images with AWS credentials support.</td>
-                <td><span class="pass">✓</span></td>
-                <td><a href="aws-ecr.html">View Report</a></td>
-            </tr>
-            <tr>
-                <td>Bats Tests</td>
-                <td>Module providing Bats test execution capabilities in Dagger, with functions for running individual tests and test suites.</td>
-                <td><span class="fail">✗</span></td>
-                <td><a href="bats-tests-report.html">View Report</a></td>
             </tr>
         </tbody>
     </table>

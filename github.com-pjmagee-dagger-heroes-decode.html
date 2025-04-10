@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>QA Report - dagger-heroes-decode</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 20px; }
+        h1, h2 { color: #333; }
+        .error { color: #ff0000; background: #ffeeee; padding: 10px; border-radius: 5px; }
+        .suggestion { margin: 10px 0; padding: 10px; background: #f5f5f5; border-radius: 5px; }
+        code { background: #f0f0f0; padding: 2px 5px; border-radius: 3px; }
+    </style>
+</head>
+<body>
+    <h1>QA Report: dagger-heroes-decode</h1>
+    
+    <h2>Module Information</h2>
+    <ul>
+        <li><strong>Name:</strong> dagger-heroes-decode</li>
+        <li><strong>Author:</strong> pjmagee</li>
+        <li><strong>Latest Version:</strong> v1.0.1</li>
+        <li><strong>Release Date:</strong> Not available in metadata</li>
+        <li><strong>Dagger Engine Version Used:</strong> v0.18.2</li>
+    </ul>
+
+    <h2>Module Purpose</h2>
+    <p>This module is designed to decode Heroes of the Storm replay files using the Heroes Decode tool by HeroesToolChest.</p>
+
+    <h2>Module Functions</h2>
+    <ul>
+        <li><code>decode(file: File, args: [String!])</code> - Decodes a Heroes of the Storm replay file</li>
+    </ul>
+
+    <h2>Testing Issues</h2>
+    <div class="error">
+        <h3>Authentication Error</h3>
+        <p>Unable to install or build the module due to GitHub authentication issues. The module repository requires proper authentication for access.</p>
+        <pre>
+Error: Support for password authentication was removed on August 13, 2021.
+Please see https://docs.github.com/get-started/getting-started-with-git/about-remote-repositories#cloning-with-https-urls
+        </pre>
+    </div>
+
+    <h2>Quality Improvement Suggestions</h2>
+    
+    <div class="suggestion">
+        <h3>1. Add Repository Authentication Documentation</h3>
+        <p>Include clear instructions for authentication in the README.md file.</p>
+        <code>
+# Authentication
+This module requires GitHub authentication. Set up your GitHub credentials using:
+
+```bash
+git config --global credential.helper store
+# Then add a Personal Access Token with read permissions
+```
+        </code>
+        <p><img src="https://i.imgflip.com/2zj2tl.jpg" alt="Authentication Meme" width="300"></p>
+    </div>
+
+    <div class="suggestion">
+        <h3>2. Add Input Validation</h3>
+        <p>Implement input validation for the replay file format.</p>
+        <code>
+func (m *Module) validateReplayFile(file File) error {
+    if !strings.HasSuffix(file.Name(), ".StormReplay") {
+        return fmt.Errorf("invalid file format: must be a .StormReplay file")
+    }
+    return nil
+}
+        </code>
+    </div>
+
+    <div class="suggestion">
+        <h3>3. Add Example Usage Documentation</h3>
+        <p>Provide comprehensive examples in the documentation.</p>
+        <code>
+# Example Usage
+
+```typescript
+const decoder = dag.daggerHeroesDecode()
+const result = await decoder.decode(
+    dag.loadFile("./replay.StormReplay"),
+    ["--json", "--detailed"]
+)
+```
+        </code>
+    </div>
+</body>
+</html>
