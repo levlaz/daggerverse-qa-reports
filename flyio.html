@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>QA Report - flyio Module</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
+        h1, h2 { color: #333; }
+        .function { margin: 10px 0; padding: 10px; background: #f5f5f5; }
+        .suggestion { margin: 20px 0; padding: 15px; background: #e1f5fe; }
+        .error { color: #d32f2f; }
+        pre { background: #f8f8f8; padding: 10px; overflow-x: auto; }
+        .meme { max-width: 500px; margin: 20px 0; }
+    </style>
+</head>
+<body>
+    <h1>QA Report: flyio Module</h1>
+    
+    <h2>Module Information</h2>
+    <ul>
+        <li><strong>Name:</strong> flyio</li>
+        <li><strong>Author:</strong> peterj</li>
+        <li><strong>Latest Version:</strong> v0.0.3</li>
+        <li><strong>Release Date:</strong> Not specified in metadata</li>
+        <li><strong>Dagger Engine Version Used:</strong> v0.18.2</li>
+    </ul>
+
+    <h2>Module Purpose</h2>
+    <p>This is a basic Dagger module for deploying applications to Fly.io. It provides functionality to interact with Fly.io's deployment system.</p>
+
+    <h2>Available Functions</h2>
+    <div class="function">
+        <h3>deploy()</h3>
+        <p>Deploy deploys an app from the src folder to Fly.io</p>
+        <strong>Parameters:</strong>
+        <ul>
+            <li>src (Directory!) - Source directory containing the application</li>
+            <li>token (Secret!) - Authentication token for Fly.io</li>
+        </ul>
+    </div>
+
+    <div class="function">
+        <h3>flyContainer()</h3>
+        <p>Creates a container with the flyctl CLI installed</p>
+        <strong>Parameters:</strong>
+        <ul>
+            <li>token (Secret!) - Authentication token for Fly.io</li>
+        </ul>
+    </div>
+
+    <h2>Quality Improvement Suggestions</h2>
+    
+    <div class="suggestion">
+        <h3>1. Add Input Validation</h3>
+        <p>The module should validate the src directory and token before proceeding with deployment.</p>
+        <img src="https://i.imgflip.com/2/2k0qad.jpg" alt="Input Validation Meme" class="meme">
+        <pre>
+func ValidateInputs(src *Directory, token *Secret) error {
+    if src == nil {
+        return fmt.Errorf("source directory cannot be nil")
+    }
+    if token == nil {
+        return fmt.Errorf("Fly.io token cannot be nil")
+    }
+    return nil
+}
+        </pre>
+    </div>
+
+    <div class="suggestion">
+        <h3>2. Add Proper Error Handling and Logging</h3>
+        <p>Implement comprehensive error handling and logging mechanisms.</p>
+        <pre>
+func (f *Flyio) deploy(ctx context.Context, src *Directory, token *Secret) (string, error) {
+    logger := log.New("flyio-deploy")
+    logger.Info("Starting deployment to Fly.io")
+    
+    result, err := f.flyContainer(token).
+        WithDirectory("/src", src).
+        WithExec([]string{"fly", "deploy"}).
+        Stdout(ctx)
+    
+    if err != nil {
+        logger.Error("Deployment failed", "error", err)
+        return "", fmt.Errorf("deployment failed: %w", err)
+    }
+    
+    logger.Info("Deployment successful")
+    return result, nil
+}
+        </pre>
+    </div>
+
+    <div class="suggestion">
+        <h3>3. Add Configuration Options</h3>
+        <p>Provide more configuration options for deployment customization.</p>
+        <pre>
+type DeployConfig struct {
+    Region string
+    AppName string
+    Strategy string
+    Env map[string]string
+}
+
+func (f *Flyio) DeployWithConfig(ctx context.Context, src *Directory, token *Secret, config DeployConfig) (string, error) {
+    args := []string{"fly", "deploy"}
+    
+    if config.Region != "" {
+        args = append(args, "--region", config.Region)
+    }
+    if config.AppName != "" {
+        args = append(args, "--app", config.AppName)
+    }
+    // Add other config options...
+    
+    return f.flyContainer(token).
+        WithDirectory("/src", src).
+        WithExec(args).
+        Stdout(ctx)
+}
+        </pre>
+    </div>
+
+    <h2>Issues Encountered</h2>
+    <p>No major issues were encountered during the testing of this module. The module installs and builds successfully.</p>
+
+    <h2>Test Information</h2>
+    <p>Testing was performed using Dagger Engine version v0.18.2</p>
+</body>
+</html>
