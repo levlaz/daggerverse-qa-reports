@@ -3,60 +3,124 @@
 <head>
     <title>Dagger Modules QA Report Index</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 20px; }
-        table { border-collapse: collapse; width: 100%; }
-        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-        th { background-color: #f2f2f2; }
-        .pass { color: green; }
-        .fail { color: red; }
-        .status-icon { font-size: 1.2em; }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        .status {
+            text-align: center;
+            font-size: 18px;
+        }
+        .pass {
+            color: #2ecc71;
+        }
+        .fail {
+            color: #e74c3c;
+        }
+        a {
+            color: #3498db;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 30px;
+        }
     </style>
 </head>
 <body>
     <h1>Dagger Modules QA Report Index</h1>
     <table>
-        <tr>
-            <th>Module Name</th>
-            <th>Brief Description</th>
-            <th>Status</th>
-            <th>Full Report</th>
-        </tr>
-        <tr>
-            <td>postgres</td>
-            <td>Provides a simple way to launch a Postgres database server for development and testing purposes. Integrates with official Postgres Docker image.</td>
-            <td><span class="pass status-icon">✓</span></td>
-            <td><a href="postgres.html">View Report</a></td>
-        </tr>
-        <tr>
-            <td>golang</td>
-            <td>Collection of functions for building, formatting, testing, linting and scanning Go projects for vulnerabilities.</td>
-            <td><span class="pass status-icon">✓</span></td>
-            <td><a href="golang.html">View Report</a></td>
-        </tr>
-        <tr>
-            <td>java</td>
-            <td>Provides Java development capabilities including JDK and Maven integration, supporting environment setup, build management, and project execution.</td>
-            <td><span class="pass status-icon">✓</span></td>
-            <td><a href="java.html">View Report</a></td>
-        </tr>
-        <tr>
-            <td>aws-cli</td>
-            <td>Generic interface for AWS CLI in Dagger pipelines, supporting ECR, STS operations, region configuration, and credential management.</td>
-            <td><span class="pass status-icon">✓</span></td>
-            <td><a href="aws-cli.html">View Report</a></td>
-        </tr>
-        <tr>
-            <td>dotnet-sdk-dev</td>
-            <td>Functions for developing the .NET SDK, including running tests, generating introspection, and code formatting.</td>
-            <td><span class="fail status-icon">✗</span></td>
-            <td><a href="dotnet-sdk-dev.html">View Report</a></td>
-        </tr>
-        <tr>
-            <td>bats-tests</td>
-            <td>Provides Bats test execution capabilities in Dagger, offering functions for running individual tests and test suites.</td>
-            <td><span class="pass status-icon">✓</span></td>
-            <td><a href="bats-tests-report.html">View Report</a></td>
-        </tr>
-</table>
+        <thead>
+            <tr>
+                <th>Module Name</th>
+                <th>Brief Description</th>
+                <th>Status</th>
+                <th>Full Report</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Alpine</td>
+                <td>A Dagger Module to integrate with Alpine Linux. This module provides functionality to create and customize Alpine Linux containers.</td>
+                <td class="status pass">✓</td>
+                <td><a href="alpine.html">View Report</a></td>
+            </tr>
+            <tr>
+                <td>AWS CLI</td>
+                <td>AWS Command Line Interface module for Dagger</td>
+                <td class="status pass">✓</td>
+                <td><a href="aws-cli.html">View Report</a></td>
+            </tr>
+            <tr>
+                <td>Docker</td>
+                <td>Docker container management and build utilities</td>
+                <td class="status pass">✓</td>
+                <td><a href="github.com_felipepimentel_daggerverse_libraries_docker.html">View Report</a></td>
+            </tr>
+            <tr>
+                <td>Go</td>
+                <td>Go language development and build pipeline module</td>
+                <td class="status pass">✓</td>
+                <td><a href="go.html">View Report</a></td>
+            </tr>
+            <tr>
+                <td>Hugo</td>
+                <td>Static site generation with Hugo framework</td>
+                <td class="status pass">✓</td>
+                <td><a href="hugo.html">View Report</a></td>
+            </tr>
+            <tr>
+                <td>Node.js</td>
+                <td>Node.js runtime and development environment</td>
+                <td class="status pass">✓</td>
+                <td><a href="inline-node.html">View Report</a></td>
+            </tr>
+            <tr>
+                <td>Python</td>
+                <td>Python development and testing environment</td>
+                <td class="status pass">✓</td>
+                <td><a href="inline-python-mod.html">View Report</a></td>
+            </tr>
+            <tr>
+                <td>PostgreSQL</td>
+                <td>PostgreSQL database management and operations</td>
+                <td class="status pass">✓</td>
+                <td><a href="postgres.html">View Report</a></td>
+            </tr>
+            <tr>
+                <td>Rust</td>
+                <td>Rust development and build pipeline</td>
+                <td class="status pass">✓</td>
+                <td><a href="rust.html">View Report</a></td>
+            </tr>
+            <tr>
+                <td>Terraform</td>
+                <td>Infrastructure as Code with Terraform</td>
+                <td class="status pass">✓</td>
+                <td><a href="terratest.html">View Report</a></td>
+            </tr>
+        </tbody>
+    </table>
 </body>
 </html>
