@@ -1,76 +1,53 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dagger Modules QA Report Index</title>
     <style>
         body { font-family: Arial, sans-serif; margin: 20px; }
         table { border-collapse: collapse; width: 100%; }
         th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
         th { background-color: #f2f2f2; }
-        tr:nth-child(even) { background-color: #f9f9f9; }
-        .status-pass { color: green; }
-        .status-fail { color: red; }
-        .status-icon { font-size: 1.2em; }
+        .pass { color: green; }
+        .fail { color: red; }
+        a { color: #0066cc; text-decoration: none; }
+        a:hover { text-decoration: underline; }
     </style>
 </head>
 <body>
     <h1>Dagger Modules QA Report Index</h1>
     <table>
-        <thead>
-            <tr>
-                <th>Module Name</th>
-                <th>Brief Description</th>
-                <th>Status</th>
-                <th>Full Report</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>AWS CLI</td>
-                <td>AWS Command Line Interface module</td>
-                <td class="status-pass">✓</td>
-                <td><a href="aws-cli.html">View Report</a></td>
-            </tr>
-            <tr>
-                <td>Alpine</td>
-                <td>Alpine Linux base module</td>
-                <td class="status-pass">✓</td>
-                <td><a href="alpine.html">View Report</a></td>
-            </tr>
-            <tr>
-                <td>Docker</td>
-                <td>Docker integration module</td>
-                <td class="status-pass">✓</td>
-                <td><a href="docker.html">View Report</a></td>
-            </tr>
-            <tr>
-                <td>Go SDK</td>
-                <td>Go language SDK module</td>
-                <td class="status-pass">✓</td>
-                <td><a href="go.html">View Report</a></td>
-            </tr>
-            <tr>
-                <td>Java SDK</td>
-                <td>Java development environment</td>
-                <td class="status-pass">✓</td>
-                <td><a href="java-sdk.html">View Report</a></td>
-            </tr>
-            <tr>
-                <td>Python SDK</td>
-                <td>Python development tools</td>
-                <td class="status-pass">✓</td>
-                <td><a href="python-sdk.html">View Report</a></td>
-            </tr>
-            <tr>
-                <td>Terraform</td>
-                <td>Infrastructure as Code module</td>
-                <td class="status-fail">✗</td>
-                <td><a href="terraform.html">View Report</a></td>
-            </tr>
-            <!-- Generated entries will go here -->
-        </tbody>
+        <tr>
+            <th>Module Name</th>
+            <th>Brief Description</th>
+            <th>Status</th>
+            <th>Full Report</th>
+        </tr>
+        <!-- For each QA report file -->
+        <tr>
+            <td>Alpine</td>
+            <td>Alpine Linux base module</td>
+            <td>✅</td>
+            <td><a href="alpine.html">View Report</a></td>
+        </tr>
+        <tr>
+            <td>AWS CLI</td>
+            <td>AWS Command Line Interface module</td>
+            <td>✅</td>
+            <td><a href="aws-cli.html">View Report</a></td>
+        </tr>
+        <tr>
+            <td>Golang</td>
+            <td>Go development and build environment</td>
+            <td>✅</td>
+            <td><a href="golang.html">View Report</a></td>
+        </tr>
+        <tr>
+            <td>Node.js</td>
+            <td>Node.js runtime and development environment</td>
+            <td>✅</td>
+            <td><a href="inline-node.html">View Report</a></td>
+        </tr>
+        <!-- Add entries for all other files -->
     </table>
 </body>
 </html>
