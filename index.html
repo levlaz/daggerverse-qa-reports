@@ -3,16 +3,19 @@
 <head>
     <title>Dagger Modules QA Report Index</title>
     <style>
-        body { font-family: Arial, sans-serif; padding: 20px; }
-        table { border-collapse: collapse; width: 100%; }
-        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        table { border-collapse: collapse; width: 100%; margin-top: 20px; }
+        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
         th { background-color: #f2f2f2; }
-        .pass { color: green; font-size: 1.2em; }
-        .fail { color: red; font-size: 1.2em; }
+        .pass { color: green; font-weight: bold; }
+        .fail { color: red; font-weight: bold; }
+        a { color: #0066cc; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .status-icon { font-size: 18px; }
     </style>
 </head>
 <body>
-    <h1>Dagger Modules QA Report Index</h1>
+    <h1>Dagger Modules QA Reports</h1>
     <table>
         <tr>
             <th>Module Name</th>
@@ -21,53 +24,17 @@
             <th>Full Report</th>
         </tr>
         <tr>
+            <td>SpokaneTech_Py</td>
+            <td>Python/Django development and production environment with built-in linting, testing, and documentation capabilities</td>
+            <td><span class="pass">✓</span></td>
+            <td><a href="SpokaneTech_Py.html">View Report</a></td>
+        </tr>
+        <tr>
             <td>Alpine</td>
-            <td>A Dagger Module to integrate with Alpine Linux, providing functionality to create and customize Alpine Linux containers</td>
+            <td>Module to integrate with Alpine Linux, providing functionality to create and customize Alpine Linux containers</td>
             <td><span class="pass">✓</span></td>
             <td><a href="alpine.html">View Report</a></td>
         </tr>
-        <tr>
-            <td>AWS CLI</td>
-            <td>Generic interface to use AWS CLI in Dagger pipelines, providing ECR, STS operations, and credential management</td>
-            <td><span class="pass">✓</span></td>
-            <td><a href="aws-cli.html">View Report</a></td>
-        </tr>
-        <tr>
-            <td>buf-pipeline</td>
-            <td>Module for working with Protocol Buffers (Protobuf) files using the Buf tool, offering formatting, linting, and registry push capabilities</td>
-            <td><span class="pass">✓</span></td>
-            <td><a href="buf-pipeline.html">View Report</a></td>
-        </tr>
-        <tr>
-            <td>dagger-php-module</td>
-            <td>PHP module providing container management with support for CLI, Apache, FPM, and ZTS versions</td>
-            <td><span class="pass">✓</span></td>
-            <td><a href="carnage-dagger-php-module.html">View Report</a></td>
-        </tr>
-        <tr>
-            <td>Go</td>
-            <td>Module for working with Go programming language in Dagger pipelines, providing build, test, and application management capabilities</td>
-            <td><span class="pass">✓</span></td>
-            <td><a href="go.html">View Report</a></td>
-        </tr>
-        <tr>
-            <td>Helm</td>
-            <td>Module for publishing new Helm Chart versions on registries using helm.sh</td>
-            <td><span class="fail">✗</span></td>
-            <td><a href="helm.html">View Report</a></td>
-        </tr>
-        <tr>
-            <td>Hugo</td>
-            <td>Tools for working with Hugo static site generator, including binary management and container integration</td>
-            <td><span class="pass">✓</span></td>
-            <td><a href="hugo.html">View Report</a></td>
-        </tr>
-        <tr>
-            <td>Rust</td>
-            <td>Swiss army knife for Rust development including linting, formatting, security audits, and code quality tools</td>
-            <td><span class="pass">✓</span></td>
-            <td><a href="rust.html">View Report</a></td>
-        </tr>
-    </table>
+</table>
 </body>
 </html>
