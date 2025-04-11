@@ -3,39 +3,11 @@
 <head>
     <title>Dagger Modules QA Report Index</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 40px;
-            line-height: 1.6;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
-        }
-        th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: left;
-        }
-        th {
-            background-color: #f2f2f2;
-        }
-        .pass {
-            color: green;
-            font-size: 20px;
-        }
-        .fail {
-            color: red;
-            font-size: 20px;
-        }
-        a {
-            color: #0366d6;
-            text-decoration: none;
-        }
-        a:hover {
-            text-decoration: underline;
-        }
+        table { border-collapse: collapse; width: 100%; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+        .pass { color: green; }
+        .fail { color: red; }
     </style>
 </head>
 <body>
@@ -48,41 +20,41 @@
             <th>Full Report</th>
         </tr>
         <tr>
-            <td>SpokaneTech_Py</td>
-            <td>Python/Django development and production environment with built-in linting, testing, and documentation capabilities</td>
-            <td><span class="pass">✓</span></td>
-            <td><a href="SpokaneTech_Py.html">View Report</a></td>
+            <td>postgres</td>
+            <td>Provides a simple way to launch a Postgres database server for development and testing purposes</td>
+            <td>✅</td>
+            <td><a href="postgres.html">View Report</a></td>
         </tr>
         <tr>
-            <td>Alpine</td>
-            <td>Module to integrate with Alpine Linux, providing functionality to create and customize Alpine Linux containers</td>
-            <td><span class="pass">✓</span></td>
-            <td><a href="alpine.html">View Report</a></td>
+            <td>golang</td>
+            <td>Collection of functions for building, formatting, testing, linting and scanning Go projects</td>
+            <td>✅</td>
+            <td><a href="golang.html">View Report</a></td>
         </tr>
         <tr>
-            <td>apko</td>
-            <td>Module for building container images from apk packages, supporting both Alpine and Wolfi base configurations</td>
-            <td><span class="pass">✓</span></td>
-            <td><a href="apko.html">View Report</a></td>
+            <td>rust</td>
+            <td>Swiss army knife of functions for working with Rust projects including linting, formatting, and security audits</td>
+            <td>✅</td>
+            <td><a href="rust.html">View Report</a></td>
         </tr>
         <tr>
-            <td>apt</td>
-            <td>Debian/Ubuntu package management module for APT operations within Dagger pipelines</td>
-            <td><span class="fail">✗</span></td>
-            <td><a href="apt.html">View Report</a></td>
+            <td>java</td>
+            <td>Java development capabilities including JDK and Maven integration for building and running Java applications</td>
+            <td>✅</td>
+            <td><a href="java.html">View Report</a></td>
         </tr>
         <tr>
-            <td>arc-tests</td>
-            <td>Archive management module supporting various compression formats (tar, tar.gz, tar.bz2, zip, etc.) for files and directories</td>
-            <td><span class="pass">✓</span></td>
-            <td><a href="arc-tests.html">View Report</a></td>
+            <td>helm</td>
+            <td>Module for publishing Helm Chart versions on registries with packaging and testing capabilities</td>
+            <td>❌</td>
+            <td><a href="helm.html">View Report</a></td>
         </tr>
         <tr>
-            <td>aws-cli</td>
-            <td>AWS CLI integration module providing access to AWS services including ECR, STS, with credential and region management</td>
-            <td><span class="pass">✓</span></td>
-            <td><a href="aws-cli.html">View Report</a></td>
+            <td>typescript-runtime</td>
+            <td>TypeScript SDK runtime module for Dagger, providing functionality for TypeScript module development</td>
+            <td>❌</td>
+            <td><a href="typescript-runtime.html">View Report</a></td>
         </tr>
-    </table>
+</table>
 </body>
 </html>

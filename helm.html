@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>QA Report - Helm Module</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
+        h1, h2 { color: #333; }
+        .error { color: #ff0000; }
+        .suggestion { background: #f0f0f0; padding: 15px; margin: 10px 0; }
+        code { background: #eee; padding: 2px 5px; border-radius: 3px; }
+    </style>
+</head>
+<body>
+    <h1>QA Report - Helm Module</h1>
+    
+    <h2>Basic Information</h2>
+    <ul>
+        <li><strong>Module Name:</strong> github.com/dmosyan/dagger-helm-module/helm</li>
+        <li><strong>Author:</strong> dmosyan</li>
+        <li><strong>Latest Version:</strong> v1.0.0</li>
+        <li><strong>Release Date:</strong> N/A (not available from crawl data)</li>
+        <li><strong>Dagger Engine Version Used:</strong> v0.18.2</li>
+    </ul>
+
+    <h2>Module Purpose</h2>
+    <p>The main focus of this module is to publish new Helm Chart versions on registries. It utilizes the https://helm.sh/ tool for this purpose.</p>
+
+    <h2>Functions</h2>
+    <ul>
+        <li><strong>version()</strong> - Get and display the version of the Helm Chart located inside the given directory.</li>
+        <li><strong>packagePush()</strong> - Packages and pushes a Helm chart to a specified OCI-compatible registry with authentication.</li>
+        <li><strong>test()</strong> - Run Helm unittests with the given directory and files.</li>
+    </ul>
+
+    <h2>Testing Issues Encountered</h2>
+    <div class="error">
+        <p>Several issues were encountered during testing:</p>
+        <ul>
+            <li>Unable to install the module due to authentication issues with GitHub</li>
+            <li>Unable to build the module due to repository access restrictions</li>
+            <li>GitHub authentication errors suggesting the need for updated authentication methods</li>
+        </ul>
+    </div>
+
+    <h2>Quality Improvement Suggestions</h2>
+    
+    <div class="suggestion">
+        <h3>1. Add Input Validation</h3>
+        <p>Add comprehensive input validation for critical parameters to prevent runtime errors.</p>
+        <code>
+func (h *Helm) packagePush(ctx context.Context, directory *Directory, registry, repository, username, password string) (bool, error) {
+    if directory == nil {
+        return false, fmt.Errorf("directory cannot be nil")
+    }
+    if registry == "" || repository == "" {
+        return false, fmt.Errorf("registry and repository must not be empty")
+    }
+    // ... rest of the implementation
+}
+        </code>
+    </div>
+
+    <div class="suggestion">
+        <h3>2. Implement Retry Mechanism</h3>
+        <p>Add retry logic for network operations to handle temporary failures.</p>
+        <code>
+func (h *Helm) pushWithRetry(ctx context.Context, attempts int) error {
+    for i := 0; i < attempts; i++ {
+        err := h.push(ctx)
+        if err == nil {
+            return nil
+        }
+        if i < attempts-1 {
+            time.Sleep(time.Second * time.Duration(i+1))
+        }
+    }
+    return fmt.Errorf("failed after %d attempts", attempts)
+}
+        </code>
+    </div>
+
+    <div class="suggestion">
+        <h3>3. Add Comprehensive Testing</h3>
+        <p>Include more test cases and examples in the documentation.</p>
+        <img src="https://i.imgflip.com/2hwmix.jpg" alt="Testing Meme" style="max-width: 300px;"/>
+        <code>
+func TestHelmVersion(t *testing.T) {
+    testCases := []struct {
+        name        string
+        directory   string
+        expectError bool
+    }{
+        {"valid_chart", "./testdata/valid-chart", false},
+        {"invalid_chart", "./testdata/invalid-chart", true},
+        {"empty_directory", "./testdata/empty", true},
+    }
+    
+    for _, tc := range testCases {
+        t.Run(tc.name, func(t *testing.T) {
+            // test implementation
+        })
+    }
+}
+        </code>
+    </div>
+</body>
+</html>
