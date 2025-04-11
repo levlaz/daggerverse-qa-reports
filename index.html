@@ -3,124 +3,50 @@
 <head>
     <title>Dagger Modules QA Report Index</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-            padding: 20px;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
-        }
-        th, td {
-            border: 1px solid #ddd;
-            padding: 12px;
-            text-align: left;
-        }
-        th {
-            background-color: #f2f2f2;
-            font-weight: bold;
-        }
-        tr:nth-child(even) {
-            background-color: #f9f9f9;
-        }
-        .status {
-            text-align: center;
-            font-size: 18px;
-        }
-        .pass {
-            color: #2ecc71;
-        }
-        .fail {
-            color: #e74c3c;
-        }
-        a {
-            color: #3498db;
-            text-decoration: none;
-        }
-        a:hover {
-            text-decoration: underline;
-        }
-        h1 {
-            color: #2c3e50;
-            margin-bottom: 30px;
-        }
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+        th { background-color: #f2f2f2; }
+        .pass { color: green; font-weight: bold; }
+        .fail { color: red; font-weight: bold; }
+        .status-icon { font-size: 18px; }
+        a { color: #0066cc; text-decoration: none; }
+        a:hover { text-decoration: underline; }
     </style>
 </head>
 <body>
     <h1>Dagger Modules QA Report Index</h1>
     <table>
-        <thead>
-            <tr>
-                <th>Module Name</th>
-                <th>Brief Description</th>
-                <th>Status</th>
-                <th>Full Report</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>Alpine</td>
-                <td>A Dagger Module to integrate with Alpine Linux. This module provides functionality to create and customize Alpine Linux containers.</td>
-                <td class="status pass">✓</td>
-                <td><a href="alpine.html">View Report</a></td>
-            </tr>
-            <tr>
-                <td>AWS CLI</td>
-                <td>AWS Command Line Interface module for Dagger</td>
-                <td class="status pass">✓</td>
-                <td><a href="aws-cli.html">View Report</a></td>
-            </tr>
-            <tr>
-                <td>Docker</td>
-                <td>Docker container management and build utilities</td>
-                <td class="status pass">✓</td>
-                <td><a href="github.com_felipepimentel_daggerverse_libraries_docker.html">View Report</a></td>
-            </tr>
-            <tr>
-                <td>Go</td>
-                <td>Go language development and build pipeline module</td>
-                <td class="status pass">✓</td>
-                <td><a href="go.html">View Report</a></td>
-            </tr>
-            <tr>
-                <td>Hugo</td>
-                <td>Static site generation with Hugo framework</td>
-                <td class="status pass">✓</td>
-                <td><a href="hugo.html">View Report</a></td>
-            </tr>
-            <tr>
-                <td>Node.js</td>
-                <td>Node.js runtime and development environment</td>
-                <td class="status pass">✓</td>
-                <td><a href="inline-node.html">View Report</a></td>
-            </tr>
-            <tr>
-                <td>Python</td>
-                <td>Python development and testing environment</td>
-                <td class="status pass">✓</td>
-                <td><a href="inline-python-mod.html">View Report</a></td>
-            </tr>
-            <tr>
-                <td>PostgreSQL</td>
-                <td>PostgreSQL database management and operations</td>
-                <td class="status pass">✓</td>
-                <td><a href="postgres.html">View Report</a></td>
-            </tr>
-            <tr>
-                <td>Rust</td>
-                <td>Rust development and build pipeline</td>
-                <td class="status pass">✓</td>
-                <td><a href="rust.html">View Report</a></td>
-            </tr>
-            <tr>
-                <td>Terraform</td>
-                <td>Infrastructure as Code with Terraform</td>
-                <td class="status pass">✓</td>
-                <td><a href="terratest.html">View Report</a></td>
-            </tr>
-        </tbody>
+        <tr>
+            <th>Module Name</th>
+            <th>Brief Description</th>
+            <th>Status</th>
+            <th>Full Report</th>
+        </tr>
+        <tr>
+            <td>Alpine</td>
+            <td>A Dagger Module to integrate with Alpine Linux. Provides functionality to create and customize Alpine Linux containers.</td>
+            <td class="pass">✓</td>
+            <td><a href="alpine.html">View Report</a></td>
+        </tr>
+        <tr>
+            <td>Apko</td>
+            <td>Module to build container images from apk packages, supporting both Alpine and Wolfi base configurations.</td>
+            <td class="pass">✓</td>
+            <td><a href="apko.html">View Report</a></td>
+        </tr>
+        <tr>
+            <td>APT</td>
+            <td>Module for managing Debian/Ubuntu packages using the APT package manager within Dagger pipelines.</td>
+            <td class="fail">✗</td>
+            <td><a href="apt.html">View Report</a></td>
+        </tr>
+        <tr>
+            <td>AWS CLI</td>
+            <td>Generic interface to use AWS CLI in Dagger pipelines, including ECR, STS operations, and credential management.</td>
+            <td class="pass">✓</td>
+            <td><a href="aws-cli.html">View Report</a></td>
+        </tr>
     </table>
 </body>
 </html>
