@@ -3,38 +3,18 @@
 <head>
     <title>Dagger Modules QA Report Index</title>
     <style>
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
-        }
-        th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: left;
-        }
-        th {
-            background-color: #f2f2f2;
-        }
-        .pass {
-            color: green;
-            font-size: 20px;
-        }
-        .fail {
-            color: red;
-            font-size: 20px;
-        }
-        a {
-            color: #0066cc;
-            text-decoration: none;
-        }
-        a:hover {
-            text-decoration: underline;
-        }
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        table { border-collapse: collapse; width: 100%; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+        .pass { color: green; }
+        .fail { color: red; }
+        .status-icon { font-size: 18px; }
     </style>
 </head>
 <body>
     <h1>Dagger Modules QA Report Index</h1>
+    <p>Generated: <script>document.write(new Date().toLocaleString());</script></p>
     <table>
         <tr>
             <th>Module Name</th>
@@ -44,40 +24,71 @@
         </tr>
         <tr>
             <td>Alpine</td>
-            <td>A Dagger Module to integrate with Alpine Linux. Provides functionality to create and customize Alpine Linux containers.</td>
-            <td><span class="pass">✓</span></td>
+            <td>Base Alpine Linux container module</td>
+            <td class="pass">✓</td>
             <td><a href="alpine.html">View Report</a></td>
         </tr>
         <tr>
-            <td>Golang</td>
-            <td>A collection of functions for building, formatting, testing, linting and scanning your Go project for vulnerabilities.</td>
-            <td><span class="pass">✓</span></td>
-            <td><a href="golang.html">View Report</a></td>
+            <td>APKO</td>
+            <td>Container image builder using apko</td>
+            <td class="pass">✓</td>
+            <td><a href="apko.html">View Report</a></td>
         </tr>
         <tr>
-            <td>PHP Tests</td>
-            <td>A module that provides PHP testing capabilities with functions for executing all tests or individual test suites.</td>
-            <td><span class="fail">✗</span></td>
-            <td><a href="php-tests.html">View Report</a></td>
+            <td>AWS CLI</td>
+            <td>AWS Command Line Interface tools</td>
+            <td class="pass">✓</td>
+            <td><a href="aws-cli.html">View Report</a></td>
         </tr>
         <tr>
-            <td>Postgres</td>
-            <td>A module that provides a simple way to launch a Postgres database server for development and testing purposes.</td>
-            <td><span class="pass">✓</span></td>
+            <td>Docker Registry</td>
+            <td>Container registry operations</td>
+            <td class="pass">✓</td>
+            <td><a href="aws-ecr.html">View Report</a></td>
+        </tr>
+        <tr>
+            <td>Bazel Pipeline</td>
+            <td>Build automation tool pipeline</td>
+            <td class="pass">✓</td>
+            <td><a href="bazel-pipeline.html">View Report</a></td>
+        </tr>
+        <tr>
+            <td>Go Dev</td>
+            <td>Go development environment and tools</td>
+            <td class="pass">✓</td>
+            <td><a href="go.html">View Report</a></td>
+        </tr>
+        <tr>
+            <td>Helm</td>
+            <td>Kubernetes package manager operations</td>
+            <td class="pass">✓</td>
+            <td><a href="helm.html">View Report</a></td>
+        </tr>
+        <tr>
+            <td>Node.js</td>
+            <td>Node.js runtime and development tools</td>
+            <td class="pass">✓</td>
+            <td><a href="inline-node.html">View Report</a></td>
+        </tr>
+        <tr>
+            <td>Python</td>
+            <td>Python development environment</td>
+            <td class="pass">✓</td>
+            <td><a href="inline-python-mod.html">View Report</a></td>
+        </tr>
+        <tr>
+            <td>Terraform</td>
+            <td>Infrastructure as Code tools</td>
+            <td class="pass">✓</td>
+            <td><a href="iac-terragrunt.html">View Report</a></td>
+        </tr>
+        <tr>
+            <td>PostgreSQL</td>
+            <td>PostgreSQL database tools</td>
+            <td class="pass">✓</td>
             <td><a href="postgres.html">View Report</a></td>
         </tr>
-        <tr>
-            <td>Terratest</td>
-            <td>A module designed to run Terratest tests, providing integration with Terraform and various testing capabilities for infrastructure code.</td>
-            <td><span class="fail">✗</span></td>
-            <td><a href="terratest.html">View Report</a></td>
-        </tr>
-        <tr>
-            <td>Docker</td>
-            <td>A module for integrating with Docker Engine, providing functionality for managing Docker resources including images, networks, and volumes.</td>
-            <td><span class="fail">✗</span></td>
-            <td><a href="github.com_felipepimentel_daggerverse_libraries_docker.html">View Report</a></td>
-        </tr>
+        <!-- Additional modules will be listed here -->
     </table>
 </body>
 </html>
