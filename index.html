@@ -1,20 +1,33 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Dagger Modules QA Report Index</title>
+    <title>Dagger Modules QA Reports Index</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 20px; }
-        table { border-collapse: collapse; width: 100%; }
-        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-        th { background-color: #f2f2f2; }
-        .pass { color: green; }
-        .fail { color: red; }
-        .status-icon { font-size: 18px; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .pass {
+            color: green;
+            font-size: 20px;
+        }
+        .fail {
+            color: red;
+            font-size: 20px;
+        }
     </style>
 </head>
 <body>
-    <h1>Dagger Modules QA Report Index</h1>
-    <p>Generated: <script>document.write(new Date().toLocaleString());</script></p>
+    <h1>Dagger Modules QA Reports Index</h1>
     <table>
         <tr>
             <th>Module Name</th>
@@ -24,71 +37,40 @@
         </tr>
         <tr>
             <td>Alpine</td>
-            <td>Base Alpine Linux container module</td>
-            <td class="pass">✓</td>
+            <td>A Dagger Module to integrate with Alpine Linux. Provides functionality to create and customize Alpine Linux containers.</td>
+            <td>✅</td>
             <td><a href="alpine.html">View Report</a></td>
         </tr>
         <tr>
-            <td>APKO</td>
-            <td>Container image builder using apko</td>
-            <td class="pass">✓</td>
-            <td><a href="apko.html">View Report</a></td>
-        </tr>
-        <tr>
-            <td>AWS CLI</td>
-            <td>AWS Command Line Interface tools</td>
-            <td class="pass">✓</td>
-            <td><a href="aws-cli.html">View Report</a></td>
-        </tr>
-        <tr>
-            <td>Docker Registry</td>
-            <td>Container registry operations</td>
-            <td class="pass">✓</td>
-            <td><a href="aws-ecr.html">View Report</a></td>
-        </tr>
-        <tr>
-            <td>Bazel Pipeline</td>
-            <td>Build automation tool pipeline</td>
-            <td class="pass">✓</td>
-            <td><a href="bazel-pipeline.html">View Report</a></td>
-        </tr>
-        <tr>
-            <td>Go Dev</td>
-            <td>Go development environment and tools</td>
-            <td class="pass">✓</td>
+            <td>Go</td>
+            <td>Module for working with Go programming language in Dagger pipelines. Offers capabilities for building, testing, and managing Go applications.</td>
+            <td>✅</td>
             <td><a href="go.html">View Report</a></td>
         </tr>
         <tr>
-            <td>Helm</td>
-            <td>Kubernetes package manager operations</td>
-            <td class="pass">✓</td>
-            <td><a href="helm.html">View Report</a></td>
+            <td>SpokaneTech Python</td>
+            <td>Development and production environment for Python/Django applications with built-in linting, testing, and documentation capabilities.</td>
+            <td>✅</td>
+            <td><a href="SpokaneTech_Py.html">View Report</a></td>
         </tr>
         <tr>
-            <td>Node.js</td>
-            <td>Node.js runtime and development tools</td>
-            <td class="pass">✓</td>
+            <td>Postgres</td>
+            <td>Simple way to launch a Postgres database server for development and testing purposes. Integrates with official Postgres Docker image.</td>
+            <td>✅</td>
+            <td><a href="postgres.html">View Report</a></td>
+        </tr>
+        <tr>
+            <td>Inline Node</td>
+            <td>Module for running Node.js code and managing Node.js packages inline within Dagger pipelines.</td>
+            <td>✅</td>
             <td><a href="inline-node.html">View Report</a></td>
         </tr>
         <tr>
-            <td>Python</td>
-            <td>Python development environment</td>
-            <td class="pass">✓</td>
-            <td><a href="inline-python-mod.html">View Report</a></td>
+            <td>AWS CLI</td>
+            <td>Generic interface to use AWS CLI in Dagger pipelines. Provides functionality for ECR, STS operations, and AWS credential management.</td>
+            <td>✅</td>
+            <td><a href="aws-cli.html">View Report</a></td>
         </tr>
-        <tr>
-            <td>Terraform</td>
-            <td>Infrastructure as Code tools</td>
-            <td class="pass">✓</td>
-            <td><a href="iac-terragrunt.html">View Report</a></td>
-        </tr>
-        <tr>
-            <td>PostgreSQL</td>
-            <td>PostgreSQL database tools</td>
-            <td class="pass">✓</td>
-            <td><a href="postgres.html">View Report</a></td>
-        </tr>
-        <!-- Additional modules will be listed here -->
-    </table>
+</table>
 </body>
 </html>

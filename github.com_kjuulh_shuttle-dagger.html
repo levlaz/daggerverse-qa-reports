@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>QA Report - shuttle-dagger</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 20px; }
+        h1, h2 { color: #333; }
+        .function-list { background: #f5f5f5; padding: 15px; border-radius: 5px; }
+        .suggestion { margin: 20px 0; padding: 15px; border-left: 4px solid #007bff; }
+        .code-snippet { background: #f8f9fa; padding: 15px; border-radius: 5px; font-family: monospace; }
+        .error { color: #dc3545; }
+        .meme { max-width: 500px; margin: 20px 0; }
+    </style>
+</head>
+<body>
+    <h1>QA Report: shuttle-dagger</h1>
+    
+    <h2>Module Information</h2>
+    <ul>
+        <li><strong>Name:</strong> github.com/kjuulh/shuttle-dagger</li>
+        <li><strong>Author:</strong> kjuulh</li>
+        <li><strong>Latest Version:</strong> v0.1.0</li>
+        <li><strong>Release Date:</strong> Not specified in documentation</li>
+        <li><strong>Dagger Version Used:</strong> v0.18.2</li>
+    </ul>
+
+    <h2>Module Purpose</h2>
+    <p>This module provides integration with the Shuttle deployment platform, offering functionality to manage and interact with Shuttle commands through Dagger. It provides utilities for executing Shuttle commands, managing deployments, and handling Shuttle-specific operations.</p>
+
+    <h2>Module Functions</h2>
+    <div class="function-list">
+        <ul>
+            <li><strong>shuttleBin()</strong> - Provides the raw binary for shuttle as a file</li>
+            <li><strong>exec(directory, args)</strong> - Allows calling into a user generated query for the shuttle binary</li>
+            <li><strong>version(directory)</strong> - Prints the version of the shuttle binary</li>
+            <li><strong>prepare(directory, skipPull)</strong> - Pulls the latest plan from shuttle if found and exports it to the host directory at .shuttle</li>
+            <li><strong>run(directory, args)</strong> - Executes a user defined query on a prepared shuttle repository</li>
+        </ul>
+    </div>
+
+    <h2>Quality Improvement Suggestions</h2>
+    
+    <div class="suggestion">
+        <h3>1. Add Comprehensive Error Handling</h3>
+        <p>The module could benefit from more robust error handling and detailed error messages.</p>
+        <div class="code-snippet">
+        func (s *Shuttle) exec(ctx context.Context, directory *Directory, args []string) (*Container, error) {
+            if directory == nil {
+                return nil, fmt.Errorf("directory cannot be nil")
+            }
+            if len(args) == 0 {
+                return nil, fmt.Errorf("args cannot be empty")
+            }
+            // ... rest of the implementation
+        }
+        </div>
+    </div>
+
+    <div class="suggestion">
+        <h3>2. Add Input Validation</h3>
+        <p>Currently, the module accepts inputs without much validation. Adding input validation would improve reliability.</p>
+        <div class="code-snippet">
+        func validateDirectory(dir string) error {
+            if !filepath.IsAbs(dir) {
+                return fmt.Errorf("directory path must be absolute")
+            }
+            if _, err := os.Stat(dir); os.IsNotExist(err) {
+                return fmt.Errorf("directory does not exist: %s", dir)
+            }
+            return nil
+        }
+        </div>
+        <img src="https://i.imgflip.com/2k48t0.jpg" alt="Input Validation Meme" class="meme">
+    </div>
+
+    <div class="suggestion">
+        <h3>3. Add Documentation Examples</h3>
+        <p>While the module has basic documentation, it would benefit from more real-world usage examples.</p>
+        <div class="code-snippet">
+        // Example usage in documentation:
+        func ExampleShuttle_Deploy() {
+            shuttle := dag.Shuttle()
+            
+            // Prepare the deployment
+            prepared := shuttle.Prepare(ctx, directory, false)
+            
+            // Run the deployment
+            result := shuttle.Run(prepared, []string{"deploy", "--env", "production"})
+            
+            fmt.Println(result)
+        }
+        </div>
+    </div>
+
+    <h2>Testing Issues Encountered</h2>
+    <ul>
+        <li>Module installation completed successfully without any errors</li>
+        <li>All functions were discoverable through the build process</li>
+        <li>No significant issues were encountered during testing</li>
+    </ul>
+
+</body>
+</html>
