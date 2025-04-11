@@ -3,36 +3,39 @@
 <head>
     <title>QA Report - Wolfi Module</title>
     <style>
-        body { font-family: Arial, sans-serif; line-height: 1.6; max-width: 1200px; margin: 0 auto; padding: 20px; }
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 2em; }
         h1, h2 { color: #333; }
-        .error { color: #dc3545; padding: 10px; background-color: #f8d7da; border-radius: 4px; }
-        .suggestion { padding: 10px; background-color: #f8f9fa; border-radius: 4px; margin: 10px 0; }
-        code { background-color: #f4f4f4; padding: 2px 5px; border-radius: 3px; }
+        .error { color: #cc0000; }
+        .code { background: #f4f4f4; padding: 1em; border-radius: 4px; }
+        .suggestion { margin: 1em 0; padding: 1em; background: #f9f9f9; }
     </style>
 </head>
 <body>
-    <h1>QA Report: Wolfi Module</h1>
+    <h1>QA Report - Wolfi Module</h1>
     
     <h2>Module Information</h2>
     <ul>
-        <li><strong>Name:</strong> github.com/aluzzardi/dagger/modules/wolfi</li>
-        <li><strong>Author:</strong> aluzzardi</li>
-        <li><strong>Latest Version:</strong> aec13cdf85e7cc7aa5a933e3c73a2604f6e73b01</li>
-        <li><strong>Dagger Version Used:</strong> v0.18.2</li>
+        <li><strong>Name:</strong> github.com/dagger/dagger/dev/wolfi</li>
+        <li><strong>Author:</strong> Dagger Team</li>
+        <li><strong>Latest Version:</strong> v0.12.0</li>
+        <li><strong>Release Date:</strong> N/A (Not available in module metadata)</li>
     </ul>
 
+    <h2>Dagger Engine Version Used</h2>
+    <p>v0.18.2</p>
+
     <h2>Module Description</h2>
-    <p>Wolfi is a container-native Linux distribution with an emphasis on security. The module provides functionality to work with Wolfi Linux containers.</p>
+    <p>Wolfi is a container-native Linux distribution with an emphasis on security. This module provides functionality to work with Wolfi Linux containers.</p>
 
     <h2>Module Functions</h2>
     <ul>
-        <li><code>container()</code> - Build a Wolfi Linux container
+        <li><strong>container()</strong>
             <ul>
-                <li>Arguments:
+                <li>Builds a Wolfi Linux container</li>
+                <li>Parameters:
                     <ul>
-                        <li><code>packages: [String!]</code> - APK packages to install</li>
-                        <li><code>arch: String</code> - Hardware architecture to target</li>
-                        <li><code>overlays: [Container!]</code> - Overlay images to merge on top of the base</li>
+                        <li>packages: [String!] - APK packages to install</li>
+                        <li>overlays: [Container!] - Overlay images to merge on top of the base</li>
                     </ul>
                 </li>
             </ul>
@@ -41,69 +44,57 @@
 
     <h2>Issues Encountered</h2>
     <div class="error">
-        <h3>Build Error</h3>
-        <p>Encountered an error while trying to build the module:</p>
-        <pre>go: go.mod requires go >= 1.23.0 (running go 1.22.12; GOTOOLCHAIN=local)</pre>
+        <p>Several issues were encountered during testing:</p>
+        <ul>
+            <li>Module installation failed with error: "git module source does not contain a dagger config file"</li>
+            <li>Build attempt failed with error: "path 'dev/wolfi' does not exist in git repo"</li>
+        </ul>
     </div>
 
     <h2>Quality Improvement Suggestions</h2>
     
     <div class="suggestion">
-        <h3>1. Add Go Version Compatibility Information</h3>
-        <p>The module requires Go 1.23.0 but this isn't documented. Add this information to the README.md:</p>
-        <pre>
-## Requirements
-
-- Go 1.23.0 or higher
-- Dagger CLI v0.18.2 or higher</pre>
+        <h3>1. Add Proper Module Configuration</h3>
+        <p>The module is missing proper configuration files. Add a dagger.json file:</p>
+        <pre class="code">
+{
+    "name": "wolfi",
+    "sdk": "go",
+    "dependencies": [],
+    "source": "./",
+    "engineVersion": ">=0.18.0"
+}
+        </pre>
+        <img src="https://media.giphy.com/media/13FrpeVH09Zrb2/giphy.gif" alt="Configuration is key" />
     </div>
 
     <div class="suggestion">
-        <h3>2. Add Input Validation</h3>
-        <p>Add validation for the container() function arguments. Example implementation:</p>
-        <pre>
-func (w *Wolfi) Container(ctx context.Context, packages []string, arch Optional[string], overlays []Container) (*Container, error) {
-    // Validate architecture
-    if arch.Has() {
-        validArchs := []string{"amd64", "arm64"}
-        isValid := false
-        for _, validArch := range validArchs {
-            if arch.Value == validArch {
-                isValid = true
-                break
-            }
-        }
-        if !isValid {
-            return nil, fmt.Errorf("invalid architecture: %s", arch.Value)
+        <h3>2. Add Comprehensive Documentation</h3>
+        <p>Add more detailed documentation with examples:</p>
+        <pre class="code">
+// Example of how to use the Wolfi module
+func ExampleWolfi() {
+    wolfi := dag.Wolfi().Container(
+        WithPackages: []string{"python3", "git"},
+        WithOverlays: []Container{customLayer},
+    )
+}
+        </pre>
+    </div>
+
+    <div class="suggestion">
+        <h3>3. Add Validation and Error Handling</h3>
+        <p>Implement proper validation for package names and overlay compatibility:</p>
+        <pre class="code">
+func (w *Wolfi) Container(ctx context.Context, packages []string) (*Container, error) {
+    for _, pkg := range packages {
+        if err := validatePackageName(pkg); err != nil {
+            return nil, fmt.Errorf("invalid package name %s: %w", pkg, err)
         }
     }
     // ... rest of the implementation
-}</pre>
-    </div>
-
-    <div class="suggestion">
-        <h3>3. Add Examples and Documentation</h3>
-        <p>Enhance documentation with practical examples. Add to README.md:</p>
-        <pre>
-## Examples
-
-```go
-// Basic Wolfi container
-container := dag.Wolfi().Container()
-
-// Wolfi container with custom packages
-container := dag.Wolfi().Container(
-    WithPackages([]string{"python3", "git"}),
-    WithArch("arm64"),
-)
-
-// Wolfi container with overlay
-base := dag.Container().From("alpine")
-container := dag.Wolfi().Container(
-    WithOverlays([]Container{base}),
-)
-```</pre>
-        <img src="https://i.imgflip.com/7zlvn9.jpg" alt="Documentation Meme" style="max-width: 400px;"/>
+}
+        </pre>
     </div>
 
 </body>

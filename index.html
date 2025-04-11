@@ -1,19 +1,18 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Dagger Module QA Reports Index</title>
+    <title>Dagger Modules QA Report Index</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 20px; }
+        body { font-family: Arial, sans-serif; padding: 20px; }
         table { border-collapse: collapse; width: 100%; }
         th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
         th { background-color: #f2f2f2; }
         .pass { color: green; font-size: 1.2em; }
         .fail { color: red; font-size: 1.2em; }
-        .status-cell { text-align: center; }
     </style>
 </head>
 <body>
-    <h1>Dagger Module QA Reports</h1>
+    <h1>Dagger Modules QA Report Index</h1>
     <table>
         <tr>
             <th>Module Name</th>
@@ -23,75 +22,51 @@
         </tr>
         <tr>
             <td>Alpine</td>
-            <td>A Dagger Module to integrate with Alpine Linux. Provides functionality to create and customize Alpine Linux containers.</td>
-            <td class="status-cell"><span class="pass">✓</span></td>
+            <td>A Dagger Module to integrate with Alpine Linux, providing functionality to create and customize Alpine Linux containers</td>
+            <td><span class="pass">✓</span></td>
             <td><a href="alpine.html">View Report</a></td>
         </tr>
         <tr>
-            <td>APKO</td>
-            <td>Module for building OCI images using APKO tooling</td>
-            <td class="status-cell"><span class="pass">✓</span></td>
-            <td><a href="apko.html">View Report</a></td>
-        </tr>
-        <tr>
-            <td>APT</td>
-            <td>Module for managing Debian/Ubuntu package operations</td>
-            <td class="status-cell"><span class="pass">✓</span></td>
-            <td><a href="apt.html">View Report</a></td>
-        </tr>
-        <tr>
             <td>AWS CLI</td>
-            <td>AWS Command Line Interface integration module</td>
-            <td class="status-cell"><span class="pass">✓</span></td>
+            <td>Generic interface to use AWS CLI in Dagger pipelines, providing ECR, STS operations, and credential management</td>
+            <td><span class="pass">✓</span></td>
             <td><a href="aws-cli.html">View Report</a></td>
         </tr>
         <tr>
-            <td>AWS ECR</td>
-            <td>Amazon Elastic Container Registry integration</td>
-            <td class="status-cell"><span class="pass">✓</span></td>
-            <td><a href="aws-ecr.html">View Report</a></td>
+            <td>buf-pipeline</td>
+            <td>Module for working with Protocol Buffers (Protobuf) files using the Buf tool, offering formatting, linting, and registry push capabilities</td>
+            <td><span class="pass">✓</span></td>
+            <td><a href="buf-pipeline.html">View Report</a></td>
         </tr>
         <tr>
-            <td>Golang CI</td>
-            <td>Go code quality and testing pipeline</td>
-            <td class="status-cell"><span class="pass">✓</span></td>
-            <td><a href="golangci.html">View Report</a></td>
+            <td>dagger-php-module</td>
+            <td>PHP module providing container management with support for CLI, Apache, FPM, and ZTS versions</td>
+            <td><span class="pass">✓</span></td>
+            <td><a href="carnage-dagger-php-module.html">View Report</a></td>
+        </tr>
+        <tr>
+            <td>Go</td>
+            <td>Module for working with Go programming language in Dagger pipelines, providing build, test, and application management capabilities</td>
+            <td><span class="pass">✓</span></td>
+            <td><a href="go.html">View Report</a></td>
         </tr>
         <tr>
             <td>Helm</td>
-            <td>Kubernetes Helm chart management and deployment</td>
-            <td class="status-cell"><span class="pass">✓</span></td>
+            <td>Module for publishing new Helm Chart versions on registries using helm.sh</td>
+            <td><span class="fail">✗</span></td>
             <td><a href="helm.html">View Report</a></td>
         </tr>
         <tr>
-            <td>PHP Tests</td>
-            <td>PHP testing and quality assurance module</td>
-            <td class="status-cell"><span class="pass">✓</span></td>
-            <td><a href="php-tests.html">View Report</a></td>
+            <td>Hugo</td>
+            <td>Tools for working with Hugo static site generator, including binary management and container integration</td>
+            <td><span class="pass">✓</span></td>
+            <td><a href="hugo.html">View Report</a></td>
         </tr>
         <tr>
-            <td>Poetry</td>
-            <td>Python dependency management with Poetry</td>
-            <td class="status-cell"><span class="pass">✓</span></td>
-            <td><a href="poetry.html">View Report</a></td>
-        </tr>
-        <tr>
-            <td>Postgres</td>
-            <td>PostgreSQL database management and configuration</td>
-            <td class="status-cell"><span class="pass">✓</span></td>
-            <td><a href="postgres.html">View Report</a></td>
-        </tr>
-        <tr>
-            <td>ShellCheck</td>
-            <td>Shell script static analysis tool integration</td>
-            <td class="status-cell"><span class="pass">✓</span></td>
-            <td><a href="shellcheck.html">View Report</a></td>
-        </tr>
-        <tr>
-            <td>Terraform</td>
-            <td>Infrastructure as Code automation with Terraform</td>
-            <td class="status-cell"><span class="pass">✓</span></td>
-            <td><a href="terraform.html">View Report</a></td>
+            <td>Rust</td>
+            <td>Swiss army knife for Rust development including linting, formatting, security audits, and code quality tools</td>
+            <td><span class="pass">✓</span></td>
+            <td><a href="rust.html">View Report</a></td>
         </tr>
     </table>
 </body>
