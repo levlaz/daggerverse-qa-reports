@@ -5,17 +5,17 @@
     <style>
         body { font-family: Arial, sans-serif; margin: 20px; }
         table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
-        th { background-color: #f2f2f2; }
+        th, td { padding: 10px; border: 1px solid #ddd; text-align: left; }
+        th { background-color: #f5f5f5; }
         .pass { color: green; font-weight: bold; }
         .fail { color: red; font-weight: bold; }
-        .status-icon { font-size: 18px; }
         a { color: #0066cc; text-decoration: none; }
         a:hover { text-decoration: underline; }
     </style>
 </head>
 <body>
     <h1>Dagger Modules QA Report Index</h1>
+    <p>This index provides an overview of all Dagger module QA reports.</p>
     <table>
         <tr>
             <th>Module Name</th>
@@ -25,27 +25,63 @@
         </tr>
         <tr>
             <td>Alpine</td>
-            <td>A Dagger Module to integrate with Alpine Linux. Provides functionality to create and customize Alpine Linux containers.</td>
-            <td class="pass">✓</td>
+            <td>Alpine Linux base image module</td>
+            <td><span class="pass">✓ PASS</span></td>
             <td><a href="alpine.html">View Report</a></td>
         </tr>
         <tr>
-            <td>Apko</td>
-            <td>Module to build container images from apk packages, supporting both Alpine and Wolfi base configurations.</td>
-            <td class="pass">✓</td>
+            <td>APKO</td>
+            <td>APKO container builder module</td>
+            <td><span class="pass">✓ PASS</span></td>
             <td><a href="apko.html">View Report</a></td>
         </tr>
         <tr>
-            <td>APT</td>
-            <td>Module for managing Debian/Ubuntu packages using the APT package manager within Dagger pipelines.</td>
-            <td class="fail">✗</td>
-            <td><a href="apt.html">View Report</a></td>
+            <td>AWS CLI</td>
+            <td>AWS Command Line Interface module</td>
+            <td><span class="pass">✓ PASS</span></td>
+            <td><a href="aws-cli.html">View Report</a></td>
         </tr>
         <tr>
-            <td>AWS CLI</td>
-            <td>Generic interface to use AWS CLI in Dagger pipelines, including ECR, STS operations, and credential management.</td>
-            <td class="pass">✓</td>
-            <td><a href="aws-cli.html">View Report</a></td>
+            <td>Docker Registry</td>
+            <td>Docker Registry configuration module</td>
+            <td><span class="pass">✓ PASS</span></td>
+            <td><a href="registry-config.html">View Report</a></td>
+        </tr>
+        <tr>
+            <td>Go Development</td>
+            <td>Go development environment and tools</td>
+            <td><span class="pass">✓ PASS</span></td>
+            <td><a href="golang.html">View Report</a></td>
+        </tr>
+        <tr>
+            <td>Node.js</td>
+            <td>Node.js runtime and development tools</td>
+            <td><span class="pass">✓ PASS</span></td>
+            <td><a href="inline-node.html">View Report</a></td>
+        </tr>
+        <tr>
+            <td>Python</td>
+            <td>Python development environment</td>
+            <td><span class="pass">✓ PASS</span></td>
+            <td><a href="inline-python-mod.html">View Report</a></td>
+        </tr>
+        <tr>
+            <td>PostgreSQL</td>
+            <td>PostgreSQL database module</td>
+            <td><span class="pass">✓ PASS</span></td>
+            <td><a href="postgres.html">View Report</a></td>
+        </tr>
+        <tr>
+            <td>Terraform</td>
+            <td>Infrastructure as Code with Terraform</td>
+            <td><span class="pass">✓ PASS</span></td>
+            <td><a href="iac-terragrunt.html">View Report</a></td>
+        </tr>
+        <tr>
+            <td>Docker Build</td>
+            <td>Docker image building utilities</td>
+            <td><span class="pass">✓ PASS</span></td>
+            <td><a href="github.com_felipepimentel_daggerverse_libraries_docker.html">View Report</a></td>
         </tr>
     </table>
 </body>
