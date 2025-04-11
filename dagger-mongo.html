@@ -3,79 +3,96 @@
 <head>
     <title>QA Report - dagger-mongo</title>
     <style>
-        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 2em; }
-        h1, h2 { color: #333; }
-        .success { color: green; }
-        .error { color: red; }
-        pre { background: #f4f4f4; padding: 1em; border-radius: 4px; }
-        .meme { max-width: 500px; margin: 1em 0; }
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        .section { margin-bottom: 20px; }
+        .function-list { background-color: #f5f5f5; padding: 15px; border-radius: 5px; }
+        .suggestion { margin: 10px 0; padding: 10px; background-color: #e9f7ef; border-radius: 5px; }
+        .error { color: #c0392b; }
+        pre { background-color: #f8f9fa; padding: 10px; border-radius: 5px; }
     </style>
 </head>
 <body>
     <h1>QA Report: dagger-mongo</h1>
     
-    <h2>Module Information</h2>
-    <ul>
-        <li><strong>Name:</strong> dagger-mongo</li>
-        <li><strong>Author:</strong> levlaz</li>
-        <li><strong>Latest Version:</strong> e04652eecfdcb402ec22e4e37ac7ce48abdb516b</li>
-        <li><strong>Release Date:</strong> Not specified in module info</li>
-        <li><strong>Dagger Version Used:</strong> v0.18.2</li>
-        <li><strong>Raw Crawl Results:</strong> <a href="dagger-mongo-crawl.html">View Results</a></li>
-    </ul>
+    <div class="section">
+        <h2>Module Information</h2>
+        <ul>
+            <li><strong>Name:</strong> dagger-mongo</li>
+            <li><strong>Author:</strong> levlaz</li>
+            <li><strong>Latest Version:</strong> e04652eecfdcb402ec22e4e37ac7ce48abdb516b</li>
+            <li><strong>Release Date:</strong> Not specified in module info</li>
+            <li><strong>Dagger Engine Version Used:</strong> v0.18.2</li>
+        </ul>
+    </div>
 
-    <h2>Module Purpose</h2>
-    <p>This module provides MongoDB for use as a Dagger Service. It offers a simple interface to work with MongoDB containers.</p>
+    <div class="section">
+        <h2>Module Purpose</h2>
+        <p>This module provides MongoDB for use as a Dagger Service. It offers functionality to create and manage MongoDB instances within Dagger pipelines.</p>
+        
+        <h3>Available Functions:</h3>
+        <div class="function-list">
+            <ul>
+                <li><strong>base()</strong> - Returns a mongo container</li>
+            </ul>
+        </div>
+    </div>
 
-    <h2>Available Functions</h2>
-    <ul>
-        <li><code>base()</code> - Returns a mongo container</li>
-    </ul>
-
-    <h2>Quality Improvement Suggestions</h2>
-    
-    <h3>1. Add Version Configuration</h3>
-    <p>Currently, there's no way to specify which MongoDB version to use. Add version configuration:</p>
-    <pre>
+    <div class="section">
+        <h2>Suggestions for Improvement</h2>
+        
+        <div class="suggestion">
+            <h3>1. Add Version Configuration</h3>
+            <p>Allow users to specify which MongoDB version they want to use.</p>
+            <pre>
 func (m *Mongo) WithVersion(version string) *Mongo {
     return &Mongo{
         base: m.base.WithEnvVariable("MONGODB_VERSION", version)
     }
 }
-    </pre>
-    <img src="https://i.imgflip.com/65efzo.jpg" alt="Configuration Meme" class="meme"/>
+            </pre>
+            <img src="https://i.imgflip.com/65efzo.jpg" alt="Configuration Meme" />
+        </div>
 
-    <h3>2. Add Health Check Function</h3>
-    <p>Implement a health check to ensure MongoDB is ready:</p>
-    <pre>
-func (m *Mongo) WaitForReady() *Mongo {
+        <div class="suggestion">
+            <h3>2. Add Health Check Function</h3>
+            <p>Implement a health check to verify MongoDB is running correctly.</p>
+            <pre>
+func (m *Mongo) HealthCheck() *Bool {
+    return m.base.WithExec([]string{
+        "mongosh", 
+        "--eval", 
+        "db.adminCommand('ping')"
+    }).Stdout()
+}
+            </pre>
+        </div>
+
+        <div class="suggestion">
+            <h3>3. Add Data Import Functionality</h3>
+            <p>Provide a way to import initial data into MongoDB.</p>
+            <pre>
+func (m *Mongo) ImportData(dataFile *File) *Mongo {
     return &Mongo{
-        base: m.base.WithExec([]string{
-            "mongosh", 
-            "--eval", 
-            "db.adminCommand('ping')"
-        })
+        base: m.base.WithMountedFile("/tmp/data.json", dataFile).
+            WithExec([]string{
+                "mongoimport",
+                "--db", "mydb",
+                "--collection", "mycollection",
+                "--file", "/tmp/data.json"
+            })
     }
 }
-    </pre>
+            </pre>
+        </div>
+    </div>
 
-    <h3>3. Add Common Configuration Options</h3>
-    <p>Implement common MongoDB configuration options:</p>
-    <pre>
-func (m *Mongo) WithAuthEnabled(username string, password string) *Mongo {
-    return &Mongo{
-        base: m.base.
-            WithEnvVariable("MONGO_INITDB_ROOT_USERNAME", username).
-            WithEnvVariable("MONGO_INITDB_ROOT_PASSWORD", password)
-    }
-}
-    </pre>
-
-    <h2>Issues Encountered</h2>
-    <ul>
-        <li>Limited documentation on module usage and examples</li>
-        <li>No version selection capability</li>
-        <li>Missing common MongoDB configuration options</li>
-    </ul>
+    <div class="section">
+        <h2>Issues Encountered</h2>
+        <ul>
+            <li>Limited documentation on usage examples</li>
+            <li>No explicit version configuration options</li>
+            <li>Minimal error handling documentation</li>
+        </ul>
+    </div>
 </body>
 </html>
