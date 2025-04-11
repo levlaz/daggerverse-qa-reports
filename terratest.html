@@ -1,102 +1,117 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>QA Report - Terratest Module</title>
+    <title>QA Report - terratest Module</title>
     <style>
-        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
-        h1 { color: #2c3e50; }
-        .error { color: #e74c3c; padding: 10px; background: #fadbd8; border-radius: 4px; }
-        .suggestion { margin: 20px 0; padding: 15px; background: #f8f9fa; border-left: 4px solid #2ecc71; }
-        code { background: #f8f9fa; padding: 2px 5px; border-radius: 3px; }
-        .meme { max-width: 500px; margin: 20px 0; }
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 20px; }
+        h1 { color: #333; }
+        h2 { color: #666; }
+        .error { color: #d44; }
+        .code { background: #f4f4f4; padding: 10px; border-radius: 4px; font-family: monospace; }
+        .suggestion { margin: 10px 0; padding: 10px; border-left: 3px solid #666; }
     </style>
 </head>
 <body>
-    <h1>QA Report - Terratest Module</h1>
+    <h1>QA Report: terratest Module</h1>
     
-    <h2>Module Information</h2>
+    <h2>Basic Information</h2>
     <ul>
-        <li><strong>Name:</strong> github.com/Excoriate/daggerverse/terratest</li>
+        <li><strong>Module Name:</strong> terratest</li>
         <li><strong>Author:</strong> Excoriate</li>
-        <li><strong>Latest Version:</strong> v1.15.4</li>
+        <li><strong>Latest Version:</strong> v1.15.4 (attempted)</li>
         <li><strong>Release Date:</strong> Not available</li>
-        <li><strong>Dagger Engine Version Used:</strong> v0.17.2</li>
+        <li><strong>Dagger Engine Version Used:</strong> v0.18.2</li>
     </ul>
 
-    <h2>Module Purpose</h2>
-    <p>This module is designed to run Terratest tests in a containerized environment. It provides functionality to execute Terraform tests using the Terratest framework with configurable Go and Terraform versions.</p>
+    <h2>Module Description</h2>
+    <p>A Dagger module designed to run Terratest, which is a testing framework for infrastructure code. It provides integration with Go tests and Terraform.</p>
 
     <h2>Available Functions</h2>
     <ul>
-        <li>version() - Get the Golang image version</li>
-        <li>tfVersion() - Get the Terraform version</li>
-        <li>image() - Get the container image being used</li>
-        <li>withSource() - Set the source directory for tests</li>
-        <li>withCgoDisabled() - Disable CGO</li>
-        <li>withEnvVar() - Set environment variables</li>
-        <li>base() - Set up the container with Golang image and cache volumes</li>
-        <li>run() - Execute the Terratest tests</li>
+        <li>version() - Returns the Golang image version</li>
+        <li>tfVersion() - Returns the Terraform version</li>
+        <li>image() - Returns the container image being used</li>
+        <li>withSource() - Sets the source directory</li>
+        <li>withCgoDisabled() - Disables CGO</li>
+        <li>withEnvVar() - Sets environment variables</li>
+        <li>base() - Sets up the container with Golang image and cache volumes</li>
+        <li>withContainer() - Specifies the container to use</li>
+        <li>run() - Executes the tests</li>
     </ul>
 
-    <h2>Issues Encountered</h2>
+    <h2>Installation and Build Issues</h2>
     <div class="error">
-        <h3>Installation Error</h3>
-        <p>Failed to install the module due to missing dagger.json configuration file in the repository.</p>
-        <pre>Error: git module source "github.com/Excoriate/daggerverse/terratest" does not contain a dagger config file</pre>
+        <h3>Installation Error:</h3>
+        <pre class="code">git module source "github.com/Excoriate/daggerverse/terratest" does not contain a dagger config file</pre>
+        
+        <h3>Build Error:</h3>
+        <pre class="code">path "terratest" does not exist in git repo</pre>
     </div>
 
     <h2>Quality Improvement Suggestions</h2>
     
     <div class="suggestion">
-        <h3>1. Add proper module configuration</h3>
-        <p>The module is missing its dagger.json configuration file, which is essential for proper installation.</p>
-        <code>
+        <h3>1. Add Proper Module Configuration</h3>
+        <p>The module is missing a dagger.json configuration file, which is essential for Dagger modules.</p>
+        <pre class="code">
+// dagger.json
 {
     "name": "terratest",
     "sdk": "go",
     "dependencies": [],
     "source": "./",
-    "engineVersion": "v0.17.2"
+    "engineVersion": "v0.18.2"
 }
-        </code>
+        </pre>
+        <img src="https://i.imgflip.com/2/3kxji9.jpg" alt="Configuration Missing Meme" style="max-width: 300px;"/>
     </div>
 
     <div class="suggestion">
-        <h3>2. Add comprehensive documentation</h3>
-        <p>The module would benefit from better documentation, including examples and usage patterns.</p>
-        <code>
-// Example documentation in main.go
-/**
- * @description Runs Terratest tests in a containerized environment
- * @example
- * dag.terratest().
- *     withSource(dag.host().directory("./tests")).
- *     withEnvVar("TF_VAR_environment", "test").
- *     run()
- */
-        </code>
-    </div>
-
-    <div class="suggestion">
-        <h3>3. Add input validation and error handling</h3>
-        <p>Implement proper input validation and meaningful error messages.</p>
-        <code>
-func (t *Terratest) withSource(src *Directory, workdir string) (*Terratest, error) {
+        <h3>2. Implement Error Handling</h3>
+        <p>Add robust error handling for common scenarios like missing directories or invalid configurations.</p>
+        <pre class="code">
+func (t *Terratest) WithSource(src *Directory, workdir string) (*Terratest, error) {
     if src == nil {
         return nil, fmt.Errorf("source directory cannot be nil")
     }
-    if workdir != "" && !filepath.IsAbs(workdir) {
-        return nil, fmt.Errorf("workdir must be an absolute path")
+    if workdir != "" {
+        if _, err := src.Directory(workdir).ID(); err != nil {
+            return nil, fmt.Errorf("invalid workdir path: %w", err)
+        }
     }
-    // ... rest of the implementation
+    t.src = src
+    t.workdir = workdir
+    return t, nil
 }
-        </code>
+        </pre>
     </div>
 
-    <div class="meme">
-        <img src="https://i.imgflip.com/7zx2ih.jpg" alt="Testing Meme" width="400">
-        <p><em>When your Terratest configuration is missing...</em></p>
+    <div class="suggestion">
+        <h3>3. Add Input Validation</h3>
+        <p>Implement input validation for critical parameters to prevent runtime errors.</p>
+        <pre class="code">
+func (t *Terratest) WithEnvVar(name, value string, expand bool) (*Terratest, error) {
+    if strings.TrimSpace(name) == "" {
+        return nil, fmt.Errorf("environment variable name cannot be empty")
+    }
+    if !regexp.MustCompile(`^[a-zA-Z_][a-zA-Z0-9_]*$`).MatchString(name) {
+        return nil, fmt.Errorf("invalid environment variable name format")
+    }
+    return t.container.WithEnvVariable(name, value, ContainerWithEnvVariableOpts{
+        Expand: expand,
+    })
+}
+        </pre>
     </div>
 
+    <h2>Testing Issues</h2>
+    <ul>
+        <li>Cannot locate the module in the repository structure</li>
+        <li>Missing configuration file prevents proper module installation</li>
+        <li>Unable to build and test the module's functionality</li>
+    </ul>
+
+    <h2>Conclusion</h2>
+    <p>The terratest module appears to be missing or incorrectly structured in the repository. Basic module infrastructure like the dagger.json configuration file is missing, preventing proper installation and testing. The module's intended functionality looks promising for Terraform testing, but significant structural improvements are needed before it can be properly evaluated.</p>
 </body>
 </html>
