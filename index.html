@@ -3,11 +3,13 @@
 <head>
     <title>Dagger Modules QA Report Index</title>
     <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
         table { border-collapse: collapse; width: 100%; }
         th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-        th { background-color: #f2f2f2; }
+        th { background-color: #f4f4f4; }
         .pass { color: green; }
         .fail { color: red; }
+        .status-icon { font-size: 1.2em; }
     </style>
 </head>
 <body>
@@ -20,41 +22,17 @@
             <th>Full Report</th>
         </tr>
         <tr>
-            <td>postgres</td>
-            <td>Provides a simple way to launch a Postgres database server for development and testing purposes</td>
-            <td>✅</td>
-            <td><a href="postgres.html">View Report</a></td>
+            <td>Alpine</td>
+            <td>A Dagger Module to integrate with Alpine Linux. Provides functionality to create and customize Alpine Linux containers.</td>
+            <td><span class="status-icon pass">✓</span></td>
+            <td><a href="alpine.html">View Report</a></td>
         </tr>
         <tr>
-            <td>golang</td>
-            <td>Collection of functions for building, formatting, testing, linting and scanning Go projects</td>
-            <td>✅</td>
-            <td><a href="golang.html">View Report</a></td>
+            <td>AWS CLI</td>
+            <td>Generic interface to use AWS CLI in Dagger pipelines. Provides ECR, STS operations, and credential management.</td>
+            <td><span class="status-icon pass">✓</span></td>
+            <td><a href="aws-cli.html">View Report</a></td>
         </tr>
-        <tr>
-            <td>rust</td>
-            <td>Swiss army knife of functions for working with Rust projects including linting, formatting, and security audits</td>
-            <td>✅</td>
-            <td><a href="rust.html">View Report</a></td>
-        </tr>
-        <tr>
-            <td>java</td>
-            <td>Java development capabilities including JDK and Maven integration for building and running Java applications</td>
-            <td>✅</td>
-            <td><a href="java.html">View Report</a></td>
-        </tr>
-        <tr>
-            <td>helm</td>
-            <td>Module for publishing Helm Chart versions on registries with packaging and testing capabilities</td>
-            <td>❌</td>
-            <td><a href="helm.html">View Report</a></td>
-        </tr>
-        <tr>
-            <td>typescript-runtime</td>
-            <td>TypeScript SDK runtime module for Dagger, providing functionality for TypeScript module development</td>
-            <td>❌</td>
-            <td><a href="typescript-runtime.html">View Report</a></td>
-        </tr>
-</table>
+    </table>
 </body>
 </html>
