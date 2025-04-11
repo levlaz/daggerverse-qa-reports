@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Dagger Modules QA Reports Index</title>
+    <title>Dagger Module QA Reports</title>
     <style>
         table {
             width: 100%;
@@ -24,10 +24,17 @@
             color: red;
             font-size: 20px;
         }
+        a {
+            color: #0066cc;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
-    <h1>Dagger Modules QA Reports Index</h1>
+    <h1>Dagger Module QA Reports</h1>
     <table>
         <tr>
             <th>Module Name</th>
@@ -38,38 +45,26 @@
         <tr>
             <td>Alpine</td>
             <td>A Dagger Module to integrate with Alpine Linux. Provides functionality to create and customize Alpine Linux containers.</td>
-            <td>✅</td>
+            <td><span class="pass">✓</span></td>
             <td><a href="alpine.html">View Report</a></td>
         </tr>
         <tr>
-            <td>Go</td>
-            <td>Module for working with Go programming language in Dagger pipelines. Offers capabilities for building, testing, and managing Go applications.</td>
-            <td>✅</td>
-            <td><a href="go.html">View Report</a></td>
+            <td>apko</td>
+            <td>Module to build container images from apk packages, supporting both Alpine and Wolfi base configurations.</td>
+            <td><span class="pass">✓</span></td>
+            <td><a href="apko.html">View Report</a></td>
         </tr>
         <tr>
-            <td>SpokaneTech Python</td>
-            <td>Development and production environment for Python/Django applications with built-in linting, testing, and documentation capabilities.</td>
-            <td>✅</td>
-            <td><a href="SpokaneTech_Py.html">View Report</a></td>
+            <td>apt</td>
+            <td>Module for managing Debian/Ubuntu packages using the APT package manager within Dagger pipelines.</td>
+            <td><span class="fail">✗</span></td>
+            <td><a href="apt.html">View Report</a></td>
         </tr>
         <tr>
-            <td>Postgres</td>
-            <td>Simple way to launch a Postgres database server for development and testing purposes. Integrates with official Postgres Docker image.</td>
-            <td>✅</td>
-            <td><a href="postgres.html">View Report</a></td>
-        </tr>
-        <tr>
-            <td>Inline Node</td>
-            <td>Module for running Node.js code and managing Node.js packages inline within Dagger pipelines.</td>
-            <td>✅</td>
-            <td><a href="inline-node.html">View Report</a></td>
-        </tr>
-        <tr>
-            <td>AWS CLI</td>
-            <td>Generic interface to use AWS CLI in Dagger pipelines. Provides functionality for ECR, STS operations, and AWS credential management.</td>
-            <td>✅</td>
-            <td><a href="aws-cli.html">View Report</a></td>
+            <td>arc-tests</td>
+            <td>Module for working with various archive formats, providing tools for archiving files and directories in multiple compression formats.</td>
+            <td><span class="pass">✓</span></td>
+            <td><a href="arc-tests.html">View Report</a></td>
         </tr>
 </table>
 </body>
