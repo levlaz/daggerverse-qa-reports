@@ -4,91 +4,92 @@
     <title>QA Report - daggerverse-cockpit</title>
     <style>
         body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
-        h1 { color: #333; }
-        .section { margin: 20px 0; }
-        .function-list { background: #f5f5f5; padding: 15px; border-radius: 5px; }
-        .suggestion { margin: 10px 0; padding: 10px; background: #e9f7ef; border-radius: 5px; }
-        .code { background: #f8f9fa; padding: 10px; border-radius: 5px; font-family: monospace; }
-        .error { color: #dc3545; }
-        .info { display: grid; grid-template-columns: 150px auto; gap: 10px; }
+        h1, h2 { color: #333; }
+        .function { margin-left: 20px; }
+        .suggestion { background: #f5f5f5; padding: 15px; margin: 10px 0; border-radius: 5px; }
+        code { background: #f0f0f0; padding: 2px 5px; border-radius: 3px; }
+        .meme { max-width: 500px; margin: 20px 0; }
     </style>
 </head>
 <body>
-    <h1>QA Report: daggerverse-cockpit</h1>
+    <h1>QA Report - daggerverse-cockpit</h1>
     
-    <div class="section info">
-        <div>Name:</div><div>daggerverse-cockpit</div>
-        <div>Author:</div><div>quartz-technology</div>
-        <div>Latest Version:</div><div>v0.0.3</div>
-        <div>Dagger Version:</div><div>v0.18.1</div>
-        <div>Trace Link:</div><div><a href="https://dagger.cloud/trace/YOUR_TRACE_ID">View Trace</a></div>
-    </div>
+    <h2>Module Information</h2>
+    <ul>
+        <li><strong>Name:</strong> daggerverse-cockpit</li>
+        <li><strong>Author:</strong> Quartz Technology</li>
+        <li><strong>Latest Version:</strong> v0.0.3</li>
+        <li><strong>Release Date:</strong> Not specified in documentation</li>
+        <li><strong>Dagger Cloud Trace:</strong> <a href="https://daggerverse.dev/mod/github.com/quartz-technology/daggerverse/daggerverse-cockpit@627fc4df7de8ce3bd8710fa08ea2db6cf16712b3">View on Daggerverse</a></li>
+    </ul>
 
-    <div class="section">
-        <h2>Module Purpose</h2>
-        <p>The daggerverse-cockpit module provides a simple interface to manage Daggerverse repositories. It offers functionality for:</p>
-        <ul class="function-list">
-            <li><strong>cli()</strong> - Installs and provides access to the Dagger CLI in a container</li>
-            <li><strong>publish()</strong> - Publishes multiple modules to the daggerverse</li>
-            <li><strong>usage-generator()</strong> - Generates documentation for modules</li>
-        </ul>
-    </div>
+    <h2>Module Purpose</h2>
+    <p>Daggerverse Cockpit aims to provide a simple and easy to use interface to manage your Daggerverse repository. It provides single commands action to publish all your modules, generate usage examples, get a dagger CLI and more!</p>
 
-    <div class="section">
-        <h2>Quality Improvement Suggestions</h2>
+    <h2>Module Functions</h2>
+    <div class="function">
+        <h3>1. cli()</h3>
+        <p>Installs the Dagger CLI in a container and returns it. Requires version parameter.</p>
         
-        <div class="suggestion">
-            <h3>1. Add Input Validation</h3>
-            <p>Add validation for the repository path in the publish function to ensure it exists and contains valid modules.</p>
-            <div class="code">
-func validateRepository(repository *Directory) error {
-    // Check if directory exists and contains dagger.json
-    exists := repository.File("dagger.json").Exists()
-    if !exists {
-        return fmt.Errorf("repository must contain dagger.json")
-    }
-    return nil
-}
-            </div>
-            <img src="https://i.imgflip.com/2ku1hb.jpg" alt="Validation Meme" style="max-width: 300px;"/>
-        </div>
-
-        <div class="suggestion">
-            <h3>2. Improve Error Handling</h3>
-            <p>Add more detailed error messages and handling for the CLI operations.</p>
-            <div class="code">
-// Before publishing, check CLI availability
-func (c *DaggerverseCockpitCli) ensureCLI(ctx context.Context) error {
-    version, err := c.container().WithExec([]string{"dagger", "version"}).Stdout(ctx)
-    if err != nil {
-        return fmt.Errorf("CLI not properly installed: %w", err)
-    }
-    return nil
-}
-            </div>
-        </div>
-
-        <div class="suggestion">
-            <h3>3. Add Progress Feedback</h3>
-            <p>Implement progress reporting for long-running operations like publishing multiple modules.</p>
-            <div class="code">
-func (d *DaggerverseCockpit) publish(ctx context.Context, repository *Directory) ([]string, error) {
-    // Add progress reporting
-    fmt.Printf("Scanning repository at %s\n", repository.Path())
-    modules, err := findModules(repository)
-    if err != nil {
-        return nil, err
-    }
-    fmt.Printf("Found %d modules to publish\n", len(modules))
-    // Continue with publishing...
-}
-            </div>
-        </div>
+        <h3>2. publish()</h3>
+        <p>Loops through all directories containing a dagger.json and publishes them to the daggerverse.</p>
+        
+        <h3>3. usageGenerator()</h3>
+        <p>Generates simple usage documentation for a module. Currently in development phase.</p>
     </div>
 
-    <div class="section">
-        <h2>Testing Notes</h2>
-        <p>No errors were encountered during testing. The module installed and built successfully. All main functions were discovered and documented.</p>
+    <h2>Testing Environment</h2>
+    <p>Tested with Dagger Engine Version: v0.18.2</p>
+
+    <h2>Quality Improvement Suggestions</h2>
+    
+    <div class="suggestion">
+        <h3>1. Add Input Validation</h3>
+        <p>Add better input validation for the version parameter in the CLI function:</p>
+        <code>
+            func validateVersion(version string) error {<br>
+                if !semver.IsValid(version) {<br>
+                    return fmt.Errorf("invalid version format: %s", version)<br>
+                }<br>
+                return nil<br>
+            }
+        </code>
+        <img src="https://i.imgur.com/WZFShOP.jpg" alt="Input Validation Meme" class="meme">
     </div>
+
+    <div class="suggestion">
+        <h3>2. Improve Error Handling</h3>
+        <p>Add more detailed error messages and recovery mechanisms:</p>
+        <code>
+            func (m *Module) publish(ctx context.Context, path string) (string, error) {<br>
+                if _, err := os.Stat(filepath.Join(path, "dagger.json")); os.IsNotExist(err) {<br>
+                    return "", fmt.Errorf("dagger.json not found in %s: %w", path, err)<br>
+                }<br>
+                // ... rest of the publish logic<br>
+            }
+        </code>
+    </div>
+
+    <div class="suggestion">
+        <h3>3. Add Progress Reporting</h3>
+        <p>Implement progress reporting for long-running operations:</p>
+        <code>
+            func (m *Module) publish(ctx context.Context, paths []string) error {<br>
+                total := len(paths)<br>
+                for i, path := range paths {<br>
+                    fmt.Printf("Publishing %d/%d: %s\n", i+1, total, path)<br>
+                    // ... publish logic<br>
+                }<br>
+                return nil<br>
+            }
+        </code>
+    </div>
+
+    <h2>Issues Encountered</h2>
+    <ul>
+        <li>Release date information is not available in the module metadata</li>
+        <li>The usageGenerator function is marked as "still in development" which might lead to incomplete or inconsistent documentation generation</li>
+    </ul>
+
 </body>
 </html>
