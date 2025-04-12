@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Dagger Modules QA Report Index</title>
+    <title>Dagger Modules QA Reports</title>
     <style>
         table {
-            width: 100%;
             border-collapse: collapse;
+            width: 100%;
             margin: 20px 0;
         }
         th, td {
@@ -24,16 +24,29 @@
             color: red;
             font-size: 20px;
         }
+        a {
+            color: #0366d6;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
-    <h1>Dagger Modules QA Report Index</h1>
+    <h1>Dagger Modules QA Reports</h1>
     <table>
         <tr>
             <th>Module Name</th>
             <th>Brief Description</th>
             <th>Status</th>
             <th>Full Report</th>
+        </tr>
+        <tr>
+            <td>github.com/TomChv/dagger/modules/alpine</td>
+            <td>Alpine Linux container and package management module</td>
+            <td><span class="fail">❌</span></td>
+            <td><a href="alpine.html">View Report</a></td>
         </tr>
     </table>
 </body>
