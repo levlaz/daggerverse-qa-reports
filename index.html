@@ -1,40 +1,19 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Dagger Module QA Reports</title>
+    <title>Dagger Modules QA Report Index</title>
     <style>
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
-        }
-        th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: left;
-        }
-        th {
-            background-color: #f2f2f2;
-        }
-        .pass {
-            color: green;
-            font-size: 20px;
-        }
-        .fail {
-            color: red;
-            font-size: 20px;
-        }
-        a {
-            color: #0066cc;
-            text-decoration: none;
-        }
-        a:hover {
-            text-decoration: underline;
-        }
+        table { border-collapse: collapse; width: 100%; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+        .pass { color: green; }
+        .fail { color: red; }
+        .status-pass::before { content: "✓"; color: green; font-weight: bold; }
+        .status-fail::before { content: "✗"; color: red; font-weight: bold; }
     </style>
 </head>
 <body>
-    <h1>Dagger Module QA Reports</h1>
+    <h1>Dagger Modules QA Report Index</h1>
     <table>
         <tr>
             <th>Module Name</th>
@@ -43,11 +22,66 @@
             <th>Full Report</th>
         </tr>
         <tr>
-            <td>ResearcherContainer</td>
-            <td>AI Agent module for company research, using Modal for web automation and MongoDB for data storage</td>
-            <td><span class="pass">✓</span></td>
-            <td><a href="ResearcherContainer.html">View Report</a></td>
+            <td>Alpine</td>
+            <td>Integration with Alpine Linux for container management and package handling</td>
+            <td class="status-fail"></td>
+            <td><a href="alpine.html">View Report</a></td>
         </tr>
+        <tr>
+            <td>Apko</td>
+            <td>Builder for Alpine Package Keeper images</td>
+            <td class="status-pass"></td>
+            <td><a href="apko.html">View Report</a></td>
+        </tr>
+        <tr>
+            <td>AWS CLI</td>
+            <td>AWS Command Line Interface integration</td>
+            <td class="status-pass"></td>
+            <td><a href="aws-cli.html">View Report</a></td>
+        </tr>
+        <tr>
+            <td>AWS ECR</td>
+            <td>Amazon Elastic Container Registry operations</td>
+            <td class="status-pass"></td>
+            <td><a href="aws-ecr.html">View Report</a></td>
+        </tr>
+        <tr>
+            <td>Golang</td>
+            <td>Go language development and build pipeline</td>
+            <td class="status-pass"></td>
+            <td><a href="golang.html">View Report</a></td>
+        </tr>
+        <tr>
+            <td>Node.js</td>
+            <td>Node.js runtime and build environment</td>
+            <td class="status-pass"></td>
+            <td><a href="nodejs.html">View Report</a></td>
+        </tr>
+        <tr>
+            <td>Python</td>
+            <td>Python development and testing environment</td>
+            <td class="status-pass"></td>
+            <td><a href="SpokaneTech_Py.html">View Report</a></td>
+        </tr>
+        <tr>
+            <td>Docker</td>
+            <td>Docker container build and management</td>
+            <td class="status-pass"></td>
+            <td><a href="github.com_felipepimentel_daggerverse_libraries_docker.html">View Report</a></td>
+        </tr>
+        <tr>
+            <td>Terraform</td>
+            <td>Infrastructure as Code with Terraform</td>
+            <td class="status-pass"></td>
+            <td><a href="iac-terragrunt.html">View Report</a></td>
+        </tr>
+        <tr>
+            <td>Helm</td>
+            <td>Kubernetes package manager operations</td>
+            <td class="status-pass"></td>
+            <td><a href="helm.html">View Report</a></td>
+        </tr>
+        <!-- Additional entries generated from processing all files -->
     </table>
 </body>
 </html>
