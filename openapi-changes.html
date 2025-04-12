@@ -3,52 +3,51 @@
 <head>
     <title>QA Report - openapi-changes</title>
     <style>
-        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 2em; }
+        body { font-family: Arial, sans-serif; line-height: 1.6; max-width: 1200px; margin: 0 auto; padding: 20px; }
         h1, h2 { color: #333; }
-        .container { max-width: 1200px; margin: 0 auto; }
-        .metadata { background: #f5f5f5; padding: 1em; border-radius: 5px; }
-        .functions { margin: 2em 0; }
-        .suggestions { margin: 2em 0; }
-        pre { background: #f0f0f0; padding: 1em; border-radius: 5px; overflow-x: auto; }
-        .error { color: #dd4444; }
-        .meme { max-width: 500px; margin: 1em 0; }
+        .section { margin-bottom: 30px; }
+        .function-list { background-color: #f5f5f5; padding: 15px; border-radius: 5px; }
+        .suggestion { background-color: #e6f3ff; padding: 15px; margin: 10px 0; border-radius: 5px; }
+        code { background-color: #f8f8f8; padding: 2px 5px; border-radius: 3px; }
+        pre { background-color: #f8f8f8; padding: 15px; border-radius: 5px; overflow-x: auto; }
+        .error { color: #d73a49; }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>QA Report: openapi-changes</h1>
+    <h1>QA Report: openapi-changes</h1>
+
+    <div class="section">
+        <h2>Module Information</h2>
+        <ul>
+            <li><strong>Name:</strong> openapi-changes</li>
+            <li><strong>Author:</strong> sagikazarmark</li>
+            <li><strong>Latest Version:</strong> e6c14178bcaaff9e102e2a89173ca31479b80629</li>
+            <li><strong>Release Date:</strong> Available in repository</li>
+            <li><strong>Dagger Engine Version Used:</strong> v0.18.2</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>Module Purpose</h2>
+        <p>This module is designed to discover and analyze changes between two OpenAPI specifications or track changes in a single spec over time. It supports OpenAPI 3.1, 3.0, and Swagger specifications.</p>
         
-        <div class="metadata">
-            <h2>Module Metadata</h2>
-            <p><strong>Name:</strong> openapi-changes</p>
-            <p><strong>Author:</strong> Felipe Pimentel</p>
-            <p><strong>Latest Version:</strong> v0.0.0</p>
-            <p><strong>Release Date:</strong> Not specified in module info</p>
-            <p><strong>Dagger Engine Version Used:</strong> v0.18.2</p>
-            <p><strong>Dagger Cloud Trace:</strong> Not available in current context</p>
-        </div>
-
-        <div class="description">
-            <h2>Module Description</h2>
-            <p>This module helps discover what changed between two OpenAPI specs, or a single spec over time. It supports OpenAPI 3.1, 3.0 and Swagger.</p>
-        </div>
-
-        <div class="functions">
-            <h2>Available Functions</h2>
+        <h3>Available Functions:</h3>
+        <div class="function-list">
             <ul>
                 <li><strong>diff()</strong> - Compare two OpenAPI specs</li>
                 <li><strong>local()</strong> - Check for changes in a local Git repository</li>
                 <li><strong>remote()</strong> - Check for changes in a remote Git repository</li>
             </ul>
         </div>
+    </div>
 
-        <div class="suggestions">
-            <h2>Quality Improvement Suggestions</h2>
-            
+    <div class="section">
+        <h2>Quality Improvement Suggestions</h2>
+
+        <div class="suggestion">
             <h3>1. Add Input Validation</h3>
-            <p>Add comprehensive input validation for file paths and URLs to prevent potential errors.</p>
-            <pre>
-// Example implementation
+            <p>Add thorough input validation for file paths and URLs to prevent potential issues.</p>
+            <pre><code>// Example implementation
 func validateInput(path string) error {
     if path == "" {
         return fmt.Errorf("path cannot be empty")
@@ -57,45 +56,49 @@ func validateInput(path string) error {
         return fmt.Errorf("file must be either YAML or JSON")
     }
     return nil
-}
-            </pre>
-            <img src="https://i.imgflip.com/65efzo.jpg" alt="Input validation meme" class="meme"/>
+}</code></pre>
+            <img src="https://media.giphy.com/media/eCqFYAVjjDksg/giphy.gif" alt="Input validation meme" style="max-width: 300px;">
+        </div>
 
-            <h3>2. Implement Progress Reporting</h3>
-            <p>Add progress feedback for long-running operations, especially for remote repository analysis.</p>
-            <pre>
-type Progress struct {
-    Current int
-    Total   int
-    Status  string
+        <div class="suggestion">
+            <h3>2. Add Progress Reporting</h3>
+            <p>Implement progress reporting for long-running operations, especially for git operations.</p>
+            <pre><code>// Example implementation
+type ProgressReporter struct {
+    current int
+    total   int
+    message string
 }
 
-func reportProgress(p Progress) {
-    fmt.Printf("Progress: %d/%d - %s\n", p.Current, p.Total, p.Status)
-}
-            </pre>
+func (p *ProgressReporter) Update(current int, message string) {
+    p.current = current
+    p.message = message
+    // Emit progress event
+}</code></pre>
+        </div>
 
+        <div class="suggestion">
             <h3>3. Add Caching Mechanism</h3>
-            <p>Implement caching for remote specs to improve performance on subsequent runs.</p>
-            <pre>
-type Cache struct {
-    Specs map[string][]byte
-    TTL   time.Duration
+            <p>Implement caching for remote specs to improve performance for repeated comparisons.</p>
+            <pre><code>// Example implementation
+type SpecCache struct {
+    specs map[string][]byte
+    ttl   time.Duration
 }
 
-func (c *Cache) Get(url string) ([]byte, bool) {
-    data, exists := c.Specs[url]
-    return data, exists
-}
-            </pre>
+func (c *SpecCache) Get(url string) ([]byte, error) {
+    if spec, ok := c.specs[url]; ok {
+        return spec, nil
+    }
+    // Fetch and cache if not found
+    return nil, nil
+}</code></pre>
         </div>
+    </div>
 
-        <div class="errors">
-            <h2>Issues Encountered</h2>
-            <ul>
-                <li>No significant issues were encountered during testing</li>
-            </ul>
-        </div>
+    <div class="section">
+        <h2>Testing Observations</h2>
+        <p>During testing, the module performed as expected with no significant issues encountered. The installation and building processes completed successfully, and all core functions were available.</p>
     </div>
 </body>
 </html>
