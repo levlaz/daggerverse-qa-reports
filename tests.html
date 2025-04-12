@@ -1,111 +1,105 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>QA Report - tests Module</title>
+    <title>QA Report - SSH-Keygen Tests Module</title>
     <style>
-        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
-        h1 { color: #333; }
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        h1, h2 { color: #333; }
         .section { margin: 20px 0; }
-        .function-list { background: #f5f5f5; padding: 15px; border-radius: 5px; }
-        .suggestion { background: #fff3cd; padding: 15px; margin: 10px 0; border-radius: 5px; }
-        code { background: #f8f9fa; padding: 2px 5px; border-radius: 3px; }
-        .errors { color: #dc3545; }
+        .function-list { margin-left: 20px; }
+        .suggestion { background: #f5f5f5; padding: 15px; margin: 10px 0; border-radius: 5px; }
+        code { background: #eee; padding: 2px 5px; border-radius: 3px; }
+        .error { color: #d63031; }
         .meme { max-width: 500px; margin: 20px 0; }
     </style>
 </head>
 <body>
-    <h1>QA Report: tests</h1>
+    <h1>QA Report: SSH-Keygen Tests Module</h1>
     
     <div class="section">
         <h2>Module Information</h2>
         <ul>
             <li><strong>Name:</strong> tests</li>
-            <li><strong>Author:</strong> sagikazarmark</li>
-            <li><strong>Latest Version:</strong> e6c14178bcaaff9e102e2a89173ca31479b80629</li>
-            <li><strong>Release Date:</strong> Not specified</li>
-            <li><strong>Dagger Cloud Trace:</strong> <a href="https://daggerverse.dev/mod/github.com/sagikazarmark/daggerverse/registry/tests@e6c14178bcaaff9e102e2a89173ca31479b80629">View Trace</a></li>
+            <li><strong>Author:</strong> jedevc/daggerverse-sagikazarmark</li>
+            <li><strong>Latest Version:</strong> a104424df38ca8b0b758f699dcfeeb0c2210cc2e</li>
+            <li><strong>Release Date:</strong> Not specified in module metadata</li>
+            <li><strong>Dagger Cloud Trace:</strong> <a href="https://daggerverse.dev/mod/github.com/jedevc/daggerverse-sagikazarmark/ssh-keygen/tests@a104424df38ca8b0b758f699dcfeeb0c2210cc2e">View on Daggerverse</a></li>
         </ul>
     </div>
 
     <div class="section">
-        <h2>Module Description</h2>
-        <p>This module provides testing functionality with two main functions:</p>
-        <div class="function-list">
-            <ul>
-                <li><strong>all()</strong> - Executes all tests</li>
-                <li><strong>test()</strong> - Executes a single test (no description provided)</li>
-            </ul>
-        </div>
+        <h2>Module Purpose</h2>
+        <p>This module provides test functions for the SSH-Keygen module. It includes tests for different types of SSH key generation:</p>
+        <ul class="function-list">
+            <li><code>all()</code> - Executes all tests</li>
+            <li><code>ed25519()</code> - Tests ED25519 key generation</li>
+            <li><code>rsa()</code> - Tests RSA key generation</li>
+            <li><code>ecdsa()</code> - Tests ECDSA key generation</li>
+        </ul>
     </div>
 
     <div class="section">
-        <h2>Testing Environment</h2>
-        <p>Tested with Dagger Engine version: v0.18.2</p>
+        <h2>Test Environment</h2>
+        <p>Tested using Dagger Engine version: v0.18.2</p>
     </div>
 
     <div class="section">
         <h2>Suggestions for Improvement</h2>
         
         <div class="suggestion">
-            <h3>1. Add Proper Documentation</h3>
-            <p>The module lacks proper documentation and descriptions for its functions.</p>
-            <img src="https://i.imgflip.com/2/2hw5up.jpg" alt="Documentation Meme" class="meme">
-            <pre><code>
-// Tests represents a test runner
-+type Tests struct {
-+    // Description of what this test runner does
-+}
-
-// test runs a single test
-+func (t *Tests) test() (*Tests, error) {
-+    // Description of what this test does
-+    // @param: none
-+    // @return: test results
-+}
-            </code></pre>
+            <h3>1. Add Function Documentation</h3>
+            <p>The module lacks proper documentation for individual test functions. Here's how to improve it:</p>
+            <code>
+            // Example improvement for function documentation:<br>
+            #[Function]<br>
+            async fn ed25519(&self) -> Result<()> {<br>
+                /// Tests ED25519 key generation with the following cases:<br>
+                /// - Default key generation<br>
+                /// - Custom key name<br>
+                /// - Password protection<br>
+                // test implementation...<br>
+            }
+            </code>
+            <img src="https://i.imgflip.com/65efzo.jpg" alt="Documentation Meme" class="meme">
         </div>
 
         <div class="suggestion">
-            <h3>2. Add Test Configuration Options</h3>
-            <p>The module could benefit from configurable test parameters.</p>
-            <pre><code>
-type TestConfig struct {
-    Timeout   time.Duration
-    Parallel  bool
-    Filter    string
-}
-
-func (t *Tests) WithConfig(config TestConfig) *Tests {
-    // Apply configuration
-    return t
-}
-            </code></pre>
+            <h3>2. Implement Test Coverage Reporting</h3>
+            <p>Add test coverage metrics to understand test completeness:</p>
+            <code>
+            #[Function]<br>
+            async fn coverage(&self) -> Result<TestCoverage> {<br>
+                // Return coverage statistics for the test suite<br>
+                return TestCoverage {<br>
+                    percentage: calculate_coverage(),<br>
+                    covered_functions: vec!["ed25519", "rsa", "ecdsa"],<br>
+                    total_functions: 3<br>
+                }<br>
+            }
+            </code>
         </div>
 
         <div class="suggestion">
-            <h3>3. Add Test Result Reporting</h3>
-            <p>Implement structured test results output.</p>
-            <pre><code>
-type TestResult struct {
-    Name      string
-    Status    string
-    Duration  time.Duration
-    Error     error
-}
-
-func (t *Tests) test() (*TestResult, error) {
-    // Return structured results
-}
-            </code></pre>
+            <h3>3. Add Parameterized Tests</h3>
+            <p>Implement parameterized tests for better test variations:</p>
+            <code>
+            #[Function]<br>
+            async fn rsa_parameterized(&self, key_size: Option<i32>, with_passphrase: Option<bool>) -> Result<()> {<br>
+                // Test RSA key generation with different parameters<br>
+                let size = key_size.unwrap_or(2048);<br>
+                let passphrase = with_passphrase.unwrap_or(false);<br>
+                // Implementation...<br>
+            }
+            </code>
         </div>
     </div>
 
     <div class="section">
         <h2>Issues Encountered</h2>
         <ul>
-            <li>No proper documentation provided for the test() function</li>
-            <li>Missing description of test execution strategy</li>
-            <li>No clear indication of test result format</li>
+            <li>Limited documentation for individual test functions</li>
+            <li>No clear test coverage metrics available</li>
+            <li>Missing detailed test descriptions in the module metadata</li>
         </ul>
     </div>
 </body>

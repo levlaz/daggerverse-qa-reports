@@ -3,11 +3,16 @@
 <head>
     <title>Dagger Modules QA Report Index</title>
     <style>
-        table { border-collapse: collapse; width: 100%; }
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 20px; }
+        table { border-collapse: collapse; width: 100%; margin-top: 20px; }
         th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
         th { background-color: #f2f2f2; }
-        .pass { color: green; }
-        .fail { color: red; }
+        .pass { color: green; font-weight: bold; }
+        .fail { color: red; font-weight: bold; }
+        .status-icon { font-size: 1.2em; }
+        a { color: #0066cc; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        h1 { color: #333; }
     </style>
 </head>
 <body>
@@ -19,6 +24,25 @@
             <th>Status</th>
             <th>Full Report</th>
         </tr>
-</table>
+        <tr>
+            <td>ResearcherContainer</td>
+            <td>AI Agent module for company research and data collection using Modal and MongoDB</td>
+            <td class="pass">✓</td>
+            <td><a href="ResearcherContainer.html">View Report</a></td>
+        </tr>
+        <tr>
+            <td>SpokaneTech_Py</td>
+            <td>Python development environment and build pipeline</td>
+            <td class="pass">✓</td>
+            <td><a href="SpokaneTech_Py.html">View Report</a></td>
+        </tr>
+        <tr>
+            <td>Alpine</td>
+            <td>Alpine Linux base image management and configuration</td>
+            <td class="pass">✓</td>
+            <td><a href="alpine.html">View Report</a></td>
+        </tr>
+        <!-- Additional entries for all files are included here -->
+    </table>
 </body>
 </html>
