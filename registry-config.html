@@ -3,13 +3,14 @@
 <head>
     <title>QA Report - registry-config</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 40px; }
-        h1, h2 { color: #333; }
-        .function-list { background: #f8f8f8; padding: 15px; border-radius: 5px; }
-        .suggestion { margin: 20px 0; padding: 15px; border-left: 4px solid #007bff; }
-        .error { color: #dc3545; }
-        code { background: #f0f0f0; padding: 2px 5px; border-radius: 3px; }
-        .meme { max-width: 500px; margin: 20px 0; }
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
+        h1 { color: #2c3e50; }
+        h2 { color: #34495e; margin-top: 30px; }
+        .function-list { background: #f8f9fa; padding: 20px; border-radius: 5px; }
+        .suggestion { margin: 20px 0; padding: 15px; border-left: 4px solid #3498db; }
+        .code { background: #f8f9fa; padding: 15px; border-radius: 5px; font-family: monospace; }
+        .error { color: #e74c3c; }
+        .meme { text-align: center; margin: 20px 0; }
     </style>
 </head>
 <body>
@@ -19,21 +20,21 @@
     <ul>
         <li><strong>Name:</strong> registry-config</li>
         <li><strong>Author:</strong> sagikazarmark</li>
-        <li><strong>Latest Version:</strong> v0.8.0</li>
-        <li><strong>Release Date:</strong> Found in commit 126b5fbbdad70dbf2a8689600baec2eb78c05ef4</li>
-        <li><strong>Dagger Version Used:</strong> v0.18.1</li>
+        <li><strong>Latest Version:</strong> a104424df38ca8b0b758f699dcfeeb0c2210cc2e</li>
+        <li><strong>Release Date:</strong> Not specified in metadata</li>
+        <li><strong>Dagger Version Used:</strong> v0.18.2</li>
     </ul>
 
     <h2>Module Purpose</h2>
-    <p>This module creates a configuration file for OCI registry authentication and returns it as a Secret that can be safely mounted into a Container. It provides a secure way to handle registry credentials without persisting them in the filesystem where they could leak into Dagger's layer cache.</p>
+    <p>This module creates a configuration file for OCI registry authentication and returns it as a Secret that can be safely mounted into a Container. It addresses the security concerns of storing registry credentials in the filesystem, which could leak into Dagger's layer cache.</p>
 
-    <h2>Functions</h2>
+    <h2>Available Functions</h2>
     <div class="function-list">
         <ul>
-            <li><code>secret()</code> - Create the registry configuration</li>
-            <li><code>secret-mount()</code> - Create a SecretMount for container mounting</li>
-            <li><code>with-registry-auth()</code> - Add credentials for a registry</li>
-            <li><code>without-registry-auth()</code> - Removes credentials for a registry</li>
+            <li><strong>secret()</strong> - Create the registry configuration.</li>
+            <li><strong>secret-mount()</strong> - Create a SecretMount for mounting the registry configuration into a container.</li>
+            <li><strong>with-registry-auth()</strong> - Add credentials for a registry.</li>
+            <li><strong>without-registry-auth()</strong> - Removes credentials for a registry.</li>
         </ul>
     </div>
 
@@ -41,69 +42,61 @@
     
     <div class="suggestion">
         <h3>1. Add Input Validation</h3>
-        <p>Add validation for registry addresses and credentials to prevent invalid configurations.</p>
-        <pre><code>
-func validateRegistryAddress(address string) error {
-    if !strings.Contains(address, ".") {
-        return fmt.Errorf("invalid registry address format")
-    }
-    return nil
-}
-
-func (r *RegistryConfig) WithRegistryAuth(address, username string, secret *Secret) (*RegistryConfig, error) {
-    if err := validateRegistryAddress(address); err != nil {
-        return nil, err
-    }
-    // existing implementation
-}
-        </code></pre>
-        <img src="https://i.imgflip.com/65rfst.jpg" alt="Input Validation Meme" class="meme">
+        <p>The module could benefit from stronger input validation for registry addresses and credentials.</p>
+        <div class="code">
+        func validateRegistryAddress(address string) error {
+            if !strings.Contains(address, ".") {
+                return fmt.Errorf("invalid registry address format: %s", address)
+            }
+            if strings.HasPrefix(address, "http://") || strings.HasPrefix(address, "https://") {
+                return fmt.Errorf("address should not include protocol: %s", address)
+            }
+            return nil
+        }
+        </div>
     </div>
 
     <div class="suggestion">
-        <h3>2. Implement Retry Mechanism</h3>
-        <p>Add retry logic for registry operations to handle temporary network issues.</p>
-        <pre><code>
-type RetryConfig struct {
-    MaxAttempts int
-    Delay       time.Duration
-}
-
-func (r *RegistryConfig) WithRetry(attempts int) *RegistryConfig {
-    r.retryConfig = &RetryConfig{
-        MaxAttempts: attempts,
-        Delay:      time.Second,
-    }
-    return r
-}
-        </code></pre>
+        <h3>2. Add Retry Mechanism</h3>
+        <p>Implement retry logic for registry operations to handle temporary network issues.</p>
+        <div class="code">
+        func withRetry(attempts int, operation func() error) error {
+            var err error
+            for i := 0; i < attempts; i++ {
+                if err = operation(); err == nil {
+                    return nil
+                }
+                time.Sleep(time.Second * time.Duration(i+1))
+            }
+            return fmt.Errorf("operation failed after %d attempts: %v", attempts, err)
+        }
+        </div>
+        <div class="meme">
+            <img src="https://i.imgflip.com/2/retry-all-the-things.jpg" alt="Retry All The Things" width="400">
+        </div>
     </div>
 
     <div class="suggestion">
-        <h3>3. Add Logging and Debugging Options</h3>
-        <p>Implement detailed logging for troubleshooting authentication issues.</p>
-        <pre><code>
-func (r *RegistryConfig) WithDebug(enabled bool) *RegistryConfig {
-    r.debug = enabled
-    return r
-}
+        <h3>3. Enhance Error Messages</h3>
+        <p>Provide more detailed error messages to help users troubleshoot issues.</p>
+        <div class="code">
+        type RegistryError struct {
+            Operation string
+            Registry  string
+            Cause     error
+        }
 
-func (r *RegistryConfig) log(format string, args ...interface{}) {
-    if r.debug {
-        fmt.Printf("registry-config: "+format+"\n", args...)
-    }
-}
-        </code></pre>
+        func (e *RegistryError) Error() string {
+            return fmt.Sprintf("registry operation '%s' failed for %s: %v", 
+                e.Operation, e.Registry, e.Cause)
+        }
+        </div>
     </div>
 
     <h2>Testing Results</h2>
-    <ul>
-        <li>✅ Module Installation: Successful</li>
-        <li>✅ Module Building: Successful</li>
-        <li>✅ Function Discovery: All functions documented and working</li>
-    </ul>
+    <p>The module installed and built successfully. No errors were encountered during the testing process.</p>
 
-    <h2>Additional Notes</h2>
-    <p>No errors were encountered during testing. The module is well-documented and provides clear examples for each function.</p>
+    <h2>Documentation Quality</h2>
+    <p>The module has good documentation with clear examples and usage instructions. The README provides comprehensive information about the module's purpose and security considerations.</p>
 </body>
 </html>
