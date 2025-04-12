@@ -3,85 +3,73 @@
 <head>
     <title>Dagger Modules QA Report Index</title>
     <style>
-        table { border-collapse: collapse; width: 100%; }
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
         th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
         th { background-color: #f2f2f2; }
-        .pass { color: green; }
-        .fail { color: red; }
-        .status-pass::before { content: "✓"; color: green; font-weight: bold; }
-        .status-fail::before { content: "✗"; color: red; font-weight: bold; }
+        .pass { color: green; font-size: 20px; }
+        .fail { color: red; font-size: 20px; }
+        .status-cell { text-align: center; }
+        h1 { color: #333; }
+        a { color: #0066cc; text-decoration: none; }
+        a:hover { text-decoration: underline; }
     </style>
 </head>
 <body>
     <h1>Dagger Modules QA Report Index</h1>
     <table>
-        <tr>
-            <th>Module Name</th>
-            <th>Brief Description</th>
-            <th>Status</th>
-            <th>Full Report</th>
-        </tr>
-        <tr>
-            <td>Alpine</td>
-            <td>Integration with Alpine Linux for container management and package handling</td>
-            <td class="status-fail"></td>
-            <td><a href="alpine.html">View Report</a></td>
-        </tr>
-        <tr>
-            <td>Apko</td>
-            <td>Builder for Alpine Package Keeper images</td>
-            <td class="status-pass"></td>
-            <td><a href="apko.html">View Report</a></td>
-        </tr>
-        <tr>
-            <td>AWS CLI</td>
-            <td>AWS Command Line Interface integration</td>
-            <td class="status-pass"></td>
-            <td><a href="aws-cli.html">View Report</a></td>
-        </tr>
-        <tr>
-            <td>AWS ECR</td>
-            <td>Amazon Elastic Container Registry operations</td>
-            <td class="status-pass"></td>
-            <td><a href="aws-ecr.html">View Report</a></td>
-        </tr>
-        <tr>
-            <td>Golang</td>
-            <td>Go language development and build pipeline</td>
-            <td class="status-pass"></td>
-            <td><a href="golang.html">View Report</a></td>
-        </tr>
-        <tr>
-            <td>Node.js</td>
-            <td>Node.js runtime and build environment</td>
-            <td class="status-pass"></td>
-            <td><a href="nodejs.html">View Report</a></td>
-        </tr>
-        <tr>
-            <td>Python</td>
-            <td>Python development and testing environment</td>
-            <td class="status-pass"></td>
-            <td><a href="SpokaneTech_Py.html">View Report</a></td>
-        </tr>
-        <tr>
-            <td>Docker</td>
-            <td>Docker container build and management</td>
-            <td class="status-pass"></td>
-            <td><a href="github.com_felipepimentel_daggerverse_libraries_docker.html">View Report</a></td>
-        </tr>
-        <tr>
-            <td>Terraform</td>
-            <td>Infrastructure as Code with Terraform</td>
-            <td class="status-pass"></td>
-            <td><a href="iac-terragrunt.html">View Report</a></td>
-        </tr>
-        <tr>
-            <td>Helm</td>
-            <td>Kubernetes package manager operations</td>
-            <td class="status-pass"></td>
-            <td><a href="helm.html">View Report</a></td>
-        </tr>
-        <!-- Additional entries generated from processing all files -->
+        <thead>
+            <tr>
+                <th>Module Name</th>
+                <th>Brief Description</th>
+                <th>Status</th>
+                <th>Full Report</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Alpine</td>
+                <td>Module for Alpine Linux container management and package handling</td>
+                <td class="status-cell"><span class="fail">✗</span></td>
+                <td><a href="alpine.html">View Report</a></td>
+            </tr>
+            <tr>
+                <td>AWS CLI</td>
+                <td>AWS Command Line Interface integration module</td>
+                <td class="status-cell"><span class="pass">✓</span></td>
+                <td><a href="aws-cli.html">View Report</a></td>
+            </tr>
+            <tr>
+                <td>PHP Tests</td>
+                <td>PHP testing and validation module</td>
+                <td class="status-cell"><span class="pass">✓</span></td>
+                <td><a href="php-tests.html">View Report</a></td>
+            </tr>
+            <tr>
+                <td>Go SDK Dev</td>
+                <td>Go SDK development tools</td>
+                <td class="status-cell"><span class="pass">✓</span></td>
+                <td><a href="github.com-dagger-dagger-dev-go.html">View Report</a></td>
+            </tr>
+            <tr>
+                <td>Elixir SDK Dev</td>
+                <td>Elixir SDK development environment</td>
+                <td class="status-cell"><span class="pass">✓</span></td>
+                <td><a href="elixir-sdk-dev.html">View Report</a></td>
+            </tr>
+            <tr>
+                <td>Harbor CLI</td>
+                <td>Harbor container registry client</td>
+                <td class="status-cell"><span class="pass">✓</span></td>
+                <td><a href="harbor-cli.html">View Report</a></td>
+            </tr>
+            <tr>
+                <td>Terraform Lint</td>
+                <td>Terraform code linting and validation</td>
+                <td class="status-cell"><span class="pass">✓</span></td>
+                <td><a href="tflint.html">View Report</a></td>
+            </tr>
+        </tbody>
     </table>
 </body>
 </html>
