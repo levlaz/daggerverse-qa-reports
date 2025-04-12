@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>QA Report - PHPStan Module</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 2em; }
+        h1, h2 { color: #333; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .function-list { background: #f5f5f5; padding: 1em; border-radius: 5px; }
+        .suggestion { margin: 1em 0; padding: 1em; border-left: 4px solid #007bff; }
+        .code-snippet { background: #f8f9fa; padding: 1em; border-radius: 4px; font-family: monospace; }
+        .error { color: #dc3545; }
+        .meme { max-width: 500px; margin: 1em 0; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>QA Report: PHPStan Module</h1>
+        
+        <h2>Module Information</h2>
+        <ul>
+            <li><strong>Name:</strong> github.com/dragoonis/dagger-phpstan</li>
+            <li><strong>Author:</strong> dragoonis</li>
+            <li><strong>Latest Version:</strong> 52efc379e9b5c6e09ad589a71edbd3511f3c9790</li>
+            <li><strong>Release Date:</strong> Not provided in metadata</li>
+            <li><strong>Dagger Engine Version Used:</strong> v0.18.2</li>
+        </ul>
+
+        <h2>Module Purpose</h2>
+        <p>This module provides PHPStan integration for Dagger, allowing users to run static analysis on PHP codebases. The module contains one main function:</p>
+        <div class="function-list">
+            <h3>Functions:</h3>
+            <ul>
+                <li><strong>analyze()</strong> - Runs PHPStan analysis
+                    <ul>
+                        <li>Required parameters:
+                            <ul>
+                                <li>phpVersion: String</li>
+                                <li>source: Directory</li>
+                                <li>pathToTest: String</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <h2>Suggestions for Improvement</h2>
+        
+        <div class="suggestion">
+            <h3>1. Add Module Description</h3>
+            <p>The module lacks a proper description in its metadata. Adding a comprehensive description would help users understand its purpose better.</p>
+            <div class="code-snippet">
+                # In dagger.json
+{
+    "name": "phpstan",
+    "description": "A Dagger module for running PHPStan static analysis on PHP projects. This module simplifies the integration of PHPStan into your CI/CD pipeline, supporting various PHP versions and custom rulesets.",
+    "documentation": "https://github.com/dragoonis/dagger-phpstan/README.md"
+}
+            </div>
+            <img src="https://i.imgflip.com/65efzo.jpg" alt="Documentation Meme" class="meme">
+        </div>
+
+        <div class="suggestion">
+            <h3>2. Add Parameter Descriptions</h3>
+            <p>The function parameters lack descriptions, making it less clear what each parameter does.</p>
+            <div class="code-snippet">
+// In your main.go or equivalent
+func (p *Phpstan) Analyze(
+    ctx context.Context,
+    phpVersion string, // The PHP version to use (e.g., "8.1", "8.2")
+    source *Directory, // The source code directory to analyze
+    pathToTest string, // The specific path within the source to analyze
+) *Container {
+    // ... implementation
+}
+            </div>
+        </div>
+
+        <div class="suggestion">
+            <h3>3. Add Configuration Options</h3>
+            <p>The module could benefit from additional configuration options for PHPStan analysis.</p>
+            <div class="code-snippet">
+type Phpstan struct {
+    ConfigPath   Optional[string] // Custom PHPStan configuration file path
+    ErrorLevel   Optional[int]    // PHPStan error reporting level (0-9)
+    MemoryLimit  Optional[string] // PHP memory limit for analysis
+}
+
+func (p *Phpstan) WithConfig(path string) *Phpstan {
+    p.ConfigPath = Optional[string]{Value: path, Valid: true}
+    return p
+}
+
+func (p *Phpstan) WithErrorLevel(level int) *Phpstan {
+    p.ErrorLevel = Optional[int]{Value: level, Valid: true}
+    return p
+}
+            </div>
+        </div>
+
+        <h2>Issues Encountered</h2>
+        <ul>
+            <li>No release date information available in the module metadata</li>
+            <li>Limited documentation about the module's usage and examples</li>
+            <li>No explicit error handling or return status documentation</li>
+        </ul>
+    </div>
+</body>
+</html>
