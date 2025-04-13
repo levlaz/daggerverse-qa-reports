@@ -1,115 +1,121 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>QA Report: registry-config</title>
+    <title>QA Report - registry-config</title>
     <style>
-        body { font-family: Arial, sans-serif; line-height: 1.6; max-width: 1200px; margin: 0 auto; padding: 20px; }
-        h1, h2, h3 { color: #333; }
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
+        h1, h2 { color: #333; }
+        .container { max-width: 1200px; margin: 0 auto; }
         .function-list { background-color: #f5f5f5; padding: 20px; border-radius: 5px; }
-        .suggestion { margin: 20px 0; padding: 15px; background-color: #e9f7ef; border-radius: 5px; }
+        .suggestion { margin: 20px 0; padding: 15px; border-left: 4px solid #007bff; }
         .code-snippet { background-color: #f8f9fa; padding: 15px; border-radius: 5px; font-family: monospace; }
         .error { color: #dc3545; }
     </style>
 </head>
 <body>
-    <h1>QA Report: registry-config</h1>
-    
-    <h2>Module Information</h2>
-    <ul>
-        <li><strong>Name:</strong> registry-config</li>
-        <li><strong>Author:</strong> luanmtruong</li>
-        <li><strong>Latest Version:</strong> d9828cf81c59619c179304cde628f2fa3c74def3</li>
-        <li><strong>Release Date:</strong> Not specified in the documentation</li>
-    </ul>
-
-    <h2>Dagger Cloud Trace</h2>
-    <p>Link: <a href="https://daggerverse.dev/mod/github.com/luanmtruong/daggerverse/registry-config@d9828cf81c59619c179304cde628f2fa3c74def3">Daggerverse Link</a></p>
-
-    <h2>Module Purpose</h2>
-    <p>This module provides tools for securely handling OCI registry authentication. It creates a configuration file that can be safely mounted as a Secret into a Container, avoiding the security risks of storing credentials in the filesystem that could be exposed through Dagger's layer cache.</p>
-
-    <h2>Module Functions</h2>
-    <div class="function-list">
+    <div class="container">
+        <h1>QA Report - registry-config</h1>
+        
+        <h2>Module Information</h2>
         <ul>
-            <li><strong>secret()</strong> - Create the registry configuration</li>
-            <li><strong>secret-mount()</strong> - Create a SecretMount for registry configuration</li>
-            <li><strong>with-registry-auth()</strong> - Add credentials for a registry</li>
-            <li><strong>without-registry-auth()</strong> - Removes credentials for a registry</li>
+            <li><strong>Name:</strong> registry-config</li>
+            <li><strong>Author:</strong> luanmtruong</li>
+            <li><strong>Latest Version:</strong> d9828cf81c59619c179304cde628f2fa3c74def3</li>
+            <li><strong>Release Date:</strong> Not specified in module info</li>
+            <li><strong>Dagger Engine Version Used:</strong> v0.18.2</li>
         </ul>
-    </div>
 
-    <h2>Testing Environment</h2>
-    <p><strong>Dagger Engine Version:</strong> v0.18.2</p>
+        <h2>Module Purpose</h2>
+        <p>This module provides tools for managing OCI registry configuration, specifically focusing on secure credential handling. It creates configuration files that can be safely mounted as secrets into containers, avoiding the security risks associated with filesystem-persisted credentials.</p>
 
-    <h2>Quality Improvement Suggestions</h2>
-    
-    <div class="suggestion">
-        <h3>1. Add Input Validation</h3>
-        <p>The module could benefit from stronger input validation for registry addresses and credentials.</p>
-        <div class="code-snippet">
-            <pre>
+        <h2>Module Functions</h2>
+        <div class="function-list">
+            <ul>
+                <li><strong>secret()</strong> - Create the registry configuration.</li>
+                <li><strong>secret-mount()</strong> - Create a SecretMount that can be used to mount the registry configuration into a container.</li>
+                <li><strong>with-registry-auth()</strong> - Add credentials for a registry.</li>
+                <li><strong>without-registry-auth()</strong> - Removes credentials for a registry.</li>
+            </ul>
+        </div>
+
+        <h2>Quality Improvement Suggestions</h2>
+        
+        <div class="suggestion">
+            <h3>1. Add Input Validation</h3>
+            <p>Add comprehensive input validation for registry addresses and credentials to prevent misconfigurations.</p>
+            <div class="code-snippet">
+                <pre>
 func validateRegistryAddress(address string) error {
     if !strings.Contains(address, ".") {
         return fmt.Errorf("invalid registry address format: %s", address)
     }
+    // Add more validation rules
     return nil
 }
 
-// Use in withRegistryAuth:
+// Usage in withRegistryAuth:
 if err := validateRegistryAddress(address); err != nil {
     return nil, err
 }
-            </pre>
+                </pre>
+            </div>
         </div>
-        <img src="https://media.giphy.com/media/l2JhOVyjSHGejoXXq/giphy.gif" alt="Validation Meme" width="300">
-    </div>
 
-    <div class="suggestion">
-        <h3>2. Implement Retry Mechanism</h3>
-        <p>Add retry logic for registry operations to handle temporary network issues.</p>
-        <div class="code-snippet">
-            <pre>
+        <div class="suggestion">
+            <h3>2. Implement Retry Mechanism</h3>
+            <p>Add retry logic for registry operations to handle temporary network issues.</p>
+            <img src="https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif" alt="Keep trying!" style="max-width: 300px;">
+            <div class="code-snippet">
+                <pre>
 func withRetry(operation func() error, maxAttempts int) error {
-    var lastErr error
+    var err error
     for attempt := 1; attempt <= maxAttempts; attempt++ {
-        if err := operation(); err != nil {
-            lastErr = err
-            time.Sleep(time.Second * time.Duration(attempt))
-            continue
+        if err = operation(); err == nil {
+            return nil
         }
-        return nil
+        time.Sleep(time.Second * time.Duration(attempt))
     }
-    return lastErr
+    return err
 }
-            </pre>
+                </pre>
+            </div>
         </div>
-    </div>
 
-    <div class="suggestion">
-        <h3>3. Enhanced Documentation</h3>
-        <p>Add more comprehensive examples and error handling documentation.</p>
-        <div class="code-snippet">
-            <pre>
-// Example documentation block:
-/**
- * @example
- * ```go
- * cfg := dag.RegistryConfig().
- *     WithRegistryAuth("registry.example.com", "username", secretObj).
- *     SecretMount("/root/.docker/config.json")
- * ```
- * 
- * @errors
- * - InvalidCredentials: When provided registry credentials are invalid
- * - ConnectionError: When unable to connect to registry
- * - InvalidPath: When mount path is invalid
- */
-            </pre>
+        <div class="suggestion">
+            <h3>3. Add Default Configuration Templates</h3>
+            <p>Provide pre-configured templates for common registry setups (Docker Hub, GitHub Container Registry, etc.).</p>
+            <div class="code-snippet">
+                <pre>
+type RegistryTemplate struct {
+    Address  string
+    AuthType string
+    Docs     string
+}
+
+var CommonRegistries = map[string]RegistryTemplate{
+    "dockerhub": {
+        Address:  "registry.hub.docker.com",
+        AuthType: "basic",
+        Docs:     "https://docs.docker.com/docker-hub/access-tokens/",
+    },
+    "ghcr": {
+        Address:  "ghcr.io",
+        AuthType: "pat",
+        Docs:     "https://docs.github.com/en/packages/working-with-a-github-packages-registry/",
+    },
+}
+                </pre>
+            </div>
         </div>
+
+        <h2>Testing Issues</h2>
+        <p>No significant issues were encountered during testing. The module installed and built successfully, and all core functions are properly documented.</p>
+        
+        <h2>Links</h2>
+        <ul>
+            <li><a href="https://daggerverse.dev/mod/github.com/luanmtruong/daggerverse/registry-config@d9828cf81c59619c179304cde628f2fa3c74def3">Daggerverse Page</a></li>
+            <li><a href="https://github.com/luanmtruong/daggerverse/tree/main/registry-config">GitHub Repository</a></li>
+        </ul>
     </div>
-
-    <h2>Testing Issues Encountered</h2>
-    <p>No significant issues were encountered during testing. The module installed and built successfully, and all primary functions were discoverable through the API.</p>
-
 </body>
 </html>
