@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>QA Report - demp</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
+        h1, h2 { color: #333; }
+        .error { color: #ff0000; }
+        .function { margin-left: 20px; }
+        .suggestion { background-color: #f5f5f5; padding: 15px; margin: 10px 0; }
+        pre { background-color: #f0f0f0; padding: 10px; overflow-x: auto; }
+    </style>
+</head>
+<body>
+    <h1>QA Report: demp</h1>
+    
+    <h2>Module Information</h2>
+    <ul>
+        <li><strong>Name:</strong> github.com/rianfowler/demp</li>
+        <li><strong>Latest Version:</strong> 21df43357eee85e9f0d9e8c3be0968502997d7f2</li>
+        <li><strong>Author:</strong> rianfowler</li>
+        <li><strong>Dagger Engine Version Used:</strong> v0.18.2</li>
+    </ul>
+
+    <h2>Module Description</h2>
+    <p>This module has been generated via dagger init and serves as a reference to basic module structure for getting started with Dagger. It provides basic functionality for echo commands and grep operations.</p>
+
+    <h2>Available Functions</h2>
+    <div class="function">
+        <h3>1. containerEcho()</h3>
+        <p>Returns a container that echoes whatever string argument is provided</p>
+        <p><strong>Arguments:</strong> stringArg (String!)</p>
+    </div>
+    <div class="function">
+        <h3>2. grepDir()</h3>
+        <p>Returns lines that match a pattern in the files of the provided Directory</p>
+        <p><strong>Arguments:</strong></p>
+        <ul>
+            <li>directoryArg (Directory!)</li>
+            <li>pattern (String!)</li>
+        </ul>
+    </div>
+    <div class="function">
+        <h3>3. hello()</h3>
+        <p>Returns a simple greeting message</p>
+    </div>
+
+    <h2>Issues Encountered</h2>
+    <div class="error">
+        <p>1. Authentication Error: Unable to access the repository due to GitHub's authentication requirements.</p>
+        <p>2. Installation Failed: Could not install the module due to authentication issues.</p>
+        <p>3. Build Verification Failed: Unable to verify the build due to repository access issues.</p>
+    </div>
+
+    <h2>Quality Improvement Suggestions</h2>
+    
+    <div class="suggestion">
+        <h3>1. Add Parameter Documentation</h3>
+        <p>The function parameters lack proper documentation. Add descriptive comments for each parameter.</p>
+        <pre>
+// Example improved function documentation
+#Function: containerEcho
+#Description: Returns a container that echoes a provided string
+#Params:
+#  stringArg: The string to be echoed by the container
+#Returns: Container that will echo the provided string
+func containerEcho(stringArg: String!) -> Container!
+        </pre>
+    </div>
+
+    <div class="suggestion">
+        <h3>2. Add Error Handling</h3>
+        <p>Implement proper error handling and return meaningful error messages.</p>
+        <pre>
+// Example error handling implementation
+func grepDir(directoryArg: Directory!, pattern: String!) -> String! {
+    if !directoryArg.exists() {
+        fail("Directory does not exist")
+    }
+    if pattern == "" {
+        fail("Search pattern cannot be empty")
+    }
+    // ... rest of the implementation
+}
+        </pre>
+    </div>
+
+    <div class="suggestion">
+        <h3>3. Add Usage Examples</h3>
+        <p>Include practical usage examples in the documentation.</p>
+        <pre>
+// Example usage documentation
+/*
+Example Usage:
+```dagger
+# Search for "TODO" comments in your source code
+dagger call grep-dir \
+    --directory-arg . \
+    --pattern "TODO:"
+
+# Echo a message
+dagger call container-echo \
+    --string-arg "Hello, Dagger!"
+```
+*/
+        </pre>
+    </div>
+
+    <div style="text-align: center; margin-top: 30px;">
+        <img src="https://i.imgflip.com/65efzo.jpg" alt="Documentation Meme" style="max-width: 400px;">
+        <p><em>When you realize your module needs better documentation...</em></p>
+    </div>
+
+</body>
+</html>
