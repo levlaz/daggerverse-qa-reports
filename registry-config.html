@@ -1,16 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>QA Report - registry-config</title>
+    <title>QA Report: registry-config</title>
     <style>
-        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
-        h1 { color: #2c3e50; }
-        h2 { color: #34495e; margin-top: 30px; }
-        .function-list { background: #f8f9fa; padding: 20px; border-radius: 5px; }
-        .suggestion { margin: 20px 0; padding: 15px; border-left: 4px solid #3498db; }
-        .code { background: #f8f9fa; padding: 15px; border-radius: 5px; font-family: monospace; }
-        .error { color: #e74c3c; }
-        .meme { text-align: center; margin: 20px 0; }
+        body { font-family: Arial, sans-serif; line-height: 1.6; max-width: 1200px; margin: 0 auto; padding: 20px; }
+        h1, h2, h3 { color: #333; }
+        .function-list { background-color: #f5f5f5; padding: 20px; border-radius: 5px; }
+        .suggestion { margin: 20px 0; padding: 15px; background-color: #e9f7ef; border-radius: 5px; }
+        .code-snippet { background-color: #f8f9fa; padding: 15px; border-radius: 5px; font-family: monospace; }
+        .error { color: #dc3545; }
     </style>
 </head>
 <body>
@@ -19,84 +17,99 @@
     <h2>Module Information</h2>
     <ul>
         <li><strong>Name:</strong> registry-config</li>
-        <li><strong>Author:</strong> sagikazarmark</li>
-        <li><strong>Latest Version:</strong> a104424df38ca8b0b758f699dcfeeb0c2210cc2e</li>
-        <li><strong>Release Date:</strong> Not specified in metadata</li>
-        <li><strong>Dagger Version Used:</strong> v0.18.2</li>
+        <li><strong>Author:</strong> luanmtruong</li>
+        <li><strong>Latest Version:</strong> d9828cf81c59619c179304cde628f2fa3c74def3</li>
+        <li><strong>Release Date:</strong> Not specified in the documentation</li>
     </ul>
 
-    <h2>Module Purpose</h2>
-    <p>This module creates a configuration file for OCI registry authentication and returns it as a Secret that can be safely mounted into a Container. It addresses the security concerns of storing registry credentials in the filesystem, which could leak into Dagger's layer cache.</p>
+    <h2>Dagger Cloud Trace</h2>
+    <p>Link: <a href="https://daggerverse.dev/mod/github.com/luanmtruong/daggerverse/registry-config@d9828cf81c59619c179304cde628f2fa3c74def3">Daggerverse Link</a></p>
 
-    <h2>Available Functions</h2>
+    <h2>Module Purpose</h2>
+    <p>This module provides tools for securely handling OCI registry authentication. It creates a configuration file that can be safely mounted as a Secret into a Container, avoiding the security risks of storing credentials in the filesystem that could be exposed through Dagger's layer cache.</p>
+
+    <h2>Module Functions</h2>
     <div class="function-list">
         <ul>
-            <li><strong>secret()</strong> - Create the registry configuration.</li>
-            <li><strong>secret-mount()</strong> - Create a SecretMount for mounting the registry configuration into a container.</li>
-            <li><strong>with-registry-auth()</strong> - Add credentials for a registry.</li>
-            <li><strong>without-registry-auth()</strong> - Removes credentials for a registry.</li>
+            <li><strong>secret()</strong> - Create the registry configuration</li>
+            <li><strong>secret-mount()</strong> - Create a SecretMount for registry configuration</li>
+            <li><strong>with-registry-auth()</strong> - Add credentials for a registry</li>
+            <li><strong>without-registry-auth()</strong> - Removes credentials for a registry</li>
         </ul>
     </div>
+
+    <h2>Testing Environment</h2>
+    <p><strong>Dagger Engine Version:</strong> v0.18.2</p>
 
     <h2>Quality Improvement Suggestions</h2>
     
     <div class="suggestion">
         <h3>1. Add Input Validation</h3>
         <p>The module could benefit from stronger input validation for registry addresses and credentials.</p>
-        <div class="code">
-        func validateRegistryAddress(address string) error {
-            if !strings.Contains(address, ".") {
-                return fmt.Errorf("invalid registry address format: %s", address)
-            }
-            if strings.HasPrefix(address, "http://") || strings.HasPrefix(address, "https://") {
-                return fmt.Errorf("address should not include protocol: %s", address)
-            }
-            return nil
+        <div class="code-snippet">
+            <pre>
+func validateRegistryAddress(address string) error {
+    if !strings.Contains(address, ".") {
+        return fmt.Errorf("invalid registry address format: %s", address)
+    }
+    return nil
+}
+
+// Use in withRegistryAuth:
+if err := validateRegistryAddress(address); err != nil {
+    return nil, err
+}
+            </pre>
+        </div>
+        <img src="https://media.giphy.com/media/l2JhOVyjSHGejoXXq/giphy.gif" alt="Validation Meme" width="300">
+    </div>
+
+    <div class="suggestion">
+        <h3>2. Implement Retry Mechanism</h3>
+        <p>Add retry logic for registry operations to handle temporary network issues.</p>
+        <div class="code-snippet">
+            <pre>
+func withRetry(operation func() error, maxAttempts int) error {
+    var lastErr error
+    for attempt := 1; attempt <= maxAttempts; attempt++ {
+        if err := operation(); err != nil {
+            lastErr = err
+            time.Sleep(time.Second * time.Duration(attempt))
+            continue
         }
+        return nil
+    }
+    return lastErr
+}
+            </pre>
         </div>
     </div>
 
     <div class="suggestion">
-        <h3>2. Add Retry Mechanism</h3>
-        <p>Implement retry logic for registry operations to handle temporary network issues.</p>
-        <div class="code">
-        func withRetry(attempts int, operation func() error) error {
-            var err error
-            for i := 0; i < attempts; i++ {
-                if err = operation(); err == nil {
-                    return nil
-                }
-                time.Sleep(time.Second * time.Duration(i+1))
-            }
-            return fmt.Errorf("operation failed after %d attempts: %v", attempts, err)
-        }
-        </div>
-        <div class="meme">
-            <img src="https://i.imgflip.com/2/retry-all-the-things.jpg" alt="Retry All The Things" width="400">
-        </div>
-    </div>
-
-    <div class="suggestion">
-        <h3>3. Enhance Error Messages</h3>
-        <p>Provide more detailed error messages to help users troubleshoot issues.</p>
-        <div class="code">
-        type RegistryError struct {
-            Operation string
-            Registry  string
-            Cause     error
-        }
-
-        func (e *RegistryError) Error() string {
-            return fmt.Sprintf("registry operation '%s' failed for %s: %v", 
-                e.Operation, e.Registry, e.Cause)
-        }
+        <h3>3. Enhanced Documentation</h3>
+        <p>Add more comprehensive examples and error handling documentation.</p>
+        <div class="code-snippet">
+            <pre>
+// Example documentation block:
+/**
+ * @example
+ * ```go
+ * cfg := dag.RegistryConfig().
+ *     WithRegistryAuth("registry.example.com", "username", secretObj).
+ *     SecretMount("/root/.docker/config.json")
+ * ```
+ * 
+ * @errors
+ * - InvalidCredentials: When provided registry credentials are invalid
+ * - ConnectionError: When unable to connect to registry
+ * - InvalidPath: When mount path is invalid
+ */
+            </pre>
         </div>
     </div>
 
-    <h2>Testing Results</h2>
-    <p>The module installed and built successfully. No errors were encountered during the testing process.</p>
+    <h2>Testing Issues Encountered</h2>
+    <p>No significant issues were encountered during testing. The module installed and built successfully, and all primary functions were discoverable through the API.</p>
 
-    <h2>Documentation Quality</h2>
-    <p>The module has good documentation with clear examples and usage instructions. The README provides comprehensive information about the module's purpose and security considerations.</p>
 </body>
 </html>
