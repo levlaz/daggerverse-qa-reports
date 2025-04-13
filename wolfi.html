@@ -3,38 +3,37 @@
 <head>
     <title>QA Report - Wolfi Module</title>
     <style>
-        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 2em; }
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
         h1, h2 { color: #333; }
-        .error { color: #cc0000; }
-        .code { background: #f4f4f4; padding: 1em; border-radius: 4px; }
-        .suggestion { margin: 1em 0; padding: 1em; background: #f9f9f9; }
+        .error { color: #ff0000; }
+        .suggestion { margin: 20px 0; padding: 10px; background-color: #f0f0f0; }
+        pre { background-color: #f5f5f5; padding: 10px; border-radius: 5px; }
     </style>
 </head>
 <body>
-    <h1>QA Report - Wolfi Module</h1>
+    <h1>QA Report: Wolfi Module</h1>
     
     <h2>Module Information</h2>
     <ul>
-        <li><strong>Name:</strong> github.com/dagger/dagger/dev/wolfi</li>
-        <li><strong>Author:</strong> Dagger Team</li>
-        <li><strong>Latest Version:</strong> v0.12.0</li>
-        <li><strong>Release Date:</strong> N/A (Not available in module metadata)</li>
+        <li><strong>Name:</strong> wolfi</li>
+        <li><strong>Author:</strong> M-Pixel</li>
+        <li><strong>Latest Version:</strong> 74e7185492b1b67be9410f654aa26ff530b374e3</li>
+        <li><strong>Release Date:</strong> Not specified in module info</li>
+        <li><strong>Dagger Version Used:</strong> v0.18.2</li>
     </ul>
 
-    <h2>Dagger Engine Version Used</h2>
-    <p>v0.18.2</p>
-
     <h2>Module Description</h2>
-    <p>Wolfi is a container-native Linux distribution with an emphasis on security. This module provides functionality to work with Wolfi Linux containers.</p>
+    <p>Wolfi is a container-native Linux distribution with an emphasis on security. The module provides functionality to work with Wolfi Linux containers.</p>
 
-    <h2>Module Functions</h2>
+    <h2>Functions</h2>
     <ul>
         <li><strong>container()</strong>
             <ul>
-                <li>Builds a Wolfi Linux container</li>
-                <li>Parameters:
+                <li>Description: Build a Wolfi Linux container</li>
+                <li>Arguments:
                     <ul>
                         <li>packages: [String!] - APK packages to install</li>
+                        <li>arch: String - Hardware architecture to target</li>
                         <li>overlays: [Container!] - Overlay images to merge on top of the base</li>
                     </ul>
                 </li>
@@ -44,58 +43,82 @@
 
     <h2>Issues Encountered</h2>
     <div class="error">
-        <p>Several issues were encountered during testing:</p>
-        <ul>
-            <li>Module installation failed with error: "git module source does not contain a dagger config file"</li>
-            <li>Build attempt failed with error: "path 'dev/wolfi' does not exist in git repo"</li>
-        </ul>
+        <p>1. Module Installation Failed:</p>
+        <pre>Error: git module source "github.com/M-Pixel/dagger/modules/wolfi" does not contain a dagger config file</pre>
+        
+        <p>2. Module Build Failed:</p>
+        <pre>Error: failed to get configured module: input: moduleSource path "modules/wolfi" does not exist in git repo</pre>
     </div>
 
-    <h2>Quality Improvement Suggestions</h2>
+    <h2>Suggestions for Improvement</h2>
     
     <div class="suggestion">
-        <h3>1. Add Proper Module Configuration</h3>
-        <p>The module is missing proper configuration files. Add a dagger.json file:</p>
-        <pre class="code">
+        <h3>1. Add proper module configuration</h3>
+        <p>The module is missing a dagger.json configuration file, which is essential for proper module initialization.</p>
+        <pre>
 {
     "name": "wolfi",
     "sdk": "go",
     "dependencies": [],
-    "source": "./",
-    "engineVersion": ">=0.18.0"
+    "source": "./src",
+    "version": "0.1.0"
 }
         </pre>
-        <img src="https://media.giphy.com/media/13FrpeVH09Zrb2/giphy.gif" alt="Configuration is key" />
     </div>
 
     <div class="suggestion">
-        <h3>2. Add Comprehensive Documentation</h3>
-        <p>Add more detailed documentation with examples:</p>
-        <pre class="code">
-// Example of how to use the Wolfi module
-func ExampleWolfi() {
+        <h3>2. Add comprehensive documentation</h3>
+        <p>Add more detailed documentation with usage examples and best practices.</p>
+        <pre>
+# Example documentation structure for README.md
+# Wolfi Module
+
+## Overview
+Detailed description of the module's purpose and benefits
+
+## Usage Examples
+```go
+func ExampleBasicContainer() {
     wolfi := dag.Wolfi().Container(
-        WithPackages: []string{"python3", "git"},
-        WithOverlays: []Container{customLayer},
+        WithPackages([]string{"python3", "git"}),
+        WithArch("amd64"),
     )
 }
+```
+
+## API Reference
+Detailed description of each function and its parameters
         </pre>
     </div>
 
     <div class="suggestion">
-        <h3>3. Add Validation and Error Handling</h3>
-        <p>Implement proper validation for package names and overlay compatibility:</p>
-        <pre class="code">
-func (w *Wolfi) Container(ctx context.Context, packages []string) (*Container, error) {
+        <h3>3. Add parameter validation and error handling</h3>
+        <p>Improve error handling and input validation for better user experience.</p>
+        <pre>
+func (w *Wolfi) Container(packages []string, arch string) (*Container, error) {
+    // Validate architecture
+    validArchs := []string{"amd64", "arm64"}
+    if !contains(validArchs, arch) {
+        return nil, fmt.Errorf("invalid architecture: %s. Must be one of: %v", arch, validArchs)
+    }
+
+    // Validate packages
     for _, pkg := range packages {
-        if err := validatePackageName(pkg); err != nil {
-            return nil, fmt.Errorf("invalid package name %s: %w", pkg, err)
+        if !isValidPackageName(pkg) {
+            return nil, fmt.Errorf("invalid package name: %s", pkg)
         }
     }
-    // ... rest of the implementation
+
+    // Continue with container creation...
 }
         </pre>
     </div>
 
+    <h2>Feedback Images</h2>
+    <p>When things go wrong with module configuration...</p>
+    <img src="https://i.imgflip.com/65efzo.jpg" alt="Configuration Meme" width="400">
+
+    <hr>
+    <p><em>QA Test performed using Dagger Engine v0.18.2</em></p>
 </body>
 </html>
