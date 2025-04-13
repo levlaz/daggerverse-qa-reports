@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>QA Report - dagger-prompt</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
+        h1, h2 { color: #333; }
+        .error { color: #d32f2f; background: #ffebee; padding: 10px; border-radius: 4px; }
+        .code { background: #f5f5f5; padding: 10px; border-radius: 4px; font-family: monospace; }
+        .meme { max-width: 500px; margin: 20px 0; }
+    </style>
+</head>
+<body>
+    <h1>QA Report: dagger-prompt</h1>
+    
+    <h2>Module Information</h2>
+    <ul>
+        <li><strong>Name:</strong> github.com/pjmagee/dagger-prompt</li>
+        <li><strong>Author:</strong> pjmagee</li>
+        <li><strong>Latest Version:</strong> v0.1.0</li>
+        <li><strong>Dagger Engine Version Used:</strong> v0.18.2</li>
+    </ul>
+
+    <h2>Module Purpose</h2>
+    <p>This module provides a prompt interface for manual user input in Dagger pipelines. It supports both simple input prompts and choice selection mechanisms.</p>
+
+    <h2>Functions</h2>
+    <ul>
+        <li><strong>withOptions()</strong> - Configure all prompt options at once</li>
+        <li><strong>withCi()</strong> - Enable/disable CI mode</li>
+        <li><strong>withMsg()</strong> - Set the prompt message</li>
+        <li><strong>withInput()</strong> - Set default input</li>
+        <li><strong>withMatch()</strong> - Set input validation pattern</li>
+        <li><strong>withChoices()</strong> - Set available choices for selection</li>
+        <li><strong>execute()</strong> - Run the prompt</li>
+        <li><strong>outcome()</strong> - Get the prompt result</li>
+        <li><strong>input()</strong> - Get the user input</li>
+    </ul>
+
+    <h2>Testing Issues</h2>
+    <div class="error">
+        <p><strong>Authentication Error:</strong> Unable to install or build the module due to GitHub authentication issues. The repository requires proper authentication for access.</p>
+        <pre>
+remote: Support for password authentication was removed on August 13, 2021.
+remote: Please see https://docs.github.com/get-started/getting-started-with-git/about-remote-repositories#cloning-with-https-urls
+fatal: Authentication failed for 'https://github.com/pjmagee/dagger-prompt/'
+        </pre>
+    </div>
+
+    <h2>Quality Improvement Suggestions</h2>
+    
+    <h3>1. Add Input Validation Examples</h3>
+    <div class="code">
+    // Add comprehensive examples for input validation
+    func ExampleValidation() {
+        result := dag.Prompt().
+            WithMsg("Enter your email:").
+            WithMatch("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$").
+            WithInput("").
+            Execute()
+    }
+    </div>
+
+    <h3>2. Implement Timeout Feature</h3>
+    <div class="code">
+    // Add timeout functionality
+    func WithTimeout(duration time.Duration) *Prompt {
+        // Implementation for timing out prompts
+        // This would prevent hanging in CI environments
+        return p.WithOptions(Options{
+            timeout: duration,
+            ...
+        })
+    }
+    </div>
+
+    <h3>3. Add Default Value Support with Clear Visual Indication</h3>
+    <div class="code">
+    // Implement better default value display
+    func WithDefaultValue(value string) *Prompt {
+        return p.WithMsg(fmt.Sprintf("%s [%s]: ", p.message, value)).
+            WithInput(value)
+    }
+    </div>
+
+    <h2>Meme Feedback</h2>
+    <img src="https://i.imgur.com/7NGbmWk.png" alt="Are you sure about that input?" class="meme"/>
+    <p><em>When your CI pipeline hangs because someone forgot to set CI mode to true</em></p>
+</body>
+</html>
