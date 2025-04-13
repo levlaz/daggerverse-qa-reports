@@ -3,14 +3,34 @@
 <head>
     <title>Dagger Modules QA Report Index</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 20px; }
-        table { border-collapse: collapse; width: 100%; }
-        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-        th { background-color: #f2f2f2; }
-        .pass { color: green; }
-        .fail { color: red; }
-        .pass::before { content: "✓"; }
-        .fail::before { content: "✗"; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .pass {
+            color: green;
+            font-size: 20px;
+        }
+        .fail {
+            color: red;
+            font-size: 20px;
+        }
+        a {
+            color: #0066cc;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
@@ -22,56 +42,30 @@
             <th>Status</th>
             <th>Full Report</th>
         </tr>
-        <!-- Generated entries from QA reports -->
         <tr>
-            <td>alpine</td>
-            <td>Alpine Linux base image module</td>
-            <td><span class="pass"></span></td>
+            <td>github.com/TomChv/dagger/modules/alpine</td>
+            <td>Alpine Linux container management and APK package handling module</td>
+            <td>❌</td>
             <td><a href="alpine.html">View Report</a></td>
         </tr>
         <tr>
-            <td>aws-cli</td>
-            <td>AWS CLI tooling module</td>
-            <td><span class="pass"></span></td>
-            <td><a href="aws-cli.html">View Report</a></td>
-        </tr>
-        <tr>
-            <td>golang</td>
-            <td>Go development and build environment</td>
-            <td><span class="pass"></span></td>
+            <td>github.com/disaster37/dagger-library-go/golang</td>
+            <td>Go project build, test, lint, and vulnerability scanning toolkit</td>
+            <td>✅</td>
             <td><a href="golang.html">View Report</a></td>
         </tr>
         <tr>
-            <td>nodejs</td>
-            <td>Node.js development environment</td>
-            <td><span class="pass"></span></td>
+            <td>nodejs (RawkodeAcademy)</td>
+            <td>NodeJS environment setup with NPM and Bun package manager support</td>
+            <td>❌</td>
             <td><a href="nodejs.html">View Report</a></td>
         </tr>
         <tr>
-            <td>python-dev</td>
-            <td>Python development environment</td>
-            <td><span class="pass"></span></td>
-            <td><a href="python-dev.html">View Report</a></td>
+            <td>php/tests (sagikazarmark)</td>
+            <td>PHP testing module with all() and test() capabilities</td>
+            <td>✅</td>
+            <td><a href="php-tests.html">View Report</a></td>
         </tr>
-        <tr>
-            <td>docker</td>
-            <td>Docker build and management tools</td>
-            <td><span class="pass"></span></td>
-            <td><a href="docker.html">View Report</a></td>
-        </tr>
-        <tr>
-            <td>helm</td>
-            <td>Kubernetes Helm package manager</td>
-            <td><span class="pass"></span></td>
-            <td><a href="helm.html">View Report</a></td>
-        </tr>
-        <tr>
-            <td>terraform</td>
-            <td>Infrastructure as Code toolkit</td>
-            <td><span class="pass"></span></td>
-            <td><a href="terraform.html">View Report</a></td>
-        </tr>
-        <!-- Add more entries as needed -->
     </table>
 </body>
 </html>
