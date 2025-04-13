@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>QA Report - Shuttle Pipeline Module</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }
+        h1, h2 { color: #333; }
+        .module-info { background: #f5f5f5; padding: 20px; border-radius: 5px; }
+        .functions { margin: 20px 0; }
+        .suggestions { background: #e9f7ef; padding: 20px; border-radius: 5px; }
+        .error { color: #dc3545; }
+        code { background: #f8f9fa; padding: 2px 5px; border-radius: 3px; }
+        pre { background: #f8f9fa; padding: 15px; border-radius: 5px; overflow-x: auto; }
+    </style>
+</head>
+<body>
+    <h1>QA Report: Shuttle Pipeline Module</h1>
+    
+    <div class="module-info">
+        <h2>Module Information</h2>
+        <p><strong>Name:</strong> github.com/fluent-ci-templates/shuttle-pipeline</p>
+        <p><strong>Author:</strong> fluent-ci-templates</p>
+        <p><strong>Latest Version:</strong> v0.7.5</p>
+        <p><strong>Release Date:</strong> Not specified in metadata</p>
+        <p><strong>Dagger Engine Version Used:</strong> v0.18.2</p>
+    </div>
+
+    <h2>Module Purpose</h2>
+    <p>This module is designed to deploy Rust applications to Shuttle, a serverless platform for Rust applications.</p>
+
+    <div class="functions">
+        <h2>Available Functions</h2>
+        <ul>
+            <li><strong>deploy()</strong> - Deploy the application to Shuttle
+                <ul>
+                    <li>Parameters:
+                        <ul>
+                            <li>src (Directory) - Required</li>
+                            <li>apiKey (Secret) - Required</li>
+                            <li>shuttleVersion (String) - Optional, defaults to "v0.39.0"</li>
+                        </ul>
+                    </li>
+                    <li>Returns: String</li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+
+    <div class="suggestions">
+        <h2>Improvement Suggestions</h2>
+        
+        <h3>1. Add Input Validation</h3>
+        <p>Add validation for the src directory and apiKey to ensure they're not empty and in the correct format.</p>
+        <pre>
+func validateInputs(src *Directory, apiKey *Secret) error {
+    if src == nil {
+        return fmt.Errorf("source directory cannot be nil")
+    }
+    if apiKey == nil {
+        return fmt.Errorf("API key cannot be nil")
+    }
+    return nil
+}
+        </pre>
+
+        <h3>2. Add Progress Reporting</h3>
+        <p>Implement detailed progress reporting during the deployment process.</p>
+        <pre>
+func (s *Shuttle) deploy(ctx context.Context) (string, error) {
+    fmt.Println("🚀 Starting Shuttle deployment...")
+    fmt.Println("📦 Building application...")
+    // deployment steps
+    fmt.Println("✅ Deployment complete!")
+    return "Deployment successful!", nil
+}
+        </pre>
+
+        <h3>3. Add Retry Mechanism</h3>
+        <p><img src="https://i.imgflip.com/7481q8.jpg" alt="Keep Calm and Retry" style="max-width: 300px;"/></p>
+        <pre>
+func (s *Shuttle) deployWithRetry(ctx context.Context, maxRetries int) (string, error) {
+    for i := 0; i < maxRetries; i++ {
+        result, err := s.deploy(ctx)
+        if err == nil {
+            return result, nil
+        }
+        fmt.Printf("Attempt %d failed, retrying...\n", i+1)
+        time.Sleep(time.Second * 5)
+    }
+    return "", fmt.Errorf("deployment failed after %d attempts", maxRetries)
+}
+        </pre>
+    </div>
+
+    <h2>Issues Encountered</h2>
+    <ul>
+        <li>No major issues were encountered during testing</li>
+        <li>The module successfully installed and built</li>
+        <li>All functions were properly documented and accessible</li>
+    </ul>
+
+</body>
+</html>
