@@ -4,119 +4,111 @@
     <title>QA Report - Kubeconform Module</title>
     <style>
         body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
-        h1 { color: #2c3e50; }
-        .success { color: #27ae60; padding: 10px; background: #e8f8f5; border-radius: 4px; }
-        .suggestion { margin: 20px 0; padding: 15px; background: #f8f9fa; border-left: 4px solid #3498db; }
+        h1, h2 { color: #333; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .info-block { background: #f5f5f5; padding: 20px; margin: 20px 0; border-radius: 5px; }
+        .function-list { list-style-type: none; padding-left: 0; }
+        .function-item { margin-bottom: 10px; padding: 10px; background: #fff; border: 1px solid #ddd; }
+        .error { color: #dc3545; }
+        .suggestion { margin: 20px 0; padding: 15px; background: #e9f5ff; border-radius: 5px; }
         code { background: #f8f9fa; padding: 2px 5px; border-radius: 3px; }
-        .meme { max-width: 500px; margin: 20px 0; }
     </style>
 </head>
 <body>
-    <h1>QA Report - Kubeconform Module</h1>
-    
-    <h2>Module Information</h2>
-    <ul>
-        <li><strong>Name:</strong> github.com/Smana/daggerverse/kubeconform</li>
-        <li><strong>Author:</strong> Smana</li>
-        <li><strong>Latest Version:</strong> v0.1.3</li>
-        <li><strong>Release Date:</strong> Not available</li>
-        <li><strong>Dagger Engine Version Used:</strong> v0.17.2</li>
-    </ul>
+    <div class="container">
+        <h1>QA Report: Kubeconform Module</h1>
+        
+        <div class="info-block">
+            <h2>Module Information</h2>
+            <p><strong>Module Name:</strong> kubeconform</p>
+            <p><strong>Author:</strong> Smana</p>
+            <p><strong>Latest Version:</strong> v0.1.3</p>
+            <p><strong>Release Details:</strong> Latest commit: 12859451a8d9</p>
+            <p><strong>Dagger Engine Version Used:</strong> v0.18.2</p>
+        </div>
 
-    <h2>Module Purpose</h2>
-    <p>This module provides functionality to validate Kubernetes resources against the Kubernetes OpenAPI specification. It supports:</p>
-    <ul>
-        <li>Validation of standalone YAML files and kustomization files</li>
-        <li>Directory exclusion from validation</li>
-        <li>CRD to JSONSchema conversion</li>
-        <li>Integration with Datree Catalog</li>
-        <li>Flux variables substitution support</li>
-    </ul>
-
-    <h2>Available Functions</h2>
-    <ul>
-        <li><strong>version()</strong> - Returns the Kubeconform version being used</li>
-        <li><strong>validate()</strong> - Validates Kubernetes manifests with various configuration options including:
+        <div class="info-block">
+            <h2>Module Purpose</h2>
+            <p>The kubeconform module is designed to validate Kubernetes resources against the Kubernetes OpenAPI specification. It provides functionality to:</p>
             <ul>
-                <li>Kustomize support</li>
-                <li>Directory exclusion</li>
-                <li>Datree catalog integration</li>
-                <li>Flux support</li>
-                <li>Custom CRD validation</li>
+                <li>Validate standalone YAML files and kustomization files</li>
+                <li>Exclude specific directories from validation</li>
+                <li>Convert CRDs into JSONSchemas</li>
+                <li>Support additional schemas from the Datree Catalog</li>
+                <li>Support Flux variables substitution</li>
             </ul>
-        </li>
-    </ul>
+        </div>
 
-    <div class="success">
-        <h3>Installation Status</h3>
-        <p>Successfully installed and built the module with no errors.</p>
+        <div class="info-block">
+            <h2>Available Functions</h2>
+            <ul class="function-list">
+                <li class="function-item">
+                    <strong>validate()</strong>: Validates Kubernetes manifests in the provided directory with optional CRDs
+                </li>
+                <li class="function-item">
+                    <strong>version()</strong>: Returns the Kubeconform version used for validation
+                </li>
+            </ul>
+        </div>
+
+        <div class="info-block">
+            <h2>Quality Improvement Suggestions</h2>
+            
+            <div class="suggestion">
+                <h3>1. Add Input Validation and Error Handling</h3>
+                <p>Add proper input validation and error handling for the manifests directory path.</p>
+                <code>
+                func validate(ctx context.Context, manifests *Directory) (string, error) {
+                    if manifests == nil {
+                        return "", fmt.Errorf("manifests directory cannot be nil")
+                    }
+                    // Add validation for directory existence and permissions
+                    // ...
+                }
+                </code>
+                <img src="https://i.imgflip.com/2/1bij.jpg" alt="Input validation meme">
+            </div>
+
+            <div class="suggestion">
+                <h3>2. Implement Progress Reporting</h3>
+                <p>Add progress reporting for long-running validations of large manifest sets.</p>
+                <code>
+                type ValidationProgress struct {
+                    FilesProcessed int
+                    TotalFiles    int
+                    CurrentFile   string
+                    Status       string
+                }
+
+                func (k *Kubeconform) validateWithProgress(manifests *Directory) chan ValidationProgress {
+                    progressChan := make(chan ValidationProgress)
+                    // Implementation
+                    return progressChan
+                }
+                </code>
+            </div>
+
+            <div class="suggestion">
+                <h3>3. Add Caching Mechanism</h3>
+                <p>Implement caching for CRD schemas to improve performance on subsequent runs.</p>
+                <code>
+                type SchemaCache struct {
+                    schemas map[string]string
+                    expiry time.Time
+                }
+
+                func (k *Kubeconform) getCachedSchema(key string) (string, bool) {
+                    // Implementation for schema caching
+                    return schema, exists
+                }
+                </code>
+            </div>
+        </div>
+
+        <div class="info-block">
+            <h2>Testing Notes</h2>
+            <p>No significant errors were encountered during testing. The module installed and built successfully, with all core functions accessible and working as documented.</p>
+        </div>
     </div>
-
-    <h2>Quality Improvement Suggestions</h2>
-    
-    <div class="suggestion">
-        <h3>1. Add input validation with meaningful error messages</h3>
-        <p>Enhance error handling for better debugging experience</p>
-        <code>
-func (k *Kubeconform) validate(ctx context.Context, manifests *Directory) (string, error) {
-    if manifests == nil {
-        return "", fmt.Errorf("manifests directory cannot be nil")
-    }
-    
-    // Validate CRD URLs if provided
-    for _, crd := range k.crds {
-        if !strings.HasPrefix(crd, "http") && !strings.HasPrefix(crd, "https") {
-            return "", fmt.Errorf("invalid CRD URL format: %s", crd)
-        }
-    }
-    
-    // Continue with validation...
-}
-        </code>
-    </div>
-
-    <div class="suggestion">
-        <h3>2. Add progress reporting</h3>
-        <p>Implement detailed progress reporting for long-running validations</p>
-        <code>
-type ValidationProgress struct {
-    FilesProcessed int    `json:"filesProcessed"`
-    CurrentFile    string `json:"currentFile"`
-    Errors        []string `json:"errors"`
-    Warnings      []string `json:"warnings"`
-}
-
-func (k *Kubeconform) validateWithProgress(
-    ctx context.Context,
-    manifests *Directory,
-    progressCh chan<- ValidationProgress
-) error {
-    // Implementation that sends progress updates
-}
-        </code>
-    </div>
-
-    <div class="suggestion">
-        <h3>3. Add caching mechanism</h3>
-        <p>Implement caching for downloaded schemas to improve performance</p>
-        <code>
-func (k *Kubeconform) withCache(cacheDir string) *Kubeconform {
-    return k.withEnvVars([]string{
-        fmt.Sprintf("KUBECONFORM_CACHE_DIR=%s", cacheDir),
-    })
-}
-
-// Usage:
-// dag.kubeconform().
-//     withCache("/cache/schemas").
-//     validate(manifests)
-        </code>
-    </div>
-
-    <div class="meme">
-        <img src="https://i.imgflip.com/65afwh.jpg" alt="Kubernetes Validation Meme" width="400">
-        <p><em>When your YAML passes kubeconform validation on the first try...</em></p>
-    </div>
-
 </body>
 </html>
