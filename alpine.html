@@ -3,10 +3,12 @@
 <head>
     <title>QA Report - Alpine Module</title>
     <style>
-        body { font-family: Arial, sans-serif; line-height: 1.6; max-width: 800px; margin: 0 auto; padding: 20px; }
-        .error { color: red; background: #fee; padding: 10px; border-radius: 5px; }
-        .suggestion { background: #f5f5f5; padding: 15px; margin: 10px 0; border-left: 3px solid #333; }
-        code { background: #f4f4f4; padding: 2px 5px; border-radius: 3px; }
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
+        h1 { color: #2c3e50; }
+        h2 { color: #34495e; }
+        code { background: #f8f9fa; padding: 2px 5px; border-radius: 3px; }
+        .error { color: #e74c3c; }
+        .suggestion { background: #f0f7ff; padding: 15px; margin: 10px 0; border-left: 5px solid #3498db; }
     </style>
 </head>
 <body>
@@ -17,91 +19,86 @@
         <li><strong>Module Name:</strong> github.com/TomChv/dagger/modules/alpine</li>
         <li><strong>Author:</strong> TomChv</li>
         <li><strong>Latest Version:</strong> e45ebd5f4222708ca1db05ff34a68320e24b9ed4</li>
-        <li><strong>Release Date:</strong> N/A (Not available in module info)</li>
-        <li><strong>Dagger Engine Version Used:</strong> v0.18.2</li>
+        <li><strong>Release Date:</strong> Not available</li>
+        <li><strong>Dagger Version Used:</strong> v0.18.2</li>
     </ul>
 
     <h2>Module Purpose</h2>
-    <p>This module is designed to integrate with Alpine Linux. It provides functionality for:</p>
+    <p>A Dagger Module to integrate with Alpine Linux. The module provides functionality to:</p>
     <ul>
-        <li>Creating Alpine Linux containers</li>
-        <li>Managing APK packages</li>
-        <li>Configuring architecture and branch settings</li>
-        <li>Customizing Alpine Linux distributions</li>
+        <li>Configure Alpine Linux distributions</li>
+        <li>Set hardware architecture</li>
+        <li>Manage Alpine branch selection</li>
+        <li>Install APK packages</li>
+        <li>Build Alpine Linux containers</li>
     </ul>
 
     <h2>Available Functions</h2>
     <ul>
-        <li><code>distro()</code> - Returns the Alpine distribution being used</li>
-        <li><code>arch()</code> - Returns the hardware architecture being built for</li>
-        <li><code>branch()</code> - Returns the Alpine branch used for packages</li>
-        <li><code>packages()</code> - Returns the list of APK packages to install</li>
-        <li><code>container()</code> - Builds an Alpine Linux container</li>
+        <li><code>distro()</code> - Get/Set the Alpine distribution to use</li>
+        <li><code>arch()</code> - Get/Set the hardware architecture to build for</li>
+        <li><code>branch()</code> - Get/Set the Alpine branch to download packages from</li>
+        <li><code>packages()</code> - Get/Set the APK packages to install</li>
+        <li><code>container()</code> - Build an Alpine Linux container</li>
     </ul>
 
-    <h2>Installation & Testing Issues</h2>
+    <h2>Issues Encountered</h2>
     <div class="error">
-        <h3>Encountered Errors:</h3>
+        <p>During testing, the following issues were encountered:</p>
         <ul>
-            <li>Installation failed: Module source does not contain a dagger config file</li>
+            <li>Installation failed: Module does not contain a dagger config file</li>
             <li>Build failed: Module path "modules/alpine" does not exist in git repo</li>
         </ul>
     </div>
 
-    <h2>Quality Improvement Suggestions</h2>
+    <h2>Suggestions for Improvement</h2>
     
     <div class="suggestion">
-        <h3>1. Add Proper Module Configuration</h3>
-        <p>The module is missing a proper dagger.json configuration file, which is essential for installation.</p>
+        <h3>1. Add proper module configuration</h3>
+        <p>Add a dagger.json configuration file to properly define the module:</p>
         <pre><code>
 {
     "name": "alpine",
     "sdk": "go",
     "dependencies": [],
-    "source": "modules/alpine"
+    "source": "./",
+    "engineVersion": "v0.18.2"
 }
         </code></pre>
-        <img src="https://i.imgflip.com/2/5ginzq.jpg" alt="Configuration Missing Meme">
     </div>
 
     <div class="suggestion">
-        <h3>2. Add Input Validation</h3>
-        <p>Implement proper validation for architecture and branch inputs:</p>
+        <h3>2. Improve Error Handling</h3>
+        <p>Add comprehensive error handling for package installation failures:</p>
         <pre><code>
-func (m *Alpine) WithArch(ctx context.Context, arch string) (*Alpine, error) {
-    validArchs := []string{"amd64", "arm64", "arm/v7"}
-    for _, validArch := range validArchs {
-        if arch == validArch {
-            return m.arch(arch), nil
+func (m *Alpine) InstallPackages(ctx context.Context, packages []string) error {
+    for _, pkg := range packages {
+        if err := m.container.Exec("apk", "add", pkg).Stdout(ctx); err != nil {
+            return fmt.Errorf("failed to install package %s: %w", pkg, err)
         }
     }
-    return nil, fmt.Errorf("invalid architecture: %s", arch)
+    return nil
 }
         </code></pre>
     </div>
 
     <div class="suggestion">
-        <h3>3. Add Documentation and Examples</h3>
-        <p>Enhance the module with better documentation and usage examples:</p>
+        <h3>3. Add Input Validation</h3>
+        <p>Add validation for architecture and branch inputs:</p>
         <pre><code>
-// Example dagger.json documentation
-{
-    "name": "alpine",
-    "sdk": "go",
-    "examples": [
-        {
-            "name": "basic-usage",
-            "description": "Create a basic Alpine container",
-            "code": "dag.alpine().WithPackages(['curl', 'git']).Container()"
+func (m *Alpine) SetArch(arch string) error {
+    validArchs := []string{"x86_64", "aarch64", "armv7"}
+    for _, validArch := range validArchs {
+        if arch == validArch {
+            m.arch = arch
+            return nil
         }
-    ]
+    }
+    return fmt.Errorf("invalid architecture: %s", arch)
 }
         </code></pre>
+        <img src="https://i.imgflip.com/65rfgh.jpg" alt="Error handling meme" style="max-width: 500px;">
     </div>
-
-    <h2>Trace Links</h2>
-    <p>Installation trace: Not available due to installation failure</p>
-    <p>Build trace: Not available due to build failure</p>
 
 </body>
 </html>
