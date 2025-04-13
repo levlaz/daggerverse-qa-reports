@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>QA Report - generic-pipeline</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
+        h1 { color: #333; }
+        h2 { color: #666; margin-top: 20px; }
+        .error { color: #ff0000; }
+        .suggestion { margin: 10px 0; padding: 10px; background-color: #f5f5f5; }
+        .code { font-family: monospace; background-color: #eee; padding: 10px; margin: 10px 0; }
+        .meme { max-width: 500px; margin: 20px 0; }
+    </style>
+</head>
+<body>
+    <h1>QA Report: generic-pipeline</h1>
+    
+    <h2>Module Information</h2>
+    <ul>
+        <li><strong>Name:</strong> generic-pipeline</li>
+        <li><strong>Author:</strong> puzzle</li>
+        <li><strong>Latest Version:</strong> v0.0.2</li>
+        <li><strong>Release Date:</strong> Not available</li>
+        <li><strong>Dagger Engine Version Used:</strong> v0.18.2</li>
+    </ul>
+
+    <h2>Module Description</h2>
+    <p>This module contains functions that can be used in multiple pipelines, providing generic pipeline functionality for various CI/CD operations.</p>
+
+    <h2>Available Functions</h2>
+    <ul>
+        <li><strong>lint()</strong> - Returns file containing lint results</li>
+        <li><strong>test()</strong> - Returns directory containing test results</li>
+        <li><strong>sast()</strong> - Returns file containing security scan results</li>
+        <li><strong>build()</strong> - Returns a Container built from Dockerfile</li>
+        <li><strong>sbomBuild()</strong> - Builds container and creates SBOM</li>
+        <li><strong>sbom()</strong> - Creates SBOM for container</li>
+        <li><strong>vulnscan()</strong> - Scans SBOM for vulnerabilities</li>
+        <li><strong>publishToDeptrack()</strong> - Publishes SBOM to Dependency-Track</li>
+        <li><strong>publish()</strong> - Publishes container to registry</li>
+        <li><strong>sign()</strong> - Signs published image using cosign</li>
+        <li><strong>attest()</strong> - Attests SBOM using cosign</li>
+        <li><strong>run()</strong> - Executes all steps and returns results directory</li>
+    </ul>
+
+    <h2>Errors Encountered</h2>
+    <div class="error">
+        <p>The following errors were encountered during testing:</p>
+        <ul>
+            <li>Installation Error: Module source does not contain a dagger config file</li>
+            <li>Build Error: Path "generic-pipeline" does not exist in git repo</li>
+        </ul>
+    </div>
+
+    <h2>Quality Improvement Suggestions</h2>
+    
+    <div class="suggestion">
+        <h3>1. Add proper module configuration</h3>
+        <img src="https://i.imgflip.com/65efzo.jpg" alt="Configuration Meme" class="meme">
+        <p>The module lacks proper dagger.json configuration, which is essential for module discovery and installation.</p>
+        <div class="code">
+// dagger.json
+{
+  "name": "generic-pipeline",
+  "sdk": "go",
+  "dependencies": [],
+  "source": "./generic-pipeline"
+}
+        </div>
+    </div>
+
+    <div class="suggestion">
+        <h3>2. Implement proper error handling and validation</h3>
+        <p>Add input validation and proper error messages for all functions.</p>
+        <div class="code">
+func (m *GenericPipeline) lint(ctx context.Context, container *Container, results string) (*File, error) {
+    if container == nil {
+        return nil, fmt.Errorf("container cannot be nil")
+    }
+    if results == "" {
+        return nil, fmt.Errorf("results path cannot be empty")
+    }
+    // ... rest of the implementation
+}
+        </div>
+    </div>
+
+    <div class="suggestion">
+        <h3>3. Add comprehensive documentation</h3>
+        <p>Enhance documentation with examples and detailed parameter descriptions.</p>
+        <div class="code">
+// Example documentation in code
+// PublishToDeptrack publishes a CycloneDX SBOM to Dependency-Track
+//
+// Parameters:
+//   - sbom: CycloneDX SBOM file (*File)
+//   - address: Dependency-Track API address (e.g., "https://deptrack.example.com/api/v1/bom")
+//   - apiKey: Dependency-Track API key (Secret)
+//   - projectUuid: Dependency-Track project UUID
+//
+// Returns:
+//   - String containing the upload response or error message
+//
+// Example:
+//   result := dag.GenericPipeline().
+//             PublishToDeptrack(sbomFile, "https://deptrack.example.com/api/v1/bom",
+//                             dag.SetSecret("API_KEY", apiKey), "project-uuid")
+        </div>
+    </div>
+</body>
+</html>
