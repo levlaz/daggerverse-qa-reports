@@ -1,18 +1,19 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Dagger Modules QA Report Index</title>
+    <title>Dagger Module QA Reports</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 20px; }
+        body { font-family: Arial, sans-serif; margin: 40px; }
         table { border-collapse: collapse; width: 100%; }
         th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
         th { background-color: #f2f2f2; }
         .pass { color: green; }
         .fail { color: red; }
+        .status { font-size: 1.2em; }
     </style>
 </head>
 <body>
-    <h1>Dagger Modules QA Report Index</h1>
+    <h1>Dagger Module QA Reports</h1>
     <table>
         <tr>
             <th>Module Name</th>
@@ -20,6 +21,19 @@
             <th>Status</th>
             <th>Full Report</th>
         </tr>
+        <tr>
+            <td>Alpine Module</td>
+            <td>Configure Alpine Linux distributions, manage hardware architecture, and install APK packages</td>
+            <td class="status fail">❌</td>
+            <td><a href="alpine.html">View Report</a></td>
+        </tr>
+        <tr>
+            <td>Golang Module</td>
+            <td>Build, format, test, lint and scan Go projects for vulnerabilities</td>
+            <td class="status pass">✅</td>
+            <td><a href="golang.html">View Report</a></td>
+        </tr>
+        <!-- Additional entries will be processed and added here -->
     </table>
 </body>
 </html>
