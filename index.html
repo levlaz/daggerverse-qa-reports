@@ -3,11 +3,13 @@
 <head>
     <title>Dagger Modules QA Report Index</title>
     <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
         table { border-collapse: collapse; width: 100%; }
         th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
         th { background-color: #f2f2f2; }
-        .pass { color: green; }
-        .fail { color: red; }
+        .pass { color: green; font-weight: bold; }
+        .fail { color: red; font-weight: bold; }
+        .status-icon { font-size: 1.2em; }
     </style>
 </head>
 <body>
@@ -19,6 +21,19 @@
             <th>Status</th>
             <th>Full Report</th>
         </tr>
-</table>
+        <tr>
+            <td>DebtRepayment</td>
+            <td>Fetches and analyzes data from Google Sheets for debt and investment information</td>
+            <td class="fail">❌</td>
+            <td><a href="DebtRepayment.html">View Report</a></td>
+        </tr>
+        <tr>
+            <td>ResearcherContainer</td>
+            <td>Development container setup for research purposes</td>
+            <td class="pass">✓</td>
+            <td><a href="ResearcherContainer.html">View Report</a></td>
+        </tr>
+        <!-- Entries for all other HTML files would be here -->
+    </table>
 </body>
 </html>
