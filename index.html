@@ -1,8 +1,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Dagger Modules QA Report Index</title>
+    <title>QA Reports Index</title>
     <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            line-height: 1.6;
+        }
         table {
             width: 100%;
             border-collapse: collapse;
@@ -14,7 +19,7 @@
             text-align: left;
         }
         th {
-            background-color: #f5f5f5;
+            background-color: #f2f2f2;
         }
         .pass {
             color: green;
@@ -24,21 +29,36 @@
             color: red;
             font-size: 20px;
         }
+        a {
+            color: #0066cc;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
-    <h1>Dagger Modules QA Report Index</h1>
+    <h1>QA Reports Index</h1>
     <table>
-        <thead>
-            <tr>
-                <th>Module Name</th>
-                <th>Brief Description</th>
-                <th>Status</th>
-                <th>Full Report</th>
-            </tr>
-        </thead>
-        <tbody>
-        </tbody>
+        <tr>
+            <th>Module Name</th>
+            <th>Brief Description</th>
+            <th>Status</th>
+            <th>Full Report</th>
+        </tr>
+        <tr>
+            <td>aws-cli</td>
+            <td>Generic interface to use AWS CLI in Dagger pipelines, including ECR, STS, and credential management</td>
+            <td>✅</td>
+            <td><a href="aws-cli.html">View Report</a></td>
+        </tr>
+        <tr>
+            <td>go</td>
+            <td>Go programming language support for Dagger pipelines with build, test, and configuration capabilities</td>
+            <td>✅</td>
+            <td><a href="go.html">View Report</a></td>
+        </tr>
     </table>
 </body>
 </html>
