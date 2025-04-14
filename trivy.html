@@ -3,12 +3,14 @@
 <head>
     <title>QA Report - Trivy Module</title>
     <style>
-        body { font-family: Arial, sans-serif; line-height: 1.6; max-width: 1200px; margin: 0 auto; padding: 20px; }
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
         h1, h2 { color: #333; }
         .section { margin-bottom: 30px; }
-        .code { background-color: #f4f4f4; padding: 15px; border-radius: 5px; }
+        .function-list { background-color: #f5f5f5; padding: 20px; border-radius: 5px; }
+        .suggestion { margin: 20px 0; padding: 15px; background-color: #e9f7ff; border-radius: 5px; }
         .error { color: #dc3545; }
-        .suggestion { margin-bottom: 20px; }
+        code { background-color: #f8f9fa; padding: 2px 5px; border-radius: 3px; }
+        pre { background-color: #f8f9fa; padding: 15px; border-radius: 5px; overflow-x: auto; }
     </style>
 </head>
 <body>
@@ -16,137 +18,140 @@
     
     <div class="section">
         <h2>Module Information</h2>
+        <p><strong>Name:</strong> github.com/jedevc/daggerverse-sagikazarmark/trivy</p>
+        <p><strong>Author:</strong> sagikazarmark</p>
+        <p><strong>Latest Version:</strong> a104424df38ca8b0b758f699dcfeeb0c2210cc2e</p>
+        <p><strong>Release Date:</strong> Found in repository</p>
+        <p><strong>Dagger Cloud Trace:</strong> <a href="https://dagger.dev/mod/github.com/jedevc/daggerverse-sagikazarmark/trivy">View Trace</a></p>
+    </div>
+
+    <div class="section">
+        <h2>Module Purpose</h2>
+        <p>The Trivy module is a security scanner integration for Dagger that can find vulnerabilities, misconfigurations, secrets, and generate SBOM in various targets including:</p>
         <ul>
-            <li><strong>Name:</strong> github.com/sagikazarmark/daggerverse/trivy</li>
-            <li><strong>Author:</strong> sagikazarmark</li>
-            <li><strong>Latest Version:</strong> v0.5.0</li>
-            <li><strong>Release Date:</strong> Found in repository at 5b826062b6bc1bfbd619aa5d0fba117190c85aba</li>
-            <li><strong>Dagger Engine Version Used:</strong> v0.18.2</li>
+            <li>Container images</li>
+            <li>Filesystem</li>
+            <li>Git repositories</li>
+            <li>Kubernetes resources</li>
+            <li>Helm charts</li>
+            <li>Binary files</li>
+            <li>SBOM files</li>
         </ul>
     </div>
 
     <div class="section">
-        <h2>Module Description</h2>
-        <p>Trivy is a comprehensive security scanner for containers and other artifacts. The module provides functionality to:</p>
-        <ul>
-            <li>Scan container images</li>
-            <li>Scan container image tarballs</li>
-            <li>Scan containers directly</li>
-            <li>Scan Helm charts</li>
-            <li>Scan filesystems</li>
-            <li>Scan root filesystems</li>
-            <li>Scan binaries</li>
-            <li>Scan Software Bill of Materials (SBOM)</li>
-        </ul>
+        <h2>Available Functions</h2>
+        <div class="function-list">
+            <ul>
+                <li><code>binary()</code> - Scan a binary file</li>
+                <li><code>container()</code> - Scan a container</li>
+                <li><code>filesystem()</code> - Scan a filesystem</li>
+                <li><code>helm-chart()</code> - Scan a Helm chart</li>
+                <li><code>image()</code> - Scan a container image</li>
+                <li><code>image-tarball()</code> - Scan a container image tarball</li>
+                <li><code>rootfs()</code> - Scan a root filesystem</li>
+                <li><code>sbom()</code> - Scan an SBOM file</li>
+            </ul>
+        </div>
     </div>
 
     <div class="section">
-        <h2>Module Functions</h2>
-        <ul>
-            <li><code>binary()</code> - Scan a binary</li>
-            <li><code>container()</code> - Scan a container</li>
-            <li><code>filesystem()</code> - Scan a filesystem</li>
-            <li><code>helm-chart()</code> - Scan a Helm chart</li>
-            <li><code>image()</code> - Scan a container image</li>
-            <li><code>image-tarball()</code> - Scan a container image tarball</li>
-            <li><code>rootfs()</code> - Scan a root filesystem</li>
-            <li><code>sbom()</code> - Scan an SBOM</li>
-        </ul>
+        <h2>Testing Environment</h2>
+        <p><strong>Dagger Version:</strong> v0.18.2</p>
     </div>
 
     <div class="section">
         <h2>Quality Improvement Suggestions</h2>
         
         <div class="suggestion">
-            <h3>1. Add Result Filtering Options</h3>
-            <p>The module could benefit from adding filtering options for scan results to help focus on specific severity levels or vulnerability types.</p>
-            <div class="code">
-                <pre>
-// Example implementation:
-type ScanOpts struct {
-    Severity []string   // e.g., "HIGH", "CRITICAL"
-    VulnType []string   // e.g., "os", "library"
-    MinScore float64    // Minimum CVSS score
+            <h3>1. Add Input Validation</h3>
+            <p>Add validation for input parameters to prevent potential errors and provide better error messages.</p>
+            <pre>
+func validateInput(input string) error {
+    if input == "" {
+        return fmt.Errorf("input cannot be empty")
+    }
+    // Add more validation rules
+    return nil
 }
 
-func (t *Trivy) scan(ctx context.Context, opts ScanOpts) (*ScanResult, error) {
-    args := []string{"--severity", strings.Join(opts.Severity, ",")}
-    if opts.MinScore > 0 {
-        args = append(args, "--min-score", fmt.Sprintf("%.1f", opts.MinScore))
+// Example implementation
+func (t *Trivy) Binary(binary *File, opts ...BinaryOpt) (*Scan, error) {
+    if err := validateInput(binary.Path); err != nil {
+        return nil, err
     }
-    // ... rest of implementation
-}</pre>
-            </div>
+    // Existing implementation
+}
+</pre>
+            <p><img src="https://i.imgur.com/8P6Wv5Z.jpg" alt="Input validation meme" /></p>
         </div>
 
         <div class="suggestion">
-            <h3>2. Add Built-in Report Templates</h3>
-            <p>Include pre-defined report templates for common use cases (e.g., compliance reports, executive summaries).</p>
-            <div class="code">
-                <pre>
-// Example implementation:
-func (s *Scan) GenerateReport(template string) (*File, error) {
-    switch template {
-    case "compliance":
-        return s.generateComplianceReport()
-    case "executive":
-        return s.generateExecutiveSummary()
-    default:
-        return s.report()
-    }
+            <h3>2. Add Progress Reporting</h3>
+            <p>Implement progress reporting for long-running scans to provide better user feedback.</p>
+            <pre>
+type ScanProgress struct {
+    Percentage int    `json:"percentage"`
+    Status     string `json:"status"`
 }
 
-func (s *Scan) generateComplianceReport() (*File, error) {
-    // Template implementation
-    const tpl = `
-# Compliance Report
-## Overview
-- Total vulnerabilities: {{.Total}}
-- Policy violations: {{.PolicyViolations}}
-...
-    `
-    // Implementation details
-}</pre>
-            </div>
-            <img src="https://i.imgur.com/7h3mHDi.jpg" alt="Template all the things!" style="max-width: 300px;"/>
+func (s *Scan) WithProgress() *Scan {
+    s.enableProgress = true
+    return s
+}
+
+// Example implementation
+func (s *Scan) scan(ctx context.Context) error {
+    if s.enableProgress {
+        // Report progress periodically
+        go func() {
+            for {
+                select {
+                case <-ctx.Done():
+                    return
+                case <-time.After(time.Second):
+                    // Update progress
+                    fmt.Printf("Scan progress: %d%%\n", progress)
+                }
+            }
+        }()
+    }
+    // Existing implementation
+}
+</pre>
+            <p><img src="https://i.imgur.com/pb3y9E0.jpg" alt="Progress bar meme" /></p>
         </div>
 
         <div class="suggestion">
-            <h3>3. Implement Caching Strategy for Vulnerability Database</h3>
-            <p>Add smart caching for the vulnerability database to improve performance on repeated scans.</p>
-            <div class="code">
-                <pre>
-// Example implementation:
-type TrivyOpts struct {
-    Cache            *CacheVolume
-    CacheStrategy    string  // "eager" or "lazy"
-    CacheTTL        time.Duration
+            <h3>3. Add Retry Mechanism</h3>
+            <p>Implement retry logic for network-related operations to improve reliability.</p>
+            <pre>
+func retry(attempts int, sleep time.Duration, f func() error) error {
+    var err error
+    for i := 0; i < attempts; i++ {
+        if err = f(); err == nil {
+            return nil
+        }
+        time.Sleep(sleep * time.Duration(i))
+    }
+    return fmt.Errorf("after %d attempts, last error: %s", attempts, err)
 }
 
-func (t *Trivy) WithCache(opts TrivyOpts) *Trivy {
-    if opts.Cache != nil {
-        t.cacheVolume = opts.Cache
-        t.cacheStrategy = opts.CacheStrategy
-        t.cacheTTL = opts.CacheTTL
-    }
-    return t
+// Example implementation
+func (t *Trivy) downloadDB() error {
+    return retry(3, time.Second, func() error {
+        // Existing download implementation
+        return nil
+    })
 }
-
-func (t *Trivy) updateCache() error {
-    if t.cacheStrategy == "eager" {
-        // Pre-download all databases
-    } else {
-        // Download on-demand
-    }
-    // Implementation details
-}</pre>
-            </div>
+</pre>
+            <p><img src="https://i.imgur.com/v7eWUeD.jpg" alt="Retry meme" /></p>
         </div>
     </div>
 
     <div class="section">
-        <h2>Testing Issues Encountered</h2>
-        <p>No significant issues were encountered during testing. The module installed and built successfully, and all core functions were properly exposed.</p>
+        <h2>Testing Issues</h2>
+        <p>No significant issues were encountered during testing. The module installed and built successfully.</p>
     </div>
 </body>
 </html>
