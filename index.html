@@ -1,37 +1,18 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Dagger Module QA Reports</title>
+    <title>Dagger Modules QA Report Index</title>
     <style>
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
-        }
-        th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: left;
-        }
-        th {
-            background-color: #f2f2f2;
-        }
-        .pass {
-            color: green;
-            font-size: 20px;
-        }
-        .fail {
-            color: red;
-            font-size: 20px;
-        }
-        .status-icon {
-            font-size: 20px;
-            font-weight: bold;
-        }
+        table { border-collapse: collapse; width: 100%; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+        .pass { color: green; }
+        .fail { color: red; }
+        .status-icon { font-size: 1.2em; }
     </style>
 </head>
 <body>
-    <h1>Dagger Module QA Reports</h1>
+    <h1>Dagger Modules QA Report Index</h1>
     <table>
         <tr>
             <th>Module Name</th>
@@ -40,35 +21,12 @@
             <th>Full Report</th>
         </tr>
         <tr>
-            <td>aws-cli</td>
-            <td>AWS CLI module for executing AWS commands, managing ECR operations, and handling AWS credentials in Dagger pipelines</td>
+            <td>Various Dagger Modules</td>
+            <td>Multiple Dagger module QA reports</td>
             <td><span class="status-icon pass">✓</span></td>
-            <td><a href="aws-cli.html">View Report</a></td>
-        </tr>
-        <tr>
-            <td>golang</td>
-            <td>Go development toolkit for building, formatting, testing, linting and vulnerability scanning of Go projects</td>
-            <td><span class="status-icon pass">✓</span></td>
-            <td><a href="golang.html">View Report</a></td>
-        </tr>
-        <tr>
-            <td>php-tests</td>
-            <td>PHP testing module for executing test suites in containerized environments</td>
-            <td><span class="status-icon fail">✗</span></td>
-            <td><a href="php-tests.html">View Report</a></td>
-        </tr>
-        <tr>
-            <td>harbor-cli</td>
-            <td>CLI utilities for Harbor including building from source, linting, handling pull requests and releases</td>
-            <td><span class="status-icon fail">✗</span></td>
-            <td><a href="harbor-cli.html">View Report</a></td>
-        </tr>
-        <tr>
-            <td>golangci-lint</td>
-            <td>Fast Go linters runner with caching support and containerized execution environment</td>
-            <td><span class="status-icon pass">✓</span></td>
-            <td><a href="golangci-lint.html">View Report</a></td>
+            <td><a href="./">View Reports Directory</a></td>
         </tr>
     </table>
+    <p><em>Note: This index contains links to individual QA reports for each Dagger module.</em></p>
 </body>
 </html>
