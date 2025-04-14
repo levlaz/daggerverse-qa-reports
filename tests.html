@@ -1,106 +1,111 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>QA Report - SSH-Keygen Tests Module</title>
+    <title>QA Report - tests Module</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 40px; }
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 20px; }
         h1, h2 { color: #333; }
-        .section { margin: 20px 0; }
-        .function-list { margin-left: 20px; }
-        .suggestion { background: #f5f5f5; padding: 15px; margin: 10px 0; border-radius: 5px; }
-        code { background: #eee; padding: 2px 5px; border-radius: 3px; }
-        .error { color: #d63031; }
-        .meme { max-width: 500px; margin: 20px 0; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .info-block { background: #f5f5f5; padding: 15px; margin: 10px 0; border-radius: 5px; }
+        .error { color: #d73a49; }
+        .function-list { list-style-type: none; padding-left: 20px; }
+        .suggestion { margin: 20px 0; padding: 15px; background: #e1f5fe; border-radius: 5px; }
+        code { background: #f8f8f8; padding: 2px 5px; border-radius: 3px; }
+        pre { background: #f8f8f8; padding: 15px; border-radius: 5px; overflow-x: auto; }
     </style>
 </head>
 <body>
-    <h1>QA Report: SSH-Keygen Tests Module</h1>
-    
-    <div class="section">
-        <h2>Module Information</h2>
-        <ul>
-            <li><strong>Name:</strong> tests</li>
-            <li><strong>Author:</strong> jedevc/daggerverse-sagikazarmark</li>
-            <li><strong>Latest Version:</strong> a104424df38ca8b0b758f699dcfeeb0c2210cc2e</li>
-            <li><strong>Release Date:</strong> Not specified in module metadata</li>
-            <li><strong>Dagger Cloud Trace:</strong> <a href="https://daggerverse.dev/mod/github.com/jedevc/daggerverse-sagikazarmark/ssh-keygen/tests@a104424df38ca8b0b758f699dcfeeb0c2210cc2e">View on Daggerverse</a></li>
-        </ul>
-    </div>
-
-    <div class="section">
-        <h2>Module Purpose</h2>
-        <p>This module provides test functions for the SSH-Keygen module. It includes tests for different types of SSH key generation:</p>
-        <ul class="function-list">
-            <li><code>all()</code> - Executes all tests</li>
-            <li><code>ed25519()</code> - Tests ED25519 key generation</li>
-            <li><code>rsa()</code> - Tests RSA key generation</li>
-            <li><code>ecdsa()</code> - Tests ECDSA key generation</li>
-        </ul>
-    </div>
-
-    <div class="section">
-        <h2>Test Environment</h2>
-        <p>Tested using Dagger Engine version: v0.18.2</p>
-    </div>
-
-    <div class="section">
-        <h2>Suggestions for Improvement</h2>
+    <div class="container">
+        <h1>QA Report - tests Module</h1>
         
-        <div class="suggestion">
-            <h3>1. Add Function Documentation</h3>
-            <p>The module lacks proper documentation for individual test functions. Here's how to improve it:</p>
-            <code>
-            // Example improvement for function documentation:<br>
-            #[Function]<br>
-            async fn ed25519(&self) -> Result<()> {<br>
-                /// Tests ED25519 key generation with the following cases:<br>
-                /// - Default key generation<br>
-                /// - Custom key name<br>
-                /// - Password protection<br>
-                // test implementation...<br>
-            }
-            </code>
-            <img src="https://i.imgflip.com/65efzo.jpg" alt="Documentation Meme" class="meme">
+        <div class="info-block">
+            <h2>Module Information</h2>
+            <p><strong>Name:</strong> tests</p>
+            <p><strong>Author:</strong> sagikazarmark (via jedevc's daggerverse)</p>
+            <p><strong>Latest Version:</strong> a104424df38ca8b0b758f699dcfeeb0c2210cc2e</p>
+            <p><strong>Release Date:</strong> Not specified in module metadata</p>
+            <p><strong>Dagger Engine Version Used:</strong> v0.18.2</p>
+            <p><strong>Dagger Cloud Trace:</strong> Not available as the module is a test module</p>
         </div>
 
-        <div class="suggestion">
-            <h3>2. Implement Test Coverage Reporting</h3>
-            <p>Add test coverage metrics to understand test completeness:</p>
-            <code>
-            #[Function]<br>
-            async fn coverage(&self) -> Result<TestCoverage> {<br>
-                // Return coverage statistics for the test suite<br>
-                return TestCoverage {<br>
-                    percentage: calculate_coverage(),<br>
-                    covered_functions: vec!["ed25519", "rsa", "ecdsa"],<br>
-                    total_functions: 3<br>
-                }<br>
-            }
-            </code>
+        <div class="info-block">
+            <h2>Module Description</h2>
+            <p>This module provides test functionality for archiving operations. It includes three main components:</p>
+            <ul class="function-list">
+                <li><strong>Tests:</strong>
+                    <ul>
+                        <li>all() - Executes all tests</li>
+                        <li>archiveDirectory() - Directory archiving tests</li>
+                        <li>archiveFiles() - File archiving tests</li>
+                    </ul>
+                </li>
+                <li><strong>ArchiveFiles:</strong> Provides various archive format testing for files including:
+                    <ul>
+                        <li>tar(), tarBr(), tarBz2(), tarGz(), tarLz4(), tarSz(), tarXz(), tarZst(), zip()</li>
+                    </ul>
+                </li>
+                <li><strong>ArchiveDirectory:</strong> Provides various archive format testing for directories including:
+                    <ul>
+                        <li>tar(), tarBr(), tarBz2(), tarGz(), tarLz4(), tarSz(), tarXz(), tarZst(), zip()</li>
+                    </ul>
+                </li>
+            </ul>
         </div>
 
-        <div class="suggestion">
-            <h3>3. Add Parameterized Tests</h3>
-            <p>Implement parameterized tests for better test variations:</p>
-            <code>
-            #[Function]<br>
-            async fn rsa_parameterized(&self, key_size: Option<i32>, with_passphrase: Option<bool>) -> Result<()> {<br>
-                // Test RSA key generation with different parameters<br>
-                let size = key_size.unwrap_or(2048);<br>
-                let passphrase = with_passphrase.unwrap_or(false);<br>
-                // Implementation...<br>
-            }
-            </code>
-        </div>
-    </div>
+        <div class="info-block">
+            <h2>Quality Improvement Suggestions</h2>
+            
+            <div class="suggestion">
+                <h3>1. Add Comprehensive Documentation</h3>
+                <p>The module lacks detailed documentation about its purpose and usage. Consider adding a README.md file:</p>
+                <pre><code># Archive Tests Module
 
-    <div class="section">
-        <h2>Issues Encountered</h2>
-        <ul>
-            <li>Limited documentation for individual test functions</li>
-            <li>No clear test coverage metrics available</li>
-            <li>Missing detailed test descriptions in the module metadata</li>
-        </ul>
+This module provides comprehensive testing capabilities for various archive formats in Dagger.
+
+## Usage
+
+```go
+dag.Tests().ArchiveFiles().All()   // Run all file archive tests
+dag.Tests().ArchiveDirectory().All() // Run all directory archive tests
+```
+
+## Supported Formats
+- TAR (various compressions: gz, bz2, xz, etc.)
+- ZIP
+- And more...</code></pre>
+                <p><img src="https://i.imgflip.com/2/2hwqcf.jpg" alt="Documentation meme" style="max-width: 300px;"></p>
+            </div>
+
+            <div class="suggestion">
+                <h3>2. Add Error Handling and Validation</h3>
+                <p>Implement better error handling and input validation:</p>
+                <pre><code>func (m *Module) validateArchiveFormat(format string) error {
+    validFormats := []string{"tar", "zip", "gz", "bz2"}
+    for _, f := range validFormats {
+        if format == f {
+            return nil
+        }
+    }
+    return fmt.Errorf("unsupported archive format: %s", format)
+}</code></pre>
+            </div>
+
+            <div class="suggestion">
+                <h3>3. Add Test Progress Reporting</h3>
+                <p>Implement progress reporting for better visibility during test execution:</p>
+                <pre><code>func (m *Module) reportProgress(testName string, status string) {
+    fmt.Printf("Test: %s - Status: %s\n", testName, status)
+    if status == "FAILED" {
+        fmt.Printf("Check logs at: /tmp/test-logs/%s.log\n", testName)
+    }
+}</code></pre>
+            </div>
+        </div>
+
+        <div class="info-block">
+            <h2>Issues Encountered</h2>
+            <p>No significant issues were encountered during testing. The module installed and built successfully.</p>
+        </div>
     </div>
 </body>
 </html>
