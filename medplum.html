@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>QA Report - Medplum Module</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
+        h1, h2 { color: #333; }
+        .error { color: #ff0000; }
+        .functions { background: #f5f5f5; padding: 15px; border-radius: 5px; }
+        .suggestion { margin: 20px 0; padding: 15px; background: #e1f5fe; border-radius: 5px; }
+        code { background: #f8f8f8; padding: 2px 5px; border-radius: 3px; }
+    </style>
+</head>
+<body>
+    <h1>QA Report: Medplum Module</h1>
+    
+    <h2>Basic Information</h2>
+    <ul>
+        <li><strong>Module Name:</strong> github.com/levlaz/medplum</li>
+        <li><strong>Author:</strong> levlaz</li>
+        <li><strong>Latest Version:</strong> 6580286c1259cab60e408a5e77908c55f71be26a</li>
+        <li><strong>Dagger Engine Version Used:</strong> v0.18.2</li>
+    </ul>
+
+    <h2>Module Purpose</h2>
+    <p>A Dagger Module for Medplum CI Pipeline that provides functionality for building and testing Medplum applications.</p>
+
+    <h2>Module Functions</h2>
+    <div class="functions">
+        <ul>
+            <li><strong>base(nodeVersion: String)</strong> - Returns base container image</li>
+            <li><strong>buildMatrix()</strong> - Runs matrix build of node versions</li>
+            <li><strong>build(nodeVersion: String)</strong> - Build job modeled from .github/workflows/build.yml</li>
+        </ul>
+    </div>
+
+    <h2>Issues Encountered</h2>
+    <div class="error">
+        <ul>
+            <li>Installation failed: The module does not contain a dagger config file</li>
+            <li>Building failed: Unable to build the module due to missing dagger config file</li>
+        </ul>
+    </div>
+
+    <h2>Improvement Suggestions</h2>
+    
+    <div class="suggestion">
+        <h3>1. Add Dagger Configuration File</h3>
+        <p>The module is missing a crucial dagger.json configuration file. Here's a sample configuration:</p>
+        <pre><code>
+{
+    "name": "medplum",
+    "sdk": "go",
+    "dependencies": [],
+    "source": ".",
+    "engineVersion": "v0.18.2"
+}
+        </code></pre>
+        <img src="https://media.giphy.com/media/cFkiFMDg3iFoI/giphy.gif" alt="Fix It" style="width: 300px;">
+    </div>
+
+    <div class="suggestion">
+        <h3>2. Add Input Validation</h3>
+        <p>Add validation for nodeVersion parameter. Here's an example:</p>
+        <pre><code>
+func (m *Medplum) validateNodeVersion(version string) error {
+    validVersions := []string{"14", "16", "18", "latest"}
+    for _, v := range validVersions {
+        if v == version {
+            return nil
+        }
+    }
+    return fmt.Errorf("invalid node version: %s", version)
+}
+        </code></pre>
+    </div>
+
+    <div class="suggestion">
+        <h3>3. Add Documentation</h3>
+        <p>Enhance documentation with examples. Here's a suggested README.md section:</p>
+        <pre><code>
+# Medplum Dagger Module
+
+## Quick Start
+
+```go
+dag.Medplum().Build("18")
+```
+
+## Examples
+
+### Matrix Build
+```go
+result, err := dag.Medplum().BuildMatrix()
+if err != nil {
+    log.Fatal(err)
+}
+fmt.Println(result)
+```
+        </code></pre>
+    </div>
+
+    <h2>Links</h2>
+    <ul>
+        <li><a href="https://daggerverse.dev/mod/github.com/levlaz/medplum@6580286c1259cab60e408a5e77908c55f71be26a">Module on Daggerverse</a></li>
+    </ul>
+</body>
+</html>
