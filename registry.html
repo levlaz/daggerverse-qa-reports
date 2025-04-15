@@ -3,106 +3,84 @@
 <head>
     <title>QA Report - Registry Module</title>
     <style>
-        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 20px; }
         h1, h2 { color: #333; }
-        .section { margin: 20px 0; }
-        .function-list { background: #f5f5f5; padding: 15px; border-radius: 5px; }
-        .suggestion { border-left: 4px solid #007bff; padding-left: 15px; margin: 10px 0; }
-        .code { background: #f8f9fa; padding: 10px; border-radius: 4px; font-family: monospace; }
-        .error { color: #dc3545; }
+        .error { color: red; }
+        .suggestion { margin: 20px 0; padding: 10px; background: #f5f5f5; }
+        code { background: #f0f0f0; padding: 2px 5px; border-radius: 3px; }
         .meme { max-width: 500px; margin: 20px 0; }
     </style>
 </head>
 <body>
-    <h1>QA Report: Registry Module</h1>
+    <h1>Registry Module QA Report</h1>
     
-    <div class="section">
-        <h2>Basic Information</h2>
-        <ul>
-            <li><strong>Module Name:</strong> registry</li>
-            <li><strong>Author:</strong> jedevc/daggerverse-sagikazarmark</li>
-            <li><strong>Latest Version:</strong> a104424df38ca8b0b758f699dcfeeb0c2210cc2e</li>
-            <li><strong>Release Date:</strong> Not specified in metadata</li>
-            <li><strong>Dagger Engine Version Used:</strong> v0.18.2</li>
-        </ul>
+    <h2>Basic Information</h2>
+    <ul>
+        <li><strong>Module Name:</strong> registry</li>
+        <li><strong>Author:</strong> luanmtruong</li>
+        <li><strong>Latest Version:</strong> 96c13b929c636316317f745ff36cda4e4c66f680</li>
+        <li><strong>Release Date:</strong> Not specified in source</li>
+        <li><strong>Dagger Cloud Trace:</strong> <a href="https://daggerverse.dev/mod/github.com/luanmtruong/daggerverse/registry@96c13b929c636316317f745ff36cda4e4c66f680">View on Daggerverse</a></li>
+    </ul>
+
+    <h2>Module Description</h2>
+    <p>The Registry is a stateless, highly scalable server side application that stores and lets you distribute container images and other content.</p>
+
+    <h2>Functions</h2>
+    <ul>
+        <li><strong>service()</strong> - Creates a registry service</li>
+    </ul>
+
+    <h2>Testing Environment</h2>
+    <p>Tested with Dagger Engine Version: v0.18.3</p>
+
+    <h2>Quality Improvement Suggestions</h2>
+    
+    <div class="suggestion">
+        <h3>1. Add Function Documentation</h3>
+        <p>The service() function lacks proper documentation. Add detailed documentation explaining the purpose and usage.</p>
+        <code>
+        // service creates and returns a new Registry service instance
+        // Example usage:
+        // registry := dag.Registry().Service()
+        func (r *Registry) service() *Service {
+            // existing implementation
+        }
+        </code>
     </div>
 
-    <div class="section">
-        <h2>Module Description</h2>
-        <p>The Registry is a stateless, highly scalable server side application that stores and lets you distribute container images and other content.</p>
-        
-        <h3>Functions:</h3>
-        <div class="function-list">
-            <ul>
-                <li><strong>service()</strong> - Creates a registry service instance</li>
-            </ul>
-        </div>
+    <div class="suggestion">
+        <h3>2. Add Health Check Implementation</h3>
+        <p>Implement health check endpoints for better monitoring.</p>
+        <code>
+        func (r *Registry) withHealthCheck() *Registry {
+            return r.withConfig(`
+            health:
+              storagedriver:
+                enabled: true
+                interval: 10s
+                threshold: 3
+            `)
+        }
+        </code>
+        <img src="https://i.imgflip.com/65efzo.jpg" alt="Docker Health Check Meme" class="meme">
     </div>
 
-    <div class="section">
-        <h2>Quality Improvement Suggestions</h2>
-        
-        <div class="suggestion">
-            <h3>1. Add Function Documentation</h3>
-            <p>The module's functions lack proper documentation. Adding detailed documentation would improve usability.</p>
-            <div class="code">
-                // Example documentation format
-                #[doc = "Creates a new registry service instance"]
-                #[doc = ""]
-                #[doc = "Parameters:"]
-                #[doc = "  - None"]
-                #[doc = ""]
-                #[doc = "Returns:"]
-                #[doc = "  - Service: A configured registry service"]
-                fn service(&self) -> Service {
-                    // Implementation
-                }
-            </div>
-        </div>
-
-        <div class="suggestion">
-            <h3>2. Add Error Handling Examples</h3>
-            <p>Include examples of how to handle common errors when using the registry.</p>
-            <div class="code">
-                // Example error handling code
-                fn example_with_error_handling() -> Result<Service, Error> {
-                    let registry = Registry::new();
-                    let service = registry.service()?;
-                    
-                    // Example error checking
-                    if !service.is_healthy() {
-                        return Err("Registry service failed health check".into());
-                    }
-                    
-                    Ok(service)
-                }
-            </div>
-            <img src="https://i.imgur.com/HTisMpC.jpg" alt="Error Handling Meme" class="meme">
-        </div>
-
-        <div class="suggestion">
-            <h3>3. Add Configuration Validation</h3>
-            <p>Implement input validation for configuration parameters.</p>
-            <div class="code">
-                fn validate_port(port: i32) -> Result<(), String> {
-                    if port < 1024 || port > 65535 {
-                        return Err("Port must be between 1024 and 65535".to_string());
-                    }
-                    Ok(())
-                }
-                
-                // Usage in constructor
-                pub fn new(port: i32) -> Result<Registry, String> {
-                    validate_port(port)?;
-                    Ok(Registry { port })
-                }
-            </div>
-        </div>
+    <div class="suggestion">
+        <h3>3. Add Configuration Options</h3>
+        <p>Provide more configuration options for registry customization.</p>
+        <code>
+        func (r *Registry) withConfig(config string) *Registry {
+            return r.withFile("/etc/docker/registry/config.yml", config)
+        }
+        </code>
     </div>
 
-    <div class="section">
-        <h2>Testing Notes</h2>
-        <p>No errors were encountered during the testing process. The module installed and built successfully.</p>
-    </div>
+    <h2>Issues Encountered</h2>
+    <ul>
+        <li>Limited documentation on the service() function's capabilities and return values</li>
+        <li>No examples provided for common use cases</li>
+        <li>Missing version history and changelog information</li>
+    </ul>
 </body>
 </html>
