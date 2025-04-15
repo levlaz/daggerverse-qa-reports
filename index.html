@@ -3,29 +3,14 @@
 <head>
     <title>Dagger Modules QA Report Index</title>
     <style>
-        table { 
-            width: 100%;
-            border-collapse: collapse;
-        }
-        th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: left;
-        }
-        th {
-            background-color: #f2f2f2;
-        }
-        .pass {
-            color: green;
-            font-size: 20px;
-        }
-        .fail {
-            color: red;
-            font-size: 20px;
-        }
-        tr:nth-child(even) {
-            background-color: #f9f9f9;
-        }
+        body { font-family: Arial, sans-serif; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th, td { padding: 8px; border: 1px solid #ddd; text-align: left; }
+        th { background-color: #f5f5f5; }
+        .pass { color: green; font-weight: bold; }
+        .fail { color: red; font-weight: bold; }
+        a { color: #0066cc; text-decoration: none; }
+        a:hover { text-decoration: underline; }
     </style>
 </head>
 <body>
@@ -38,35 +23,65 @@
             <th>Full Report</th>
         </tr>
         <tr>
-            <td>Postgres</td>
-            <td>Simple Postgres database server launcher for development and testing purposes</td>
-            <td>✅</td>
-            <td><a href="postgres.html">View Report</a></td>
+            <td>DebtRepayment</td>
+            <td>Fetches and analyzes data from Google Sheets for debt and investment information processing</td>
+            <td class="fail">❌</td>
+            <td><a href="DebtRepayment.html">View Report</a></td>
         </tr>
         <tr>
-            <td>Nginx</td>
-            <td>Website testing and Cypress test runner in Dagger CI environment</td>
-            <td>❌</td>
-            <td><a href="nginx.html">View Report</a></td>
+            <td>ResearcherContainer</td>
+            <td>AI-powered company research module using Modal for web automation and MongoDB for data storage</td>
+            <td class="pass">✅</td>
+            <td><a href="ResearcherContainer.html">View Report</a></td>
         </tr>
         <tr>
-            <td>Golang</td>
-            <td>Go project building, formatting, testing, linting and vulnerability scanning functions</td>
-            <td>✅</td>
-            <td><a href="golang.html">View Report</a></td>
+            <td>SpokaneTech_Py</td>
+            <td>Python/Django development and production environment with built-in linting, testing, and documentation</td>
+            <td class="pass">✅</td>
+            <td><a href="SpokaneTech_Py.html">View Report</a></td>
         </tr>
         <tr>
-            <td>Java</td>
-            <td>Java development environment with JDK and Maven integration</td>
-            <td>✅</td>
-            <td><a href="java.html">View Report</a></td>
+            <td>Alpine</td>
+            <td>Alpine Linux integration module for configuring distributions, architectures, and package management</td>
+            <td class="fail">❌</td>
+            <td><a href="alpine.html">View Report</a></td>
         </tr>
         <tr>
-            <td>NodeJS</td>
-            <td>NodeJS environment setup with NPM and Bun package manager support</td>
-            <td>❌</td>
-            <td><a href="nodejs.html">View Report</a></td>
+            <td>android-pipeline</td>
+            <td>Android build pipeline with support for debug/release APKs, AAB bundles, testing, and lint checks</td>
+            <td class="pass">✅</td>
+            <td><a href="android-pipeline.html">View Report</a></td>
         </tr>
-    </table>
+        <tr>
+            <td>apache-avro-tools</td>
+            <td>Apache Avro Tools integration for converting IDL files to Avro schema files</td>
+            <td class="pass">✅</td>
+            <td><a href="apache-avro-tools.html">View Report</a></td>
+        </tr>
+        <tr>
+            <td>apko</td>
+            <td>Build container images from apk packages with Alpine and Wolfi base configurations</td>
+            <td class="pass">✅</td>
+            <td><a href="apko.html">View Report</a></td>
+        </tr>
+        <tr>
+            <td>apt</td>
+            <td>APT package manager integration for Debian/Ubuntu package management in Dagger pipelines</td>
+            <td class="fail">❌</td>
+            <td><a href="apt.html">View Report</a></td>
+        </tr>
+        <tr>
+            <td>arc-tests</td>
+            <td>Archive manipulation module supporting multiple compression formats (tar, zip, gz, bz2, etc.)</td>
+            <td class="pass">✅</td>
+            <td><a href="arc-tests.html">View Report</a></td>
+        </tr>
+        <tr>
+            <td>archivist-tests</td>
+            <td>Test suite for archive operations including various compression methods and formats</td>
+            <td class="pass">✅</td>
+            <td><a href="archivist-tests.html">View Report</a></td>
+        </tr>
+</table>
 </body>
 </html>
