@@ -3,115 +3,111 @@
 <head>
     <title>QA Report - Go Module</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 40px; }
-        h1 { color: #333; }
-        .section { margin: 20px 0; }
-        .function-list { margin-left: 20px; }
-        .suggestion { background: #f5f5f5; padding: 15px; margin: 10px 0; border-radius: 5px; }
-        .error { color: #d9534f; }
-        .code { background: #eee; padding: 10px; font-family: monospace; }
-        .meme { max-width: 500px; margin: 20px 0; }
+        body { font-family: Arial, sans-serif; line-height: 1.6; max-width: 1200px; margin: 0 auto; padding: 20px; }
+        h1, h2 { color: #333; }
+        .function-list { background-color: #f5f5f5; padding: 15px; border-radius: 5px; }
+        .suggestion { margin: 20px 0; padding: 15px; border-left: 4px solid #007bff; }
+        .code-snippet { background-color: #f8f9fa; padding: 15px; border-radius: 5px; font-family: monospace; }
+        .meme { text-align: center; margin: 20px 0; }
     </style>
 </head>
 <body>
-    <h1>Go Module QA Report</h1>
+    <h1>QA Report - Go Module</h1>
     
-    <div class="section">
-        <h2>Module Information</h2>
+    <h2>Module Information</h2>
+    <ul>
+        <li><strong>Name:</strong> github.com/luanmtruong/daggerverse/go</li>
+        <li><strong>Author:</strong> luanmtruong</li>
+        <li><strong>Latest Version:</strong> 96c13b929c636316317f745ff36cda4e4c66f680</li>
+        <li><strong>Release Date:</strong> Not specified in documentation</li>
+        <li><strong>Dagger Engine Version Used:</strong> v0.18.3</li>
+    </ul>
+
+    <h2>Module Description</h2>
+    <p>This module provides Go programming language support for Dagger pipelines. It offers a comprehensive set of functions for building, testing, and managing Go applications.</p>
+
+    <h2>Available Functions</h2>
+    <div class="function-list">
         <ul>
-            <li><strong>Name:</strong> github.com/luanmtruong/daggerverse/go</li>
-            <li><strong>Author:</strong> luanmtruong</li>
-            <li><strong>Latest Version:</strong> 96c13b929c636316317f745ff36cda4e4c66f680</li>
-            <li><strong>Release Date:</strong> Not specified in the module info</li>
-            <li><strong>Trace Link:</strong> <a href="https://daggerverse.dev/mod/github.com/luanmtruong/daggerverse/go@96c13b929c636316317f745ff36cda4e4c66f680">Dagger Cloud Trace</a></li>
+            <li><strong>build</strong> - Build a binary</li>
+            <li><strong>container</strong> - Access the underlying container</li>
+            <li><strong>exec</strong> - Run a Go command</li>
+            <li><strong>generate</strong> - Run "go generate" command</li>
+            <li><strong>withBuildCache</strong> - Mount a cache volume for Go build cache</li>
+            <li><strong>withCgoDisabled</strong> - Set CGO_ENABLED environment variable to 0</li>
+            <li><strong>withCgoEnabled</strong> - Set CGO_ENABLED environment variable to 1</li>
+            <li><strong>withEnvVariable</strong> - Set an environment variable</li>
+            <li><strong>withModuleCache</strong> - Mount a cache volume for Go module cache</li>
+            <li><strong>withPlatform</strong> - Set GOOS, GOARCH and GOARM environment variables</li>
+            <li><strong>withServiceBinding</strong> - Establish a runtime dependency on a service</li>
+            <li><strong>withSource</strong> - Mount a source directory</li>
         </ul>
     </div>
 
-    <div class="section">
-        <h2>Module Purpose</h2>
-        <p>This module provides functionality for working with Go programming language in Dagger pipelines. It offers capabilities for building, testing, and managing Go applications with various configuration options.</p>
-        
-        <h3>Available Functions:</h3>
-        <ul class="function-list">
-            <li>build() - Build a binary</li>
-            <li>container() - Get the container instance</li>
-            <li>exec() - Run a Go command</li>
-            <li>generate() - Run "go generate" command</li>
-            <li>with-build-cache() - Mount a cache volume for Go build cache</li>
-            <li>with-cgo-disabled() - Set CGO_ENABLED environment variable to 0</li>
-            <li>with-cgo-enabled() - Set CGO_ENABLED environment variable to 1</li>
-            <li>with-env-variable() - Set an environment variable</li>
-            <li>with-module-cache() - Mount a cache volume for Go module cache</li>
-            <li>with-platform() - Set GOOS, GOARCH and GOARM environment variables</li>
-            <li>with-service-binding() - Establish a runtime dependency on a service</li>
-            <li>with-source() - Mount a source directory</li>
-        </ul>
-    </div>
+    <h2>Quality Improvement Suggestions</h2>
 
-    <div class="section">
-        <h2>Testing Environment</h2>
-        <p><strong>Dagger Engine Version:</strong> v0.18.2</p>
-    </div>
-
-    <div class="section">
-        <h2>Quality Improvement Suggestions</h2>
-        
-        <div class="suggestion">
-            <h3>1. Add Function Documentation</h3>
-            <p>Many functions lack detailed documentation about their parameters and return values. Here's an example of how to improve it:</p>
-            <div class="code">
-                /**
-                * Builds a Go binary with specified configuration
-                * @param {string} source - Path to source directory
-                * @param {string} pkg - Package to build (default: "./...")
-                * @param {string[]} ldflags - Linker flags
-                * @param {string[]} tags - Build tags
-                * @returns {File} - The compiled binary
-                */
-                build(source, pkg = "./...", ldflags = [], tags = []) {
-                    // Implementation
-                }
-            </div>
-            <img src="https://media.giphy.com/media/zOvBKUUEERdNm/giphy.gif" alt="Documentation meme" class="meme">
-        </div>
-
-        <div class="suggestion">
-            <h3>2. Add Error Handling Examples</h3>
-            <p>Provide examples of how to handle common errors:</p>
-            <div class="code">
-                // Example of handling build errors
-                try {
-                    const result = await dag
-                        .go()
-                        .withSource(src)
-                        .build()
-                } catch (error) {
-                    console.error("Build failed:", error.message)
-                    process.exit(1)
-                }
-            </div>
-        </div>
-
-        <div class="suggestion">
-            <h3>3. Include Test Cases</h3>
-            <p>Add comprehensive test cases for the module:</p>
-            <div class="code">
-                // Example test structure
-                test("go build", async function() {
-                    const result = await dag
-                        .go()
-                        .withSource("./testdata")
-                        .build()
-                    
-                    assert(result.size > 0, "Binary should not be empty")
-                })
-            </div>
+    <div class="suggestion">
+        <h3>1. Add Version Matrix Testing</h3>
+        <p>The module should include testing against multiple Go versions to ensure compatibility.</p>
+        <div class="code-snippet">
+```dagger
+func TestGoVersions(ctx context.Context) {
+    versions := []string{"1.19", "1.20", "1.21"}
+    for _, version := range versions {
+        go := dag.Go(GoOpts{
+            Version: version,
+        })
+        // Run test suite for each version
+        go.Exec([]string{"test", "./..."})
+    }
+}
+```
         </div>
     </div>
 
-    <div class="section">
-        <h2>Issues Encountered</h2>
-        <p>No significant issues were encountered during testing. The module installed and built successfully.</p>
+    <div class="suggestion">
+        <h3>2. Enhanced Error Handling</h3>
+        <p>Add more descriptive error messages and fallback mechanisms for common failure scenarios.</p>
+        <div class="code-snippet">
+```dagger
+func (g *Go) build(ctx context.Context, opts BuildOpts) (*File, error) {
+    if opts.Platform != "" {
+        if !isValidPlatform(opts.Platform) {
+            return nil, fmt.Errorf(
+                "invalid platform %q: must be in format OS/ARCH/VERSION",
+                opts.Platform,
+            )
+        }
+    }
+    // ... rest of build logic
+}
+```
+        </div>
+        <div class="meme">
+            <img src="https://i.imgflip.com/7q8qk9.jpg" alt="Error Handling Meme" />
+            <p><em>When your error messages are actually helpful</em></p>
+        </div>
     </div>
+
+    <div class="suggestion">
+        <h3>3. Add Built-in Performance Profiling</h3>
+        <p>Integrate Go's built-in profiling tools to help users optimize their builds.</p>
+        <div class="code-snippet">
+```dagger
+func (g *Go) buildWithProfile(ctx context.Context) *File {
+    return g.
+        WithEnvVariable("GOGC", "off").
+        WithEnvVariable("GODEBUG", "gctrace=1").
+        Build(BuildOpts{
+            Tags: []string{"profile"},
+        })
+}
+```
+        </div>
+    </div>
+
+    <h2>Testing Issues Encountered</h2>
+    <p>No significant issues were encountered during testing. The module installed and built successfully. All core functions are working as expected.</p>
+
 </body>
 </html>
