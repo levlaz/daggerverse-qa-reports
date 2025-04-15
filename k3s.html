@@ -5,106 +5,98 @@
     <style>
         body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
         h1, h2 { color: #333; }
-        .function { background: #f5f5f5; padding: 10px; margin: 10px 0; border-radius: 5px; }
-        .suggestion { margin: 20px 0; padding: 15px; border-left: 4px solid #007bff; }
-        .code { background: #f8f9fa; padding: 15px; border-radius: 5px; font-family: monospace; }
-        .error { color: #dc3545; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .function-list { background: #f5f5f5; padding: 20px; border-radius: 5px; }
+        .suggestion { margin: 20px 0; padding: 20px; background: #fff3e0; border-radius: 5px; }
+        .code { background: #f0f0f0; padding: 15px; border-radius: 5px; font-family: monospace; }
+        .error { color: #d32f2f; }
         .meme { max-width: 500px; margin: 20px 0; }
     </style>
 </head>
 <body>
-    <h1>QA Report: k3s Module</h1>
-    
-    <h2>Module Information</h2>
-    <ul>
-        <li><strong>Name:</strong> k3s</li>
-        <li><strong>Author:</strong> tonirvega</li>
-        <li><strong>Latest Version:</strong> baf50b6d7d4889ebd4be0e5f3db9e10d428da676</li>
-        <li><strong>Release Date:</strong> Not specified in metadata</li>
-        <li><strong>Dagger Cloud Trace:</strong> <a href="https://cloud.dagger.io/runs">View Trace</a></li>
-    </ul>
-
-    <h2>Module Description</h2>
-    <p>This module provides functionality to run a k3s server that can be accessed both locally and in pipelines. It offers tools for managing Kubernetes clusters and executing various Kubernetes-related operations.</p>
-
-    <h2>Functions</h2>
-    <div class="function">
+    <div class="container">
+        <h1>QA Report: k3s Module</h1>
+        
+        <h2>Module Information</h2>
         <ul>
-            <li><strong>config()</strong> - Returns the config file for the k3s cluster</li>
-            <li><strong>container()</strong> - Base container operations</li>
-            <li><strong>kns()</strong> - Runs k9s on the target k3s cluster</li>
-            <li><strong>kubectl()</strong> - Runs kubectl on the target k3s cluster</li>
-            <li><strong>server()</strong> - Returns a newly initialized kind cluster</li>
-            <li><strong>withContainer()</strong> - Returns a newly initialized kind cluster with custom container configuration</li>
+            <li><strong>Name:</strong> k3s</li>
+            <li><strong>Author:</strong> nilium</li>
+            <li><strong>Latest Version:</strong> c8a4824185c306c7ccb169eb2a0cff48f732c399</li>
+            <li><strong>Release Date:</strong> Not specified in metadata</li>
+            <li><strong>Dagger Engine Version Used:</strong> v0.18.3</li>
         </ul>
-    </div>
 
-    <h2>Testing Environment</h2>
-    <p><strong>Dagger Engine Version:</strong> v0.18.2</p>
+        <h2>Module Purpose</h2>
+        <p>The k3s module is designed to run a k3s server that can be accessed both locally and in pipelines. It provides functionality for managing Kubernetes clusters using k3s, a lightweight Kubernetes distribution.</p>
 
-    <h2>Suggestions for Improvement</h2>
-    
-    <div class="suggestion">
-        <h3>1. Add Input Validation</h3>
-        <p>The module could benefit from better input validation for critical parameters.</p>
-        <div class="code">
-        <pre>
-func validateK3sConfig(config Config) error {
-    if config.Name == "" {
-        return fmt.Errorf("cluster name cannot be empty")
-    }
-    if config.Version != "" && !semver.IsValid(config.Version) {
-        return fmt.Errorf("invalid k3s version format")
-    }
-    return nil
-}
-        </pre>
+        <h2>Module Functions</h2>
+        <div class="function-list">
+            <ul>
+                <li><strong>container()</strong> - Returns a configured container for the k3s</li>
+                <li><strong>kubeconfig()</strong> - Returns the kubeconfig file from the k3s container (supports local mode)</li>
+                <li><strong>server()</strong> - Returns initialized k3s cluster</li>
+            </ul>
         </div>
-    </div>
 
-    <div class="suggestion">
-        <h3>2. Implement Retry Mechanism</h3>
-        <p>Add retry logic for cluster operations to handle transient failures.</p>
-        <div class="code">
-        <pre>
-func withRetry(maxAttempts int, op func() error) error {
-    var err error
-    for i := 0; i < maxAttempts; i++ {
-        if err = op(); err == nil {
-            return nil
-        }
-        time.Sleep(time.Second * time.Duration(i+1))
-    }
-    return fmt.Errorf("operation failed after %d attempts: %v", maxAttempts, err)
-}
-        </pre>
+        <h2>Quality Improvement Suggestions</h2>
+        
+        <div class="suggestion">
+            <h3>1. Add Version Configuration</h3>
+            <p>Allow users to specify the k3s version they want to use. This would provide better version control and compatibility management.</p>
+            <div class="code">
+                func New(opts ...Option) *K3S {
+                    k := &K3S{
+                        version: "v1.27.3-k3s1", // Default version
+                    }
+                    for _, opt := range opts {
+                        opt(k)
+                    }
+                    return k
+                }
+
+                type Option func(*K3S)
+
+                func WithVersion(version string) Option {
+                    return func(k *K3S) {
+                        k.version = version
+                    }
+                }
+            </div>
         </div>
-    </div>
 
-    <div class="suggestion">
-        <h3>3. Enhanced Documentation</h3>
-        <p>Add more comprehensive documentation with examples for each function.</p>
-        <div class="code">
-        <pre>
-// Server initializes and returns a new k3s cluster service
-//
-// Example:
-//   k3s := dag.K3S("test")
-//   server := k3s.Server()
-//   endpoint, err := server.Endpoint(ctx, dagger.ServiceEndpointOpts{
-//       Port: 6443,
-//       Scheme: "https",
-//   })
-func (k *K3S) Server() *Service {
-    // implementation
-}
-        </pre>
+        <div class="suggestion">
+            <h3>2. Add Health Check Function</h3>
+            <p>Implement a health check function to verify the k3s cluster is running correctly.</p>
+            <div class="code">
+                func (k *K3S) HealthCheck(ctx context.Context) (*HealthStatus, error) {
+                    return k.Container().
+                        WithExec([]string{"k3s", "kubectl", "get", "nodes"}).
+                        Sync(ctx)
+                }
+            </div>
+            <img src="https://i.imgflip.com/2/5r4l45.jpg" alt="Kubernetes Health Check Meme" class="meme">
         </div>
-        <img src="https://i.imgflip.com/65efzo.jpg" alt="Documentation Meme" class="meme">
+
+        <div class="suggestion">
+            <h3>3. Add Resource Limits Configuration</h3>
+            <p>Implement resource limits configuration to prevent resource exhaustion in the k3s cluster.</p>
+            <div class="code">
+                type Resources struct {
+                    CPULimit    string
+                    MemoryLimit string
+                }
+
+                func (k *K3S) WithResources(resources Resources) *K3S {
+                    k.container = k.container.
+                        WithCPULimit(resources.CPULimit).
+                        WithMemoryLimit(resources.MemoryLimit)
+                    return k
+                }
+            </div>
+        </div>
+
+        <h2>Testing Issues</h2>
+        <p>No significant issues were encountered during the testing process. The module installed and built successfully, and all functions were properly documented.</p>
     </div>
-
-    <h2>Testing Issues</h2>
-    <p>No significant issues were encountered during testing. The module installed and built successfully.</p>
-
 </body>
 </html>
