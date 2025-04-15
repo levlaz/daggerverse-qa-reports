@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>QA Report - Earthly Module</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 1200px; margin: 0 auto; padding: 20px; }
+        h1, h2 { color: #333; }
+        .code { background: #f4f4f4; padding: 15px; border-radius: 5px; font-family: monospace; }
+        .error { color: #ff0000; }
+        .suggestion { margin: 20px 0; padding: 15px; border-left: 4px solid #007bff; }
+        .meme { text-align: center; margin: 20px 0; }
+    </style>
+</head>
+<body>
+    <h1>QA Report - Earthly Module</h1>
+    
+    <h2>Module Information</h2>
+    <ul>
+        <li><strong>Name:</strong> earthly</li>
+        <li><strong>Author:</strong> wingyplus</li>
+        <li><strong>Latest Version:</strong> acef5eef5a123fc381155be900a89750fbc4c30f</li>
+        <li><strong>Release Date:</strong> Not specified in documentation</li>
+        <li><strong>Dagger Version Used:</strong> v0.18.3</li>
+    </ul>
+
+    <h2>Module Purpose</h2>
+    <p>The Earthly module allows running Earthly inside Dagger. It provides integration between Dagger and Earthly build systems.</p>
+
+    <h2>Available Functions</h2>
+    <ul>
+        <li><strong>buildkitd()</strong> - Start the Earthly Buildkitd as a service</li>
+        <li><strong>docker-engine()</strong> - Manages Docker engine integration</li>
+        <li><strong>run()</strong> - Run earthly commands</li>
+        <li><strong>with-earthly()</strong> - Setup Earthly with mounting source into workspace</li>
+    </ul>
+
+    <h2>Quality Improvement Suggestions</h2>
+    
+    <div class="suggestion">
+        <h3>1. Add Comprehensive Error Handling</h3>
+        <p>The module could benefit from better error handling and reporting mechanisms.</p>
+        <div class="code">
+        func (e *Earthly) Run(ctx context.Context, args []string) error {
+            if err := validateArgs(args); err != nil {
+                return fmt.Errorf("invalid arguments: %w", err)
+            }
+            
+            result, err := e.run.Exec(ctx, args)
+            if err != nil {
+                return fmt.Errorf("earthly execution failed: %w", err)
+            }
+            
+            return nil
+        }
+        </div>
+    </div>
+
+    <div class="suggestion">
+        <h3>2. Add Input Validation</h3>
+        <p>Implement proper input validation for the source directory and docker configuration.</p>
+        <div class="code">
+        func (e *Earthly) ValidateSource(source *Directory) error {
+            if source == nil {
+                return fmt.Errorf("source directory cannot be nil")
+            }
+            
+            // Check if Earthfile exists
+            if _, err := source.File("Earthfile"); err != nil {
+                return fmt.Errorf("Earthfile not found in source directory")
+            }
+            
+            return nil
+        }
+        </div>
+    </div>
+
+    <div class="meme">
+        <img src="https://i.imgflip.com/7q4o1l.jpg" alt="Testing meme" width="400">
+        <p>When the tests pass but you know you need better error handling</p>
+    </div>
+
+    <div class="suggestion">
+        <h3>3. Improve Documentation</h3>
+        <p>Add more detailed documentation including examples and use cases.</p>
+        <div class="code">
+        /**
+         * Run earthly command with the specified arguments
+         * 
+         * @param args Array of command arguments
+         * @throws EarthlyExecutionError if the command fails
+         * @example
+         * earthly.Run(ctx, []string{"--build", "+build"})
+         * earthly.Run(ctx, []string{"--push", "+docker"})
+         */
+        </div>
+    </div>
+
+    <h2>Issues Encountered</h2>
+    <ul>
+        <li>No significant issues were encountered during testing</li>
+        <li>The module installed and built successfully</li>
+        <li>All core functions were properly exposed</li>
+    </ul>
+
+</body>
+</html>

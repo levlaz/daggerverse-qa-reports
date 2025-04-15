@@ -3,13 +3,29 @@
 <head>
     <title>Dagger Modules QA Report Index</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 20px; }
-        table { border-collapse: collapse; width: 100%; }
-        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-        th { background-color: #f2f2f2; }
-        .pass { color: green; font-weight: bold; }
-        .fail { color: red; font-weight: bold; }
-        .status-icon { font-size: 1.2em; }
+        table { 
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .pass {
+            color: green;
+            font-size: 20px;
+        }
+        .fail {
+            color: red;
+            font-size: 20px;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
     </style>
 </head>
 <body>
@@ -22,34 +38,34 @@
             <th>Full Report</th>
         </tr>
         <tr>
-            <td>DebtRepayment</td>
-            <td>Fetches and analyzes data from Google Sheets for debt and investment information processing</td>
-            <td class="fail">❌ Failed</td>
-            <td><a href="DebtRepayment.html">View Report</a></td>
+            <td>Postgres</td>
+            <td>Simple Postgres database server launcher for development and testing purposes</td>
+            <td>✅</td>
+            <td><a href="postgres.html">View Report</a></td>
         </tr>
         <tr>
-            <td>ResearcherContainer</td>
-            <td>AI Agent integration for company research and data collection</td>
-            <td class="pass">✓ Passed</td>
-            <td><a href="ResearcherContainer.html">View Report</a></td>
+            <td>Nginx</td>
+            <td>Website testing and Cypress test runner in Dagger CI environment</td>
+            <td>❌</td>
+            <td><a href="nginx.html">View Report</a></td>
         </tr>
         <tr>
-            <td>SpokaneTech_Py</td>
-            <td>Python/Django development and production environment with linting, testing, and documentation capabilities</td>
-            <td class="pass">✓ Passed</td>
-            <td><a href="SpokaneTech_Py.html">View Report</a></td>
+            <td>Golang</td>
+            <td>Go project building, formatting, testing, linting and vulnerability scanning functions</td>
+            <td>✅</td>
+            <td><a href="golang.html">View Report</a></td>
         </tr>
         <tr>
-            <td>Alpine</td>
-            <td>Integration with Alpine Linux for container configuration and package management</td>
-            <td class="fail">❌ Failed</td>
-            <td><a href="alpine.html">View Report</a></td>
+            <td>Java</td>
+            <td>Java development environment with JDK and Maven integration</td>
+            <td>✅</td>
+            <td><a href="java.html">View Report</a></td>
         </tr>
         <tr>
-            <td>android-pipeline</td>
-            <td>Android application build pipeline with support for debug/release APKs, AAB bundles, testing, and lint checks</td>
-            <td class="pass">✓ Passed</td>
-            <td><a href="android-pipeline.html">View Report</a></td>
+            <td>NodeJS</td>
+            <td>NodeJS environment setup with NPM and Bun package manager support</td>
+            <td>❌</td>
+            <td><a href="nodejs.html">View Report</a></td>
         </tr>
     </table>
 </body>
