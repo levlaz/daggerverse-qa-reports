@@ -3,113 +3,138 @@
 <head>
     <title>QA Report - spin-pipeline</title>
     <style>
-        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 20px; }
         h1, h2 { color: #333; }
-        .container { max-width: 1200px; margin: 0 auto; }
-        .function-list { background: #f5f5f5; padding: 20px; border-radius: 5px; }
+        .function { background: #f5f5f5; padding: 10px; margin: 10px 0; border-radius: 5px; }
         .suggestion { margin: 20px 0; padding: 15px; border-left: 4px solid #007bff; }
-        .code-block { background: #f8f9fa; padding: 15px; border-radius: 5px; font-family: monospace; }
-        .error { color: #dc3545; }
+        .code { background: #f8f9fa; padding: 15px; border-radius: 5px; font-family: monospace; }
         .meme { max-width: 500px; margin: 20px 0; }
+        .error { color: #dc3545; }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>QA Report: spin-pipeline</h1>
-        
-        <h2>Basic Information</h2>
-        <ul>
-            <li><strong>Module Name:</strong> spin-pipeline</li>
-            <li><strong>Author:</strong> fluent-ci-templates</li>
-            <li><strong>Latest Version:</strong> ec9fce6e4a703b15408b79d3f42f9da56b2b563c</li>
-            <li><strong>Release Date:</strong> Not specified in module metadata</li>
-            <li><strong>Dagger Engine Version Used:</strong> v0.18.2</li>
-        </ul>
-
-        <h2>Module Purpose</h2>
-        <p>This module provides pipeline functionality for Spin applications, specifically focusing on building and deploying Rust-based Spin applications to the Fermyon Cloud.</p>
-
-        <h2>Functions</h2>
-        <div class="function-list">
-            <h3>Available Functions:</h3>
-            <ul>
-                <li><strong>build(src: Directory)</strong> - Builds your Spin application (currently only supports Rust)</li>
-                <li><strong>deploy(src: Directory, authToken: Secret)</strong> - Packages and uploads your application to the Fermyon Cloud</li>
-            </ul>
-        </div>
-
-        <h2>Quality Improvement Suggestions</h2>
-        
-        <div class="suggestion">
-            <h3>1. Add Support for More Languages</h3>
-            <p>Currently, the module only supports Rust applications. Adding support for other languages would make it more versatile.</p>
-            <div class="code-block">
-                <pre>
-func (s *Spin) build(src *Directory, language string) (*Directory, error) {
-    switch language {
-    case "rust":
-        return s.buildRust(src)
-    case "javascript":
-        return s.buildJavaScript(src)
-    case "python":
-        return s.buildPython(src)
-    default:
-        return nil, fmt.Errorf("unsupported language: %s", language)
-    }
-}</pre>
-            </div>
-        </div>
-
-        <div class="suggestion">
-            <h3>2. Add Better Error Handling and Logging</h3>
-            <p>The module could benefit from more detailed error messages and logging.</p>
-            <div class="code-block">
-                <pre>
-func (s *Spin) deploy(ctx context.Context, src *Directory, authToken *Secret) (string, error) {
-    logger := log.New("spin-deploy")
-    logger.Info("starting deployment process")
+    <h1>QA Report: spin-pipeline</h1>
     
-    if err := s.validateDeployment(src); err != nil {
-        logger.Error("deployment validation failed", "error", err)
-        return "", fmt.Errorf("validation error: %w", err)
-    }
+    <h2>Module Information</h2>
+    <ul>
+        <li><strong>Name:</strong> spin-pipeline</li>
+        <li><strong>Author:</strong> fluent-ci-templates</li>
+        <li><strong>Latest Version:</strong> ec9fce6e4a703b15408b79d3f42f9da56b2b563c</li>
+        <li><strong>Release Date:</strong> Not specified in module metadata</li>
+        <li><strong>Dagger Version Used:</strong> v0.18.3</li>
+    </ul>
 
-    logger.Info("deployment successful")
-    return "Deployment completed successfully", nil
-}</pre>
-            </div>
-            <img src="https://i.imgflip.com/2/5u37tt.jpg" alt="Error Handling Meme" class="meme">
-        </div>
+    <h2>Module Purpose</h2>
+    <p>This module provides functionality for building and deploying Spin applications to the Fermyon Cloud. It's specifically designed for Rust-based Spin applications.</p>
 
-        <div class="suggestion">
-            <h3>3. Add Configuration Validation</h3>
-            <p>Implement pre-flight checks for Spin configuration and dependencies.</p>
-            <div class="code-block">
-                <pre>
-func (s *Spin) validateConfig(src *Directory) error {
-    // Check for spin.toml
-    if !src.File("spin.toml").Exists() {
-        return fmt.Errorf("spin.toml not found in project root")
-    }
-
-    // Validate spin.toml structure
-    config, err := s.parseSpinConfig(src)
-    if err != nil {
-        return fmt.Errorf("invalid spin configuration: %w", err)
-    }
-
-    // Check for required dependencies
-    return s.checkDependencies(config)
-}</pre>
-            </div>
-        </div>
-
-        <h2>Testing Issues Encountered</h2>
+    <h2>Available Functions</h2>
+    <div class="function">
+        <h3>build()</h3>
+        <p>Builds your Spin application (currently only supports Rust)</p>
+        <p><strong>Parameters:</strong></p>
         <ul>
-            <li>No significant issues were encountered during testing</li>
-            <li>The module installed and built successfully</li>
-            <li>All core functions were properly documented and accessible</li>
+            <li>src: Directory! - Source directory of your Spin application</li>
         </ul>
+        <p><strong>Returns:</strong> Directory!</p>
     </div>
+
+    <div class="function">
+        <h3>deploy()</h3>
+        <p>Packages and uploads your application to the Fermyon Cloud</p>
+        <p><strong>Parameters:</strong></p>
+        <ul>
+            <li>src: Directory! - Source directory of your Spin application</li>
+            <li>authToken: Secret! - Authentication token for Fermyon Cloud</li>
+        </ul>
+        <p><strong>Returns:</strong> String!</p>
+    </div>
+
+    <h2>Quality Improvement Suggestions</h2>
+    
+    <div class="suggestion">
+        <h3>1. Add Input Validation</h3>
+        <p>The module should validate the structure of the source directory to ensure it contains a valid Spin application before attempting to build.</p>
+        <div class="code">
+        <pre>
+func validateSpinApp(src *Directory) error {
+    // Check for spin.toml
+    if _, err := src.File("spin.toml").Contents(ctx); err != nil {
+        return fmt.Errorf("spin.toml not found in source directory")
+    }
+    
+    // Check for Cargo.toml (since it's Rust-only currently)
+    if _, err := src.File("Cargo.toml").Contents(ctx); err != nil {
+        return fmt.Errorf("Cargo.toml not found in source directory")
+    }
+    
+    return nil
+}</pre>
+        </div>
+    </div>
+
+    <div class="suggestion">
+        <h3>2. Add Progress Reporting</h3>
+        <p>Implement detailed progress reporting during the build and deploy processes.</p>
+        <div class="code">
+        <pre>
+type BuildProgress struct {
+    Step    string
+    Message string
+    Error   error
+}
+
+func (s *Spin) buildWithProgress(src *Directory) (*Directory, chan BuildProgress) {
+    progress := make(chan BuildProgress)
+    go func() {
+        defer close(progress)
+        progress <- BuildProgress{Step: "init", Message: "Starting build process"}
+        // Build steps here
+        progress <- BuildProgress{Step: "complete", Message: "Build completed"}
+    }()
+    return s.Build(src), progress
+}</pre>
+        </div>
+    </div>
+
+    <div class="suggestion">
+        <h3>3. Add Support for Other Languages</h3>
+        <p>Currently only supports Rust. Should be extended to support other Spin-compatible languages.</p>
+        <div class="code">
+        <pre>
+type SpinRuntime string
+
+const (
+    Rust SpinRuntime = "rust"
+    Go   SpinRuntime = "go"
+    JS   SpinRuntime = "javascript"
+)
+
+func (s *Spin) Build(src *Directory, runtime SpinRuntime) *Directory {
+    switch runtime {
+    case Rust:
+        return s.buildRust(src)
+    case Go:
+        return s.buildGo(src)
+    case JS:
+        return s.buildJS(src)
+    default:
+        panic("unsupported runtime")
+    }
+}</pre>
+        </div>
+    </div>
+
+    <h2>QA Testing Issues</h2>
+    <ul>
+        <li>Limited documentation about the expected structure of the source directory</li>
+        <li>No examples provided in the module documentation</li>
+        <li>No error handling documentation for common failure scenarios</li>
+    </ul>
+
+    <div class="meme">
+        <img src="https://i.imgflip.com/2/7zqnvx.jpg" alt="Programming Meme" />
+        <p><em>When someone asks why the module only supports Rust...</em></p>
+    </div>
+
 </body>
 </html>
