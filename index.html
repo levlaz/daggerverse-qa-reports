@@ -24,6 +24,9 @@
             color: red;
             font-size: 20px;
         }
+        .status-cell {
+            text-align: center;
+        }
     </style>
 </head>
 <body>
@@ -35,6 +38,18 @@
             <th>Status</th>
             <th>Full Report</th>
         </tr>
-</table>
+        <tr>
+            <td>alpine</td>
+            <td>A module to integrate with Alpine Linux, providing functionality for configuring distributions, managing hardware architecture, and installing APK packages</td>
+            <td class="status-cell"><span class="fail">❌</span></td>
+            <td><a href="alpine.html">View Report</a></td>
+        </tr>
+        <tr>
+            <td>aws-cli</td>
+            <td>Generic interface to use AWS CLI in Dagger pipelines, supporting ECR, STS operations, and credential management</td>
+            <td class="status-cell"><span class="pass">✓</span></td>
+            <td><a href="aws-cli.html">View Report</a></td>
+        </tr>
+    </table>
 </body>
 </html>

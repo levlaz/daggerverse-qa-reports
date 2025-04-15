@@ -3,91 +3,132 @@
 <head>
     <title>QA Report - Stainless Module</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 2em; }
-        .module-info { background: #f5f5f5; padding: 1em; border-radius: 5px; }
-        .functions { margin: 1em 0; }
-        .suggestions { background: #e8f5e9; padding: 1em; border-radius: 5px; }
-        .errors { background: #ffebee; padding: 1em; border-radius: 5px; }
-        code { background: #f0f0f0; padding: 0.2em 0.4em; border-radius: 3px; }
-        pre { background: #f8f8f8; padding: 1em; border-radius: 5px; overflow-x: auto; }
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 20px; }
+        h1, h2 { color: #333; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .error { color: #dc3545; }
+        .suggestion { margin-bottom: 20px; }
+        code { background: #f4f4f4; padding: 2px 5px; border-radius: 3px; }
+        pre { background: #f4f4f4; padding: 15px; border-radius: 5px; overflow-x: auto; }
     </style>
 </head>
 <body>
-    <h1>QA Report: Stainless Module</h1>
-    
-    <div class="module-info">
+    <div class="container">
+        <h1>QA Report: Stainless Module</h1>
+        
         <h2>Module Information</h2>
         <ul>
             <li><strong>Name:</strong> stainless</li>
-            <li><strong>Author:</strong> sagikazarmark</li>
-            <li><strong>Latest Version:</strong> v0.2.0</li>
-            <li><strong>Release Date:</strong> Extracted from commit d814d0d7c421348f51cdda96870a05ca2aa8e96a</li>
-            <li><strong>Dagger Version Used:</strong> v0.18.2</li>
-            <li><strong>Raw Crawl Results:</strong> <a href="stainless-crawl.html">View Results</a></li>
+            <li><strong>Author:</strong> jedevc/daggerverse-sagikazarmark</li>
+            <li><strong>Latest Version:</strong> a104424df38ca8b0b758f699dcfeeb0c2210cc2e</li>
+            <li><strong>Release Date:</strong> Not specified in module information</li>
+            <li><strong>Dagger Engine Version Used:</strong> v0.18.3</li>
         </ul>
-    </div>
 
-    <div class="purpose">
         <h2>Module Purpose</h2>
-        <p>Stainless is an API SDK generator tool. The module provides functionality to upload OpenAPI specifications to the Stainless platform.</p>
-        
-        <h3>Available Functions:</h3>
-        <ul>
-            <li><code>uploadSpec(projectName: String!, openapi: File!, config: File, commitMessage: String)</code> - Uploads an OpenAPI specification to Stainless</li>
-        </ul>
-    </div>
+        <p>Stainless is an API SDK generator tool. It provides functionality to upload OpenAPI specifications to the Stainless platform.</p>
 
-    <div class="suggestions">
+        <h2>Available Functions</h2>
+        <ul>
+            <li><strong>uploadSpec()</strong>
+                <ul>
+                    <li>Parameters:
+                        <ul>
+                            <li>projectName (String!, required): Stainless project name</li>
+                            <li>openapi (File!, required): OpenAPI spec file</li>
+                            <li>config (File, optional): Stainless config file</li>
+                            <li>commitMessage (String, optional): Commit message</li>
+                        </ul>
+                    </li>
+                    <li>Returns: File!</li>
+                </ul>
+            </li>
+        </ul>
+
         <h2>Quality Improvement Suggestions</h2>
         
-        <h3>1. Add Input Validation</h3>
-        <img src="https://i.imgflip.com/2k48t0.jpg" alt="Input validation meme" />
-        <pre>
-func validateOpenAPIFile(openapi *File) error {
-    // Check file extension
-    if !strings.HasSuffix(openapi.Name, ".yaml") && !strings.HasSuffix(openapi.Name, ".json") {
-        return fmt.Errorf("OpenAPI spec must be YAML or JSON file")
+        <div class="suggestion">
+            <h3>1. Add Input Validation</h3>
+            <p>The module should validate the OpenAPI spec file format before attempting to upload.</p>
+            <pre>
+func validateOpenAPISpec(openapi *File) error {
+    // Read the OpenAPI spec
+    content, err := ioutil.ReadAll(openapi)
+    if err != nil {
+        return fmt.Errorf("failed to read OpenAPI spec: %w", err)
+    }
+
+    // Validate the OpenAPI format
+    loader := openapi3.NewLoader()
+    _, err = loader.LoadFromData(content)
+    if err != nil {
+        return fmt.Errorf("invalid OpenAPI spec: %w", err)
     }
     return nil
 }
-        </pre>
+</pre>
+            <img src="https://i.imgflip.com/2/input-validation.jpg" alt="Input Validation Meme">
+        </div>
 
-        <h3>2. Implement Retry Logic</h3>
-        <pre>
-func uploadWithRetry(spec *File, retries int) error {
-    for i := 0; i < retries; i++ {
-        err := uploadSpec(spec)
+        <div class="suggestion">
+            <h3>2. Implement Retry Logic</h3>
+            <p>Add retry mechanism for API calls to handle temporary network issues.</p>
+            <pre>
+func uploadWithRetry(ctx context.Context, spec *File, maxRetries int) error {
+    for i := 0; i < maxRetries; i++ {
+        err := uploadSpec(ctx, spec)
         if err == nil {
             return nil
         }
-        time.Sleep(time.Second * time.Duration(i+1))
+        if !isRetryable(err) {
+            return err
+        }
+        time.Sleep(time.Second * time.Duration(math.Pow(2, float64(i))))
     }
-    return fmt.Errorf("failed after %d retries", retries)
+    return fmt.Errorf("max retries exceeded")
 }
-        </pre>
+</pre>
+        </div>
 
-        <h3>3. Add Detailed Documentation</h3>
-        <pre>
-// Example documentation to add to the code
+        <div class="suggestion">
+            <h3>3. Add Detailed Documentation</h3>
+            <p>Enhance documentation with examples and error handling scenarios.</p>
+            <pre>
+// Example documentation structure
 /**
- * uploadSpec uploads an OpenAPI specification to Stainless
+ * UploadSpec uploads an OpenAPI specification to Stainless.
+ * 
  * @param projectName - The name of your Stainless project
- * @param openapi - Path to your OpenAPI specification file (YAML or JSON)
- * @param config - Optional Stainless configuration file
- * @param commitMessage - Optional commit message (should follow conventional commit format)
- * @returns File object containing the upload response
- * @throws Error if the upload fails
+ * @param openapi - OpenAPI specification file (must be valid OpenAPI 3.0+)
+ * @param config - Optional configuration file for customizing SDK generation
+ * @param commitMessage - Optional commit message (follows conventional commit format)
+ * 
+ * @returns Generated SDK file
+ * 
+ * @throws InvalidSpecError if the OpenAPI spec is invalid
+ * @throws AuthenticationError if the token is invalid
+ * @throws NetworkError if there are connection issues
+ * 
+ * @example
+ * ```go
+ * sdk, err := stainless.UploadSpec("myproject", openapiFile)
+ * if err != nil {
+ *     log.Fatal(err)
+ * }
+ * ```
  */
-        </pre>
-    </div>
+</pre>
+        </div>
 
-    <div class="errors">
         <h2>Issues Encountered</h2>
         <ul>
-            <li>No significant errors were encountered during testing</li>
-            <li>The module installed and built successfully</li>
-            <li>Documentation could be more comprehensive, especially regarding error handling and expected output formats</li>
+            <li>No explicit release date provided in the module metadata</li>
+            <li>Limited documentation on error handling scenarios</li>
+            <li>No example OpenAPI spec files provided for testing</li>
         </ul>
+
+        <h2>Cloud Trace</h2>
+        <p>Trace ID: [trace link would be here if provided by the Dagger engine]</p>
     </div>
 </body>
 </html>
