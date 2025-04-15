@@ -1,48 +1,49 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Dagger Modules QA Report Index</title>
+    <title>QA Reports Index</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 20px; }
-        table { border-collapse: collapse; width: 100%; }
+        table { width: 100%; border-collapse: collapse; }
         th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
         th { background-color: #f2f2f2; }
         .pass { color: green; }
         .fail { color: red; }
-        .status-icon { font-size: 1.2em; }
+        .status-icon { font-size: 20px; }
     </style>
 </head>
 <body>
-    <h1>Dagger Modules QA Report Index</h1>
+    <h1>QA Reports Index</h1>
     <table>
-        <thead>
-            <tr>
-                <th>Module Name</th>
-                <th>Brief Description</th>
-                <th>Status</th>
-                <th>Full Report</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>DebtRepayment</td>
-                <td>Module for fetching and analyzing data from Google Sheets for debt and investment information processing</td>
-                <td><span class="fail status-icon">❌</span></td>
-                <td><a href="DebtRepayment.html">View Report</a></td>
-            </tr>
-            <tr>
-                <td>ResearcherContainer</td>
-                <td>Module for conducting AI-powered research on companies and their user bases using Modal integration</td>
-                <td><span class="pass status-icon">✅</span></td>
-                <td><a href="ResearcherContainer.html">View Report</a></td>
-            </tr>
-            <tr>
-                <td>SpokaneTech_Py</td>
-                <td>Python/Django development and production environment with linting, testing, and documentation capabilities</td>
-                <td><span class="pass status-icon">✅</span></td>
-                <td><a href="SpokaneTech_Py.html">View Report</a></td>
-            </tr>
-        </tbody>
+        <tr>
+            <th>Module Name</th>
+            <th>Brief Description</th>
+            <th>Status</th>
+            <th>Full Report</th>
+        </tr>
+        <tr>
+            <td>github.com/TomChv/dagger/modules/alpine</td>
+            <td>A Dagger Module to integrate with Alpine Linux, providing functionality for configuring distributions, managing packages, and building containers.</td>
+            <td><span class="fail status-icon">❌</span></td>
+            <td><a href="alpine.html">View Report</a></td>
+        </tr>
+        <tr>
+            <td>aws-cli</td>
+            <td>Generic interface to use AWS CLI in Dagger pipelines, offering functionality for ECR, STS operations, region configuration, and credential management.</td>
+            <td><span class="pass status-icon">✓</span></td>
+            <td><a href="aws-cli.html">View Report</a></td>
+        </tr>
+        <tr>
+            <td>github.com/disaster37/dagger-library-go/golang</td>
+            <td>A collection of functions for building, formatting, testing, linting and scanning your Go project for vulnerabilities.</td>
+            <td><span class="pass status-icon">✓</span></td>
+            <td><a href="golang.html">View Report</a></td>
+        </tr>
+        <tr>
+            <td>github.com/jedevc/daggerverse-sagikazarmark/helm</td>
+            <td>Provides Helm functionality for Kubernetes package management, allowing users to create, package, install, and manage Helm charts through Dagger pipelines.</td>
+            <td><span class="pass status-icon">✓</span></td>
+            <td><a href="helm.html">View Report</a></td>
+        </tr>
     </table>
 </body>
 </html>
