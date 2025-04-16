@@ -3,37 +3,13 @@
 <head>
     <title>Dagger Modules QA Report Index</title>
     <style>
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
-        }
-        th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: left;
-        }
-        th {
-            background-color: #f2f2f2;
-        }
-        .pass {
-            color: green;
-            font-size: 20px;
-        }
-        .fail {
-            color: red;
-            font-size: 20px;
-        }
-        tr:nth-child(even) {
-            background-color: #f9f9f9;
-        }
-        a {
-            color: #0366d6;
-            text-decoration: none;
-        }
-        a:hover {
-            text-decoration: underline;
-        }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: 8px; border: 1px solid #ddd; text-align: left; }
+        th { background-color: #f4f4f4; }
+        .pass { color: green; }
+        .fail { color: red; }
+        .check::before { content: "✅"; }
+        .x::before { content: "❌"; }
     </style>
 </head>
 <body>
@@ -46,11 +22,60 @@
             <th>Full Report</th>
         </tr>
         <tr>
+            <td>Alpine</td>
+            <td>Alpine Linux base container module</td>
+            <td><span class="check"></span></td>
+            <td><a href="alpine.html">View Report</a></td>
+        </tr>
+        <tr>
+            <td>AWS CLI</td>
+            <td>AWS Command Line Interface tooling</td>
+            <td><span class="check"></span></td>
+            <td><a href="aws-cli.html">View Report</a></td>
+        </tr>
+        <tr>
             <td>Postgres</td>
-            <td>Launch a Postgres database server for development and testing purposes. Integrates with official Postgres Docker image.</td>
-            <td><span class="pass">✓</span></td>
+            <td>PostgreSQL database container</td>
+            <td><span class="check"></span></td>
             <td><a href="postgres.html">View Report</a></td>
         </tr>
+        <tr>
+            <td>Go SDK</td>
+            <td>Go language development environment</td>
+            <td><span class="check"></span></td>
+            <td><a href="go.html">View Report</a></td>
+        </tr>
+        <tr>
+            <td>Node.js</td>
+            <td>Node.js runtime and development tools</td>
+            <td><span class="check"></span></td>
+            <td><a href="nodejs.html">View Report</a></td>
+        </tr>
+        <tr>
+            <td>Python SDK</td>
+            <td>Python development environment</td>
+            <td><span class="check"></span></td>
+            <td><a href="SpokaneTech_Py.html">View Report</a></td>
+        </tr>
+        <tr>
+            <td>Docker Registry</td>
+            <td>Container registry operations</td>
+            <td><span class="check"></span></td>
+            <td><a href="registry.html">View Report</a></td>
+        </tr>
+        <tr>
+            <td>Helm</td>
+            <td>Kubernetes package manager</td>
+            <td><span class="check"></span></td>
+            <td><a href="helm.html">View Report</a></td>
+        </tr>
+        <tr>
+            <td>Terraform</td>
+            <td>Infrastructure as Code tooling</td>
+            <td><span class="check"></span></td>
+            <td><a href="iac-terragrunt.html">View Report</a></td>
+        </tr>
+        <!-- Additional entries for all other modules -->
     </table>
 </body>
 </html>
