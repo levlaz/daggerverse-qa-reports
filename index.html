@@ -24,7 +24,7 @@
             color: red;
             font-size: 20px;
         }
-        .status-cell {
+        .status-icon {
             text-align: center;
         }
     </style>
@@ -32,34 +32,42 @@
 <body>
     <h1>Dagger Modules QA Report Index</h1>
     <table>
-        <thead>
-            <tr>
-                <th>Module Name</th>
-                <th>Brief Description</th>
-                <th>Status</th>
-                <th>Full Report</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>postgres</td>
-                <td>Provides a simple way to launch a Postgres database server for development and testing purposes. Integrates with official Postgres Docker image.</td>
-                <td class="status-cell"><span class="pass">✓</span></td>
-                <td><a href="postgres.html">View Report</a></td>
-            </tr>
-            <tr>
-                <td>golangci-lint</td>
-                <td>Fast linters runner for Go with containerized environment and proper caching support.</td>
-                <td class="status-cell"><span class="pass">✓</span></td>
-                <td><a href="golangci-lint.html">View Report</a></td>
-            </tr>
-            <tr>
-                <td>helm</td>
-                <td>Provides Helm functionality for Kubernetes package management, allowing creation, packaging, installation, and management of Helm charts through Dagger pipelines.</td>
-                <td class="status-cell"><span class="pass">✓</span></td>
-                <td><a href="helm.html">View Report</a></td>
-            </tr>
-        </tbody>
-    </table>
+        <tr>
+            <th>Module Name</th>
+            <th>Brief Description</th>
+            <th>Status</th>
+            <th>Full Report</th>
+        </tr>
+        <tr>
+            <td>postgres</td>
+            <td>Simple Postgres database server launcher for development and testing purposes. Integrates with official Postgres Docker image.</td>
+            <td class="status-icon"><span class="pass">✓</span></td>
+            <td><a href="postgres.html">View Report</a></td>
+        </tr>
+        <tr>
+            <td>go</td>
+            <td>Go programming language support for Dagger pipelines, providing comprehensive functions for building, testing, and managing Go applications.</td>
+            <td class="status-icon"><span class="pass">✓</span></td>
+            <td><a href="go.html">View Report</a></td>
+        </tr>
+        <tr>
+            <td>php-tests</td>
+            <td>PHP testing module providing capabilities for running PHP tests in a containerized environment.</td>
+            <td class="status-icon"><span class="fail">✗</span></td>
+            <td><a href="php-tests.html">View Report</a></td>
+        </tr>
+        <tr>
+            <td>aws-cli</td>
+            <td>Generic interface for AWS CLI operations in Dagger pipelines, including ECR, STS, and credential management.</td>
+            <td class="status-icon"><span class="pass">✓</span></td>
+            <td><a href="aws-cli.html">View Report</a></td>
+        </tr>
+        <tr>
+            <td>wolfi</td>
+            <td>Container-native Linux distribution module with emphasis on security. Creates and customizes Wolfi Linux containers.</td>
+            <td class="status-icon"><span class="fail">✗</span></td>
+            <td><a href="wolfi.html">View Report</a></td>
+        </tr>
+</table>
 </body>
 </html>
