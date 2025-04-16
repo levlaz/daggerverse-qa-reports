@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>QA Report - git-info Module</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }
+        h1, h2 { color: #333; }
+        .section { margin: 20px 0; padding: 15px; border: 1px solid #ddd; border-radius: 5px; }
+        .function-list { list-style-type: none; padding-left: 20px; }
+        .suggestion { background-color: #f9f9f9; padding: 15px; margin: 10px 0; }
+        .code { background-color: #f5f5f5; padding: 10px; border-radius: 3px; font-family: monospace; }
+        .meme { max-width: 100%; height: auto; margin: 10px 0; }
+    </style>
+</head>
+<body>
+    <h1>QA Report: git-info Module</h1>
+    
+    <div class="section">
+        <h2>Module Information</h2>
+        <p><strong>Name:</strong> git-info</p>
+        <p><strong>Author:</strong> vbehar</p>
+        <p><strong>Latest Version:</strong> cc1e58c0400999415f0a4ee308b7ca13c12c0248</p>
+        <p><strong>Dagger Engine Version Used:</strong> v0.18.3</p>
+    </div>
+
+    <div class="section">
+        <h2>Module Purpose</h2>
+        <p>A utility module that extracts information about a git reference (branch, tag, commit hash, committer, commit time, commit message, version) and exposes it in various formats including JSON, directory structure, or environment variables.</p>
+    </div>
+
+    <div class="section">
+        <h2>Available Functions</h2>
+        <ul class="function-list">
+            <li>🔍 <strong>branch()</strong> - Gets the branch of the git reference</li>
+            <li>🔒 <strong>commit-hash()</strong> - Retrieves the commit hash</li>
+            <li>📝 <strong>commit-message()</strong> - Gets the commit message</li>
+            <li>⏰ <strong>commit-time()</strong> - Returns the commit timestamp</li>
+            <li>👤 <strong>commit-user()</strong> - Shows committer information</li>
+            <li>📂 <strong>directory()</strong> - Creates a directory with all git info in separate files</li>
+            <li>📄 <strong>json()</strong> - Returns JSON representation of git info</li>
+            <li>📋 <strong>json-file()</strong> - Creates a file with JSON git info</li>
+            <li>📛 <strong>name()</strong> - Gets repository name</li>
+            <li>🔗 <strong>ref()</strong> - Shows git reference</li>
+            <li>🔧 <strong>set-env-variables-on-container()</strong> - Sets git info as environment variables</li>
+            <li>🏷️ <strong>tag()</strong> - Returns git tag information</li>
+            <li>🌐 <strong>url()</strong> - Shows repository URL</li>
+            <li>📌 <strong>version()</strong> - Returns version information</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>Quality Improvement Suggestions</h2>
+        
+        <div class="suggestion">
+            <h3>1. Add Input Validation</h3>
+            <p>Add validation for git directory input to ensure it's a valid git repository before processing.</p>
+            <div class="code">
+            <pre>
+// Add this validation at the start of the constructor
+func (m *Module) validateGitDir(ctx context.Context, dir *Directory) error {
+    isGit, err := dag.Container().
+        From("alpine/git").
+        WithDirectory("/src", dir).
+        WithWorkdir("/src").
+        WithExec([]string{"git", "rev-parse", "--git-dir"}).
+        ExitCode()
+    
+    if err != nil || isGit != 0 {
+        return fmt.Errorf("invalid git directory")
+    }
+    return nil
+}
+            </pre>
+            </div>
+            <img src="https://i.imgur.com/KDPV79P.png" alt="Testing Meme" class="meme">
+        </div>
+
+        <div class="suggestion">
+            <h3>2. Add Caching Mechanism</h3>
+            <p>Implement caching for git information to improve performance for repeated queries.</p>
+            <div class="code">
+            <pre>
+type GitInfo struct {
+    cache map[string]string
+    mutex sync.RWMutex
+}
+
+func (g *GitInfo) getCachedValue(key string) (string, bool) {
+    g.mutex.RLock()
+    defer g.mutex.RUnlock()
+    value, exists := g.cache[key]
+    return value, exists
+}
+
+func (g *GitInfo) setCachedValue(key, value string) {
+    g.mutex.Lock()
+    defer g.mutex.Unlock()
+    g.cache[key] = value
+}
+            </pre>
+            </div>
+        </div>
+
+        <div class="suggestion">
+            <h3>3. Add Error Details in JSON Output</h3>
+            <p>Enhance the JSON output to include error details when git commands fail.</p>
+            <div class="code">
+            <pre>
+type GitInfoResponse struct {
+    Data  *GitInfo `json:"data,omitempty"`
+    Error *struct {
+        Code    string `json:"code"`
+        Message string `json:"message"`
+        Command string `json:"command"`
+    } `json:"error,omitempty"`
+}
+
+func (g *GitInfo) EnhancedJSON() (string, error) {
+    response := GitInfoResponse{
+        Data: g,
+    }
+    if g.lastError != nil {
+        response.Error = &struct {
+            Code    string `json:"code"`
+            Message string `json:"message"`
+            Command string `json:"command"`
+        }{
+            Code:    "GIT_ERROR",
+            Message: g.lastError.Error(),
+            Command: g.lastCommand,
+        }
+    }
+    return json.Marshal(response)
+}
+            </pre>
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>Testing Notes</h2>
+        <p>No errors were encountered during testing. The module installed and built successfully. All functions were available as expected.</p>
+    </div>
+</body>
+</html>
