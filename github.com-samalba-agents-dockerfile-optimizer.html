@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>QA Report - dockerfile-optimizer</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
+        h1, h2 { color: #333; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .metadata { background: #f5f5f5; padding: 20px; border-radius: 5px; }
+        .functions { margin: 20px 0; }
+        .suggestions { margin: 20px 0; }
+        code { background: #f0f0f0; padding: 2px 5px; border-radius: 3px; }
+        pre { background: #f0f0f0; padding: 15px; border-radius: 5px; overflow-x: auto; }
+        .error { color: #dc3545; }
+        .meme { max-width: 500px; margin: 20px 0; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>QA Report: dockerfile-optimizer</h1>
+        
+        <div class="metadata">
+            <h2>Module Metadata</h2>
+            <p><strong>Name:</strong> dockerfile-optimizer</p>
+            <p><strong>Author:</strong> samalba</p>
+            <p><strong>Latest Version:</strong> 2bde48946e1b2c6308a81121d7d63a93984dfdf2</p>
+            <p><strong>Dagger Engine Version:</strong> v0.18.3</p>
+            <p><strong>Release Date:</strong> Not specified in module metadata</p>
+            <p><strong>Dagger Cloud Trace:</strong> Not available in current context</p>
+        </div>
+
+        <div class="purpose">
+            <h2>Module Purpose</h2>
+            <p>This module is designed to optimize Dockerfiles. It provides functionality to:</p>
+            <ul>
+                <li>Optimize Dockerfiles from GitHub repositories and automatically create PRs with improvements</li>
+                <li>Optimize Dockerfiles from local directories</li>
+            </ul>
+        </div>
+
+        <div class="functions">
+            <h2>Available Functions</h2>
+            <ul>
+                <li><strong>optimizeDockerfileFromDirectory(src: Directory!)</strong>
+                    <p>Optimizes a Dockerfile from a directory and returns the directory with the optimized Dockerfile</p>
+                </li>
+                <li><strong>optimizeDockerfileFromGithub(githubToken: Secret!, repoUrl: String!)</strong>
+                    <p>Optimizes a Dockerfile from a remote Github repository and opens a PR with the changes</p>
+                </li>
+            </ul>
+        </div>
+
+        <div class="suggestions">
+            <h2>Quality Improvement Suggestions</h2>
+            
+            <h3>1. Add Input Validation and Error Handling</h3>
+            <p>The module would benefit from proper input validation and error handling for the GitHub token and repository URL.</p>
+            <pre>
+func validateGithubUrl(url string) error {
+    if !strings.HasPrefix(url, "https://github.com/") {
+        return fmt.Errorf("invalid GitHub URL format: %s", url)
+    }
+    return nil
+}
+
+// Usage in the function:
+if err := validateGithubUrl(repoUrl); err != nil {
+    return "", fmt.Errorf("validation error: %w", err)
+}
+</pre>
+
+            <h3>2. Add Dockerfile Path Configuration</h3>
+            <p>Allow users to specify custom Dockerfile paths instead of assuming default locations.</p>
+            <pre>
+type DockerfileOptimizer {
+    dockerfilePath: string
+}
+
+func (d *DockerfileOptimizer) WithDockerfilePath(path string) *DockerfileOptimizer {
+    d.dockerfilePath = path
+    return d
+}
+</pre>
+
+            <h3>3. Add Optimization Strategy Selection</h3>
+            <p>Provide different optimization strategies that users can choose from.</p>
+            <img src="https://i.imgflip.com/2/optimization-choices.jpg" alt="Why Not Both Meme" class="meme">
+            <pre>
+type OptimizationStrategy string
+
+const (
+    SizeOptimization OptimizationStrategy = "size"
+    SpeedOptimization OptimizationStrategy = "speed"
+    SecurityOptimization OptimizationStrategy = "security"
+)
+
+func (d *DockerfileOptimizer) WithStrategy(strategy OptimizationStrategy) *DockerfileOptimizer {
+    d.strategy = strategy
+    return d
+}
+</pre>
+        </div>
+
+        <div class="issues">
+            <h2>Issues Encountered</h2>
+            <ul>
+                <li>The module lacks detailed documentation about the specific optimization techniques being applied</li>
+                <li>No examples provided for common use cases</li>
+                <li>Missing information about the release date in the module metadata</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>
