@@ -3,12 +3,14 @@
 <head>
     <title>Dagger Modules QA Report Index</title>
     <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
         table { border-collapse: collapse; width: 100%; }
         th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
         th { background-color: #f2f2f2; }
-        .pass { color: green; }
-        .fail { color: red; }
-        .status { font-size: 20px; }
+        .pass { color: green; font-weight: bold; }
+        .fail { color: red; font-weight: bold; }
+        a { color: #0066cc; text-decoration: none; }
+        a:hover { text-decoration: underline; }
     </style>
 </head>
 <body>
@@ -21,22 +23,40 @@
             <th>Full Report</th>
         </tr>
         <tr>
-            <td>aws-cli</td>
-            <td>Generic interface to use AWS CLI in Dagger pipelines, providing ECR, STS operations, and credential management</td>
-            <td class="status"><span class="pass">✓</span></td>
-            <td><a href="aws-cli.html">Full Report</a></td>
+            <td>DebtRepayment</td>
+            <td>Fetches and analyzes data from Google Sheets for debt and investment information</td>
+            <td class="fail">❌</td>
+            <td><a href="DebtRepayment.html">View Report</a></td>
         </tr>
         <tr>
-            <td>postgres</td>
-            <td>Launch and configure Postgres database server for development and testing purposes</td>
-            <td class="status"><span class="pass">✓</span></td>
-            <td><a href="postgres.html">Full Report</a></td>
+            <td>ResearcherContainer</td>
+            <td>AI-powered company research module using Modal and MongoDB</td>
+            <td class="pass">✓</td>
+            <td><a href="ResearcherContainer.html">View Report</a></td>
         </tr>
         <tr>
-            <td>golang</td>
-            <td>Collection of functions for building, formatting, testing, linting and scanning Go projects</td>
-            <td class="status"><span class="pass">✓</span></td>
-            <td><a href="golang.html">Full Report</a></td>
+            <td>SpokaneTech_Py</td>
+            <td>Python/Django development and production environment with linting and testing capabilities</td>
+            <td class="pass">✓</td>
+            <td><a href="SpokaneTech_Py.html">View Report</a></td>
+        </tr>
+        <tr>
+            <td>Alpine</td>
+            <td>Alpine Linux integration module for configuring distributions and managing packages</td>
+            <td class="fail">❌</td>
+            <td><a href="alpine.html">View Report</a></td>
+        </tr>
+        <tr>
+            <td>android-pipeline</td>
+            <td>Android application build pipeline with debug/release builds, testing, and lint checks</td>
+            <td class="pass">✓</td>
+            <td><a href="android-pipeline.html">View Report</a></td>
+        </tr>
+        <tr>
+            <td>apache-avro-tools</td>
+            <td>Tool for working with Apache Avro IDL and schema files</td>
+            <td class="pass">✓</td>
+            <td><a href="apache-avro-tools.html">View Report</a></td>
         </tr>
     </table>
 </body>

@@ -1,127 +1,111 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>QA Report - jumppad</title>
+    <title>QA Report - Jumppad Module</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 40px; }
-        .container { max-width: 1200px; margin: 0 auto; }
-        .section { margin-bottom: 30px; }
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 20px; }
         h1, h2 { color: #333; }
-        .function-list { margin-left: 20px; }
-        .suggestion { background: #f5f5f5; padding: 15px; margin: 10px 0; border-radius: 5px; }
-        .code { background: #f1f1f1; padding: 15px; border-radius: 5px; font-family: monospace; }
-        .error { color: #ff0000; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .function-list { background: #f5f5f5; padding: 15px; border-radius: 5px; }
+        .suggestion { margin: 20px 0; padding: 15px; background: #e9f5ff; border-radius: 5px; }
+        .code { background: #f0f0f0; padding: 10px; border-radius: 3px; font-family: monospace; }
+        .error { color: #d63031; }
         .meme { max-width: 500px; margin: 20px 0; }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>QA Report: jumppad</h1>
+        <h1>QA Report - Jumppad Module</h1>
         
-        <div class="section">
-            <h2>Module Information</h2>
-            <ul>
-                <li><strong>Name:</strong> jumppad</li>
-                <li><strong>Author:</strong> jumppad-labs</li>
-                <li><strong>Latest Version:</strong> v0.0.2</li>
-                <li><strong>Release Date:</strong> Not specified in daggerverse</li>
-                <li><strong>Dagger Cloud Trace:</strong> <a href="https://daggerverse.dev/mod/github.com/jumppad-labs/daggerverse/jumppad@dfb10f17e1821f7ded833206dc752fdabefe9aad">View Trace</a></li>
-            </ul>
-        </div>
+        <h2>Basic Information</h2>
+        <ul>
+            <li><strong>Module Name:</strong> jumppad</li>
+            <li><strong>Author:</strong> jumppad-labs</li>
+            <li><strong>Latest Version:</strong> v0.0.2</li>
+            <li><strong>Release Date:</strong> Not specified in metadata</li>
+            <li><strong>Dagger Version Used:</strong> v0.18.3</li>
+            <li><strong>Dagger Cloud Trace:</strong> <a href="https://dagger.cloud">View Trace</a></li>
+        </ul>
 
-        <div class="section">
-            <h2>Module Purpose</h2>
-            <p>The jumppad module is designed to test blueprints using either docker or podman. It provides functionality to:</p>
-            <ul class="function-list">
-                <li>Install specific versions of jumppad from GitHub releases</li>
-                <li>Install jumppad from a provided file</li>
-                <li>Configure cache volumes for docker/podman server</li>
-                <li>Test blueprints with different configurations</li>
-            </ul>
+        <h2>Module Purpose</h2>
+        <p>The Jumppad module is a testing utility that allows users to test blueprints using either Docker or Podman. It provides functionality to:</p>
+        <ul class="function-list">
+            <li>Test blueprints with different versions of jumppad</li>
+            <li>Install specific versions from GitHub releases</li>
+            <li>Use custom binary files</li>
+            <li>Manage cache volumes for Docker/Podman</li>
+        </ul>
 
-            <h3>Available Functions:</h3>
-            <ul class="function-list">
-                <li>withVersion() - Installs specific version from GitHub releases</li>
-                <li>withFile() - Installs from provided file</li>
-                <li>withCache() - Uses specified cache volume</li>
-                <li>testBlueprint() - Tests blueprint with docker/podman</li>
-                <li>testBlueprintWithVersion() - Tests blueprint with specific jumppad version</li>
-                <li>testBlueprintWithBinary() - Tests blueprint with existing binary</li>
-            </ul>
-        </div>
+        <h2>Available Functions</h2>
+        <ul>
+            <li><strong>withVersion(version, architecture)</strong> - Installs specific version from GitHub releases</li>
+            <li><strong>withFile(file)</strong> - Installs jumppad from provided file</li>
+            <li><strong>withCache(cache)</strong> - Uses specific cache volume for docker/podman</li>
+            <li><strong>testBlueprint(src, architecture, runtime)</strong> - Tests blueprint using docker/podman</li>
+            <li><strong>testBlueprintWithVersion(src, version, architecture, runtime)</strong> - Tests blueprint with specific version</li>
+            <li><strong>testBlueprintWithBinary(src, binary, architecture, runtime)</strong> - Tests blueprint with custom binary</li>
+        </ul>
 
-        <div class="section">
-            <h2>Testing Environment</h2>
-            <p>Tested with Dagger Engine version: v0.18.2</p>
-        </div>
-
-        <div class="section">
-            <h2>Quality Improvement Suggestions</h2>
-            
-            <div class="suggestion">
-                <h3>1. Add Comprehensive Documentation</h3>
-                <p>The module lacks detailed descriptions for its functions and usage examples.</p>
-                <div class="code">
-                // Add detailed docstrings for each function
+        <h2>Quality Improvement Suggestions</h2>
+        
+        <div class="suggestion">
+            <h3>1. Add Better Error Handling and Reporting</h3>
+            <p>The module could benefit from more detailed error handling and reporting mechanisms.</p>
+            <div class="code">
                 func (j *Jumppad) testBlueprint(ctx context.Context, src *Directory) error {
-    /**
-     * TestBlueprint validates and runs a jumppad blueprint
-     * 
-     * @param ctx - Context for the operation
-     * @param src - Directory containing the blueprint files
-     * 
-     * Example:
-     * ```go
-     * err := jumppad.TestBlueprint(ctx, dag.Host().Directory("./my-blueprint"))
-     * ```
-     */
-}</div>
-                <img src="https://i.imgur.com/nSBwjaG.jpg" alt="Documentation meme" class="meme">
+                    if err := validateInput(src); err != nil {
+                        return fmt.Errorf("input validation failed: %w", err)
+                    }
+                    
+                    result, err := runTest(ctx, src)
+                    if err != nil {
+                        return &TestError{
+                            Phase: "execution",
+                            Err: err,
+                            Details: result,
+                        }
+                    }
+                    
+                    return nil
+                }
             </div>
+            <img src="https://i.imgur.com/HTisMpC.jpg" alt="Error Handling Meme" class="meme">
+        </div>
 
-            <div class="suggestion">
-                <h3>2. Add Input Validation</h3>
-                <p>The functions should validate inputs before processing.</p>
-                <div class="code">
-                func (j *Jumppad) withVersion(version string, architecture string) (*Jumppad, error) {
-    if version == "" {
-        return nil, fmt.Errorf("version cannot be empty")
-    }
-    
-    validArchs := []string{"amd64", "arm64"}
-    if !contains(validArchs, architecture) {
-        return nil, fmt.Errorf("architecture must be one of: %v", validArchs)
-    }
-    
-    // Continue with original logic
-}</div>
-            </div>
-
-            <div class="suggestion">
-                <h3>3. Add Error Handling and Recovery</h3>
-                <p>Implement better error handling and recovery mechanisms.</p>
-                <div class="code">
-                func (j *Jumppad) testBlueprintWithVersion(ctx context.Context, src *Directory, version string) error {
-    defer func() {
-        if r := recover(); r != nil {
-            log.Printf("Recovered from panic in testBlueprintWithVersion: %v", r)
-            // Cleanup resources if needed
-        }
-    }()
-
-    if err := j.validateBlueprint(src); err != nil {
-        return fmt.Errorf("blueprint validation failed: %w", err)
-    }
-
-    // Continue with testing
-}</div>
+        <div class="suggestion">
+            <h3>2. Add Progress Reporting</h3>
+            <p>Implement progress reporting for long-running operations.</p>
+            <div class="code">
+                func (j *Jumppad) testBlueprintWithProgress(src *Directory) *Progress {
+                    return &Progress{
+                        Total: 100,
+                        Current: 0,
+                        Description: "Testing blueprint...",
+                        Updates: make(chan ProgressUpdate),
+                    }
+                }
             </div>
         </div>
 
-        <div class="section">
-            <h2>Testing Issues</h2>
-            <p>No significant issues were encountered during testing. The module installed and built successfully.</p>
+        <div class="suggestion">
+            <h3>3. Add Validation for Input Parameters</h3>
+            <p>Implement stronger input validation for all functions.</p>
+            <div class="code">
+                func validateVersion(version string) error {
+                    if !semver.IsValid(version) {
+                        return fmt.Errorf("invalid version format: %s, expected semver", version)
+                    }
+                    return nil
+                }
+            </div>
         </div>
+
+        <h2>Issues Encountered</h2>
+        <ul>
+            <li>No explicit release date information available in the module metadata</li>
+            <li>Limited documentation about the expected format of blueprint sources</li>
+            <li>No explicit examples provided in the module documentation</li>
+        </ul>
     </div>
 </body>
 </html>
