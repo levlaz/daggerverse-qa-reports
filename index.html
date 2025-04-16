@@ -3,107 +3,54 @@
 <head>
     <title>Dagger Modules QA Report Index</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 20px; }
-        table { border-collapse: collapse; width: 100%; }
-        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-        th { background-color: #f2f2f2; }
-        .pass { color: green; font-weight: bold; }
-        .fail { color: red; font-weight: bold; }
-        a { color: #0066cc; text-decoration: none; }
-        a:hover { text-decoration: underline; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .pass {
+            color: green;
+            font-size: 20px;
+        }
+        .fail {
+            color: red;
+            font-size: 20px;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        a {
+            color: #0366d6;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
     <h1>Dagger Modules QA Report Index</h1>
     <table>
-        <thead>
-            <tr>
-                <th>Module Name</th>
-                <th>Brief Description</th>
-                <th>Status</th>
-                <th>Full Report</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>AWS CLI</td>
-                <td>AWS Command Line Interface module</td>
-                <td><span class="pass">✔ PASS</span></td>
-                <td><a href="aws-cli.html">View Report</a></td>
-            </tr>
-            <tr>
-                <td>PostgreSQL</td>
-                <td>PostgreSQL database module</td>
-                <td><span class="pass">✔ PASS</span></td>
-                <td><a href="postgres.html">View Report</a></td>
-            </tr>
-            <tr>
-                <td>Golang</td>
-                <td>Go language development environment</td>
-                <td><span class="pass">✔ PASS</span></td>
-                <td><a href="golang.html">View Report</a></td>
-            </tr>
-            <tr>
-                <td>Node.js</td>
-                <td>Node.js runtime and development tools</td>
-                <td><span class="pass">✔ PASS</span></td>
-                <td><a href="nodejs.html">View Report</a></td>
-            </tr>
-            <tr>
-                <td>Python SDK</td>
-                <td>Python SDK for Dagger</td>
-                <td><span class="pass">✔ PASS</span></td>
-                <td><a href="github.com_aluzzardi_dagger_sdk_python_dev.html">View Report</a></td>
-            </tr>
-            <tr>
-                <td>Java SDK</td>
-                <td>Java development environment and tools</td>
-                <td><span class="pass">✔ PASS</span></td>
-                <td><a href="java-sdk.html">View Report</a></td>
-            </tr>
-            <tr>
-                <td>Docker</td>
-                <td>Docker container operations</td>
-                <td><span class="pass">✔ PASS</span></td>
-                <td><a href="github.com_felipepimentel_daggerverse_libraries_docker.html">View Report</a></td>
-            </tr>
-            <tr>
-                <td>Helm</td>
-                <td>Kubernetes package manager</td>
-                <td><span class="pass">✔ PASS</span></td>
-                <td><a href="helm.html">View Report</a></td>
-            </tr>
-            <tr>
-                <td>PHP Tests</td>
-                <td>PHP testing and development tools</td>
-                <td><span class="pass">✔ PASS</span></td>
-                <td><a href="php-tests.html">View Report</a></td>
-            </tr>
-            <tr>
-                <td>MinIO</td>
-                <td>S3-compatible object storage</td>
-                <td><span class="pass">✔ PASS</span></td>
-                <td><a href="minio.html">View Report</a></td>
-            </tr>
-            <tr>
-                <td>Nginx</td>
-                <td>Web server and proxy</td>
-                <td><span class="pass">✔ PASS</span></td>
-                <td><a href="nginx.html">View Report</a></td>
-            </tr>
-            <tr>
-                <td>MariaDB</td>
-                <td>MariaDB database server</td>
-                <td><span class="pass">✔ PASS</span></td>
-                <td><a href="mariadb.html">View Report</a></td>
-            </tr>
-            <tr>
-                <td>Terraform</td>
-                <td>Infrastructure as Code tools</td>
-                <td><span class="pass">✔ PASS</span></td>
-                <td><a href="terratest.html">View Report</a></td>
-            </tr>
-        </tbody>
+        <tr>
+            <th>Module Name</th>
+            <th>Brief Description</th>
+            <th>Status</th>
+            <th>Full Report</th>
+        </tr>
+        <tr>
+            <td>Postgres</td>
+            <td>Launch a Postgres database server for development and testing purposes. Integrates with official Postgres Docker image.</td>
+            <td><span class="pass">✓</span></td>
+            <td><a href="postgres.html">View Report</a></td>
+        </tr>
     </table>
 </body>
 </html>
