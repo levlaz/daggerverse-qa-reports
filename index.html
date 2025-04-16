@@ -3,14 +3,27 @@
 <head>
     <title>Dagger Modules QA Report Index</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 20px; }
-        table { border-collapse: collapse; width: 100%; }
-        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-        th { background-color: #f2f2f2; }
-        .pass { color: green; font-weight: bold; }
-        .fail { color: red; font-weight: bold; }
-        a { color: #0066cc; text-decoration: none; }
-        a:hover { text-decoration: underline; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .pass {
+            color: green;
+            font-size: 20px;
+        }
+        .fail {
+            color: red;
+            font-size: 20px;
+        }
     </style>
 </head>
 <body>
@@ -23,40 +36,40 @@
             <th>Full Report</th>
         </tr>
         <tr>
-            <td>DebtRepayment</td>
-            <td>Fetches and analyzes data from Google Sheets for debt and investment information</td>
-            <td class="fail">❌</td>
-            <td><a href="DebtRepayment.html">View Report</a></td>
+            <td>postgres</td>
+            <td>A module for launching a Postgres database server for development and testing purposes, integrating with official Postgres Docker image</td>
+            <td><span class="pass">✓</span></td>
+            <td><a href="postgres.html">View Report</a></td>
         </tr>
         <tr>
-            <td>ResearcherContainer</td>
-            <td>AI-powered company research module using Modal and MongoDB</td>
-            <td class="pass">✓</td>
-            <td><a href="ResearcherContainer.html">View Report</a></td>
+            <td>golang</td>
+            <td>A collection of functions for building, formatting, testing, linting and scanning your Go project for vulnerabilities</td>
+            <td><span class="pass">✓</span></td>
+            <td><a href="golang.html">View Report</a></td>
         </tr>
         <tr>
-            <td>SpokaneTech_Py</td>
-            <td>Python/Django development and production environment with linting and testing capabilities</td>
-            <td class="pass">✓</td>
-            <td><a href="SpokaneTech_Py.html">View Report</a></td>
+            <td>hello</td>
+            <td>A simple greeting module providing customizable greeting messages with various formatting options</td>
+            <td><span class="fail">✗</span></td>
+            <td><a href="hello.html">View Report</a></td>
         </tr>
         <tr>
-            <td>Alpine</td>
-            <td>Alpine Linux integration module for configuring distributions and managing packages</td>
-            <td class="fail">❌</td>
+            <td>bats-tests</td>
+            <td>A module for running Bats (Bash Automated Testing System) tests with basic execution capabilities</td>
+            <td><span class="pass">✓</span></td>
+            <td><a href="bats-tests.html">View Report</a></td>
+        </tr>
+        <tr>
+            <td>alpine</td>
+            <td>A module for configuring and building Alpine Linux containers with package management capabilities</td>
+            <td><span class="fail">✗</span></td>
             <td><a href="alpine.html">View Report</a></td>
         </tr>
         <tr>
-            <td>android-pipeline</td>
-            <td>Android application build pipeline with debug/release builds, testing, and lint checks</td>
-            <td class="pass">✓</td>
-            <td><a href="android-pipeline.html">View Report</a></td>
-        </tr>
-        <tr>
-            <td>apache-avro-tools</td>
-            <td>Tool for working with Apache Avro IDL and schema files</td>
-            <td class="pass">✓</td>
-            <td><a href="apache-avro-tools.html">View Report</a></td>
+            <td>aws-cli</td>
+            <td>A generic interface for AWS CLI operations in Dagger pipelines with support for ECR, STS, and credential management</td>
+            <td><span class="pass">✓</span></td>
+            <td><a href="aws-cli.html">View Report</a></td>
         </tr>
     </table>
 </body>
