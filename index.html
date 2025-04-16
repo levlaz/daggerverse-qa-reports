@@ -7,60 +7,31 @@
         table { border-collapse: collapse; width: 100%; }
         th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
         th { background-color: #f2f2f2; }
-        .pass { color: green; font-weight: bold; }
-        .fail { color: red; font-weight: bold; }
-        .status-icon { font-size: 1.2em; }
+        .pass { color: green; font-size: 20px; }
+        .fail { color: red; font-size: 20px; }
     </style>
 </head>
 <body>
     <h1>Dagger Modules QA Report Index</h1>
     <table>
-        <thead>
-            <tr>
-                <th>Module Name</th>
-                <th>Brief Description</th>
-                <th>Status</th>
-                <th>Full Report</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>postgres</td>
-                <td>Provides a simple way to launch a Postgres database server for development and testing purposes</td>
-                <td><span class="pass">✓ PASS</span></td>
-                <td><a href="postgres.html">View Report</a></td>
-            </tr>
-            <tr>
-                <td>golang</td>
-                <td>Collection of functions for building, formatting, testing, linting and scanning Go projects</td>
-                <td><span class="pass">✓ PASS</span></td>
-                <td><a href="golang.html">View Report</a></td>
-            </tr>
-            <tr>
-                <td>aws-cli</td>
-                <td>Generic interface to use AWS CLI in Dagger pipelines with ECR, STS operations and credential management</td>
-                <td><span class="pass">✓ PASS</span></td>
-                <td><a href="aws-cli.html">View Report</a></td>
-            </tr>
-            <tr>
-                <td>php-tests</td>
-                <td>PHP testing module providing capabilities for running tests in containerized environment</td>
-                <td><span class="fail">✗ FAIL</span></td>
-                <td><a href="php-tests.html">View Report</a></td>
-            </tr>
-            <tr>
-                <td>trivy</td>
-                <td>Security scanner integration for finding vulnerabilities, misconfigurations, secrets, and generating SBOM</td>
-                <td><span class="pass">✓ PASS</span></td>
-                <td><a href="trivy.html">View Report</a></td>
-            </tr>
-            <tr>
-                <td>rust</td>
-                <td>Swiss army knife for Rust development including linting, formatting, security audits and code checks</td>
-                <td><span class="pass">✓ PASS</span></td>
-                <td><a href="rust.html">View Report</a></td>
-            </tr>
-        </tbody>
+        <tr>
+            <th>Module Name</th>
+            <th>Brief Description</th>
+            <th>Status</th>
+            <th>Full Report</th>
+        </tr>
+        <tr>
+            <td>DebtRepayment</td>
+            <td>Module for fetching and analyzing data from Google Sheets to process debt and investment information</td>
+            <td><span class="fail">❌</span></td>
+            <td><a href="DebtRepayment.html">View Report</a></td>
+        </tr>
+        <tr>
+            <td>ResearcherContainer</td>
+            <td>Module that interacts with AI Agent in Modal for company research and data collection</td>
+            <td><span class="pass">✓</span></td>
+            <td><a href="ResearcherContainer.html">View Report</a></td>
+        </tr>
     </table>
 </body>
 </html>
