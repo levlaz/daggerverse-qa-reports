@@ -3,10 +3,10 @@
 <head>
     <title>Dagger Modules QA Report Index</title>
     <style>
-        body { font-family: Arial, sans-serif; }
-        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
-        th, td { padding: 8px; border: 1px solid #ddd; text-align: left; }
-        th { background-color: #f5f5f5; }
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        table { border-collapse: collapse; width: 100%; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
         .pass { color: green; font-weight: bold; }
         .fail { color: red; font-weight: bold; }
         a { color: #0066cc; text-decoration: none; }
@@ -16,72 +16,94 @@
 <body>
     <h1>Dagger Modules QA Report Index</h1>
     <table>
-        <tr>
-            <th>Module Name</th>
-            <th>Brief Description</th>
-            <th>Status</th>
-            <th>Full Report</th>
-        </tr>
-        <tr>
-            <td>DebtRepayment</td>
-            <td>Fetches and analyzes data from Google Sheets for debt and investment information processing</td>
-            <td class="fail">❌</td>
-            <td><a href="DebtRepayment.html">View Report</a></td>
-        </tr>
-        <tr>
-            <td>ResearcherContainer</td>
-            <td>AI-powered company research module using Modal for web automation and MongoDB for data storage</td>
-            <td class="pass">✅</td>
-            <td><a href="ResearcherContainer.html">View Report</a></td>
-        </tr>
-        <tr>
-            <td>SpokaneTech_Py</td>
-            <td>Python/Django development and production environment with built-in linting, testing, and documentation</td>
-            <td class="pass">✅</td>
-            <td><a href="SpokaneTech_Py.html">View Report</a></td>
-        </tr>
-        <tr>
-            <td>Alpine</td>
-            <td>Alpine Linux integration module for configuring distributions, architectures, and package management</td>
-            <td class="fail">❌</td>
-            <td><a href="alpine.html">View Report</a></td>
-        </tr>
-        <tr>
-            <td>android-pipeline</td>
-            <td>Android build pipeline with support for debug/release APKs, AAB bundles, testing, and lint checks</td>
-            <td class="pass">✅</td>
-            <td><a href="android-pipeline.html">View Report</a></td>
-        </tr>
-        <tr>
-            <td>apache-avro-tools</td>
-            <td>Apache Avro Tools integration for converting IDL files to Avro schema files</td>
-            <td class="pass">✅</td>
-            <td><a href="apache-avro-tools.html">View Report</a></td>
-        </tr>
-        <tr>
-            <td>apko</td>
-            <td>Build container images from apk packages with Alpine and Wolfi base configurations</td>
-            <td class="pass">✅</td>
-            <td><a href="apko.html">View Report</a></td>
-        </tr>
-        <tr>
-            <td>apt</td>
-            <td>APT package manager integration for Debian/Ubuntu package management in Dagger pipelines</td>
-            <td class="fail">❌</td>
-            <td><a href="apt.html">View Report</a></td>
-        </tr>
-        <tr>
-            <td>arc-tests</td>
-            <td>Archive manipulation module supporting multiple compression formats (tar, zip, gz, bz2, etc.)</td>
-            <td class="pass">✅</td>
-            <td><a href="arc-tests.html">View Report</a></td>
-        </tr>
-        <tr>
-            <td>archivist-tests</td>
-            <td>Test suite for archive operations including various compression methods and formats</td>
-            <td class="pass">✅</td>
-            <td><a href="archivist-tests.html">View Report</a></td>
-        </tr>
-</table>
+        <thead>
+            <tr>
+                <th>Module Name</th>
+                <th>Brief Description</th>
+                <th>Status</th>
+                <th>Full Report</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>AWS CLI</td>
+                <td>AWS Command Line Interface module</td>
+                <td><span class="pass">✔ PASS</span></td>
+                <td><a href="aws-cli.html">View Report</a></td>
+            </tr>
+            <tr>
+                <td>PostgreSQL</td>
+                <td>PostgreSQL database module</td>
+                <td><span class="pass">✔ PASS</span></td>
+                <td><a href="postgres.html">View Report</a></td>
+            </tr>
+            <tr>
+                <td>Golang</td>
+                <td>Go language development environment</td>
+                <td><span class="pass">✔ PASS</span></td>
+                <td><a href="golang.html">View Report</a></td>
+            </tr>
+            <tr>
+                <td>Node.js</td>
+                <td>Node.js runtime and development tools</td>
+                <td><span class="pass">✔ PASS</span></td>
+                <td><a href="nodejs.html">View Report</a></td>
+            </tr>
+            <tr>
+                <td>Python SDK</td>
+                <td>Python SDK for Dagger</td>
+                <td><span class="pass">✔ PASS</span></td>
+                <td><a href="github.com_aluzzardi_dagger_sdk_python_dev.html">View Report</a></td>
+            </tr>
+            <tr>
+                <td>Java SDK</td>
+                <td>Java development environment and tools</td>
+                <td><span class="pass">✔ PASS</span></td>
+                <td><a href="java-sdk.html">View Report</a></td>
+            </tr>
+            <tr>
+                <td>Docker</td>
+                <td>Docker container operations</td>
+                <td><span class="pass">✔ PASS</span></td>
+                <td><a href="github.com_felipepimentel_daggerverse_libraries_docker.html">View Report</a></td>
+            </tr>
+            <tr>
+                <td>Helm</td>
+                <td>Kubernetes package manager</td>
+                <td><span class="pass">✔ PASS</span></td>
+                <td><a href="helm.html">View Report</a></td>
+            </tr>
+            <tr>
+                <td>PHP Tests</td>
+                <td>PHP testing and development tools</td>
+                <td><span class="pass">✔ PASS</span></td>
+                <td><a href="php-tests.html">View Report</a></td>
+            </tr>
+            <tr>
+                <td>MinIO</td>
+                <td>S3-compatible object storage</td>
+                <td><span class="pass">✔ PASS</span></td>
+                <td><a href="minio.html">View Report</a></td>
+            </tr>
+            <tr>
+                <td>Nginx</td>
+                <td>Web server and proxy</td>
+                <td><span class="pass">✔ PASS</span></td>
+                <td><a href="nginx.html">View Report</a></td>
+            </tr>
+            <tr>
+                <td>MariaDB</td>
+                <td>MariaDB database server</td>
+                <td><span class="pass">✔ PASS</span></td>
+                <td><a href="mariadb.html">View Report</a></td>
+            </tr>
+            <tr>
+                <td>Terraform</td>
+                <td>Infrastructure as Code tools</td>
+                <td><span class="pass">✔ PASS</span></td>
+                <td><a href="terratest.html">View Report</a></td>
+            </tr>
+        </tbody>
+    </table>
 </body>
 </html>
