@@ -3,26 +3,63 @@
 <head>
     <title>Dagger Modules QA Report Index</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 20px; }
-        table { border-collapse: collapse; width: 100%; }
-        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-        th { background-color: #f2f2f2; }
-        .pass { color: green; }
-        .fail { color: red; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .pass {
+            color: green;
+            font-size: 20px;
+        }
+        .fail {
+            color: red;
+            font-size: 20px;
+        }
+        .status-cell {
+            text-align: center;
+        }
     </style>
 </head>
 <body>
     <h1>Dagger Modules QA Report Index</h1>
     <table>
-        <tr>
-            <th>Module Name</th>
-            <th>Brief Description</th>
-            <th>Status</th>
-            <th>Full Report</th>
-        </tr>
-        <tr>
-            <td colspan="4" style="text-align: center;">Processing module reports...</td>
-        </tr>
+        <thead>
+            <tr>
+                <th>Module Name</th>
+                <th>Brief Description</th>
+                <th>Status</th>
+                <th>Full Report</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>postgres</td>
+                <td>Provides a simple way to launch a Postgres database server for development and testing purposes. Integrates with official Postgres Docker image.</td>
+                <td class="status-cell"><span class="pass">✓</span></td>
+                <td><a href="postgres.html">View Report</a></td>
+            </tr>
+            <tr>
+                <td>golangci-lint</td>
+                <td>Fast linters runner for Go with containerized environment and proper caching support.</td>
+                <td class="status-cell"><span class="pass">✓</span></td>
+                <td><a href="golangci-lint.html">View Report</a></td>
+            </tr>
+            <tr>
+                <td>helm</td>
+                <td>Provides Helm functionality for Kubernetes package management, allowing creation, packaging, installation, and management of Helm charts through Dagger pipelines.</td>
+                <td class="status-cell"><span class="pass">✓</span></td>
+                <td><a href="helm.html">View Report</a></td>
+            </tr>
+        </tbody>
     </table>
 </body>
 </html>
