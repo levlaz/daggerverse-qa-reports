@@ -1,139 +1,122 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>QA Report - golangci</title>
     <style>
-        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 2rem; }
-        h1, h2 { color: #333; }
-        .container { max-width: 1200px; margin: 0 auto; }
-        .function-list { background: #f5f5f5; padding: 1rem; border-radius: 4px; }
-        .suggestion { margin: 1rem 0; padding: 1rem; border-left: 4px solid #007bff; }
-        .code { background: #f8f9fa; padding: 1rem; border-radius: 4px; font-family: monospace; }
-        .error { color: #dc3545; }
-        .meme { max-width: 500px; margin: 1rem 0; }
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 20px; }
+        h1 { color: #333; }
+        h2 { color: #666; }
+        .error { color: #ff0000; }
+        .suggestion { margin: 10px 0; padding: 10px; background: #f5f5f5; }
+        pre { background: #f0f0f0; padding: 10px; border-radius: 4px; }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>QA Report - golangci</h1>
-        
-        <h2>Module Information</h2>
-        <ul>
-            <li><strong>Name:</strong> golangci</li>
-            <li><strong>Author:</strong> lgtdio</li>
-            <li><strong>Latest Version:</strong> 41bfb59fa3d8cdd3a620bdf47d973f8cfcf1579a</li>
-            <li><strong>Dagger Engine Version Used:</strong> v0.18.1</li>
-            <li><strong>Dagger Cloud Trace:</strong> <a href="https://daggerverse.dev/mod/github.com/lgtdio/dagger/modules/golangci@41bfb59fa3d8cdd3a620bdf47d973f8cfcf1579a">View Trace</a></li>
-        </ul>
+    <h1>QA Report - golangci</h1>
+    
+    <h2>Module Information</h2>
+    <ul>
+        <li><strong>Name:</strong> github.com/dagger/dagger/dev/golangci</li>
+        <li><strong>Author:</strong> Dagger Team (inferred from repository)</li>
+        <li><strong>Latest Version:</strong> v0.12.0 (attempted)</li>
+        <li><strong>Release Date:</strong> Not available</li>
+        <li><strong>Dagger Version Used:</strong> v0.18.3</li>
+    </ul>
 
-        <h2>Module Purpose</h2>
-        <p>This module provides Go code linting capabilities using golangci-lint. It offers the following functionality:</p>
-        <div class="function-list">
-            <h3>Available Functions:</h3>
-            <ul>
-                <li><code>lint(source: Directory!, path?: String, goModCache?: CacheVolume, goBuildCache?: CacheVolume) -> LintRun!</code>
-                    <br>Performs linting on a Go codebase with optional path and cache configuration</li>
-            </ul>
-        </div>
+    <h2>Module Purpose</h2>
+    <p>This module appears to be a Go linting tool integration that provides the following functionality:</p>
+    <ul>
+        <li>Running golangci-lint on Go codebases</li>
+        <li>Issue reporting and analysis</li>
+        <li>Linting configuration and management</li>
+    </ul>
 
-        <h2>Quality Improvement Suggestions</h2>
-        
-        <div class="suggestion">
-            <h3>1. Add Documentation and Examples</h3>
-            <p>The module lacks comprehensive documentation. Adding more detailed examples would help users understand how to use it effectively.</p>
-            <div class="code">
-                <pre>
-// Example improvement in module documentation:
-/**
- * # Golangci Lint Module
- * 
- * This module provides Go code linting using golangci-lint.
- * 
- * ## Basic Usage
- * ```go
- * func (m *MyModule) LintProject(src *Directory) error {
- *     return dag.Golangci().
- *         Lint(src).
- *         Assert(ctx)
- * }
- * ```
- * 
- * ## With Custom Configuration
- * ```go
- * func (m *MyModule) LintWithConfig(src *Directory) error {
- *     return dag.Golangci().
- *         Lint(
- *             src,
- *             dag.GolangciLintOpts{
- *                 Path: "./src",
- *                 GoModCache: dag.CacheVolume("go-mod"),
- *                 GoBuildCache: dag.CacheVolume("go-build"),
- *             },
- *         ).
- *         Assert(ctx)
- * }
- * ```
- */</pre>
-            </div>
-            <img src="https://i.imgflip.com/65jaa9.jpg" alt="Documentation Meme" class="meme">
-        </div>
+    <h2>Available Functions</h2>
+    <ul>
+        <li><strong>lint()</strong> - Lint a go codebase</li>
+        <li><strong>issues()</strong> - Get linting issues</li>
+        <li><strong>assert()</strong> - Assert linting results</li>
+        <li><strong>errorCount()</strong> - Get count of errors</li>
+        <li><strong>warningCount()</strong> - Get count of warnings</li>
+        <li><strong>report()</strong> - Generate a linting report</li>
+    </ul>
 
-        <div class="suggestion">
-            <h3>2. Add Configuration Options</h3>
-            <p>The module could benefit from more configuration options for golangci-lint.</p>
-            <div class="code">
-                <pre>
-// Add configuration struct
-type Config struct {
-    ConfigFile    string            // Path to golangci-lint config file
-    EnabledLinters []string         // List of linters to enable
-    DisabledLinters []string       // List of linters to disable
-    Timeout        string          // Timeout for running linters
-    Tests          bool            // Whether to lint test files
+    <h2>Errors Encountered</h2>
+    <div class="error">
+        <p>Several critical issues were encountered during testing:</p>
+        <ol>
+            <li>Installation failed: The module does not contain a dagger config file at the specified path</li>
+            <li>Build failed: The path "dev/golangci" does not exist in the git repository</li>
+            <li>Unable to verify actual functionality due to installation issues</li>
+        </ol>
+    </div>
+
+    <h2>Quality Improvement Suggestions</h2>
+    
+    <div class="suggestion">
+        <h3>1. Add Proper Module Configuration</h3>
+        <p>The module is missing essential configuration files. Add a proper dagger.json:</p>
+        <pre>
+{
+    "name": "golangci",
+    "sdk": "go",
+    "dependencies": [],
+    "source": "./",
+    "engineVersion": ">=0.18.0"
+}
+        </pre>
+    </div>
+
+    <div class="suggestion">
+        <h3>2. Improve Error Handling</h3>
+        <p>Add better error handling and user feedback. Example implementation:</p>
+        <pre>
+type Golangci struct {
+    sourceDir *Directory
 }
 
-// Add method to configure linting
-func (g *Golangci) WithConfig(config Config) *Golangci {
-    // Implementation
-}</pre>
-            </div>
-        </div>
-
-        <div class="suggestion">
-            <h3>3. Add CI/CD Integration Examples</h3>
-            <p>Provide examples of how to integrate this module in common CI/CD pipelines.</p>
-            <div class="code">
-                <pre>
-# Example GitHub Actions workflow
-name: Lint Go Code
-on: [push, pull_request]
-
-jobs:
-  lint:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: Set up Dagger
-        uses: dagger/dagger-action@v1
-      - name: Run golangci-lint
-        run: |
-          dagger do lint \
-            --source ./ \
-            --report-output ./lint-report.json</pre>
-            </div>
-        </div>
-
-        <h2>Testing Results</h2>
-        <ul>
-            <li>✅ Module Installation: Successful</li>
-            <li>✅ Module Building: Successful</li>
-            <li>✅ Function Discovery: Successfully identified main function (lint)</li>
-        </ul>
-
-        <h2>No Errors Encountered</h2>
-        <p>The module performed as expected during testing. No errors or issues were encountered during installation, building, or function discovery.</p>
+func (g *Golangci) Lint(source *Directory) (*LintRun, error) {
+    if source == nil {
+        return nil, fmt.Errorf("source directory cannot be nil")
+    }
+    // Add validation for Go files
+    hasGoFiles, err := source.Contains("*.go")
+    if err != nil || !hasGoFiles {
+        return nil, fmt.Errorf("no Go files found in source directory")
+    }
+    // Continue with linting...
+}
+        </pre>
     </div>
+
+    <div class="suggestion">
+        <h3>3. Add Documentation and Examples</h3>
+        <p>Create a comprehensive README.md with usage examples:</p>
+        <pre>
+# Golangci-lint Dagger Module
+
+## Quick Start
+
+```go
+dag.Golangci().Lint(dag.Host().Directory(".")).Assert(ctx)
+```
+
+## Configuration
+
+```go
+dag.Golangci().
+    WithConfig(dag.Host().File(".golangci.yml")).
+    Lint(dag.Host().Directory("."))
+```
+
+## Common Use Cases
+
+1. CI Integration
+2. Local Development
+3. Custom Rules
+        </pre>
+        <img src="https://i.imgflip.com/65efzo.jpg" alt="Documentation Meme" />
+    </div>
+
 </body>
 </html>
