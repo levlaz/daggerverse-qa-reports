@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>QA Report - github.com/TomChv/dagger/version</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .error {
+            color: #dc3545;
+            background-color: #f8d7da;
+            padding: 10px;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+        .suggestion {
+            background-color: #f8f9fa;
+            padding: 15px;
+            margin: 10px 0;
+            border-left: 4px solid #007bff;
+        }
+        pre {
+            background-color: #f8f9fa;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+        .meme {
+            max-width: 500px;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>QA Report: github.com/TomChv/dagger/version</h1>
+    
+    <h2>Module Information</h2>
+    <ul>
+        <li><strong>Name:</strong> github.com/TomChv/dagger/version</li>
+        <li><strong>Author:</strong> TomChv</li>
+        <li><strong>Latest Version:</strong> e45ebd5f4222708ca1db05ff34a68320e24b9ed4</li>
+        <li><strong>Release Date:</strong> Not available</li>
+        <li><strong>Dagger Engine Version Used:</strong> v0.18.3</li>
+    </ul>
+
+    <h2>Module Purpose</h2>
+    <p>This module appears to be designed for version management in Dagger, following Go's pseudoversioning approach. It provides functionality for:</p>
+    <ul>
+        <li>Version string generation</li>
+        <li>Git repository interaction</li>
+        <li>Tag management</li>
+        <li>Version comparison and manipulation</li>
+    </ul>
+
+    <h2>Available Functions</h2>
+    <ul>
+        <li><strong>Version Functions:</strong>
+            <ul>
+                <li>git()</li>
+                <li>version()</li>
+                <li>imageTag()</li>
+                <li>lastReleaseVersion()</li>
+                <li>nextReleaseVersion()</li>
+            </ul>
+        </li>
+        <li><strong>Git Functions:</strong>
+            <ul>
+                <li>directory()</li>
+                <li>versionTagLatest()</li>
+                <li>versionTags()</li>
+                <li>branches()</li>
+                <li>head()</li>
+                <li>commit()</li>
+                <li>mergeBase()</li>
+                <li>dirty()</li>
+                <li>fileAt()</li>
+            </ul>
+        </li>
+    </ul>
+
+    <h2>Errors Encountered</h2>
+    <div class="error">
+        <h3>Installation Error:</h3>
+        <pre>git module source "github.com/TomChv/dagger/version" does not contain a dagger config file</pre>
+        
+        <h3>Build Error:</h3>
+        <pre>failed to get configured module: input: moduleSource path "version" does not exist in git repo</pre>
+    </div>
+
+    <h2>Quality Improvement Suggestions</h2>
+    
+    <div class="suggestion">
+        <h3>1. Add proper module configuration</h3>
+        <p>The module is missing a crucial dagger.json configuration file, which is required for proper installation and usage.</p>
+        <pre>
+{
+    "name": "version",
+    "sdk": "go",
+    "dependencies": [],
+    "source": "./version",
+    "description": "A version management module following Go's pseudoversioning approach",
+    "author": "TomChv"
+}
+        </pre>
+    </div>
+
+    <div class="suggestion">
+        <h3>2. Add comprehensive documentation</h3>
+        <p>While the module has some documentation, it could benefit from more detailed examples and use cases.</p>
+        <pre>
+// Example documentation structure
+/**
+ * @function version
+ * @description Generate a version string based on the current context
+ * @example
+ * dag.version().version() // Returns: v1.0.0
+ * 
+ * @function imageTag
+ * @description Generate a compatible Docker image tag
+ * @example
+ * dag.version().imageTag() // Returns: v1.0.0-compatible
+ */
+        </pre>
+        <img src="https://i.imgflip.com/2/4howz.jpg" alt="Documentation Meme" class="meme"/>
+    </div>
+
+    <div class="suggestion">
+        <h3>3. Implement proper error handling</h3>
+        <p>Add proper error handling and validation for edge cases.</p>
+        <pre>
+func (v *Version) version(ctx context.Context) (string, error) {
+    if v.git == nil {
+        return "", fmt.Errorf("git information not available")
+    }
+    
+    version, err := v.calculateVersion()
+    if err != nil {
+        return "", fmt.Errorf("failed to calculate version: %w", err)
+    }
+    
+    return version, nil
+}
+        </pre>
+    </div>
+
+</body>
+</html>

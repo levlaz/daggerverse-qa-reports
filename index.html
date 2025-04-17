@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Dagger Modules QA Report Index</title>
+    <title>Dagger Modules QA Reports</title>
     <style>
         body { font-family: Arial, sans-serif; margin: 20px; }
         table { border-collapse: collapse; width: 100%; }
@@ -9,53 +9,40 @@
         th { background-color: #f4f4f4; }
         .pass { color: green; }
         .fail { color: red; }
+        .status-icon { font-size: 20px; }
     </style>
 </head>
 <body>
-    <h1>Dagger Modules QA Report Index</h1>
+    <h1>Dagger Modules QA Reports</h1>
     <table>
-        <tr>
-            <th>Module Name</th>
-            <th>Brief Description</th>
-            <th>Status</th>
-            <th>Full Report</th>
-        </tr>
-        <tr>
-            <td>DebtRepayment</td>
-            <td>Google Sheets data fetcher and analyzer for debt and investment information</td>
-            <td><span class="fail">❌</span></td>
-            <td><a href="DebtRepayment.html">View Report</a></td>
-        </tr>
-        <tr>
-            <td>ResearcherContainer</td>
-            <td>AI-powered company research module using Modal and MongoDB</td>
-            <td><span class="pass">✅</span></td>
-            <td><a href="ResearcherContainer.html">View Report</a></td>
-        </tr>
-        <tr>
-            <td>SpokaneTech_Py</td>
-            <td>Python/Django development and production environment with linting and testing</td>
-            <td><span class="pass">✅</span></td>
-            <td><a href="SpokaneTech_Py.html">View Report</a></td>
-        </tr>
-        <tr>
-            <td>alpine</td>
-            <td>Alpine Linux container builder module</td>
-            <td><span class="fail">❌</span></td>
-            <td><a href="alpine.html">View Report</a></td>
-        </tr>
-        <tr>
-            <td>android-pipeline</td>
-            <td>Android app building pipeline with debug/release builds, testing, and lint checks</td>
-            <td><span class="pass">✅</span></td>
-            <td><a href="android-pipeline.html">View Report</a></td>
-        </tr>
-        <tr>
-            <td>apache-avro-tools</td>
-            <td>Apache Avro Tools integration for converting IDL to schema files</td>
-            <td><span class="pass">✅</span></td>
-            <td><a href="apache-avro-tools.html">View Report</a></td>
-        </tr>
-</table>
+        <thead>
+            <tr>
+                <th>Module Name</th>
+                <th>Brief Description</th>
+                <th>Status</th>
+                <th>Full Report</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>golang</td>
+                <td>A collection of functions for building, formatting, testing, linting and scanning Go projects</td>
+                <td><span class="pass status-icon">✅</span></td>
+                <td><a href="golang.html">View Report</a></td>
+            </tr>
+            <tr>
+                <td>postgres</td>
+                <td>Simple way to launch a Postgres database server for development and testing purposes</td>
+                <td><span class="pass status-icon">✅</span></td>
+                <td><a href="postgres.html">View Report</a></td>
+            </tr>
+            <tr>
+                <td>python</td>
+                <td>Python programming language module for working with Python in Dagger pipelines</td>
+                <td><span class="pass status-icon">✅</span></td>
+                <td><a href="python.html">View Report</a></td>
+            </tr>
+        </tbody>
+    </table>
 </body>
 </html>
