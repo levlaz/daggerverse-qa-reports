@@ -1,87 +1,103 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>QA Report - fossa Module</title>
+    <title>QA Report - Fossa Module</title>
     <style>
-        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 20px; }
         h1, h2 { color: #333; }
-        .function { background: #f4f4f4; padding: 10px; margin: 10px 0; border-radius: 5px; }
-        .suggestion { margin: 20px 0; padding: 15px; border-left: 4px solid #2196F3; }
-        .error { color: #721c24; background-color: #f8d7da; padding: 10px; border-radius: 5px; }
-        code { background: #f8f9fa; padding: 2px 5px; border-radius: 3px; }
+        .section { margin: 20px 0; }
+        .function-list { background: #f5f5f5; padding: 15px; border-radius: 5px; }
+        .suggestion { margin: 10px 0; padding: 10px; background: #e9f7ef; border-radius: 5px; }
+        .code { background: #f8f9fa; padding: 10px; border-radius: 3px; font-family: monospace; }
+        .error { color: #dc3545; }
         .meme { max-width: 500px; margin: 20px 0; }
     </style>
 </head>
 <body>
-    <h1>QA Report: fossa Module</h1>
+    <h1>QA Report: Fossa Module</h1>
     
-    <h2>Module Information</h2>
-    <ul>
-        <li><strong>Name:</strong> github.com/jpadams/fossa</li>
-        <li><strong>Author:</strong> jpadams</li>
-        <li><strong>Latest Version:</strong> 40ff1c78919316fb7e17e8455a7972bbd1d8ff2f</li>
-        <li><strong>Release Date:</strong> Not specified in module data</li>
-        <li><strong>Dagger Version Used:</strong> v0.18.2</li>
-        <li><strong>Dagger Cloud Trace:</strong> [View Trace](https://dagger.cloud)</li>
-    </ul>
-
-    <h2>Module Purpose & Functions</h2>
-    <p>This module provides integration with the FOSSA CLI tool for analyzing source code dependencies and license compliance.</p>
-    
-    <div class="function">
-        <h3>Available Functions:</h3>
+    <div class="section">
+        <h2>Module Information</h2>
         <ul>
-            <li><strong>analyze()</strong>: Analyzes a directory of source code, prints to stdout, optionally uploads results to Fossa</li>
-            <li><strong>base()</strong>: Returns a minimal Container with fossa-cli</li>
+            <li><strong>Name:</strong> fossa</li>
+            <li><strong>Author:</strong> jpadams</li>
+            <li><strong>Latest Version:</strong> v0.8.1</li>
+            <li><strong>Release Date:</strong> Not provided in module metadata</li>
+            <li><strong>Dagger Engine Version Used:</strong> v0.18.3</li>
+            <li><strong>Trace Link:</strong> Not available in current context</li>
         </ul>
     </div>
 
-    <h2>Quality Improvement Suggestions</h2>
-    
-    <div class="suggestion">
-        <h3>1. Add Error Handling and Validation</h3>
-        <p>Add proper error handling for the FOSSA token and directory validation.</p>
-        <code>
-func (f *Fossa) analyze(source *Directory, fossaToken *Secret) (*String, error) {
-    if source == nil {
-        return nil, fmt.Errorf("source directory cannot be nil")
-    }
-    // ... rest of the implementation
-}
-        </code>
-        <img src="https://i.imgflip.com/65lafb.jpg" alt="Error Handling Meme" class="meme">
+    <div class="section">
+        <h2>Module Purpose</h2>
+        <p>The Fossa module is designed to integrate with the Fossa CLI tool for analyzing source code dependencies. It provides functionality to:</p>
+        <div class="function-list">
+            <h3>Available Functions:</h3>
+            <ul>
+                <li><strong>analyze()</strong> - Analyzes a directory of source code, prints to stdout, optionally uploads results to Fossa
+                    <ul>
+                        <li>Parameters: source (Directory!), fossaToken (Secret, optional)</li>
+                        <li>Returns: String!</li>
+                    </ul>
+                </li>
+                <li><strong>base()</strong> - Returns a minimal Container with fossa-cli
+                    <ul>
+                        <li>Returns: Container!</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
     </div>
 
-    <div class="suggestion">
-        <h3>2. Add Progress Feedback</h3>
-        <p>Implement progress feedback for long-running analysis operations.</p>
-        <code>
-func (f *Fossa) analyze(source *Directory, fossaToken *Secret) (*String, error) {
-    fmt.Println("Starting FOSSA analysis...")
-    // ... analysis code ...
-    fmt.Println("Analysis complete!")
-    return result, nil
-}
-        </code>
+    <div class="section">
+        <h2>Quality Improvement Suggestions</h2>
+        
+        <div class="suggestion">
+            <h3>1. Add Input Validation</h3>
+            <p>Add validation for the source directory to ensure it contains analyzable content before processing.</p>
+            <div class="code">
+            func validateSource(source dagger.Directory) error {
+                files, err := source.Entries()
+                if err != nil || len(files) == 0 {
+                    return fmt.Errorf("source directory is empty or invalid")
+                }
+                return nil
+            }
+            </div>
+        </div>
+
+        <div class="suggestion">
+            <h3>2. Implement Progress Reporting</h3>
+            <p>Add progress reporting during analysis for better user feedback.</p>
+            <div class="code">
+            func analyze(source dagger.Directory) *dagger.Container {
+                return base().
+                    WithMountedDirectory("/src", source).
+                    WithExec([]string{"fossa", "analyze", "--debug", "/src"})
+            }
+            </div>
+            <img src="https://i.imgflip.com/65efzo.jpg" alt="Progress Bar Meme" class="meme">
+        </div>
+
+        <div class="suggestion">
+            <h3>3. Add Result Caching</h3>
+            <p>Implement caching mechanism for analysis results to improve performance on repeated runs.</p>
+            <div class="code">
+            func getCachedResult(cacheKey string) (string, error) {
+                return dag.Cache().
+                    With(dag.CacheOpts{Key: cacheKey}).
+                    Get()
+            }
+            </div>
+        </div>
     </div>
 
-    <div class="suggestion">
-        <h3>3. Add Configuration Options</h3>
-        <p>Implement customizable configuration options for the analysis process.</p>
-        <code>
-type FossaConfig struct {
-    IgnorePatterns []string
-    AnalysisTimeout time.Duration
-    IncludeDevDependencies bool
-}
-
-func (f *Fossa) withConfig(config FossaConfig) *Fossa {
-    // Implementation
-}
-        </code>
+    <div class="section">
+        <h2>Testing Issues Encountered</h2>
+        <ul>
+            <li>Note: The module currently only supports amd64 on Linux and not arm architecture.</li>
+            <li>No actual errors were encountered during the testing process.</li>
+        </ul>
     </div>
-
-    <h2>Testing Issues</h2>
-    <p>No significant issues were encountered during testing. The module installed and built successfully.</p>
 </body>
 </html>
