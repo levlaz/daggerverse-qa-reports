@@ -3,97 +3,119 @@
 <head>
     <title>QA Report - buf-pipeline</title>
     <style>
-        body { font-family: Arial, sans-serif; line-height: 1.6; max-width: 1200px; margin: 0 auto; padding: 20px; }
-        h1 { color: #2c3e50; }
-        .section { margin: 20px 0; padding: 20px; border: 1px solid #eee; border-radius: 5px; }
-        .function-list { list-style-type: none; padding-left: 20px; }
-        .suggestion { background-color: #f9f9f9; padding: 15px; margin: 10px 0; border-radius: 5px; }
-        .error { color: #e74c3c; }
-        code { background-color: #f8f9fa; padding: 2px 5px; border-radius: 3px; }
-        pre { background-color: #f8f9fa; padding: 15px; border-radius: 5px; overflow-x: auto; }
-        .meme { max-width: 500px; margin: 20px 0; }
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 20px; }
+        h1, h2 { color: #333; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .info-box { background: #f5f5f5; padding: 15px; border-radius: 5px; margin: 10px 0; }
+        .function-list { list-style-type: none; padding-left: 0; }
+        .function-item { background: #fff; padding: 10px; margin: 5px 0; border-left: 3px solid #2196F3; }
+        .suggestion { background: #e1f5fe; padding: 15px; margin: 10px 0; border-radius: 5px; }
+        .code-block { background: #f8f9fa; padding: 15px; border-radius: 5px; font-family: monospace; }
+        .error { color: #d32f2f; }
     </style>
 </head>
 <body>
-    <h1>QA Report: buf-pipeline</h1>
-    
-    <div class="section">
-        <h2>Module Information</h2>
-        <ul>
-            <li><strong>Name:</strong> github.com/fluent-ci-templates/buf-pipeline</li>
-            <li><strong>Author:</strong> fluent-ci-templates</li>
-            <li><strong>Latest Version:</strong> 52f73c13b30d01b7c0ca571fe5b1e989e25354af</li>
-            <li><strong>Release Date:</strong> N/A (not provided in module info)</li>
-            <li><strong>Dagger Version Used:</strong> v0.18.2</li>
-            <li><strong>Dagger Cloud Trace:</strong> <a href="https://dagger.cloud/traces">View Trace</a></li>
-        </ul>
-    </div>
-
-    <div class="section">
-        <h2>Module Description</h2>
-        <p>This module provides functionality for working with Protocol Buffers (Protobuf) files using the Buf tool. It offers capabilities for formatting, linting, and pushing Protobuf files to the Buf Registry.</p>
+    <div class="container">
+        <h1>QA Report: buf-pipeline</h1>
         
-        <h3>Available Functions:</h3>
-        <ul class="function-list">
-            <li><code>format()</code> - Format your Protobuf files</li>
-            <li><code>lint()</code> - Lint your Protobuf files</li>
-            <li><code>push()</code> - Push your Protobuf files to the Buf Registry</li>
-        </ul>
-    </div>
-
-    <div class="section">
-        <h2>Quality Improvement Suggestions</h2>
-        
-        <div class="suggestion">
-            <h3>1. Add Comprehensive Documentation</h3>
-            <p>The module lacks detailed documentation about function parameters and usage examples.</p>
-            <pre>
-# Example improvement in function documentation:
-/**
- * Format Protobuf files according to buf standards
- * @param {Directory} src - The source directory containing .proto files
- * @returns {Directory} Formatted source directory
- * @example
- * const result = await dag.buf().format(src)
- */
-format(src: Directory): Directory
-</pre>
-            <img src="https://i.imgflip.com/4/2k48t0.jpg" alt="Documentation Meme" class="meme">
+        <div class="info-box">
+            <h2>Module Information</h2>
+            <p><strong>Module Name:</strong> buf-pipeline</p>
+            <p><strong>Author:</strong> fluent-ci-templates</p>
+            <p><strong>Latest Version:</strong> 52f73c13b30d01b7c0ca571fe5b1e989e25354af</p>
+            <p><strong>Release Date:</strong> Not specified in metadata</p>
+            <p><strong>Dagger Version Used:</strong> v0.18.3</p>
+            <p><strong>Dagger Cloud Trace:</strong> <em>Trace information not available in the current context</em></p>
         </div>
 
-        <div class="suggestion">
-            <h3>2. Add Input Validation</h3>
-            <p>Implement proper input validation for the source directory to ensure it contains .proto files.</p>
-            <pre>
-func validateProtoFiles(src: Directory): boolean {
-    // Check if directory contains .proto files
-    const files = src.entries().filter(f => f.endsWith('.proto'))
-    if (files.length === 0) {
-        throw new Error("No .proto files found in source directory")
+        <div class="info-box">
+            <h2>Module Purpose</h2>
+            <p>The buf-pipeline module provides functionality for working with Protocol Buffers (Protobuf) files. It offers three main functions:</p>
+            <ul class="function-list">
+                <li class="function-item"><strong>format()</strong> - Formats Protobuf files</li>
+                <li class="function-item"><strong>lint()</strong> - Lints Protobuf files</li>
+                <li class="function-item"><strong>push()</strong> - Pushes Protobuf files to the Buf Registry</li>
+            </ul>
+        </div>
+
+        <div class="info-box">
+            <h2>Suggestions for Improvement</h2>
+            
+            <div class="suggestion">
+                <h3>1. Add Input Validation and Error Handling</h3>
+                <p>Currently, the module doesn't show explicit input validation. Adding validation would improve reliability.</p>
+                <div class="code-block">
+                <pre>
+func (b *Buf) push(ctx context.Context, src *dagger.Directory, token *dagger.Secret) (string, error) {
+    if src == nil {
+        return "", fmt.Errorf("source directory cannot be nil")
     }
-    return true
+    if token == nil {
+        return "", fmt.Errorf("token cannot be nil")
+    }
+    // Validate directory contains .proto files
+    exists, err := src.Contains(ctx, "*.proto")
+    if err != nil || !exists {
+        return "", fmt.Errorf("no .proto files found in source directory")
+    }
+    // ... rest of the implementation
 }
 </pre>
-        </div>
+                </div>
+                <img src="https://i.imgflip.com/65efzo.jpg" alt="Input Validation Meme" style="max-width: 300px;">
+            </div>
 
-        <div class="suggestion">
-            <h3>3. Add Error Handling and Recovery</h3>
-            <p>Implement better error handling and recovery mechanisms.</p>
-            <pre>
-try {
-    const result = await buf.lint(src)
-    return result
-} catch (error) {
-    console.error("Linting failed:", error)
-    throw new Error(`Buf linting failed: ${error.message}`)
+            <div class="suggestion">
+                <h3>2. Add Comprehensive Documentation</h3>
+                <p>The module would benefit from more detailed documentation, including examples and parameter descriptions.</p>
+                <div class="code-block">
+                <pre>
+// Format formats Protocol Buffer files in the given directory.
+// 
+// Parameters:
+//   - src: Directory containing .proto files to format
+//
+// Returns:
+//   - A directory containing the formatted .proto files
+//
+// Example:
+//   dag.format(src=dag.host().directory("./protos"))
+func (b *Buf) format(src *dagger.Directory) *dagger.Directory {
+    // Implementation
 }
 </pre>
-        </div>
-    </div>
+                </div>
+            </div>
 
-    <div class="section">
-        <h2>Testing Issues</h2>
-        <p>No significant issues were encountered during testing. All core functions (format, lint, push) were properly exposed and documentated in the module interface.</p>
+            <div class="suggestion">
+                <h3>3. Add Configuration Options</h3>
+                <p>The module could be more flexible with configurable options for each command.</p>
+                <div class="code-block">
+                <pre>
+type BufConfig struct {
+    LintConfig struct {
+        IgnoreRules []string
+        ConfigPath  string
+    }
+    FormatConfig struct {
+        DiffOnly bool
+        Write    bool
+    }
+}
+
+func (b *Buf) WithConfig(config BufConfig) *Buf {
+    b.config = config
+    return b
+}
+</pre>
+                </div>
+            </div>
+        </div>
+
+        <div class="info-box">
+            <h2>Testing Issues</h2>
+            <p>No significant issues were encountered during testing. The module installed and built successfully, and all functions were properly exposed.</p>
+        </div>
     </div>
 </body>
 </html>
