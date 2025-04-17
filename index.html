@@ -24,6 +24,18 @@
             color: red;
             font-size: 20px;
         }
+        .status-icon {
+            font-size: 20px;
+            font-weight: bold;
+        }
+        .pass::after {
+            content: "✓";
+            color: green;
+        }
+        .fail::after {
+            content: "✗";
+            color: red;
+        }
     </style>
 </head>
 <body>
@@ -35,6 +47,12 @@
             <th>Status</th>
             <th>Full Report</th>
         </tr>
-</table>
+        <tr>
+            <td>Postgres</td>
+            <td>Postgres database server module for development and testing with configuration options</td>
+            <td><span class="pass"></span></td>
+            <td><a href="postgres.html">View Report</a></td>
+        </tr>
+    </table>
 </body>
 </html>

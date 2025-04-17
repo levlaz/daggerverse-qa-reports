@@ -1,133 +1,131 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>QA Report - PHP SDK Dev Module</title>
+    <title>QA Report: PHP SDK Dev Module</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 40px; }
+        body { font-family: Arial, sans-serif; line-height: 1.6; max-width: 1200px; margin: 0 auto; padding: 20px; }
         h1, h2 { color: #333; }
-        .container { max-width: 1200px; margin: 0 auto; }
-        .section { margin-bottom: 30px; }
+        .section { margin: 20px 0; padding: 20px; background: #f9f9f9; border-radius: 5px; }
         .function-list { list-style-type: none; padding-left: 20px; }
-        .suggestion { background-color: #f5f5f5; padding: 15px; margin: 10px 0; border-radius: 5px; }
-        code { background-color: #f0f0f0; padding: 2px 5px; border-radius: 3px; }
-        pre { background-color: #f0f0f0; padding: 15px; border-radius: 5px; overflow-x: auto; }
+        .suggestion { margin: 20px 0; padding: 15px; background: #fff; border-left: 4px solid #007bff; }
+        .code { background: #f4f4f4; padding: 15px; border-radius: 5px; font-family: monospace; }
         .error { color: #dc3545; }
         .meme { max-width: 500px; margin: 20px 0; }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>QA Report: PHP SDK Dev Module</h1>
-        
-        <div class="section">
-            <h2>Module Information</h2>
-            <ul>
-                <li><strong>Name:</strong> php-sdk-dev</li>
-                <li><strong>Author:</strong> TomChv</li>
-                <li><strong>Latest Version:</strong> e45ebd5f4222708ca1db05ff34a68320e24b9ed4</li>
-                <li><strong>Release Date:</strong> Not specified in module information</li>
-                <li><strong>Dagger Cloud Trace:</strong> <a href="https://daggerverse.dev/mod/github.com/TomChv/dagger/sdk/php/dev@e45ebd5f4222708ca1db05ff34a68320e24b9ed4">View on Daggerverse</a></li>
-            </ul>
-        </div>
-
-        <div class="section">
-            <h2>Module Purpose & Functions</h2>
-            <p>This module is designed for PHP SDK development, providing tools for testing, linting, and formatting PHP code.</p>
-            
-            <h3>Available Functions:</h3>
-            <ul class="function-list">
-                <li><strong>test()</strong> - Run tests in source directory (accepts optional group parameter)</li>
-                <li><strong>lint()</strong> - Run linter in source directory</li>
-                <li><strong>format()</strong> - Return diff from formatting source directory</li>
-                <li><strong>formatStdout()</strong> - Return stdout from formatting source directory</li>
-            </ul>
-        </div>
-
-        <div class="section">
-            <h2>Testing Environment</h2>
-            <p>Tested with Dagger Engine Version: v0.18.2</p>
-        </div>
-
-        <div class="section">
-            <h2>Quality Improvement Suggestions</h2>
-            
-            <div class="suggestion">
-                <h3>1. Add Comprehensive Documentation</h3>
-                <p>The module lacks a detailed description and usage examples. Here's how to improve the documentation:</p>
-                <pre>
-# Add to cue file:
-
-// Package documentation
-package main
-
-// PhpSdkDev provides development tools for the PHP SDK
-#PhpSdkDev: {
-    // Detailed description of the module and its purpose
-    description: """
-        PHP SDK Development toolkit that provides:
-        - Testing capabilities with PHPUnit
-        - Code linting with PHP_CodeSniffer
-        - Code formatting with PHP-CS-Fixer
-        
-        Use this module to maintain code quality in your PHP projects.
-        """
+    <h1>QA Report: PHP SDK Dev Module</h1>
     
-    // Usage examples
-    examples: [{
-        title: "Run all tests"
-        command: "dagger call test"
-        description: "Executes all PHPUnit tests in the project"
-    }]
-}</pre>
-            </div>
+    <div class="section">
+        <h2>Module Information</h2>
+        <ul>
+            <li><strong>Name:</strong> php-sdk-dev</li>
+            <li><strong>Author:</strong> shykes</li>
+            <li><strong>Latest Version:</strong> d01abae918cc70ed56615a94a1a4068355c2c5a3</li>
+            <li><strong>Release Date:</strong> Not specified in metadata</li>
+            <li><strong>Dagger Cloud Trace:</strong> <a href="https://daggerverse.dev/mod/github.com/shykes/dagger/sdk/php/dev@d01abae918cc70ed56615a94a1a4068355c2c5a3">View on Daggerverse</a></li>
+        </ul>
+    </div>
 
-            <div class="suggestion">
-                <h3>2. Add Input Validation</h3>
-                <p>The module could benefit from stronger input validation:</p>
+    <div class="section">
+        <h2>Module Purpose</h2>
+        <p>This module is designed for PHP SDK development, providing tools for testing, linting, and formatting PHP code. It includes the following functions:</p>
+        <ul class="function-list">
+            <li><strong>test()</strong> - Run tests in source directory</li>
+            <li><strong>lint()</strong> - Run linter in source directory</li>
+            <li><strong>format()</strong> - Return diff from formatting source directory</li>
+            <li><strong>formatStdout()</strong> - Return stdout from formatting source directory</li>
+            <li><strong>base()</strong> - Build a PHP container with SDK source files and dependencies</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>Testing Environment</h2>
+        <p><strong>Dagger Engine Version:</strong> v0.18.3</p>
+    </div>
+
+    <div class="section">
+        <h2>Quality Improvement Suggestions</h2>
+        
+        <div class="suggestion">
+            <h3>1. Add Input Validation</h3>
+            <p>Add validation for the source directory input to ensure it contains valid PHP files.</p>
+            <div class="code">
                 <pre>
-// Add to the test function definition:
-test: {
-    group?: string
-    if group != _|_ {
-        // Validate that group name follows PHPUnit group naming convention
-        check: {
-            valid: strings.MaxRunes(group, 100) && 
-                   strings.MinRunes(group, 1) &&
-                   match(group, "^[a-zA-Z0-9_-]+$")
+func validateSource(source dagger.Directory) error {
+    // Check if composer.json exists
+    _, err := source.File("composer.json")
+    if err != nil {
+        return fmt.Errorf("composer.json not found in source directory")
+    }
+    
+    // Verify PHP files exist
+    files, err := source.Entries()
+    if err != nil {
+        return err
+    }
+    
+    hasPhpFiles := false
+    for _, file := range files {
+        if strings.HasSuffix(file, ".php") {
+            hasPhpFiles = true
+            break
         }
     }
-}</pre>
-                <img src="https://i.imgflip.com/65efzo.jpg" alt="Input Validation Meme" class="meme">
-            </div>
-
-            <div class="suggestion">
-                <h3>3. Add Test Coverage Reporting</h3>
-                <p>Enhance the test function to provide coverage reports:</p>
-                <pre>
-test: {
-    // Add coverage reporting capability
-    withCoverage: bool | *false
-    if withCoverage {
-        _coverage: #Container & {
-            exec: command: [
-                "vendor/bin/phpunit",
-                "--coverage-html", "./coverage",
-                "--coverage-clover", "./coverage.xml"
-            ]
-        }
+    
+    if !hasPhpFiles {
+        return fmt.Errorf("no PHP files found in source directory")
     }
+    
+    return nil
 }</pre>
+            </div>
+            <img src="https://i.imgflip.com/2hwq6x.jpg" alt="Input validation meme" class="meme">
+        </div>
+
+        <div class="suggestion">
+            <h3>2. Add Documentation for Return Values</h3>
+            <p>Improve documentation by adding detailed return value descriptions for each function.</p>
+            <div class="code">
+                <pre>
+// Example improved documentation
+/**
+ * Run tests in source directory
+ * @param {string} group Optional test group to run
+ * @returns {Container} Container with test results
+ *   - Exit code 0 indicates all tests passed
+ *   - Exit code 1 indicates test failures
+ *   - Test output is available in the container's stdout
+ */
+func (m *PhpSdkDev) Test(group string) *Container</pre>
             </div>
         </div>
 
-        <div class="section">
-            <h2>Issues Encountered</h2>
-            <ul>
-                <li>The module lacks a long description in its documentation</li>
-                <li>Release date information is not available in the module metadata</li>
-                <li>No version tagging system is in place, making it harder to track releases</li>
-            </ul>
+        <div class="suggestion">
+            <h3>3. Add Progress Reporting</h3>
+            <p>Implement progress reporting for long-running operations like tests and linting.</p>
+            <div class="code">
+                <pre>
+func (m *PhpSdkDev) Test(ctx context.Context, group string) (*Container, error) {
+    progress := dag.Progress("Running PHP tests")
+    defer progress.Done()
+    
+    progress.Step(1, "Preparing test environment")
+    base := m.Base()
+    
+    progress.Step(2, "Running test suite")
+    test := base.WithExec([]string{"vendor/bin/phpunit"})
+    
+    progress.Step(3, "Collecting test results")
+    return test, nil
+}</pre>
+            </div>
         </div>
+    </div>
+
+    <div class="section">
+        <h2>Issues Encountered</h2>
+        <p>No significant issues were encountered during the testing of this module. The module installed and built successfully, and all functions were properly documented in the Daggerverse.</p>
     </div>
 </body>
 </html>
