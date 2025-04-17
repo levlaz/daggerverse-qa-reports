@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>QA Report - poutine</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
+        h1 { color: #333; }
+        h2 { color: #666; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .error { color: #dc3545; }
+        .function-list { background-color: #f8f9fa; padding: 20px; border-radius: 5px; }
+        code { background-color: #f8f9fa; padding: 2px 5px; border-radius: 3px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>QA Report: poutine</h1>
+        
+        <h2>Module Information</h2>
+        <ul>
+            <li><strong>Name:</strong> github.com/boostsecurityio/poutine</li>
+            <li><strong>Author:</strong> BoostSecurity.io</li>
+            <li><strong>Latest Version:</strong> v0.16.0</li>
+            <li><strong>Release Date:</strong> Not available from crawl data</li>
+            <li><strong>Dagger Engine Version Used:</strong> v0.18.3</li>
+        </ul>
+
+        <h2>Module Purpose</h2>
+        <p>Supply Chain Vulnerability Scanner for Build Pipelines by BoostSecurity.io. The module provides functionality to analyze repositories and organizations for security vulnerabilities.</p>
+
+        <h2>Functions</h2>
+        <div class="function-list">
+            <ul>
+                <li>config() - Get configuration path</li>
+                <li>configSrc() - Get configuration source directory</li>
+                <li>format() - Set output format (pretty, json, sarif)</li>
+                <li>scm() - Set SCM platform</li>
+                <li>scmBaseUrl() - Set base URI for self-hosted SCM</li>
+                <li>threads() - Set number of analysis threads</li>
+                <li>version() - Get/set poutine version</li>
+                <li>quiet() - Toggle quiet mode</li>
+                <li>analyzeLocal() - Analyze a local Git repository</li>
+                <li>analyzeRepo() - Analyze a remote repository</li>
+                <li>analyzeOrg() - Analyze an organization's repositories</li>
+            </ul>
+        </div>
+
+        <h2>Quality Improvement Suggestions</h2>
+        
+        <h3>1. Add Better Error Handling and Validation</h3>
+        <p>Implement detailed error handling and input validation for better user experience.</p>
+        <code>
+<pre>
+// Example improvement in Go
+func (p *Poutine) analyzeRepo(ctx context.Context, repo string, token *dagger.Secret) (*AnalysisResult, error) {
+    if repo == "" {
+        return nil, fmt.Errorf("repository cannot be empty")
+    }
+    if !strings.Contains(repo, "/") {
+        return nil, fmt.Errorf("repository must be in format 'owner/repo'")
+    }
+    if token == nil {
+        return nil, fmt.Errorf("SCM token is required")
+    }
+    // ... rest of the implementation
+}
+</pre>
+        </code>
+
+        <h3>2. Add Progress Reporting</h3>
+        <p>Implement progress reporting for long-running operations with a progress bar.</p>
+        <code>
+<pre>
+// Example implementation
+func (p *Poutine) analyzeOrg(ctx context.Context, org string, token *dagger.Secret) (*AnalysisResult, error) {
+    progress := newProgressBar()
+    progress.Start("Analyzing organization repositories...")
+    
+    defer progress.Stop()
+    
+    // For each repository:
+    progress.Increment()
+    progress.SetStatus("Analyzing repo: " + repoName)
+    
+    return result, nil
+}
+</pre>
+        </code>
+
+        <img src="https://media.giphy.com/media/Lnt2JH2htZK0g/giphy.gif" alt="Progress Bar Meme" width="300">
+
+        <h3>3. Add Retry Mechanism for Network Operations</h3>
+        <p>Implement retry logic for network-dependent operations to improve reliability.</p>
+        <code>
+<pre>
+// Example retry implementation
+func withRetry(operation func() error, maxAttempts int) error {
+    var err error
+    for attempt := 1; attempt <= maxAttempts; attempt++ {
+        err = operation()
+        if err == nil {
+            return nil
+        }
+        time.Sleep(time.Second * time.Duration(attempt))
+    }
+    return fmt.Errorf("operation failed after %d attempts: %v", maxAttempts, err)
+}
+</pre>
+        </code>
+
+        <h2>Testing Issues Encountered</h2>
+        <div class="error">
+            <p><strong>Build Error:</strong> Failed to build the module due to Go version incompatibility. The error message indicates that the module uses Go 1.24.0, but the highest supported version in the current environment is 1.23.6.</p>
+            <p><strong>Installation:</strong> Module installation completed successfully.</p>
+        </div>
+
+        <h2>Trace Link</h2>
+        <p>Dagger Cloud Trace: Not available due to build failure</p>
+    </div>
+</body>
+</html>
