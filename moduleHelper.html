@@ -3,81 +3,101 @@
 <head>
     <title>QA Report - moduleHelper</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 40px; }
-        .success { color: green; }
-        .error { color: red; }
-        pre { background-color: #f5f5f5; padding: 10px; border-radius: 5px; }
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 20px; }
+        h1, h2 { color: #333; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .error { color: #dc3545; }
+        .suggestion { margin: 20px 0; padding: 15px; background: #f8f9fa; border-radius: 5px; }
+        code { background: #f4f4f4; padding: 2px 5px; border-radius: 3px; }
         .meme { max-width: 500px; margin: 20px 0; }
     </style>
 </head>
 <body>
-    <h1>QA Report - moduleHelper</h1>
-    
-    <h2>Basic Information</h2>
-    <ul>
-        <li><strong>Module Name:</strong> moduleHelper</li>
-        <li><strong>Author:</strong> kpenfound</li>
-        <li><strong>Latest Version:</strong> df1ced09304c4a18a20bc226b7c783293e74be84</li>
-        <li><strong>Release Date:</strong> Not specified in daggerverse</li>
-        <li><strong>Dagger Trace:</strong> <a href="https://daggerverse.dev/mod/github.com/kpenfound/dagger-programmer/moduleHelper@df1ced09304c4a18a20bc226b7c783293e74be84">View Trace</a></li>
-    </ul>
+    <div class="container">
+        <h1>QA Report - moduleHelper</h1>
+        
+        <h2>Basic Information</h2>
+        <ul>
+            <li><strong>Module Name:</strong> moduleHelper</li>
+            <li><strong>Author:</strong> kpenfound</li>
+            <li><strong>Latest Version:</strong> df1ced09304c4a18a20bc226b7c783293e74be84</li>
+            <li><strong>Release Date:</strong> Not specified in module information</li>
+            <li><strong>Dagger Cloud Trace:</strong> <a href="https://daggerverse.dev/mod/github.com/kpenfound/dagger-programmer/moduleHelper@df1ced09304c4a18a20bc226b7c783293e74be84">View on Daggerverse</a></li>
+        </ul>
 
-    <h2>Module Purpose</h2>
-    <p>This module serves as a reference implementation for basic module structure in Dagger. It provides helper functions for working with module schemas and SDK file paths.</p>
+        <h2>Module Purpose</h2>
+        <p>This module serves as a reference for basic module structure and provides utilities for working with Dagger modules. It includes functions for:</p>
+        <ul>
+            <li>Getting module schemas in XML format</li>
+            <li>Retrieving SDK main file paths</li>
+            <li>Working with type names</li>
+        </ul>
 
-    <h2>Functions</h2>
-    <ul>
-        <li><strong>get-module-schema</strong>: Get the schema of a module represented as an XML string</li>
-        <li><strong>get-sdk-main-file</strong>: Get the main SDK file path for the given module name and SDK</li>
-        <li><strong>get-type-name</strong>: (Note: Has unsupported types)</li>
-    </ul>
+        <h2>Available Functions</h2>
+        <ul>
+            <li><strong>getModuleSchema()</strong> - Get the schema of a module represented as an XML string</li>
+            <li><strong>getSdkMainFile()</strong> - Get the main SDK file path for the given module name and SDK</li>
+            <li><strong>getTypeName()</strong> - Get the name of a type definition</li>
+        </ul>
 
-    <h2>Testing Environment</h2>
-    <p>Tested with Dagger Engine Version: v0.18.1</p>
+        <h2>Testing Environment</h2>
+        <p>Tested with Dagger Engine Version: v0.18.3</p>
 
-    <h2>Suggestions for Improvement</h2>
-    
-    <h3>1. Add Comprehensive Documentation</h3>
-    <img src="https://i.imgflip.com/2/2hwpv6.jpg" alt="Documentation Meme" class="meme">
-    <pre>
-// Add detailed documentation for each function
-/*
-* @description Gets the schema of a module in XML format
-* @param {Module} mod - The module to get the schema for
-* @returns {String} The XML schema representation
-* @example
-* const schema = await moduleHelper.getModuleSchema(myModule)
-*/
-</pre>
+        <h2>Suggestions for Improvement</h2>
+        
+        <div class="suggestion">
+            <h3>1. Add Input Validation</h3>
+            <p>The module could benefit from proper input validation for the SDK and module names.</p>
+            <code>
+            func ValidateInput(input string) error {
+                if input == "" {
+                    return fmt.Errorf("input cannot be empty")
+                }
+                if !regexp.MustCompile(`^[a-zA-Z0-9\-\_\.\/]+$`).MatchString(input) {
+                    return fmt.Errorf("input contains invalid characters")
+                }
+                return nil
+            }
+            </code>
+            <img src="https://i.imgflip.com/2k48t0.jpg" alt="Input Validation Meme" class="meme">
+        </div>
 
-    <h3>2. Add Input Validation</h3>
-    <pre>
-func validateInput(sdk string, name string) error {
-    if sdk == "" {
-        return fmt.Errorf("SDK cannot be empty")
-    }
-    if name == "" {
-        return fmt.Errorf("name cannot be empty")
-    }
-    return nil
-}
-</pre>
+        <div class="suggestion">
+            <h3>2. Add Error Handling</h3>
+            <p>Implement comprehensive error handling for file operations and schema generation.</p>
+            <code>
+            func (m *ModuleHelper) getSdkMainFile(ctx context.Context, sdk string, name string) (string, error) {
+                if err := ValidateInput(sdk); err != nil {
+                    return "", fmt.Errorf("invalid SDK name: %w", err)
+                }
+                if err := ValidateInput(name); err != nil {
+                    return "", fmt.Errorf("invalid module name: %w", err)
+                }
+                // ... rest of the implementation
+            }
+            </code>
+        </div>
 
-    <h3>3. Add Error Handling</h3>
-    <pre>
-func (m *ModuleHelper) getSdkMainFile(ctx context.Context, sdk string, name string) (string, error) {
-    if err := validateInput(sdk, name); err != nil {
-        return "", err
-    }
-    // ... rest of the implementation
-}
-</pre>
+        <div class="suggestion">
+            <h3>3. Add Documentation and Examples</h3>
+            <p>Enhance documentation with more detailed examples and use cases.</p>
+            <code>
+            /**
+             * getModuleSchema returns the XML schema for a given module
+             * @param mod The module to get the schema for
+             * @example
+             * const schema = await moduleHelper.getModuleSchema(myModule)
+             * console.log(schema) // Prints the XML schema
+             * @returns XML string representing the module schema
+             */
+            </code>
+        </div>
 
-    <h2>Issues Encountered</h2>
-    <ul>
-        <li>The get-type-name function has unsupported types and couldn't be tested through the CLI</li>
-        <li>No specific release date information available in the daggerverse</li>
-    </ul>
-
+        <h2>Issues Encountered</h2>
+        <ul>
+            <li>One function (getTypeName) was skipped during build due to unsupported types</li>
+            <li>Release date information is not available in the module metadata</li>
+        </ul>
+    </div>
 </body>
 </html>
