@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>QA Report - github.com/quay/clair-workflows/common</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 2em; }
+        h1, h2 { color: #333; }
+        .error { color: #dc3545; background: #f8d7da; padding: 10px; border-radius: 4px; }
+        .functions { background: #f8f9fa; padding: 15px; border-radius: 4px; }
+        .suggestion { margin: 15px 0; padding: 10px; background: #e9ecef; border-radius: 4px; }
+        code { background: #f1f1f1; padding: 2px 5px; border-radius: 3px; }
+    </style>
+</head>
+<body>
+    <h1>QA Report: github.com/quay/clair-workflows/common</h1>
+    
+    <h2>Module Information</h2>
+    <ul>
+        <li><strong>Name:</strong> github.com/quay/clair-workflows/common</li>
+        <li><strong>Author:</strong> quay</li>
+        <li><strong>Latest Version:</strong> d709069e73ed2faa333e07310af7801e2d68cf59</li>
+        <li><strong>Release Date:</strong> Not available</li>
+        <li><strong>Tested with Dagger Version:</strong> v0.18.3</li>
+    </ul>
+
+    <h2>Module Purpose</h2>
+    <p>This module provides common functionality for working with Clair workflows. It includes utilities for:</p>
+    <ul>
+        <li>Handling GitHub Actions</li>
+        <li>Managing workflows and Dhall configurations</li>
+        <li>Building and testing Go applications</li>
+        <li>Working with UBI (Universal Base Image) containers</li>
+    </ul>
+
+    <h2>Available Functions</h2>
+    <div class="functions">
+        <ul>
+            <li>actions() - Directory operations for actions</li>
+            <li>embeddedWorkflows(mod: Directory) - Handle embedded workflow operations</li>
+            <li>dhall() - Dhall container operations</li>
+            <li>compileDhall(source: Directory) - Compile Dhall to YAML</li>
+            <li>builder() - Base image for Claircore</li>
+            <li>buildEnv(source: Directory, cgo: Boolean) - Build environment setup</li>
+            <li>releaseEnv(source: Directory) - Release environment setup</li>
+            <li>testEnv(source: Directory, race: Boolean, fips: Boolean, database: Service) - Test environment setup</li>
+            <li>test(source: Directory, various flags...) - Run tests</li>
+            <li>goDistribution(version: String, arch: String) - Go distribution management</li>
+            <li>goVersions() - Go version information</li>
+            <li>untar(tarball: File) - Extract tar archives</li>
+            <li>ubi(tag: String) - UBI container operations</li>
+        </ul>
+    </div>
+
+    <h2>Installation and Build Issues</h2>
+    <div class="error">
+        <p><strong>Installation Error:</strong> Failed to install module - git module source does not contain a dagger config file</p>
+        <p><strong>Build Error:</strong> Failed to build module - path "common" does not exist in git repo</p>
+    </div>
+
+    <h2>Quality Improvement Suggestions</h2>
+    
+    <div class="suggestion">
+        <h3>1. Add Module Documentation</h3>
+        <p>The module would benefit from comprehensive documentation, including examples for each function.</p>
+        <code>
+        // Add to dagger.json:<br>
+        {<br>
+            "name": "common",<br>
+            "sdk": "go",<br>
+            "docs": {<br>
+                "description": "Common utilities for Clair workflows",<br>
+                "examples": [{<br>
+                    "name": "Basic Usage",<br>
+                    "source": "examples/basic.go"<br>
+                }]<br>
+            }<br>
+        }
+        </code>
+        <p><img src="https://i.imgur.com/Y2zn6Nn.jpeg" alt="Documentation meme" /></p>
+    </div>
+
+    <div class="suggestion">
+        <h3>2. Implement Error Handling</h3>
+        <p>Add robust error handling and validation for input parameters.</p>
+        <code>
+        // Example error handling implementation:<br>
+        func (m *Module) buildEnv(source *Directory, cgo bool) (*Container, error) {<br>
+            if source == nil {<br>
+                return nil, fmt.Errorf("source directory cannot be nil")<br>
+            }<br>
+            // ... rest of implementation<br>
+        }
+        </code>
+    </div>
+
+    <div class="suggestion">
+        <h3>3. Add Version Compatibility Check</h3>
+        <p>Implement version compatibility checking for dependencies.</p>
+        <code>
+        // Add version compatibility check:<br>
+        func (m *Module) checkCompatibility() error {<br>
+            minVersion := "v0.18.0"<br>
+            currentVersion := m.getDaggerVersion()<br>
+            if !semver.IsValid(currentVersion) || semver.Compare(currentVersion, minVersion) < 0 {<br>
+                return fmt.Errorf("module requires Dagger %s or higher", minVersion)<br>
+            }<br>
+            return nil<br>
+        }
+        </code>
+    </div>
+</body>
+</html>
