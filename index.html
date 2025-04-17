@@ -3,12 +3,27 @@
 <head>
     <title>Dagger Modules QA Report Index</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 20px; }
-        table { border-collapse: collapse; width: 100%; }
-        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-        th { background-color: #f4f4f4; }
-        .pass { color: green; }
-        .fail { color: red; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .pass {
+            color: green;
+            font-size: 20px;
+        }
+        .fail {
+            color: red;
+            font-size: 20px;
+        }
     </style>
 </head>
 <body>
@@ -21,34 +36,52 @@
             <th>Full Report</th>
         </tr>
         <tr>
-            <td>DebtRepayment</td>
-            <td>Module for fetching and analyzing data from Google Sheets for debt and investment analysis</td>
-            <td>❌</td>
-            <td><a href="DebtRepayment.html">Full Report</a></td>
+            <td>postgres</td>
+            <td>Simple way to launch a Postgres database server for development and testing purposes</td>
+            <td><span class="pass">✓</span></td>
+            <td><a href="postgres.html">View Report</a></td>
         </tr>
         <tr>
-            <td>ResearcherContainer</td>
-            <td>AI Agent module for company research using Modal and MongoDB</td>
-            <td>✅</td>
-            <td><a href="ResearcherContainer.html">Full Report</a></td>
+            <td>golang</td>
+            <td>Collection of functions for building, formatting, testing, linting and scanning Go projects</td>
+            <td><span class="pass">✓</span></td>
+            <td><a href="golang.html">View Report</a></td>
         </tr>
         <tr>
-            <td>SpokaneTech_Py</td>
-            <td>Python/Django development and production environment with linting and testing capabilities</td>
-            <td>✅</td>
-            <td><a href="SpokaneTech_Py.html">Full Report</a></td>
+            <td>python</td>
+            <td>Python programming language module for working with Python in Dagger pipelines</td>
+            <td><span class="pass">✓</span></td>
+            <td><a href="python.html">View Report</a></td>
         </tr>
         <tr>
-            <td>Alpine</td>
-            <td>Module to integrate with Alpine Linux container builds</td>
-            <td>❌</td>
-            <td><a href="alpine.html">Full Report</a></td>
+            <td>java</td>
+            <td>Java development capabilities including JDK and Maven integration</td>
+            <td><span class="pass">✓</span></td>
+            <td><a href="java.html">View Report</a></td>
         </tr>
         <tr>
-            <td>android-pipeline</td>
-            <td>Pipeline for building Android applications with debug/release APKs and AAB bundles</td>
-            <td>✅</td>
-            <td><a href="android-pipeline.html">Full Report</a></td>
+            <td>aws-cli</td>
+            <td>Generic interface to use AWS CLI in Dagger pipelines with ECR, STS, and credential management</td>
+            <td><span class="pass">✓</span></td>
+            <td><a href="aws-cli.html">View Report</a></td>
+        </tr>
+        <tr>
+            <td>helm</td>
+            <td>Helm functionality for Kubernetes package management through Dagger pipelines</td>
+            <td><span class="pass">✓</span></td>
+            <td><a href="helm.html">View Report</a></td>
+        </tr>
+        <tr>
+            <td>bats-tests</td>
+            <td>Bash Automated Testing System (Bats) test runner with limited documentation</td>
+            <td><span class="fail">✗</span></td>
+            <td><a href="bats-tests.html">View Report</a></td>
+        </tr>
+        <tr>
+            <td>deno-pipeline</td>
+            <td>Deno project pipeline with linting, formatting, testing, and deployment capabilities</td>
+            <td><span class="pass">✓</span></td>
+            <td><a href="deno-pipeline.html">View Report</a></td>
         </tr>
     </table>
 </body>
