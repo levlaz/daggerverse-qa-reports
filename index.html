@@ -1,51 +1,48 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Dagger Module QA Reports</title>
+    <title>Dagger Modules QA Report Index</title>
     <style>
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: left;
-        }
-        th {
-            background-color: #f2f2f2;
-        }
-        .pass {
-            color: green;
-            font-size: 20px;
-        }
-        .fail {
-            color: red;
-            font-size: 20px;
-        }
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        table { border-collapse: collapse; width: 100%; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+        .pass { color: green; }
+        .fail { color: red; }
+        .status-icon { font-size: 20px; }
     </style>
 </head>
 <body>
-    <h1>Dagger Module QA Reports</h1>
+    <h1>Dagger Modules QA Report Index</h1>
     <table>
-        <tr>
-            <th>Module Name</th>
-            <th>Brief Description</th>
-            <th>Status</th>
-            <th>Full Report</th>
-        </tr>
-        <tr>
-            <td>aws-cli</td>
-            <td>Generic interface to use AWS CLI in Dagger pipelines with direct command execution and high-level AWS operation functions</td>
-            <td><span class="pass">✓</span></td>
-            <td><a href="aws-cli.html">Full Report</a></td>
-        </tr>
-        <tr>
-            <td>postgres</td>
-            <td>Simple way to launch a Postgres database server for development and testing purposes</td>
-            <td><span class="pass">✓</span></td>
-            <td><a href="postgres.html">Full Report</a></td>
-        </tr>
+        <thead>
+            <tr>
+                <th>Module Name</th>
+                <th>Brief Description</th>
+                <th>Status</th>
+                <th>Full Report</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Python</td>
+                <td>Python programming language module for working with Python in Dagger pipelines</td>
+                <td><span class="status-icon pass">✔️</span></td>
+                <td><a href="python.html">View Report</a></td>
+            </tr>
+            <tr>
+                <td>Golang</td>
+                <td>Collection of functions for building, formatting, testing, linting and scanning Go projects</td>
+                <td><span class="status-icon pass">✔️</span></td>
+                <td><a href="golang.html">View Report</a></td>
+            </tr>
+            <tr>
+                <td>NodeJS</td>
+                <td>NodeJS environment setup with support for npm and bun package managers</td>
+                <td><span class="status-icon fail">❌</span></td>
+                <td><a href="nodejs.html">View Report</a></td>
+            </tr>
+        </tbody>
     </table>
 </body>
 </html>
