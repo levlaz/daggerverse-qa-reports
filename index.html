@@ -3,54 +3,46 @@
 <head>
     <title>Dagger Modules QA Report Index</title>
     <style>
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
-        }
-        th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: left;
-        }
-        th {
-            background-color: #f2f2f2;
-        }
-        .pass {
-            color: green;
-            font-size: 20px;
-        }
-        .fail {
-            color: red;
-            font-size: 20px;
-        }
-        .status-icon {
-            text-align: center;
-        }
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        table { border-collapse: collapse; width: 100%; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+        .pass { color: green; }
+        .fail { color: red; }
+        .status-icon { font-size: 1.2em; }
     </style>
 </head>
 <body>
     <h1>Dagger Modules QA Report Index</h1>
     <table>
-        <tr>
-            <th>Module Name</th>
-            <th>Brief Description</th>
-            <th>Status</th>
-            <th>Full Report</th>
-        </tr>
-        <tr>
-            <td>DebtRepayment</td>
-            <td>Module for fetching and analyzing data from Google Sheets to process debt and investment information</td>
-            <td class="status-icon"><span class="fail">❌</span></td>
-            <td><a href="DebtRepayment.html">View Report</a></td>
-        </tr>
-        <tr>
-            <td>ResearcherContainer</td>
-            <td>Container environment for research and data analysis</td>
-            <td class="status-icon"><span class="pass">✓</span></td>
-            <td><a href="ResearcherContainer.html">View Report</a></td>
-        </tr>
-        <!-- Continuing with all entries -->
+        <thead>
+            <tr>
+                <th>Module Name</th>
+                <th>Brief Description</th>
+                <th>Status</th>
+                <th>Full Report</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Python</td>
+                <td>Python programming language module for working with Python in Dagger pipelines</td>
+                <td><span class="pass status-icon">✓</span></td>
+                <td><a href="python.html">View Report</a></td>
+            </tr>
+            <tr>
+                <td>Golang</td>
+                <td>Collection of functions for building, formatting, testing, linting and scanning Go projects</td>
+                <td><span class="pass status-icon">✓</span></td>
+                <td><a href="golang.html">View Report</a></td>
+            </tr>
+            <tr>
+                <td>NodeJS</td>
+                <td>NodeJS environment setup with support for different package managers (npm, bun)</td>
+                <td><span class="fail status-icon">✗</span></td>
+                <td><a href="nodejs.html">View Report</a></td>
+            </tr>
+        </tbody>
     </table>
 </body>
 </html>
