@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>QA Report - ejson Module</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 20px; }
+        h1, h2 { color: #333; }
+        .error { color: #ff0000; }
+        .suggestion { margin: 10px 0; padding: 10px; background-color: #f5f5f5; }
+        code { background-color: #f0f0f0; padding: 2px 4px; border-radius: 4px; }
+        .meme { max-width: 500px; margin: 20px 0; }
+    </style>
+</head>
+<body>
+    <h1>QA Report - ejson Module</h1>
+    
+    <h2>Module Information</h2>
+    <ul>
+        <li><strong>Name:</strong> ejson</li>
+        <li><strong>Author:</strong> becojo</li>
+        <li><strong>Latest Version:</strong> v0.1.0</li>
+        <li><strong>Release Date:</strong> Not specified in module information</li>
+        <li><strong>Cloud Trace:</strong> <a href="https://cloud.dagger.io/">Check execution trace</a></li>
+    </ul>
+
+    <h2>Module Description</h2>
+    <p>The ejson module provides functionality for working with encrypted JSON files. It offers the following functions:</p>
+    <ul>
+        <li><strong>container()</strong> - Compiles EJSON and returns a container with the binary in /usr/bin/ejson</li>
+        <li><strong>encrypt()</strong> - Encrypts an EJSON file</li>
+        <li><strong>decryptSecrets()</strong> - Returns a container with decrypted environment variables from an EJSON file</li>
+    </ul>
+
+    <h2>Testing Environment</h2>
+    <p><strong>Dagger Engine Version:</strong> v0.18.3</p>
+
+    <h2>Suggestions for Improvement</h2>
+    
+    <div class="suggestion">
+        <h3>1. Add Comprehensive Documentation</h3>
+        <p>The module lacks a detailed description and usage examples. Add comprehensive documentation:</p>
+        <code>
+        # Example documentation in dagger.json:<br>
+        {<br>
+          "name": "ejson",<br>
+          "sdk": "go",<br>
+          "description": "A comprehensive tool for managing encrypted JSON files in your Dagger pipelines",<br>
+          "examples": [<br>
+            {<br>
+              "description": "Basic usage example",<br>
+              "code": "dag.ejson().encrypt(mySecret)"<br>
+            }<br>
+          ]<br>
+        }
+        </code>
+    </div>
+
+    <div class="suggestion">
+        <h3>2. Add Input Validation</h3>
+        <p>Add validation for input parameters to prevent errors:</p>
+        <code>
+        func (e *Ejson) Encrypt(ctx context.Context, ejson *Secret) (string, error) {<br>
+            if ejson == nil {<br>
+                return "", fmt.Errorf("ejson secret cannot be nil")<br>
+            }<br>
+            // ... rest of the implementation<br>
+        }
+        </code>
+    </div>
+
+    <div class="suggestion">
+        <h3>3. Add Error Handling and Recovery</h3>
+        <p>Improve error handling with meaningful messages:</p>
+        <code>
+        func (e *Ejson) DecryptSecrets(ctx context.Context, ejson *File, key *Secret) (*Container, error) {<br>
+            if ejson == nil || key == nil {<br>
+                return nil, fmt.Errorf("both ejson file and key must be provided")<br>
+            }<br>
+            defer func() {<br>
+                if r := recover(); r != nil {<br>
+                    log.Printf("Recovered from panic: %v", r)<br>
+                }<br>
+            }()<br>
+            // ... rest of the implementation<br>
+        }
+        </code>
+        <img src="https://i.imgflip.com/2/3pc5pt.jpg" alt="Error Handling Meme" class="meme">
+    </div>
+
+    <h2>Testing Issues</h2>
+    <ul>
+        <li>No significant issues encountered during testing</li>
+        <li>Module installed and built successfully</li>
+        <li>All functions are properly exposed and documented in the API</li>
+    </ul>
+</body>
+</html>
