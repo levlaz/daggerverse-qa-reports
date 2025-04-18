@@ -3,29 +3,62 @@
 <head>
     <title>Dagger Modules QA Report Index</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 20px; }
-        table { width: 100%; border-collapse: collapse; }
-        th, td { padding: 10px; border: 1px solid #ddd; text-align: left; }
-        th { background-color: #f5f5f5; }
-        .pass { color: green; }
-        .fail { color: red; }
-        a { color: #0366d6; text-decoration: none; }
-        a:hover { text-decoration: underline; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .pass {
+            color: green;
+            font-size: 20px;
+        }
+        .fail {
+            color: red;
+            font-size: 20px;
+        }
     </style>
 </head>
 <body>
     <h1>Dagger Modules QA Report Index</h1>
     <table>
-        <thead>
-            <tr>
-                <th>Module Name</th>
-                <th>Brief Description</th>
-                <th>Status</th>
-                <th>Full Report</th>
-            </tr>
-        </thead>
-        <tbody>
-        </tbody>
+        <tr>
+            <th>Module Name</th>
+            <th>Brief Description</th>
+            <th>Status</th>
+            <th>Full Report</th>
+        </tr>
+        <tr>
+            <td>postgres</td>
+            <td>Provides a simple way to launch a Postgres database server for development and testing purposes</td>
+            <td><span class="pass">✓</span></td>
+            <td><a href="postgres.html">View Report</a></td>
+        </tr>
+        <tr>
+            <td>python</td>
+            <td>Python programming language module for working with Python in Dagger pipelines</td>
+            <td><span class="pass">✓</span></td>
+            <td><a href="python.html">View Report</a></td>
+        </tr>
+        <tr>
+            <td>golang</td>
+            <td>A collection of functions for building, formatting, testing, linting and scanning your Go project for vulnerabilities</td>
+            <td><span class="pass">✓</span></td>
+            <td><a href="golang.html">View Report</a></td>
+        </tr>
+        <tr>
+            <td>docker</td>
+            <td>Provides integration with the Docker Engine, allowing users to spawn Docker engines and interact with them through a CLI interface</td>
+            <td><span class="pass">✓</span></td>
+            <td><a href="docker.html">View Report</a></td>
+        </tr>
     </table>
 </body>
 </html>

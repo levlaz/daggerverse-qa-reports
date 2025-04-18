@@ -1,90 +1,107 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>QA Report - openssh-server/tests</title>
+    <title>QA Report - openssh-server-tests</title>
     <style>
-        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
-        h1, h2 { color: #333; }
-        .metadata { background: #f5f5f5; padding: 15px; border-radius: 5px; }
-        .functions { margin: 20px 0; }
-        .suggestions { margin: 20px 0; }
-        .error { color: #ff0000; }
-        .meme { max-width: 500px; margin: 20px 0; }
-        pre { background: #f8f8f8; padding: 10px; border-radius: 5px; overflow-x: auto; }
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        .error { color: red; }
+        .suggestion { margin: 20px 0; padding: 10px; background: #f5f5f5; }
+        pre { background: #eee; padding: 10px; border-radius: 5px; }
     </style>
 </head>
 <body>
-    <h1>QA Report: openssh-server/tests</h1>
+    <h1>QA Report: openssh-server-tests</h1>
     
-    <div class="metadata">
-        <h2>Module Metadata</h2>
-        <p><strong>Name:</strong> openssh-server/tests</p>
-        <p><strong>Author:</strong> luanmtruong</p>
-        <p><strong>Latest Version:</strong> 96c13b929c636316317f745ff36cda4e4c66f680</p>
-        <p><strong>Release Date:</strong> Not specified in crawl data</p>
-        <p><strong>Dagger Engine Version Used:</strong> v0.18.2</p>
-        <p><strong>Dagger Cloud Trace:</strong> Not available in current context</p>
+    <h2>Module Information</h2>
+    <ul>
+        <li><strong>Module Name:</strong> openssh-server-tests</li>
+        <li><strong>Author:</strong> Unable to retrieve (Daggerverse crawl failed)</li>
+        <li><strong>Latest Version:</strong> main</li>
+        <li><strong>Release Date:</strong> Unable to retrieve (Daggerverse crawl failed)</li>
+        <li><strong>Dagger Cloud Trace:</strong> Unable to retrieve</li>
+    </ul>
+
+    <h2>Module Functionality</h2>
+    <p>This module appears to be a test suite for an OpenSSH server implementation with the following test functions:</p>
+    <ul>
+        <li><strong>all:</strong> Executes all tests</li>
+        <li><strong>basic:</strong> Basic functionality tests</li>
+        <li><strong>config:</strong> Configuration-related tests</li>
+        <li><strong>custom-port:</strong> Tests for custom port functionality</li>
+        <li><strong>user:</strong> User-related tests</li>
+    </ul>
+
+    <h2>Testing Environment</h2>
+    <p>Tested with Dagger Engine Version: v0.18.3</p>
+
+    <h2>Issues Encountered</h2>
+    <div class="error">
+        <p>❌ Unable to crawl module information from Daggerverse (502 error)</p>
     </div>
 
-    <div class="module-purpose">
-        <h2>Module Purpose</h2>
-        <p>This module provides a test suite for the openssh-server module with the following functions:</p>
-        <ul>
-            <li><strong>all()</strong> - Executes all tests</li>
-            <li><strong>basic()</strong> - Basic SSH server tests</li>
-            <li><strong>customPort()</strong> - Tests SSH server with custom port configuration</li>
-            <li><strong>user()</strong> - Tests SSH server user configuration</li>
-            <li><strong>config()</strong> - Tests SSH server configuration options</li>
-        </ul>
-    </div>
-
-    <div class="suggestions">
-        <h2>Quality Improvement Suggestions</h2>
-        
+    <h2>Improvement Suggestions</h2>
+    
+    <div class="suggestion">
         <h3>1. Add Function Documentation</h3>
-        <p>The module lacks proper documentation for most functions. Here's how to improve it:</p>
+        <p>The module functions lack descriptions, making it unclear what each test does.</p>
+        <img src="https://i.imgflip.com/2/5c7lwq.jpg" alt="Documentation Meme" style="max-width: 300px">
         <pre>
-// basic verifies the basic functionality of the SSH server
-// including connection and authentication
-func (m *Tests) Basic(ctx context.Context) {
-    // Implementation
-}
-        </pre>
-
-        <h3>2. Add Error Handling and Reporting</h3>
-        <p>Improve error handling with detailed messages:</p>
-        <pre>
-func (m *Tests) CustomPort(ctx context.Context) error {
-    if port < 1 || port > 65535 {
-        return fmt.Errorf("invalid port number: %d, must be between 1-65535", port)
+// Example of documented function
+#TestBasic: {
+    /*
+    * Performs basic SSH server functionality tests.
+    * Tests include:
+    * - Server startup
+    * - Basic authentication
+    * - Connection establishment
+    */
+    basic: {
+        // test implementation
     }
-    // Implementation
 }
         </pre>
-
-        <h3>3. Add Test Progress Reporting</h3>
-        <p>Include progress reporting in the test suite:</p>
-        <pre>
-func (m *Tests) All(ctx context.Context) {
-    fmt.Println("🚀 Starting OpenSSH Server test suite...")
-    fmt.Println("✨ Running basic tests...")
-    m.Basic(ctx)
-    fmt.Println("✨ Testing custom port configuration...")
-    m.CustomPort(ctx)
-    fmt.Println("✅ All tests completed successfully!")
-}
-        </pre>
-        
-        <img src="https://media.giphy.com/media/q7J6QM9EvoQMw/giphy.gif" alt="Testing All The Things" class="meme">
     </div>
 
-    <div class="issues">
-        <h2>Issues Encountered</h2>
-        <ul>
-            <li>Missing documentation for most functions</li>
-            <li>No detailed error messages or return values for test functions</li>
-            <li>Lack of progress reporting in test execution</li>
-        </ul>
+    <div class="suggestion">
+        <h3>2. Add Test Result Reporting</h3>
+        <p>Implement structured test results output for better visualization.</p>
+        <pre>
+type TestResult: {
+    name:        string
+    passed:      bool
+    duration:    string
+    error?:      string
+    description: string
+}
+
+#Report: {
+    results: [...TestResult]
+    export: {
+        // Export results in various formats (JSON, HTML)
+    }
+}
+        </pre>
+    </div>
+
+    <div class="suggestion">
+        <h3>3. Implement Test Categories</h3>
+        <p>Organize tests into logical categories for better maintenance.</p>
+        <pre>
+#Test: {
+    category: "security" | "performance" | "functionality"
+    priority: "high" | "medium" | "low"
+    
+    #Security: {
+        category: "security"
+        // Security-specific test implementations
+    }
+
+    #Performance: {
+        category: "performance"
+        // Performance-specific test implementations
+    }
+}
+        </pre>
     </div>
 </body>
 </html>
