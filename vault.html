@@ -4,97 +4,110 @@
     <title>QA Report - Vault Module</title>
     <style>
         body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
-        h1, h2 { color: #333; }
-        .error { color: #dc3545; }
-        .suggestion { background: #f8f9fa; padding: 15px; margin: 10px 0; border-radius: 5px; }
-        code { background: #f1f1f1; padding: 2px 5px; border-radius: 3px; }
+        h1 { color: #333; }
+        .section { margin-bottom: 20px; }
+        .error { color: red; }
+        .functions { margin-left: 20px; }
+        .suggestion { background: #f5f5f5; padding: 15px; margin: 10px 0; border-radius: 5px; }
+        code { background: #eee; padding: 2px 5px; border-radius: 3px; }
     </style>
 </head>
 <body>
     <h1>QA Report - Vault Module</h1>
     
-    <h2>Basic Information</h2>
-    <ul>
-        <li><strong>Module Name:</strong> vault</li>
-        <li><strong>Author:</strong> kpenfound</li>
-        <li><strong>Latest Version:</strong> v0.0.11</li>
-        <li><strong>Release Date:</strong> Not specified in module information</li>
-        <li><strong>Dagger Cloud Trace:</strong> <a href="https://daggerverse.dev/mod/github.com/kpenfound/dagger-modules/vault@4c9d04b461f9e0fce3ff40399570f635f586d972">View on Daggerverse</a></li>
-    </ul>
-
-    <h2>Module Description</h2>
-    <p>A utility module for working with secrets in HashiCorp Vault</p>
-
-    <h2>Functions</h2>
-    <ul>
-        <li>approleId() - Returns String</li>
-        <li>approleSecret() - Returns String</li>
-        <li>address() - Returns String</li>
-        <li>auth(approleId, approleSecret, address) - Authenticate to Vault with an approle secret</li>
-        <li>getSecret(secret, key) - Get a secret from Vault</li>
-        <li>putSecret(secret, key, value) - Put a secret in Vault</li>
-    </ul>
-
-    <h2>Testing Environment</h2>
-    <p><strong>Dagger Engine Version:</strong> v0.18.2</p>
-
-    <h2>Quality Improvement Suggestions</h2>
-    
-    <div class="suggestion">
-        <h3>1. Add Input Validation</h3>
-        <p>Add proper validation for input parameters to ensure they meet required formats and constraints.</p>
-        <code>
-func validateInput(input string) error {
-    if len(input) == 0 {
-        return fmt.Errorf("input cannot be empty")
-    }
-    // Add more validation rules
-    return nil
-}
-        </code>
-        <img src="https://i.imgflip.com/2ku55f.jpg" alt="Input Validation Meme" style="max-width: 300px;"/>
+    <div class="section">
+        <h2>Module Information</h2>
+        <p><strong>Name:</strong> github.com/nicholasjackson/demo-dagger-vault/dagger/modules/vault</p>
+        <p><strong>Author:</strong> nicholasjackson</p>
+        <p><strong>Latest Version:</strong> dd5842f519fa28a01a1864001519b1ccbd31d4e3</p>
+        <p><strong>Release Date:</strong> N/A</p>
     </div>
 
-    <div class="suggestion">
-        <h3>2. Implement Retry Mechanism</h3>
-        <p>Add retry logic for network operations to handle temporary failures.</p>
-        <code>
-func withRetry(operation func() error, maxRetries int) error {
-    var err error
-    for i := 0; i < maxRetries; i++ {
-        if err = operation(); err == nil {
-            return nil
-        }
-        time.Sleep(time.Second * time.Duration(i+1))
-    }
-    return err
-}
-        </code>
+    <div class="section">
+        <h2>Module Description</h2>
+        <p>This module provides functionality to interact with HashiCorp Vault, including features for authentication and secret management.</p>
+        
+        <h3>Functions:</h3>
+        <div class="functions">
+            <ul>
+                <li>namespace() - Get the current namespace</li>
+                <li>host() - Get the Vault host</li>
+                <li>userpass() - Get userpass authentication settings</li>
+                <li>jwt() - Get JWT authentication settings</li>
+                <li>withNamespace(namespace) - Set a namespace</li>
+                <li>withHost(host) - Set the Vault host</li>
+                <li>withUserpassAuth(username, password, path) - Configure userpass authentication</li>
+                <li>withJwtauth(token, role, path) - Configure JWT authentication</li>
+                <li>kvget(secret) - Get a secret from Vault KV store</li>
+                <li>write(secret, params) - Write a secret to Vault</li>
+                <li>read(secret) - Read a secret from Vault</li>
+                <li>testWrite() - Test writing to Vault</li>
+                <li>testKvget() - Test getting a secret from Vault KV store</li>
+            </ul>
+        </div>
     </div>
 
-    <div class="suggestion">
-        <h3>3. Add Comprehensive Error Messages</h3>
-        <p>Improve error messages to provide more context about what went wrong.</p>
-        <code>
-type VaultError struct {
-    Operation string
-    Path      string
-    Cause     error
-}
-
-func (e *VaultError) Error() string {
-    return fmt.Sprintf("vault operation '%s' failed for path '%s': %v", 
-        e.Operation, e.Path, e.Cause)
-}
-        </code>
+    <div class="section">
+        <h2>Testing Environment</h2>
+        <p><strong>Dagger Engine Version:</strong> v0.18.3</p>
     </div>
 
-    <h2>Issues Encountered</h2>
-    <div class="error">
-        <p>During module building, encountered an error:</p>
-        <pre>failed to call module "vault" to get functions: call constructor: process "go build -ldflags -s -w -o /runtime ." did not complete successfully: exit code: 1
-./main.go:31:70: undefined: Secret</pre>
-        <p>This suggests there might be an issue with the module's dependencies or type definitions.</p>
+    <div class="section">
+        <h2>Issues Encountered</h2>
+        <div class="error">
+            <p>1. Installation Error: Module installation failed with error "git module source does not contain a dagger config file"</p>
+            <p>2. Build Error: Module build failed with error "path 'dagger/modules/vault' does not exist in git repo"</p>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>Quality Improvement Suggestions</h2>
+        
+        <div class="suggestion">
+            <h3>1. Add proper module configuration file</h3>
+            <p>The module is missing a dagger.json configuration file, which is required for proper installation.</p>
+            <p><img src="https://i.imgflip.com/65efr6.jpg" alt="Configuration Missing Meme" style="max-width: 300px;"></p>
+            <code>
+            {
+                "name": "vault",
+                "sdk": "go",
+                "dependencies": [],
+                "source": "./src"
+            }
+            </code>
+        </div>
+
+        <div class="suggestion">
+            <h3>2. Add comprehensive documentation</h3>
+            <p>The module lacks detailed documentation for each function and configuration option.</p>
+            <code>
+            // Example documentation improvement
+            // withUserpassAuth configures Vault authentication using username and password
+            // Parameters:
+            //   - username: The username for authentication
+            //   - password: The password for authentication
+            //   - path: The auth path (default: "userpass")
+            // Returns: Vault instance with configured auth
+            func (v *Vault) withUserpassAuth(username string, password *Secret, path string) (*Vault, error)
+            </code>
+        </div>
+
+        <div class="suggestion">
+            <h3>3. Add input validation and error handling</h3>
+            <p>Implement proper input validation and error handling for all functions.</p>
+            <code>
+            func (v *Vault) withHost(host string) (*Vault, error) {
+                if host == "" {
+                    return nil, fmt.Errorf("host cannot be empty")
+                }
+                if !strings.HasPrefix(host, "http://") && !strings.HasPrefix(host, "https://") {
+                    return nil, fmt.Errorf("host must start with http:// or https://")
+                }
+                v.host = host
+                return v, nil
+            }
+            </code>
+        </div>
     </div>
 </body>
 </html>
