@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>QA Report - git-affected</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
+        h1, h2 { color: #333; }
+        .error { color: #ff0000; }
+        .suggestion { margin: 20px 0; padding: 10px; background-color: #f5f5f5; }
+        code { background-color: #f0f0f0; padding: 2px 5px; border-radius: 3px; }
+        .meme { max-width: 500px; margin: 20px 0; }
+    </style>
+</head>
+<body>
+    <h1>QA Report: git-affected</h1>
+    
+    <h2>Module Information</h2>
+    <ul>
+        <li><strong>Name:</strong> git-affected</li>
+        <li><strong>Author:</strong> valorl</li>
+        <li><strong>Latest Version:</strong> fd2976e09b7f967ce9474b51c52b76c6c8461750</li>
+        <li><strong>Release Date:</strong> Not available</li>
+        <li><strong>Dagger Engine Version Used:</strong> v0.18.3</li>
+    </ul>
+
+    <h2>Module Purpose</h2>
+    <p>This module is designed for CI in pull requests in monorepos. It helps identify affected files and directories between different Git references.</p>
+
+    <h2>Functions</h2>
+    <ul>
+        <li><code>list(source: Directory!, headRef: String = "HEAD", baseRef: String = "main"): [String!]!</code>
+            <ul>
+                <li>Returns a list of affected files between two Git references</li>
+                <li>Parameters:
+                    <ul>
+                        <li>source: Required directory containing Git repository</li>
+                        <li>headRef: Git reference for the head (defaults to "HEAD")</li>
+                        <li>baseRef: Git reference for the base (defaults to "main")</li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+    </ul>
+
+    <h2>Issues Encountered</h2>
+    <div class="error">
+        <p>Several issues were encountered during testing:</p>
+        <ol>
+            <li>Module installation failed with error: "git module source does not contain a dagger config file"</li>
+            <li>Module build failed with error: "path 'git-affected' does not exist in git repo"</li>
+        </ol>
+    </div>
+
+    <h2>Improvement Suggestions</h2>
+    
+    <div class="suggestion">
+        <h3>1. Add proper module configuration</h3>
+        <p>The module is missing a dagger.json configuration file, which is required for proper installation. Add the following:</p>
+        <code><pre>
+{
+    "name": "git-affected",
+    "sdk": "go",
+    "dependencies": [],
+    "source": "./",
+    "description": "A module for detecting affected files in monorepo PRs"
+}
+        </pre></code>
+    </div>
+
+    <div class="suggestion">
+        <h3>2. Improve Documentation</h3>
+        <p>Add better documentation including examples and use cases:</p>
+        <code><pre>
+// Add to README.md
+# Git Affected Files Module
+
+## Usage Example
+```go
+dag.GitAffected().List(ctx, source,
+    GitAffectedOpts{
+        HeadRef: "feature-branch",
+        BaseRef: "main",
+    })
+```
+
+## Common Use Cases
+- Detecting changed services in microservices architecture
+- Running tests only for affected components
+- Selective deployment pipeline triggers
+        </pre></code>
+    </div>
+
+    <div class="suggestion">
+        <h3>3. Add Error Handling and Validation</h3>
+        <p>Implement better error handling and input validation:</p>
+        <code><pre>
+func (m *Module) List(ctx context.Context, source *Directory, opts GitAffectedOpts) ([]string, error) {
+    if source == nil {
+        return nil, fmt.Errorf("source directory is required")
+    }
+    
+    // Validate refs
+    if !isValidGitRef(opts.HeadRef) {
+        return nil, fmt.Errorf("invalid head reference: %s", opts.HeadRef)
+    }
+    if !isValidGitRef(opts.BaseRef) {
+        return nil, fmt.Errorf("invalid base reference: %s", opts.BaseRef)
+    }
+    
+    // ... rest of the implementation
+}
+        </pre></code>
+        <img src="https://media.giphy.com/media/QMHoU66sBXqqLqYvGO/giphy.gif" alt="Error Handling Meme" class="meme">
+    </div>
+
+</body>
+</html>
