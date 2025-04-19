@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>QA Report - Cosign Module</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
+        h1, h2 { color: #333; }
+        .function { margin-left: 20px; background: #f5f5f5; padding: 10px; border-radius: 5px; }
+        .suggestion { margin: 20px 0; padding: 15px; border-left: 4px solid #007bff; }
+        .code { background: #f8f9fa; padding: 15px; border-radius: 5px; font-family: monospace; }
+        .meme { max-width: 500px; margin: 20px 0; }
+    </style>
+</head>
+<body>
+    <h1>QA Report: Cosign Module</h1>
+    
+    <h2>Module Information</h2>
+    <ul>
+        <li><strong>Name:</strong> github.com/puzzle/dagger-module-cosign/cosign</li>
+        <li><strong>Author:</strong> puzzle</li>
+        <li><strong>Latest Version:</strong> v0.1.1</li>
+        <li><strong>Release Date:</strong> Latest commit: ed23741b9d2aa1fd68e705261814d607ed935b15</li>
+        <li><strong>Dagger Engine Version Used:</strong> v0.18.3</li>
+    </ul>
+
+    <h2>Module Purpose</h2>
+    <p>This module provides functionality for container image signing and attestation using Cosign. It's designed to integrate Cosign operations within Dagger pipelines.</p>
+
+    <h2>Available Functions</h2>
+    <div class="function">
+        <ul>
+            <li><strong>sign()</strong> - Signs container images using Cosign with a private key</li>
+            <li><strong>signKeyless()</strong> - Performs keyless signing of container images</li>
+            <li><strong>attest()</strong> - Creates and signs attestations (like SBOMs) for container images</li>
+            <li><strong>attestKeyless()</strong> - Creates and signs attestations without keys</li>
+            <li><strong>clean()</strong> - Removes signatures or attestations from container images</li>
+        </ul>
+    </div>
+
+    <h2>Quality Improvement Suggestions</h2>
+    
+    <div class="suggestion">
+        <h3>1. Add Input Validation</h3>
+        <p>The module could benefit from stronger input validation, especially for critical parameters like image digests.</p>
+        <div class="code">
+        // Example implementation of digest validation
+        func validateDigest(digest string) error {
+            if !strings.Contains(digest, "sha256:") {
+                return fmt.Errorf("invalid digest format: must start with 'sha256:'")
+            }
+            if len(digest) != 71 {  // sha256: + 64 characters
+                return fmt.Errorf("invalid digest length")
+            }
+            return nil
+        }
+        </div>
+    </div>
+
+    <div class="suggestion">
+        <h3>2. Add Retry Mechanism</h3>
+        <p>Network operations with registries can be flaky. Adding retry logic would improve reliability.</p>
+        <div class="code">
+        func withRetry(operation func() error, maxRetries int) error {
+            var err error
+            for i := 0; i < maxRetries; i++ {
+                if err = operation(); err == nil {
+                    return nil
+                }
+                time.Sleep(time.Second * time.Duration(i+1))
+            }
+            return fmt.Errorf("operation failed after %d retries: %v", maxRetries, err)
+        }
+        </div>
+    </div>
+
+    <div class="suggestion">
+        <h3>3. Add Result Verification</h3>
+        <p>After signing or attesting, verify the operation was successful by attempting to verify the signature.</p>
+        <div class="code">
+        func verifySignature(imageRef string) error {
+            cmd := exec.Command("cosign", "verify", imageRef)
+            return cmd.Run()
+        }
+        </div>
+    </div>
+
+    <div class="meme">
+        <img src="https://i.imgflip.com/7zlu7c.jpg" alt="Security meme showing: Me: Signs container images with Cosign, Also me: Much secure, very verify" />
+    </div>
+
+    <h2>Testing Issues Encountered</h2>
+    <p>During testing, no significant issues were encountered. The module installed and built successfully, and all functions were properly documented.</p>
+
+</body>
+</html>
