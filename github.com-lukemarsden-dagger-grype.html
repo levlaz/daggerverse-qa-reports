@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>QA Report - dagger-grype</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
+        h1, h2, h3 { color: #333; }
+        code { background: #f4f4f4; padding: 2px 5px; border-radius: 3px; }
+        .meme { max-width: 500px; margin: 20px 0; }
+        .error { color: #dc3545; }
+        .suggestion { background: #f8f9fa; padding: 15px; margin: 10px 0; border-radius: 5px; }
+    </style>
+</head>
+<body>
+    <h1>QA Report: dagger-grype</h1>
+    
+    <h2>Module Information</h2>
+    <ul>
+        <li><strong>Name:</strong> github.com/lukemarsden/dagger-grype</li>
+        <li><strong>Author:</strong> Luke Marsden</li>
+        <li><strong>Latest Version:</strong> v0.1.4</li>
+        <li><strong>Release Date:</strong> (Not available from crawl data)</li>
+        <li><strong>Dagger Engine Version Used:</strong> v0.18.3</li>
+    </ul>
+
+    <h2>Module Purpose</h2>
+    <p>This module provides security scanning capabilities for container images using Grype. It offers functionality to scan both container images and container objects for security vulnerabilities.</p>
+
+    <h2>Available Functions</h2>
+    <ul>
+        <li><code>testContainerImage(image: String!)</code> - Scans a container image for vulnerabilities
+            <ul>
+                <li>Example usage: <code>dagger call test-container-image --image alpine:latest</code></li>
+            </ul>
+        </li>
+        <li><code>testContainer(container: Container!)</code> - Scans a container object for vulnerabilities
+            <ul>
+                <li>Example usage: Can be called from Dagger code where you have a Container object</li>
+            </ul>
+        </li>
+    </ul>
+
+    <h2>Suggestions for Improvement</h2>
+    
+    <div class="suggestion">
+        <h3>1. Add Input Validation and Error Handling</h3>
+        <p>The module could benefit from better input validation and error handling for invalid image names or non-existent images.</p>
+        <pre><code>
+func (g *Grype) testContainerImage(ctx context.Context, image string) (string, error) {
+    if image == "" {
+        return "", fmt.Errorf("image name cannot be empty")
+    }
+    // Add regex validation for image name format
+    if !regexp.MustCompile(`^[a-zA-Z0-9\/\-\.:]+$`).MatchString(image) {
+        return "", fmt.Errorf("invalid image name format")
+    }
+    // ... rest of the implementation
+}
+        </code></pre>
+    </div>
+
+    <div class="suggestion">
+        <h3>2. Add Configurable Severity Thresholds</h3>
+        <p>Allow users to set minimum severity levels for vulnerability reporting.</p>
+        <pre><code>
+type GrypeConfig struct {
+    MinimumSeverity string // "LOW", "MEDIUM", "HIGH", "CRITICAL"
+}
+
+func (g *Grype) WithConfig(config GrypeConfig) *Grype {
+    g.config = config
+    return g
+}
+        </code></pre>
+    </div>
+
+    <div class="suggestion">
+        <h3>3. Add Output Formatting Options</h3>
+        <p>Provide different output formats (JSON, YAML, Table) for better integration capabilities.</p>
+        <pre><code>
+func (g *Grype) testContainerImage(ctx context.Context, image string, format string) (string, error) {
+    formats := map[string]bool{"json": true, "yaml": true, "table": true}
+    if !formats[format] {
+        format = "table" // default
+    }
+    // Add format flag to grype command
+    args := []string{"--format", format, image}
+    // ... rest of the implementation
+}
+        </code></pre>
+    </div>
+
+    <img class="meme" src="https://i.imgflip.com/7q4j1l.jpg" alt="Security scanning meme: 'One does not simply skip vulnerability scanning'" />
+
+    <h2>Testing Issues</h2>
+    <p>No significant issues were encountered during testing. The module installed and built successfully, and the functions were properly documented.</p>
+
+    <h2>Trace Links</h2>
+    <p>Dagger Cloud trace links are not available as the operations were performed locally.</p>
+</body>
+</html>
