@@ -1,16 +1,15 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>QA Report: PHP SDK Dev Module</title>
+    <title>QA Report - PHP SDK Dev Module</title>
     <style>
-        body { font-family: Arial, sans-serif; line-height: 1.6; max-width: 1200px; margin: 0 auto; padding: 20px; }
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
         h1, h2 { color: #333; }
-        .section { margin: 20px 0; padding: 20px; background: #f9f9f9; border-radius: 5px; }
-        .function-list { list-style-type: none; padding-left: 20px; }
-        .suggestion { margin: 20px 0; padding: 15px; background: #fff; border-left: 4px solid #007bff; }
-        .code { background: #f4f4f4; padding: 15px; border-radius: 5px; font-family: monospace; }
-        .error { color: #dc3545; }
-        .meme { max-width: 500px; margin: 20px 0; }
+        .section { margin: 20px 0; }
+        .function-list { background: #f5f5f5; padding: 20px; border-radius: 5px; }
+        .error { color: #d63031; }
+        .suggestion { background: #e8f5e9; padding: 15px; margin: 10px 0; border-radius: 5px; }
+        code { background: #f8f9fa; padding: 2px 5px; border-radius: 3px; }
     </style>
 </head>
 <body>
@@ -20,112 +19,83 @@
         <h2>Module Information</h2>
         <ul>
             <li><strong>Name:</strong> php-sdk-dev</li>
-            <li><strong>Author:</strong> shykes</li>
-            <li><strong>Latest Version:</strong> d01abae918cc70ed56615a94a1a4068355c2c5a3</li>
-            <li><strong>Release Date:</strong> Not specified in metadata</li>
-            <li><strong>Dagger Cloud Trace:</strong> <a href="https://daggerverse.dev/mod/github.com/shykes/dagger/sdk/php/dev@d01abae918cc70ed56615a94a1a4068355c2c5a3">View on Daggerverse</a></li>
+            <li><strong>Author:</strong> vito</li>
+            <li><strong>Latest Version:</strong> cfa08e99314f862850f5c09ccc4a36bf343450c2</li>
+            <li><strong>Release Date:</strong> N/A (not provided in module info)</li>
+            <li><strong>Dagger Engine Version Used:</strong> v0.18.3</li>
         </ul>
     </div>
 
     <div class="section">
         <h2>Module Purpose</h2>
-        <p>This module is designed for PHP SDK development, providing tools for testing, linting, and formatting PHP code. It includes the following functions:</p>
-        <ul class="function-list">
-            <li><strong>test()</strong> - Run tests in source directory</li>
-            <li><strong>lint()</strong> - Run linter in source directory</li>
-            <li><strong>format()</strong> - Return diff from formatting source directory</li>
-            <li><strong>formatStdout()</strong> - Return stdout from formatting source directory</li>
-            <li><strong>base()</strong> - Build a PHP container with SDK source files and dependencies</li>
-        </ul>
-    </div>
-
-    <div class="section">
-        <h2>Testing Environment</h2>
-        <p><strong>Dagger Engine Version:</strong> v0.18.3</p>
+        <p>This module provides development tools for the PHP SDK, including testing, linting, and formatting capabilities.</p>
+        
+        <h3>Available Functions:</h3>
+        <div class="function-list">
+            <ul>
+                <li><strong>test()</strong> - Run tests from source directory</li>
+                <li><strong>lint()</strong> - Run linter in source directory</li>
+                <li><strong>format()</strong> - Return diff from formatting source directory</li>
+                <li><strong>formatStdout()</strong> - Return stdout from formatting source directory</li>
+            </ul>
+        </div>
     </div>
 
     <div class="section">
         <h2>Quality Improvement Suggestions</h2>
         
         <div class="suggestion">
-            <h3>1. Add Input Validation</h3>
-            <p>Add validation for the source directory input to ensure it contains valid PHP files.</p>
-            <div class="code">
-                <pre>
-func validateSource(source dagger.Directory) error {
-    // Check if composer.json exists
-    _, err := source.File("composer.json")
-    if err != nil {
-        return fmt.Errorf("composer.json not found in source directory")
-    }
-    
-    // Verify PHP files exist
-    files, err := source.Entries()
-    if err != nil {
-        return err
-    }
-    
-    hasPhpFiles := false
-    for _, file := range files {
-        if strings.HasSuffix(file, ".php") {
-            hasPhpFiles = true
-            break
-        }
-    }
-    
-    if !hasPhpFiles {
-        return fmt.Errorf("no PHP files found in source directory")
-    }
-    
-    return nil
-}</pre>
-            </div>
-            <img src="https://i.imgflip.com/2hwq6x.jpg" alt="Input validation meme" class="meme">
+            <h3>1. Add Comprehensive Documentation</h3>
+            <p>The module lacks detailed descriptions for its functions and purpose.</p>
+            <code>
+            // Example documentation improvement:
+            /**
+             * @description Run PHP tests with configurable options
+             * @param {Directory} source The source directory containing PHP files
+             * @param {string} group Optional test group to run
+             * @returns {Container} Container with test results
+             * @example
+             * dag.phpSdkDev().test(source, "unit")
+             */
+            func Test(source: Directory!, group: Optional[String]) -> Container!
+            </code>
+            <img src="https://i.imgflip.com/65efzo.jpg" alt="Documentation Meme" style="max-width: 300px;">
         </div>
 
         <div class="suggestion">
-            <h3>2. Add Documentation for Return Values</h3>
-            <p>Improve documentation by adding detailed return value descriptions for each function.</p>
-            <div class="code">
-                <pre>
-// Example improved documentation
-/**
- * Run tests in source directory
- * @param {string} group Optional test group to run
- * @returns {Container} Container with test results
- *   - Exit code 0 indicates all tests passed
- *   - Exit code 1 indicates test failures
- *   - Test output is available in the container's stdout
- */
-func (m *PhpSdkDev) Test(group string) *Container</pre>
-            </div>
+            <h3>2. Add Input Validation</h3>
+            <p>Add validation for source directory structure and PHP version compatibility.</p>
+            <code>
+            func validateSource(source: Directory!) error {
+                // Check if composer.json exists
+                if !source.file("composer.json").exists() {
+                    return error("composer.json not found in source directory")
+                }
+                // Check PHP version compatibility
+                if !checkPhpVersion(source) {
+                    return error("Unsupported PHP version")
+                }
+                return nil
+            }
+            </code>
         </div>
 
         <div class="suggestion">
-            <h3>3. Add Progress Reporting</h3>
-            <p>Implement progress reporting for long-running operations like tests and linting.</p>
-            <div class="code">
-                <pre>
-func (m *PhpSdkDev) Test(ctx context.Context, group string) (*Container, error) {
-    progress := dag.Progress("Running PHP tests")
-    defer progress.Done()
-    
-    progress.Step(1, "Preparing test environment")
-    base := m.Base()
-    
-    progress.Step(2, "Running test suite")
-    test := base.WithExec([]string{"vendor/bin/phpunit"})
-    
-    progress.Step(3, "Collecting test results")
-    return test, nil
-}</pre>
-            </div>
+            <h3>3. Add Test Coverage Reports</h3>
+            <p>Implement test coverage reporting functionality.</p>
+            <code>
+            func TestWithCoverage(source: Directory!) -> (Container!, Coverage!) {
+                return container
+                    .withExec(["vendor/bin/phpunit", "--coverage-html", "coverage"])
+                    .directory("coverage")
+            }
+            </code>
         </div>
     </div>
 
     <div class="section">
-        <h2>Issues Encountered</h2>
-        <p>No significant issues were encountered during the testing of this module. The module installed and built successfully, and all functions were properly documented in the Daggerverse.</p>
+        <h2>Testing Notes</h2>
+        <p>No errors were encountered during the testing process. The module installed and built successfully.</p>
     </div>
 </body>
 </html>
