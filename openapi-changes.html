@@ -3,102 +3,115 @@
 <head>
     <title>QA Report - openapi-changes</title>
     <style>
-        body { font-family: Arial, sans-serif; line-height: 1.6; max-width: 1200px; margin: 0 auto; padding: 20px; }
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
         h1, h2 { color: #333; }
+        .container { max-width: 1200px; margin: 0 auto; }
         .section { margin-bottom: 30px; }
-        .function-list { background-color: #f5f5f5; padding: 15px; border-radius: 5px; }
-        .suggestion { background-color: #e6f3ff; padding: 15px; margin: 10px 0; border-radius: 5px; }
-        code { background-color: #f8f8f8; padding: 2px 5px; border-radius: 3px; }
-        pre { background-color: #f8f8f8; padding: 15px; border-radius: 5px; overflow-x: auto; }
-        .error { color: #d73a49; }
+        code { background: #f4f4f4; padding: 2px 5px; border-radius: 3px; }
+        ul { padding-left: 20px; }
+        .suggestion { border-left: 4px solid #0066cc; padding-left: 15px; margin: 15px 0; }
+        .error { color: #cc0000; }
+        .meme { max-width: 400px; margin: 20px 0; }
     </style>
 </head>
 <body>
-    <h1>QA Report: openapi-changes</h1>
-
-    <div class="section">
-        <h2>Module Information</h2>
-        <ul>
-            <li><strong>Name:</strong> openapi-changes</li>
-            <li><strong>Author:</strong> sagikazarmark</li>
-            <li><strong>Latest Version:</strong> e6c14178bcaaff9e102e2a89173ca31479b80629</li>
-            <li><strong>Release Date:</strong> Available in repository</li>
-            <li><strong>Dagger Engine Version Used:</strong> v0.18.2</li>
-        </ul>
-    </div>
-
-    <div class="section">
-        <h2>Module Purpose</h2>
-        <p>This module is designed to discover and analyze changes between two OpenAPI specifications or track changes in a single spec over time. It supports OpenAPI 3.1, 3.0, and Swagger specifications.</p>
+    <div class="container">
+        <h1>QA Report: openapi-changes</h1>
         
-        <h3>Available Functions:</h3>
-        <div class="function-list">
+        <div class="section">
+            <h2>Module Information</h2>
             <ul>
-                <li><strong>diff()</strong> - Compare two OpenAPI specs</li>
-                <li><strong>local()</strong> - Check for changes in a local Git repository</li>
-                <li><strong>remote()</strong> - Check for changes in a remote Git repository</li>
+                <li><strong>Name:</strong> openapi-changes</li>
+                <li><strong>Author:</strong> jedevc/daggerverse-sagikazarmark</li>
+                <li><strong>Latest Version:</strong> a104424df38ca8b0b758f699dcfeeb0c2210cc2e</li>
+                <li><strong>Release Date:</strong> Not specified in module metadata</li>
+                <li><strong>Dagger Engine Version Used:</strong> v0.18.3</li>
             </ul>
         </div>
-    </div>
 
-    <div class="section">
-        <h2>Quality Improvement Suggestions</h2>
+        <div class="section">
+            <h2>Module Purpose</h2>
+            <p>This module is designed to discover and analyze changes between two OpenAPI specifications, or track changes in a single spec over time. It supports OpenAPI 3.1, 3.0, and Swagger specifications.</p>
+            
+            <h3>Core Functions:</h3>
+            <ul>
+                <li><code>diff()</code> - Compare two OpenAPI specs directly</li>
+                <li><code>local()</code> - Check for changes in a local Git repository</li>
+                <li><code>remote()</code> - Check for changes in a remote Git repository (GitHub support)</li>
+            </ul>
 
-        <div class="suggestion">
-            <h3>1. Add Input Validation</h3>
-            <p>Add thorough input validation for file paths and URLs to prevent potential issues.</p>
-            <pre><code>// Example implementation
-func validateInput(path string) error {
-    if path == "" {
-        return fmt.Errorf("path cannot be empty")
-    }
-    if !strings.HasSuffix(path, ".yaml") && !strings.HasSuffix(path, ".json") {
-        return fmt.Errorf("file must be either YAML or JSON")
+            <h3>Output Formats:</h3>
+            <ul>
+                <li><code>summary()</code> - Text summary of changes</li>
+                <li><code>markdown()</code> - Markdown formatted report</li>
+                <li><code>json()</code> - JSON detailed report</li>
+                <li><code>html()</code> - Interactive HTML report</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>Quality Improvement Suggestions</h2>
+
+            <div class="suggestion">
+                <h3>1. Add Version Validation</h3>
+                <p>The module could benefit from explicit version validation to ensure compatibility between compared specs.</p>
+                <code>
+func validateVersions(old, new string) error {
+    supportedVersions := []string{"3.0.0", "3.0.1", "3.0.2", "3.0.3", "3.1.0"}
+    if !contains(supportedVersions, old) || !contains(supportedVersions, new) {
+        return fmt.Errorf("unsupported OpenAPI version")
     }
     return nil
-}</code></pre>
-            <img src="https://media.giphy.com/media/eCqFYAVjjDksg/giphy.gif" alt="Input validation meme" style="max-width: 300px;">
-        </div>
+}
+                </code>
+            </div>
 
-        <div class="suggestion">
-            <h3>2. Add Progress Reporting</h3>
-            <p>Implement progress reporting for long-running operations, especially for git operations.</p>
-            <pre><code>// Example implementation
+            <div class="suggestion">
+                <h3>2. Implement Progress Reporting</h3>
+                <p>Add progress reporting for long-running comparisons, especially useful for large specs.</p>
+                <img src="https://media.giphy.com/media/3o7TKv2dpcwxlkD1pc/giphy.gif" alt="Progress Bar Meme" class="meme">
+                <code>
 type ProgressReporter struct {
-    current int
-    total   int
-    message string
+    Total int
+    Current int
+    LastUpdate time.Time
 }
 
-func (p *ProgressReporter) Update(current int, message string) {
-    p.current = current
-    p.message = message
-    // Emit progress event
-}</code></pre>
-        </div>
-
-        <div class="suggestion">
-            <h3>3. Add Caching Mechanism</h3>
-            <p>Implement caching for remote specs to improve performance for repeated comparisons.</p>
-            <pre><code>// Example implementation
-type SpecCache struct {
-    specs map[string][]byte
-    ttl   time.Duration
-}
-
-func (c *SpecCache) Get(url string) ([]byte, error) {
-    if spec, ok := c.specs[url]; ok {
-        return spec, nil
+func (p *ProgressReporter) Update(done int) {
+    if time.Since(p.LastUpdate) > time.Second {
+        fmt.Printf("Progress: %d/%d (%.2f%%)\n", done, p.Total, float64(done)/float64(p.Total)*100)
+        p.LastUpdate = time.Now()
     }
-    // Fetch and cache if not found
-    return nil, nil
-}</code></pre>
-        </div>
-    </div>
+}
+                </code>
+            </div>
 
-    <div class="section">
-        <h2>Testing Observations</h2>
-        <p>During testing, the module performed as expected with no significant issues encountered. The installation and building processes completed successfully, and all core functions were available.</p>
+            <div class="suggestion">
+                <h3>3. Enhanced Error Handling</h3>
+                <p>Implement more detailed error reporting with contextual information about where in the spec the error occurred.</p>
+                <code>
+type SpecError struct {
+    Path []string
+    Line int
+    Column int
+    Message string
+}
+
+func formatError(err SpecError) string {
+    return fmt.Sprintf("Error at %s (line %d, col %d): %s",
+        strings.Join(err.Path, "/"),
+        err.Line,
+        err.Column,
+        err.Message)
+}
+                </code>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Testing Results</h2>
+            <p>The module was successfully installed and built. No errors were encountered during the testing process. All core functions appear to be working as documented.</p>
+        </div>
     </div>
 </body>
 </html>
