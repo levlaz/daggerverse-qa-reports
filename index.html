@@ -7,60 +7,58 @@
             width: 100%;
             border-collapse: collapse;
             margin: 20px 0;
-            font-family: Arial, sans-serif;
         }
         th, td {
             border: 1px solid #ddd;
-            padding: 12px;
+            padding: 8px;
             text-align: left;
         }
         th {
-            background-color: #f5f5f5;
-            font-weight: bold;
-        }
-        tr:nth-child(even) {
-            background-color: #f9f9f9;
+            background-color: #f2f2f2;
         }
         .pass {
             color: green;
-            font-size: 24px;
+            font-size: 20px;
         }
         .fail {
             color: red;
-            font-size: 24px;
-        }
-        a {
-            color: #0066cc;
-            text-decoration: none;
-        }
-        a:hover {
-            text-decoration: underline;
-        }
-        .status-cell {
-            text-align: center;
+            font-size: 20px;
         }
     </style>
 </head>
 <body>
     <h1>Dagger Modules QA Report Index</h1>
     <table>
-        <thead>
-            <tr>
-                <th>Module Name</th>
-                <th>Brief Description</th>
-                <th>Status</th>
-                <th>Full Report</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>DebtRepayment</td>
-                <td>Module for fetching and analyzing data from Google Sheets to process debt and investment information</td>
-                <td class="status-cell"><span class="fail">✗</span></td>
-                <td><a href="DebtRepayment.html">View Report</a></td>
-            </tr>
-            <!-- Additional entries would be here -->
-        </tbody>
+        <tr>
+            <th>Module Name</th>
+            <th>Brief Description</th>
+            <th>Status</th>
+            <th>Full Report</th>
+        </tr>
+        <tr>
+            <td>DebtRepayment</td>
+            <td>Module for fetching and analyzing data from Google Sheets to process debt and investment information</td>
+            <td><span class="fail">❌</span></td>
+            <td><a href="DebtRepayment.html">View Report</a></td>
+        </tr>
+        <tr>
+            <td>ResearcherContainer</td>
+            <td>Module for conducting AI-powered research on companies using Modal and MongoDB</td>
+            <td><span class="pass">✓</span></td>
+            <td><a href="ResearcherContainer.html">View Report</a></td>
+        </tr>
+        <tr>
+            <td>SpokaneTech_Py</td>
+            <td>Development and production environment for Python/Django applications with linting, testing, and documentation capabilities</td>
+            <td><span class="pass">✓</span></td>
+            <td><a href="SpokaneTech_Py.html">View Report</a></td>
+        </tr>
+        <tr>
+            <td>Alpine</td>
+            <td>Official Alpine Linux container module for creating and customizing Alpine-based containers</td>
+            <td><span class="pass">✓</span></td>
+            <td><a href="alpine.html">View Report</a></td>
+        </tr>
     </table>
 </body>
 </html>
