@@ -1,116 +1,110 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>QA Report - github.com/bardic/daggerenv</title>
+    <title>QA Report - daggerenv</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 40px; }
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 20px; }
         h1, h2 { color: #333; }
-        .section { margin: 20px 0; }
-        .function-list { background: #f5f5f5; padding: 15px; border-radius: 5px; }
-        .suggestion { margin: 20px 0; padding: 15px; background: #e9f5ff; border-radius: 5px; }
-        .error { color: #d32f2f; }
-        pre { background: #f8f8f8; padding: 10px; border-radius: 4px; overflow-x: auto; }
+        .function { margin-left: 20px; }
+        .suggestion { background: #f5f5f5; padding: 15px; margin: 10px 0; border-radius: 5px; }
+        .error { color: #d43f3a; }
+        pre { background: #f8f9fa; padding: 10px; border-radius: 4px; }
+        .meme { max-width: 500px; margin: 20px 0; }
     </style>
 </head>
 <body>
-    <h1>QA Report: github.com/bardic/daggerenv</h1>
+    <h1>QA Report: daggerenv</h1>
     
-    <div class="section">
-        <h2>Module Information</h2>
+    <h2>Module Information</h2>
+    <ul>
+        <li><strong>Name:</strong> github.com/bardic/daggerenv</li>
+        <li><strong>Author:</strong> bardic</li>
+        <li><strong>Latest Version:</strong> 115ec5fb597c4ba7e6385f344d4051596e76a480</li>
+        <li><strong>Release Date:</strong> Not provided in metadata</li>
+        <li><strong>Dagger Version Used:</strong> v0.18.3</li>
+    </ul>
+
+    <h2>Module Description</h2>
+    <p>This module provides functionality for environment loading and testing. No long description was provided in the documentation.</p>
+
+    <h2>Functions</h2>
+    <div class="function">
+        <h3>test()</h3>
+        <p>Arguments:</p>
         <ul>
-            <li><strong>Name:</strong> github.com/bardic/daggerenv</li>
-            <li><strong>Author:</strong> bardic</li>
-            <li><strong>Latest Version:</strong> 115ec5fb597c4ba7e6385f344d4051596e76a480</li>
-            <li><strong>Release Date:</strong> Not specified in module info</li>
-            <li><strong>Dagger Cloud Trace:</strong> <a href="https://daggerverse.dev/mod/github.com/bardic/daggerenv@115ec5fb597c4ba7e6385f344d4051596e76a480">View on Daggerverse</a></li>
+            <li>testData: Directory! (Required)</li>
         </ul>
+        <p>Returns: Boolean!</p>
+    </div>
+    <div class="function">
+        <h3>load()</h3>
+        <p>Arguments:</p>
+        <ul>
+            <li>container: Container! (Required)</li>
+            <li>src: Directory! (Required)</li>
+        </ul>
+        <p>Returns: Container!</p>
     </div>
 
-    <div class="section">
-        <h2>Module Description</h2>
-        <p>This module provides functionality for handling environment variables in Dagger pipelines. It includes two main functions:</p>
-        <div class="function-list">
-            <h3>Functions:</h3>
-            <ul>
-                <li><strong>load()</strong> - Takes a container and source directory as input and returns a container</li>
-                <li><strong>test()</strong> - Takes test data directory as input and returns a boolean</li>
-            </ul>
-        </div>
+    <h2>Quality Improvement Suggestions</h2>
+    
+    <div class="suggestion">
+        <h3>1. Add Comprehensive Documentation</h3>
+        <p>The module lacks proper documentation about its purpose and usage.</p>
+        <pre>
+// Add module documentation
+/**
+ * DaggerEnv provides environment management capabilities for Dagger pipelines.
+ * It allows loading environment variables from files and testing configurations.
+ * 
+ * @example
+ * dag.daggerenv().load(
+ *   dag.container().from("alpine"),
+ *   dag.host().directory("./env-files")
+ * )
+ */
+</pre>
+        <img src="https://i.imgflip.com/2/5k1h1x.jpg" alt="Documentation Meme" class="meme">
     </div>
 
-    <div class="section">
-        <h2>Testing Environment</h2>
-        <p><strong>Dagger Engine Version:</strong> v0.18.3</p>
-    </div>
-
-    <div class="section">
-        <h2>Suggestions for Improvement</h2>
-        
-        <div class="suggestion">
-            <h3>1. Add Comprehensive Documentation</h3>
-            <p>The module lacks detailed documentation about its purpose and usage.</p>
-            <img src="https://i.imgflip.com/65efzo.jpg" alt="Documentation Meme" style="max-width: 300px;">
-            <pre>
-// Add comprehensive documentation in the dagger.json file:
-{
-    "name": "daggerenv",
-    "sdk": "go",
-    "description": "A comprehensive environment variable handling module for Dagger pipelines",
-    "usage": {
-        "examples": [
-            {
-                "description": "Load environment variables from .env file",
-                "code": "dagger call load --container alpine --src ./myenv"
-            }
-        ]
-    }
-}
-            </pre>
-        </div>
-
-        <div class="suggestion">
-            <h3>2. Add Input Validation</h3>
-            <p>Add proper validation for input parameters to prevent errors.</p>
-            <pre>
-func (d *DaggerEnv) load(ctx context.Context, container *Container, src *Directory) (*Container, error) {
+    <div class="suggestion">
+        <h3>2. Add Input Validation</h3>
+        <p>The functions should validate inputs before processing.</p>
+        <pre>
+func (r *DaggerEnv) load(ctx context.Context, container *Container, src *Directory) (*Container, error) {
     if container == nil {
-        return nil, fmt.Errorf("container cannot be nil")
+        return nil, fmt.Errorf("container argument cannot be nil")
     }
     if src == nil {
-        return nil, fmt.Errorf("source directory cannot be nil")
+        return nil, fmt.Errorf("src directory argument cannot be nil")
     }
-    // Rest of the implementation
+    // ... rest of the implementation
 }
-            </pre>
-        </div>
+</pre>
+    </div>
 
-        <div class="suggestion">
-            <h3>3. Add Error Handling and Return Messages</h3>
-            <p>Implement proper error handling and return informative messages.</p>
-            <pre>
-func (d *DaggerEnv) test(ctx context.Context, testData *Directory) (bool, error) {
-    if testData == nil {
-        return false, fmt.Errorf("test data directory cannot be nil")
-    }
-    
-    success, err := d.runTests(testData)
+    <div class="suggestion">
+        <h3>3. Add Error Handling and Return Messages</h3>
+        <p>Improve error handling and provide meaningful error messages.</p>
+        <pre>
+func (r *DaggerEnv) test(ctx context.Context, testData *Directory) (bool, error) {
+    files, err := testData.Entries(ctx)
     if err != nil {
-        return false, fmt.Errorf("test execution failed: %w", err)
+        return false, fmt.Errorf("failed to read test data directory: %w", err)
     }
-    
-    return success, nil
+    if len(files) == 0 {
+        return false, fmt.Errorf("test data directory is empty")
+    }
+    // ... rest of the implementation
 }
-            </pre>
-        </div>
+</pre>
     </div>
 
-    <div class="section">
-        <h2>Issues Encountered</h2>
-        <ul>
-            <li>Limited documentation available about the module's functionality</li>
-            <li>No examples provided in the module documentation</li>
-            <li>Missing detailed descriptions for function parameters</li>
-        </ul>
-    </div>
+    <h2>Issues Encountered</h2>
+    <ul>
+        <li class="error">Limited documentation: The module lacks comprehensive documentation about its purpose and usage patterns.</li>
+        <li class="error">No examples provided: The module would benefit from practical usage examples.</li>
+        <li class="error">Missing metadata: Release date and detailed version information are not provided.</li>
+    </ul>
 </body>
 </html>
