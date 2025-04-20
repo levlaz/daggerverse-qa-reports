@@ -3,27 +3,13 @@
 <head>
     <title>Dagger Modules QA Report Index</title>
     <style>
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
-        }
-        th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: left;
-        }
-        th {
-            background-color: #f2f2f2;
-        }
-        .pass {
-            color: green;
-            font-size: 20px;
-        }
-        .fail {
-            color: red;
-            font-size: 20px;
-        }
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        table { border-collapse: collapse; width: 100%; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+        .pass { color: green; font-size: 1.2em; }
+        .fail { color: red; font-size: 1.2em; }
+        .status-icon { font-weight: bold; }
     </style>
 </head>
 <body>
@@ -36,55 +22,41 @@
             <th>Full Report</th>
         </tr>
         <tr>
-            <td>DebtRepayment</td>
-            <td>Debt Repayment Module QA Results</td>
-            <td>✅</td>
-            <td><a href="DebtRepayment.html">View Report</a></td>
+            <td>Python</td>
+            <td>Python programming language module for working with Python in Dagger pipelines</td>
+            <td class="status-icon pass">✓</td>
+            <td><a href="python.html">View Report</a></td>
         </tr>
         <tr>
-            <td>ResearcherContainer</td>
-            <td>Researcher Container Module QA Results</td>
-            <td>✅</td>
-            <td><a href="ResearcherContainer.html">View Report</a></td>
-        </tr>
-        <tr>
-            <td>SpokaneTech_Py</td>
-            <td>Python Module for Spokane Tech QA Results</td>
-            <td>❌</td>
-            <td><a href="SpokaneTech_Py.html">View Report</a></td>
-        </tr>
-        <!-- Additional entries for each HTML file -->
-        <tr>
-            <td>aws-cli</td>
-            <td>AWS CLI Integration Module</td>
-            <td>✅</td>
-            <td><a href="aws-cli.html">View Report</a></td>
-        </tr>
-        <tr>
-            <td>bats-tests</td>
-            <td>Bats Testing Framework Integration</td>
-            <td>✅</td>
-            <td><a href="bats-tests.html">View Report</a></td>
-        </tr>
-        <tr>
-            <td>docker</td>
-            <td>Docker Integration Module</td>
-            <td>✅</td>
-            <td><a href="docker.html">View Report</a></td>
-        </tr>
-        <tr>
-            <td>golang</td>
-            <td>Go Language Support Module</td>
-            <td>✅</td>
+            <td>Golang</td>
+            <td>Collection of functions for building, formatting, testing, linting and scanning Go projects</td>
+            <td class="status-icon pass">✓</td>
             <td><a href="golang.html">View Report</a></td>
         </tr>
         <tr>
-            <td>python</td>
-            <td>Python Runtime Support</td>
-            <td>✅</td>
-            <td><a href="python.html">View Report</a></td>
+            <td>Docker</td>
+            <td>Integration with Docker Engine, providing container engine and CLI functionality</td>
+            <td class="status-icon pass">✓</td>
+            <td><a href="docker.html">View Report</a></td>
         </tr>
-        <!-- Continuing with all other files -->
+        <tr>
+            <td>AWS CLI</td>
+            <td>Generic interface for AWS CLI operations in Dagger pipelines with credential management</td>
+            <td class="status-icon pass">✓</td>
+            <td><a href="aws-cli.html">View Report</a></td>
+        </tr>
+        <tr>
+            <td>Trivy</td>
+            <td>Security scanner for vulnerabilities, misconfigurations, secrets, and SBOM generation</td>
+            <td class="status-icon pass">✓</td>
+            <td><a href="trivy.html">View Report</a></td>
+        </tr>
+        <tr>
+            <td>Nginx</td>
+            <td>Module for testing websites locally and running cypress tests with Nginx in Dagger CI</td>
+            <td class="status-icon fail">✗</td>
+            <td><a href="nginx.html">View Report</a></td>
+        </tr>
     </table>
 </body>
 </html>
