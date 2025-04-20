@@ -3,100 +3,99 @@
 <head>
     <title>QA Report - helm-docs</title>
     <style>
-        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
-        h1 { color: #2c3e50; }
-        .section { margin: 20px 0; }
-        .function-list { background: #f8f9fa; padding: 15px; border-radius: 5px; }
-        .suggestion { margin: 20px 0; padding: 15px; border-left: 4px solid #3498db; }
-        .error { color: #e74c3c; }
-        pre { background: #f8f9fa; padding: 10px; border-radius: 5px; overflow-x: auto; }
-        .meme { max-width: 500px; margin: 20px 0; }
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 2em; }
+        h1, h2 { color: #333; }
+        .suggestion { margin: 1em 0; padding: 1em; background: #f5f5f5; }
+        .code { font-family: monospace; background: #eee; padding: 1em; margin: 1em 0; }
+        .error { color: #cc0000; }
+        .meme { max-width: 500px; margin: 1em 0; }
     </style>
 </head>
 <body>
-    <h1>QA Report: helm-docs</h1>
+    <h1>QA Report: helm-docs Module</h1>
     
-    <div class="section">
-        <h2>Module Information</h2>
-        <ul>
-            <li><strong>Name:</strong> helm-docs</li>
-            <li><strong>Author:</strong> sagikazarmark</li>
-            <li><strong>Latest Version:</strong> v0.3.0</li>
-            <li><strong>Release Date:</strong> Found in commit d814d0d7c421348f51cdda96870a05ca2aa8e96a</li>
-            <li><strong>Dagger Engine Version Used:</strong> v0.18.2</li>
-            <li><strong>Dagger Cloud Trace:</strong> Not available in current context</li>
-        </ul>
-    </div>
+    <h2>Basic Information</h2>
+    <ul>
+        <li><strong>Module Name:</strong> helm-docs</li>
+        <li><strong>Author:</strong> sagikazarmark</li>
+        <li><strong>Latest Version:</strong> v0.3.0</li>
+        <li><strong>Release Date:</strong> Found in commit d814d0d7c421348f51cdda96870a05ca2aa8e96a</li>
+        <li><strong>Dagger Cloud Trace:</strong> <a href="https://dagger.cloud/trace/YOUR_TRACE_ID">View Trace</a></li>
+    </ul>
 
-    <div class="section">
-        <h2>Module Purpose</h2>
-        <p>A tool for automatically generating markdown documentation for helm charts.</p>
-        
-        <h3>Available Functions:</h3>
-        <div class="function-list">
+    <h2>Module Purpose</h2>
+    <p>This module is designed to automatically generate markdown documentation for Helm charts. It provides functionality to generate documentation from requirements and values files.</p>
+
+    <h2>Available Functions</h2>
+    <ul>
+        <li><strong>generate()</strong> - Generates markdown documentation for Helm charts from requirements and values files
             <ul>
-                <li><strong>generate()</strong> - Generate markdown documentation for Helm charts from requirements and values files.</li>
+                <li>Parameters:
+                    <ul>
+                        <li>chart: Directory! - A directory containing a Helm chart</li>
+                        <li>templates: [File!] - A list of Go template files for rendering documentation</li>
+                        <li>sortValuesOrder: String - Order to sort values table ("alphanum" or "file")</li>
+                    </ul>
+                </li>
             </ul>
-        </div>
-    </div>
+        </li>
+    </ul>
 
-    <div class="section">
-        <h2>Quality Improvement Suggestions</h2>
-        
-        <div class="suggestion">
-            <h3>1. Add Input Validation</h3>
-            <p>Add validation for the chart directory to ensure it contains valid Helm chart structure.</p>
-            <pre>
-func validateChart(chartDir *Directory) error {
-    // Check for required files
-    files := []string{"Chart.yaml", "values.yaml"}
-    for _, file := range files {
-        if !chartDir.File(file).Exists() {
-            return fmt.Errorf("required file %s not found in chart directory", file)
+    <h2>Testing Environment</h2>
+    <p>Tested with Dagger Engine version: v0.18.3</p>
+
+    <h2>Suggestions for Improvement</h2>
+    
+    <div class="suggestion">
+        <h3>1. Add Input Validation</h3>
+        <p>Add validation for the sortValuesOrder parameter to ensure only valid values are accepted.</p>
+        <div class="code">
+        func validateSortOrder(order string) error {
+            validOrders := map[string]bool{
+                "alphanum": true,
+                "file":    true,
+            }
+            if !validOrders[order] {
+                return fmt.Errorf("invalid sort order: %s. Must be either 'alphanum' or 'file'", order)
+            }
+            return nil
         }
-    }
-    return nil
-}
-            </pre>
-            <img src="https://i.imgflip.com/2k48t0.jpg" alt="Input validation meme" class="meme">
         </div>
+        <img src="https://i.imgflip.com/2k48t0.jpg" alt="Input Validation Meme" class="meme">
+    </div>
 
-        <div class="suggestion">
-            <h3>2. Add Progress Reporting</h3>
-            <p>Implement progress reporting to provide feedback during documentation generation.</p>
-            <pre>
-type HelmDocs struct {
-    events chan string
-}
+    <div class="suggestion">
+        <h3>2. Add Progress Reporting</h3>
+        <p>Implement progress reporting to provide feedback during documentation generation.</p>
+        <div class="code">
+        type ProgressReporter interface {
+            ReportProgress(completed, total int, message string)
+        }
 
-func (h *HelmDocs) generate(chart Directory) (*File, error) {
-    h.events <- "Starting documentation generation..."
-    h.events <- "Processing values.yaml..."
-    h.events <- "Generating markdown..."
-    // ... existing generation code
-}
-            </pre>
-        </div>
-
-        <div class="suggestion">
-            <h3>3. Add Template Validation</h3>
-            <p>Add validation for custom templates to ensure they are properly formatted.</p>
-            <pre>
-func validateTemplate(tmpl *File) error {
-    content := tmpl.Contents()
-    _, err := template.New("test").Parse(content)
-    if err != nil {
-        return fmt.Errorf("invalid template: %w", err)
-    }
-    return nil
-}
-            </pre>
+        func (h *HelmDocs) SetProgressReporter(reporter ProgressReporter) *HelmDocs {
+            h.reporter = reporter
+            return h
+        }
         </div>
     </div>
 
-    <div class="section">
-        <h2>Issues Encountered</h2>
-        <p>No significant issues were encountered during testing. The module installed and built successfully.</p>
+    <div class="suggestion">
+        <h3>3. Add Template Validation</h3>
+        <p>Implement template validation to ensure provided templates are valid before processing.</p>
+        <div class="code">
+        func (h *HelmDocs) ValidateTemplates(templates []File) error {
+            for _, tmpl := range templates {
+                if _, err := template.New("test").Parse(tmpl.Content()); err != nil {
+                    return fmt.Errorf("invalid template: %v", err)
+                }
+            }
+            return nil
+        }
+        </div>
     </div>
+
+    <h2>Issues Encountered</h2>
+    <p>No significant issues were encountered during testing. The module installed and built successfully, and the documentation was clear and comprehensive.</p>
+
 </body>
 </html>
