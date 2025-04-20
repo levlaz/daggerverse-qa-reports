@@ -3,27 +3,14 @@
 <head>
     <title>Dagger Modules QA Report Index</title>
     <style>
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
-        }
-        th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: left;
-        }
-        th {
-            background-color: #f2f2f2;
-        }
-        .pass {
-            color: green;
-            font-size: 20px;
-        }
-        .fail {
-            color: red;
-            font-size: 20px;
-        }
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        table { border-collapse: collapse; width: 100%; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+        .pass { color: green; }
+        .fail { color: red; }
+        a { color: #0066cc; text-decoration: none; }
+        a:hover { text-decoration: underline; }
     </style>
 </head>
 <body>
@@ -36,23 +23,35 @@
             <th>Full Report</th>
         </tr>
         <tr>
-            <td>Postgres</td>
-            <td>A module that provides a simple way to launch a Postgres database server for development and testing purposes. Integrates with official Postgres Docker image.</td>
-            <td><span class="pass">✓</span></td>
+            <td>aws-cli</td>
+            <td>Generic interface to use AWS CLI in Dagger pipelines with ECR, STS operations, and credential management</td>
+            <td>✅</td>
+            <td><a href="aws-cli.html">View Report</a></td>
+        </tr>
+        <tr>
+            <td>postgres</td>
+            <td>Simple Postgres database server launcher for development and testing with configuration options</td>
+            <td>✅</td>
             <td><a href="postgres.html">View Report</a></td>
         </tr>
         <tr>
-            <td>Golang</td>
-            <td>A collection of functions for building, formatting, testing, linting and scanning your Go project for vulnerabilities.</td>
-            <td><span class="pass">✓</span></td>
+            <td>golang</td>
+            <td>Collection of functions for building, formatting, testing, linting and scanning Go projects</td>
+            <td>✅</td>
             <td><a href="golang.html">View Report</a></td>
         </tr>
         <tr>
-            <td>Python</td>
-            <td>Python programming language module providing functionality for working with Python in Dagger pipelines.</td>
-            <td><span class="pass">✓</span></td>
+            <td>rust</td>
+            <td>Swiss army knife for Rust projects with linting, formatting, and security audit capabilities</td>
+            <td>✅</td>
+            <td><a href="rust.html">View Report</a></td>
+        </tr>
+        <tr>
+            <td>python</td>
+            <td>Python programming language module for working with Python in Dagger pipelines</td>
+            <td>✅</td>
             <td><a href="python.html">View Report</a></td>
         </tr>
-    </table>
+</table>
 </body>
 </html>
