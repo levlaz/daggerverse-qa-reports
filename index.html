@@ -3,23 +3,91 @@
 <head>
     <title>Dagger Modules QA Report Index</title>
     <style>
-        body { font-family: Arial, sans-serif; }
-        table { border-collapse: collapse; width: 100%; }
-        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        body { font-family: Arial, sans-serif; line-height: 1.6; padding: 20px; }
+        table { border-collapse: collapse; width: 100%; margin-top: 20px; }
+        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
         th { background-color: #f2f2f2; }
-        .pass { color: green; }
-        .fail { color: red; }
+        .pass { color: green; font-weight: bold; }
+        .fail { color: red; font-weight: bold; }
+        .link { color: blue; text-decoration: none; }
+        .link:hover { text-decoration: underline; }
+        h1 { color: #333; }
+        tr:nth-child(even) { background-color: #f9f9f9; }
     </style>
 </head>
 <body>
     <h1>Dagger Modules QA Report Index</h1>
     <table>
-        <tr>
-            <th>Module Name</th>
-            <th>Brief Description</th>
-            <th>Status</th>
-            <th>Full Report</th>
-        </tr>
-</table>
+        <thead>
+            <tr>
+                <th>Module Name</th>
+                <th>Brief Description</th>
+                <th>Status</th>
+                <th>Full Report</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Python</td>
+                <td>Python programming language module for working with Python in Dagger pipelines</td>
+                <td><span class="pass">✓ PASS</span></td>
+                <td><a href="python.html" class="link">View Report</a></td>
+            </tr>
+            <tr>
+                <td>Go</td>
+                <td>Go programming language module for Dagger pipelines</td>
+                <td><span class="pass">✓ PASS</span></td>
+                <td><a href="go.html" class="link">View Report</a></td>
+            </tr>
+            <tr>
+                <td>NodeJS</td>
+                <td>Node.js runtime and build environment for Dagger</td>
+                <td><span class="pass">✓ PASS</span></td>
+                <td><a href="nodejs.html" class="link">View Report</a></td>
+            </tr>
+            <tr>
+                <td>Docker</td>
+                <td>Docker container operations and build tooling</td>
+                <td><span class="pass">✓ PASS</span></td>
+                <td><a href="docker.html" class="link">View Report</a></td>
+            </tr>
+            <tr>
+                <td>AWS CLI</td>
+                <td>AWS Command Line Interface integration</td>
+                <td><span class="pass">✓ PASS</span></td>
+                <td><a href="aws-cli.html" class="link">View Report</a></td>
+            </tr>
+            <tr>
+                <td>Helm</td>
+                <td>Kubernetes package manager operations</td>
+                <td><span class="pass">✓ PASS</span></td>
+                <td><a href="helm.html" class="link">View Report</a></td>
+            </tr>
+            <tr>
+                <td>PostgreSQL</td>
+                <td>PostgreSQL database management and operations</td>
+                <td><span class="pass">✓ PASS</span></td>
+                <td><a href="postgres.html" class="link">View Report</a></td>
+            </tr>
+            <tr>
+                <td>Terraform</td>
+                <td>Infrastructure as Code automation</td>
+                <td><span class="pass">✓ PASS</span></td>
+                <td><a href="terratest.html" class="link">View Report</a></td>
+            </tr>
+            <tr>
+                <td>PHP</td>
+                <td>PHP development and runtime environment</td>
+                <td><span class="pass">✓ PASS</span></td>
+                <td><a href="dagger-php.html" class="link">View Report</a></td>
+            </tr>
+            <tr>
+                <td>Trivy</td>
+                <td>Container vulnerability scanner</td>
+                <td><span class="pass">✓ PASS</span></td>
+                <td><a href="trivy.html" class="link">View Report</a></td>
+            </tr>
+        </tbody>
+    </table>
 </body>
 </html>
