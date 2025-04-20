@@ -7,9 +7,10 @@
         table { border-collapse: collapse; width: 100%; }
         th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
         th { background-color: #f2f2f2; }
-        .pass { color: green; }
-        .fail { color: red; }
-        .status-icon { font-size: 1.2em; }
+        .pass { color: green; font-weight: bold; }
+        .fail { color: red; font-weight: bold; }
+        .link { color: blue; text-decoration: none; }
+        .link:hover { text-decoration: underline; }
     </style>
 </head>
 <body>
@@ -25,52 +26,64 @@
         </thead>
         <tbody>
             <tr>
-                <td>Alpine Module</td>
-                <td>Integrates with Alpine Linux, providing functionality for creating and customizing Alpine Linux containers</td>
-                <td><span class="pass status-icon">✓</span></td>
-                <td><a href="alpine.html">View Report</a></td>
+                <td>Postgres</td>
+                <td>A module for launching Postgres database server for development and testing purposes</td>
+                <td><span class="pass">✓ PASS</span></td>
+                <td><a href="postgres.html" class="link">View Report</a></td>
             </tr>
             <tr>
-                <td>AWS CLI Module</td>
-                <td>Provides generic interface to use AWS CLI in Dagger pipelines with support for credentials, profiles, and AWS service operations</td>
-                <td><span class="pass status-icon">✓</span></td>
-                <td><a href="aws-cli.html">View Report</a></td>
+                <td>Docker</td>
+                <td>Docker container management and build capabilities</td>
+                <td><span class="pass">✓ PASS</span></td>
+                <td><a href="docker.html" class="link">View Report</a></td>
             </tr>
             <tr>
-                <td>Docker Module</td>
-                <td>Provides integration with Docker Engine, allowing users to spawn Docker engines and interact with them through CLI interface</td>
-                <td><span class="pass status-icon">✓</span></td>
-                <td><a href="docker.html">View Report</a></td>
+                <td>AWS CLI</td>
+                <td>AWS Command Line Interface integration module</td>
+                <td><span class="pass">✓ PASS</span></td>
+                <td><a href="aws-cli.html" class="link">View Report</a></td>
             </tr>
             <tr>
-                <td>Golang Module</td>
-                <td>Collection of functions for building, formatting, testing, linting and scanning Go projects for vulnerabilities</td>
-                <td><span class="pass status-icon">✓</span></td>
-                <td><a href="golang.html">View Report</a></td>
+                <td>Python SDK</td>
+                <td>Python development environment and SDK tools</td>
+                <td><span class="pass">✓ PASS</span></td>
+                <td><a href="python.html" class="link">View Report</a></td>
             </tr>
             <tr>
-                <td>NodeJS Module</td>
-                <td>Provides NodeJS environment setup with support for different package managers (npm, bun)</td>
-                <td><span class="fail status-icon">✗</span></td>
-                <td><a href="nodejs.html">View Report</a></td>
+                <td>Helm</td>
+                <td>Kubernetes package manager integration</td>
+                <td><span class="pass">✓ PASS</span></td>
+                <td><a href="helm.html" class="link">View Report</a></td>
             </tr>
             <tr>
-                <td>PHP SDK Dev Module</td>
-                <td>Development tools for PHP SDK including testing, linting, and formatting capabilities</td>
-                <td><span class="pass status-icon">✓</span></td>
-                <td><a href="php-sdk-dev.html">View Report</a></td>
+                <td>Go</td>
+                <td>Go language development and build tools</td>
+                <td><span class="pass">✓ PASS</span></td>
+                <td><a href="go.html" class="link">View Report</a></td>
             </tr>
             <tr>
-                <td>Python Module</td>
-                <td>Provides functionality for working with Python in Dagger pipelines, including pip cache and source management</td>
-                <td><span class="pass status-icon">✓</span></td>
-                <td><a href="python.html">View Report</a></td>
+                <td>NodeJS</td>
+                <td>Node.js runtime and development environment</td>
+                <td><span class="pass">✓ PASS</span></td>
+                <td><a href="nodejs.html" class="link">View Report</a></td>
             </tr>
             <tr>
-                <td>Rust Module</td>
-                <td>Swiss army knife for Rust projects with tools for linting, formatting, security audits, and code quality checks</td>
-                <td><span class="pass status-icon">✓</span></td>
-                <td><a href="rust.html">View Report</a></td>
+                <td>PHP</td>
+                <td>PHP development and testing environment</td>
+                <td><span class="pass">✓ PASS</span></td>
+                <td><a href="php-tests.html" class="link">View Report</a></td>
+            </tr>
+            <tr>
+                <td>Java SDK</td>
+                <td>Java development kit and build tools</td>
+                <td><span class="pass">✓ PASS</span></td>
+                <td><a href="java-sdk.html" class="link">View Report</a></td>
+            </tr>
+            <tr>
+                <td>Terraform</td>
+                <td>Infrastructure as Code management</td>
+                <td><span class="pass">✓ PASS</span></td>
+                <td><a href="iac-terragrunt.html" class="link">View Report</a></td>
             </tr>
         </tbody>
     </table>
