@@ -1,17 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>QA Report - Go Module</title>
     <style>
-        body { font-family: Arial, sans-serif; line-height: 1.6; max-width: 1200px; margin: 0 auto; padding: 20px; }
-        h1, h2 { color: #333; }
-        .section { margin-bottom: 30px; }
-        .function-list { background-color: #f5f5f5; padding: 20px; border-radius: 5px; }
-        .suggestion { margin: 20px 0; padding: 15px; background-color: #e1f5fe; border-radius: 5px; }
-        .error { color: #d32f2f; }
-        pre { background-color: #f5f5f5; padding: 10px; border-radius: 5px; overflow-x: auto; }
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        h1 { color: #333; }
+        h2 { color: #666; }
+        .section { margin: 20px 0; }
+        .function-list { background: #f5f5f5; padding: 15px; border-radius: 5px; }
+        .suggestion { background: #e9f7ef; padding: 15px; margin: 10px 0; border-radius: 5px; }
+        .code { background: #f8f9fa; padding: 10px; font-family: monospace; margin: 10px 0; }
+        .error { color: #dc3545; }
+        .meme { max-width: 500px; margin: 20px 0; }
     </style>
 </head>
 <body>
@@ -20,23 +20,24 @@
     <div class="section">
         <h2>Module Information</h2>
         <ul>
-            <li><strong>Name:</strong> github.com/dagger/dagger/modules/go</li>
-            <li><strong>Author:</strong> Dagger Team</li>
-            <li><strong>Latest Version:</strong> v0.18.2</li>
-            <li><strong>Release Date:</strong> Part of Dagger v0.18.2 release</li>
+            <li><strong>Name:</strong> github.com/sagikazarmark/daggerverse/go</li>
+            <li><strong>Author:</strong> sagikazarmark</li>
+            <li><strong>Latest Version:</strong> v0.9.0</li>
+            <li><strong>Release Date:</strong> Found in module metadata</li>
             <li><strong>Dagger Engine Version Used:</strong> v0.18.3</li>
         </ul>
     </div>
 
     <div class="section">
         <h2>Module Purpose</h2>
-        <p>The Go module provides a comprehensive set of tools for building, testing, and managing Go projects within Dagger pipelines. It includes functionality for:</p>
+        <p>This module provides a comprehensive interface for working with Go programming language in Dagger pipelines. It allows users to:</p>
         <ul>
-            <li>Building Go applications</li>
-            <li>Running tests</li>
-            <li>Managing dependencies</li>
-            <li>Configuring build environments</li>
-            <li>Performing linting</li>
+            <li>Build Go binaries</li>
+            <li>Run Go commands</li>
+            <li>Generate Go code</li>
+            <li>Manage build and module caches</li>
+            <li>Configure CGO settings</li>
+            <li>Handle environment variables and service bindings</li>
         </ul>
     </div>
 
@@ -44,18 +45,18 @@
         <h2>Available Functions</h2>
         <div class="function-list">
             <ul>
-                <li><strong>version()</strong> - Get Go version</li>
-                <li><strong>source()</strong> - Access project source directory</li>
-                <li><strong>moduleCache()</strong> - Manage Go module cache</li>
-                <li><strong>buildCache()</strong> - Manage Go build cache</li>
-                <li><strong>base()</strong> - Access base container</li>
-                <li><strong>build()</strong> - Build Go packages</li>
-                <li><strong>binary()</strong> - Build single main package</li>
-                <li><strong>test()</strong> - Run tests</li>
-                <li><strong>lint()</strong> - Lint the project</li>
-                <li><strong>listPackages()</strong> - List Go packages</li>
-                <li><strong>download()</strong> - Download dependencies</li>
-                <li><strong>env()</strong> - Prepare build environment</li>
+                <li><strong>build:</strong> Build a binary</li>
+                <li><strong>container:</strong> Get the underlying container</li>
+                <li><strong>exec:</strong> Run a Go command</li>
+                <li><strong>generate:</strong> Run "go generate" command</li>
+                <li><strong>with-build-cache:</strong> Mount a cache volume for Go build cache</li>
+                <li><strong>with-cgo-disabled:</strong> Set CGO_ENABLED environment variable to 0</li>
+                <li><strong>with-cgo-enabled:</strong> Set CGO_ENABLED environment variable to 1</li>
+                <li><strong>with-env-variable:</strong> Set an environment variable</li>
+                <li><strong>with-module-cache:</strong> Mount a cache volume for Go module cache</li>
+                <li><strong>with-platform:</strong> Set GOOS, GOARCH and GOARM environment variables</li>
+                <li><strong>with-service-binding:</strong> Establish a runtime dependency on a service</li>
+                <li><strong>with-source:</strong> Mount a source directory</li>
             </ul>
         </div>
     </div>
@@ -64,59 +65,61 @@
         <h2>Quality Improvement Suggestions</h2>
         
         <div class="suggestion">
-            <h3>1. Add Comprehensive Documentation</h3>
-            <p>While the module provides basic documentation, it could benefit from more detailed examples and use cases.</p>
-            <pre>
-// Example improvement in code documentation:
-/*
-* Build a Go binary with custom configuration
-* @example:
-* dag.go(source).
-*     withVersion("1.21").
-*     withLdflags(["-s", "-w"]).
-*     binary("./cmd/myapp")
-*/
-func (m *Go) Build(ctx context.Context) (*File, error) {
-    // Implementation
-}
-</pre>
-            <img src="https://i.imgflip.com/65efzo.jpg" alt="Documentation Meme" width="300">
+            <h3>1. Add Default Build Tags Support</h3>
+            <p>The module could benefit from having predefined sets of common build tags for different scenarios.</p>
+            <div class="code">
+                // Example implementation
+                func defaultBuildTags() []string {
+                    return []string{
+                        "netgo",         // Use pure Go net package
+                        "osusergo",      // Use pure Go os/user package
+                        "static_build",  // Static linking
+                    }
+                }
+                
+                // Usage in module
+                dag.go().build(
+                    withTags(defaultBuildTags())
+                )
+            </div>
+            <img src="https://i.imgflip.com/2/1g8my4.jpg" alt="Bug fixing meme" class="meme">
         </div>
 
         <div class="suggestion">
-            <h3>2. Enhanced Error Handling</h3>
-            <p>Add more specific error types and improved error messages for better debugging.</p>
-            <pre>
-// Custom error types for better error handling
-type BuildError struct {
-    Package string
-    Cause   error
-}
-
-func (e *BuildError) Error() string {
-    return fmt.Sprintf("failed to build package %s: %v", e.Package, e.Cause)
-}
-</pre>
+            <h3>2. Implement Version Verification</h3>
+            <p>Add version compatibility checking to ensure the Go version in the container matches the project requirements.</p>
+            <div class="code">
+                // Suggested implementation
+                func verifyGoVersion(minVersion string) error {
+                    output := exec.Command("go", "version").Output()
+                    version := parseGoVersion(output)
+                    if !versionMeetsMinimum(version, minVersion) {
+                        return fmt.Errorf("Go version %s is less than required %s", version, minVersion)
+                    }
+                    return nil
+                }
+            </div>
         </div>
 
         <div class="suggestion">
-            <h3>3. Add Build Configuration Presets</h3>
-            <p>Implement common build configuration presets for different types of Go applications.</p>
-            <pre>
-// Example preset configuration
-func (m *Go) WithProductionPreset() *Go {
-    return m.
-        WithCgo(false).
-        WithLdflags(["-s", "-w"]).
-        WithValues(["github.com/myapp/version=production"])
-}
-</pre>
+            <h3>3. Add Test Coverage Support</h3>
+            <p>Implement built-in support for test coverage reporting and integration with common coverage tools.</p>
+            <div class="code">
+                // Example implementation
+                func (m *Module) TestWithCoverage(ctx context.Context) (*TestResult, error) {
+                    return dag.go().exec([]string{
+                        "test",
+                        "-coverprofile=coverage.out",
+                        "./...",
+                    }).withEnv("GOFLAGS", "-count=1")
+                }
+            </div>
         </div>
     </div>
 
     <div class="section">
-        <h2>Testing Results</h2>
-        <p>Installation and building of the module completed successfully. No errors were encountered during the testing process.</p>
+        <h2>Installation and Testing Notes</h2>
+        <p>The module installed successfully and all core functions were verified to be working as expected. No significant issues were encountered during testing.</p>
     </div>
 </body>
 </html>
