@@ -3,13 +3,30 @@
 <head>
     <title>Dagger Modules QA Report Index</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 20px; }
-        table { border-collapse: collapse; width: 100%; }
-        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-        th { background-color: #f2f2f2; }
-        .pass { color: green; }
-        .fail { color: red; }
-        .status-icon { font-size: 1.2em; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f5f5f5;
+        }
+        .pass {
+            color: green;
+            font-weight: bold;
+        }
+        .fail {
+            color: red;
+            font-weight: bold;
+        }
+        .status-icon {
+            font-size: 18px;
+        }
     </style>
 </head>
 <body>
@@ -22,40 +39,46 @@
             <th>Full Report</th>
         </tr>
         <tr>
-            <td>aws-cli</td>
-            <td>Generic interface to use AWS CLI in Dagger pipelines with support for credential management and common AWS operations</td>
-            <td><span class="status-icon pass">✓</span></td>
-            <td><a href="aws-cli.html">View Report</a></td>
+            <td>DebtRepayment</td>
+            <td>Fetches and analyzes data from Google Sheets for debt and investment processing</td>
+            <td class="fail">❌</td>
+            <td><a href="DebtRepayment.html">View Report</a></td>
         </tr>
         <tr>
-            <td>golang</td>
-            <td>Collection of functions for building, formatting, testing, linting and scanning Go projects for vulnerabilities</td>
-            <td><span class="status-icon pass">✓</span></td>
-            <td><a href="golang.html">View Report</a></td>
+            <td>ResearcherContainer</td>
+            <td>AI-powered company research module using Modal and MongoDB for data collection</td>
+            <td class="pass">✅</td>
+            <td><a href="ResearcherContainer.html">View Report</a></td>
         </tr>
         <tr>
-            <td>php-tests</td>
-            <td>PHP testing module providing capabilities for running tests in containerized environments</td>
-            <td><span class="status-icon fail">✗</span></td>
-            <td><a href="php-tests.html">View Report</a></td>
+            <td>SpokaneTech_Py</td>
+            <td>Python/Django development and production environment with built-in linting and testing</td>
+            <td class="pass">✅</td>
+            <td><a href="SpokaneTech_Py.html">View Report</a></td>
         </tr>
         <tr>
-            <td>trivy</td>
-            <td>Security scanner integration for finding vulnerabilities, misconfigurations, secrets, and generating SBOM in various targets</td>
-            <td><span class="status-icon pass">✓</span></td>
-            <td><a href="trivy.html">View Report</a></td>
+            <td>Alpine</td>
+            <td>Official Alpine Linux container integration with architecture and package management</td>
+            <td class="pass">✅</td>
+            <td><a href="alpine.html">View Report</a></td>
         </tr>
         <tr>
-            <td>docker</td>
-            <td>Docker Engine integration module providing ability to spawn Docker engines and interact through CLI interface</td>
-            <td><span class="status-icon pass">✓</span></td>
-            <td><a href="docker.html">View Report</a></td>
+            <td>android-pipeline</td>
+            <td>Android build pipeline with support for debug/release APKs, AAB bundles, and testing</td>
+            <td class="pass">✅</td>
+            <td><a href="android-pipeline.html">View Report</a></td>
         </tr>
         <tr>
-            <td>python</td>
-            <td>Python programming language module providing functionality for Python development in Dagger pipelines</td>
-            <td><span class="status-icon pass">✓</span></td>
-            <td><a href="python.html">View Report</a></td>
+            <td>apache-avro-tools</td>
+            <td>Tools for working with Apache Avro IDL and schema files</td>
+            <td class="pass">✅</td>
+            <td><a href="apache-avro-tools.html">View Report</a></td>
+        </tr>
+        <tr>
+            <td>apko</td>
+            <td>Build container images from apk packages with Alpine and Wolfi support</td>
+            <td class="pass">✅</td>
+            <td><a href="apko.html">View Report</a></td>
         </tr>
     </table>
 </body>
