@@ -3,14 +3,45 @@
 <head>
     <title>Dagger Modules QA Report Index</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 20px; }
-        table { border-collapse: collapse; width: 100%; }
-        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-        th { background-color: #f2f2f2; }
-        .pass { color: green; font-weight: bold; }
-        .fail { color: red; font-weight: bold; }
-        a { color: #0366d6; text-decoration: none; }
-        a:hover { text-decoration: underline; }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #f5f5f5;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        .pass {
+            color: #28a745;
+            font-weight: bold;
+        }
+        .fail {
+            color: #dc3545;
+            font-weight: bold;
+        }
+        a {
+            color: #0366d6;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .status-icon {
+            font-size: 18px;
+        }
     </style>
 </head>
 <body>
@@ -26,10 +57,28 @@
         </thead>
         <tbody>
             <tr>
+                <td>Alpine</td>
+                <td>Core module for creating and customizing Alpine Linux containers with architecture, branch, and package management support</td>
+                <td class="pass">✅ Passed</td>
+                <td><a href="alpine.html">View Report</a></td>
+            </tr>
+            <tr>
                 <td>DebtRepayment</td>
-                <td>Google Sheets data fetcher and analyzer for debt and investment information</td>
-                <td class="fail">❌</td>
+                <td>Fetches and analyzes data from Google Sheets for debt and investment processing</td>
+                <td class="fail">❌ Failed</td>
                 <td><a href="DebtRepayment.html">View Report</a></td>
+            </tr>
+            <tr>
+                <td>ResearcherContainer</td>
+                <td>AI-powered company research module using Modal for web automation and MongoDB for data storage</td>
+                <td class="pass">✅ Passed</td>
+                <td><a href="ResearcherContainer.html">View Report</a></td>
+            </tr>
+            <tr>
+                <td>SpokaneTech_Py</td>
+                <td>Python/Django development and production environment with built-in linting, testing, and documentation capabilities</td>
+                <td class="pass">✅ Passed</td>
+                <td><a href="SpokaneTech_Py.html">View Report</a></td>
             </tr>
         </tbody>
     </table>
