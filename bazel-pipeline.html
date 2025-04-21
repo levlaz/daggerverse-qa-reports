@@ -1,92 +1,109 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>QA Report - Bazel Pipeline Module</title>
+    <title>QA Report - bazel-pipeline</title>
     <style>
-        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 2em; }
-        .error { color: red; }
-        .success { color: green; }
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
+        h1, h2 { color: #333; }
+        .error { color: #ff0000; }
+        .suggestion { margin: 20px 0; padding: 15px; background: #f9f9f9; }
         code { background: #f4f4f4; padding: 2px 5px; border-radius: 3px; }
-        .meme { max-width: 500px; margin: 20px 0; }
+        pre { background: #f4f4f4; padding: 15px; border-radius: 5px; overflow-x: auto; }
     </style>
 </head>
 <body>
-    <h1>QA Report: Bazel Pipeline Module</h1>
-
+    <h1>QA Report: bazel-pipeline</h1>
+    
     <h2>Module Information</h2>
     <ul>
         <li><strong>Name:</strong> bazel-pipeline</li>
-        <li><strong>Latest Version:</strong> v0.6.0</li>
         <li><strong>Author:</strong> fluent-ci-templates</li>
-        <li><strong>Dagger Engine Version Used:</strong> v0.18.2</li>
+        <li><strong>Latest Version:</strong> main</li>
+        <li><strong>Release Date:</strong> Not available (crawling failed)</li>
+        <li><strong>Dagger Cloud Trace:</strong> Not available</li>
     </ul>
 
     <h2>Module Functionality</h2>
-    <p>This module provides Bazel build pipeline functionality with the following functions:</p>
+    <p>This module provides Bazel pipeline functionality with the following functions:</p>
     <ul>
-        <li><code>build(src: Directory!, version: String)</code> - Build the project</li>
-        <li><code>test(src: Directory!, version: String)</code> - Run tests</li>
+        <li><strong>build()</strong> - Build the project</li>
+        <li><strong>test()</strong> - Run tests</li>
     </ul>
 
-    <h2>Quality Improvement Suggestions</h2>
-    <h3>1. Add Comprehensive Documentation</h3>
-    <p>The module lacks a detailed description and usage examples.</p>
-    <pre><code>
-# Add to README.md or module documentation:
+    <h2>Testing Environment</h2>
+    <p>Tested with Dagger Engine Version: v0.18.3</p>
 
-# Bazel Pipeline for Dagger
+    <h2>Issues Encountered</h2>
+    <div class="error">
+        <p>The following issues were encountered during testing:</p>
+        <ul>
+            <li>Unable to crawl module information due to API limitations</li>
+        </ul>
+    </div>
 
-This module provides a streamlined way to integrate Bazel builds into your CI/CD pipeline.
-
-## Quick Start
-
-```typescript
-const result = dag.bazel().build(dag.currentModule().source())
-```
-
-## Advanced Usage Examples
-- Building specific targets 
-- Custom test configurations
-- Integration with other tools
-    </code></pre>
-
-    <h3>2. Add Input Validation and Error Handling</h3>
-    <p>The module could benefit from better error handling and input validation.</p>
-    <pre><code>
-func (b *Bazel) build(src *Directory, version string) (*Directory, error) {
+    <h2>Improvement Suggestions</h2>
+    
+    <div class="suggestion">
+        <h3>1. Add Input Validation</h3>
+        <p>Add proper input validation for the build and test functions to ensure robust error handling.</p>
+        <pre><code>
+func build(ctx context.Context, src *Directory, args []string) (*Directory, error) {
     if src == nil {
         return nil, fmt.Errorf("source directory cannot be nil")
     }
-    
-    if version != "" && !semver.IsValid(version) {
-        return nil, fmt.Errorf("invalid Bazel version format: %s", version)
+    if len(args) == 0 {
+        return nil, fmt.Errorf("build args cannot be empty")
     }
-    
     // ... rest of the build logic
 }
-    </code></pre>
+        </code></pre>
+    </div>
 
-    <h3>3. Add Progress Reporting and Caching Improvements</h3>
-    <p>Add better progress reporting and caching strategies.</p>
-    <pre><code>
-func (b *Bazel) build(src *Directory) *Directory {
-    return dag.pipeline("bazel-build").
-        withSource(src).
-        withCacheMount("/root/.cache/bazel").
-        withProgressReport("Building with Bazel...").
-        execute()
+    <div class="suggestion">
+        <h3>2. Implement Progress Reporting</h3>
+        <p>Add progress reporting to provide better visibility into long-running operations.</p>
+        <pre><code>
+func build(ctx context.Context, src *Directory, args []string) (*Directory, error) {
+    fmt.Printf("Starting Bazel build with args: %v\n", args)
+    defer fmt.Println("Build completed")
+    
+    // Add progress updates throughout the build process
+    fmt.Println("Preparing build environment...")
+    // ... build steps
+    fmt.Println("Executing Bazel command...")
+    // ... more build steps
+    return buildDir, nil
 }
-    </code></pre>
+        </code></pre>
+    </div>
 
-    <img src="https://media.giphy.com/media/ZZg7C3MEglarBUqcoE/giphy.gif" alt="Bazel Build Meme" class="meme"/>
+    <div class="suggestion">
+        <h3>3. Add Comprehensive Documentation</h3>
+        <p>Enhance documentation with examples and usage patterns.</p>
+        <pre><code>
+// Example documentation block
+/**
+ * Build executes a Bazel build command with the specified arguments.
+ * 
+ * @param ctx The context for the build operation
+ * @param src The source directory containing the Bazel workspace
+ * @param args Additional build arguments to pass to Bazel
+ * 
+ * Example usage:
+ * ```go
+ * dir, err := pipeline.Build(ctx, src, []string{"//..."})
+ * if err != nil {
+ *     log.Fatal(err)
+ * }
+ * ```
+ */
+        </code></pre>
+    </div>
 
-    <h2>Installation and Testing Results</h2>
-    <ul>
-        <li class="success">✅ Module installation successful</li>
-        <li class="success">✅ Module build successful</li>
-        <li class="success">✅ Function enumeration successful</li>
-    </ul>
+    <div style="text-align: center; margin: 20px 0;">
+        <img src="https://i.imgflip.com/2/5mr282.jpg" alt="Quality Assurance Meme" style="max-width: 500px;">
+        <p><em>When the tests pass but you still have doubts...</em></p>
+    </div>
 
-    <p>No errors were encountered during the testing process.</p>
 </body>
 </html>
