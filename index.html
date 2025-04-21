@@ -3,11 +3,27 @@
 <head>
     <title>Dagger Modules QA Report Index</title>
     <style>
-        table { width: 100%; border-collapse: collapse; }
-        th, td { padding: 8px; border: 1px solid #ddd; text-align: left; }
-        th { background-color: #f2f2f2; }
-        .pass { color: green; }
-        .fail { color: red; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .pass {
+            color: green;
+            font-size: 20px;
+        }
+        .fail {
+            color: red;
+            font-size: 20px;
+        }
     </style>
 </head>
 <body>
@@ -19,6 +35,30 @@
             <th>Status</th>
             <th>Full Report</th>
         </tr>
-</table>
+        <tr>
+            <td>DebtRepayment</td>
+            <td>Module for fetching and analyzing data from Google Sheets to process debt and investment information</td>
+            <td><span class="fail">❌</span></td>
+            <td><a href="DebtRepayment.html">View Report</a></td>
+        </tr>
+        <tr>
+            <td>ResearcherContainer</td>
+            <td>Module for AI-powered company research using Modal, including web automation and MongoDB integration</td>
+            <td><span class="pass">✓</span></td>
+            <td><a href="ResearcherContainer.html">View Report</a></td>
+        </tr>
+        <tr>
+            <td>SpokaneTech_Py</td>
+            <td>Python/Django development and production environment with built-in linting, testing, and documentation capabilities</td>
+            <td><span class="pass">✓</span></td>
+            <td><a href="SpokaneTech_Py.html">View Report</a></td>
+        </tr>
+        <tr>
+            <td>Alpine</td>
+            <td>Core module for creating and customizing Alpine Linux containers with package management capabilities</td>
+            <td><span class="pass">✓</span></td>
+            <td><a href="alpine.html">View Report</a></td>
+        </tr>
+    </table>
 </body>
 </html>
