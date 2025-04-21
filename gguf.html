@@ -3,119 +3,106 @@
 <head>
     <title>QA Report - GGUF Module</title>
     <style>
-        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 20px; }
-        h1, h2 { color: #333; }
-        .container { max-width: 800px; margin: 0 auto; }
-        .function-list { background: #f5f5f5; padding: 15px; border-radius: 5px; }
-        .suggestion { margin: 20px 0; padding: 15px; border-left: 4px solid #4CAF50; }
-        .code { background: #f8f8f8; padding: 10px; border-radius: 4px; font-family: monospace; }
-        .error { color: #ff0000; }
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
+        h1 { color: #333; }
+        .section { margin: 20px 0; }
+        .function-list { background-color: #f5f5f5; padding: 15px; border-radius: 5px; }
+        .error { color: #dc3545; }
+        .suggestion { margin: 15px 0; padding: 15px; background-color: #e9ecef; border-radius: 5px; }
+        code { background-color: #f8f9fa; padding: 2px 5px; border-radius: 3px; }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>QA Report - GGUF Module</h1>
-        
-        <h2>Module Information</h2>
-        <ul>
-            <li><strong>Name:</strong> github.com/jozu-ai/daggerverse/gguf</li>
-            <li><strong>Author:</strong> jozu-ai</li>
-            <li><strong>Latest Version:</strong> v0.1.0</li>
-            <li><strong>Release Date:</strong> Latest commit: a4e5e833af49ad44c91a94a28a2dfbafc5f49510</li>
-            <li><strong>Dagger Engine Version Used:</strong> v0.18.1</li>
-        </ul>
+    <h1>QA Report: GGUF Module</h1>
+    
+    <div class="section">
+        <h2>Basic Information</h2>
+        <p><strong>Module Name:</strong> github.com/jozu-ai/daggerverse/gguf</p>
+        <p><strong>Author:</strong> jozu-ai (based on repository path)</p>
+        <p><strong>Latest Version:</strong> latest (specific version unavailable due to crawling error)</p>
+        <p><strong>Release Date:</strong> Not available (crawling error)</p>
+        <p><strong>Dagger Engine Version Used:</strong> v0.18.3</p>
+    </div>
 
-        <h2>Module Purpose</h2>
-        <p>This module provides functions for working with GGUF (GPT-Generated Unified Format) format for AI/ML models. It offers functionality to convert models to GGUF format and apply quantization.</p>
-
-        <h2>Available Functions</h2>
+    <div class="section">
+        <h2>Module Functionality</h2>
+        <p>This module provides tools for working with GGUF (GPT-Generated Unified Format) models. It offers the following functions:</p>
         <div class="function-list">
-            <h3>1. convert-to-gguf</h3>
-            <p>Converts a model to GGUF format.</p>
             <ul>
-                <li>Parameters:
-                    <ul>
-                        <li>source (Directory!): the directory containing the source model</li>
-                        <li>parameters ([String!]): additional parameters to pass to the conversion script</li>
-                    </ul>
-                </li>
-            </ul>
-
-            <h3>2. quantize</h3>
-            <p>Applies quantization to a given model file.</p>
-            <ul>
-                <li>Parameters:
-                    <ul>
-                        <li>source (File!): the source model file to be quantized</li>
-                        <li>quantization (String!): the quantization parameter to apply</li>
-                    </ul>
-                </li>
+                <li><strong>convert-to-gguf:</strong> Converts a model to GGUF format</li>
+                <li><strong>quantize:</strong> Applies quantization to a given model file</li>
             </ul>
         </div>
+    </div>
 
-        <h2>Quality Improvement Suggestions</h2>
+    <div class="section">
+        <h2>Issues Encountered</h2>
+        <div class="error">
+            <p>✖ Unable to crawl module page due to API limitations</p>
+            <p>Error message: "Failed to scrape URL. Insufficient credits to perform this request."</p>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>Suggestions for Improvement</h2>
         
         <div class="suggestion">
             <h3>1. Add Input Validation</h3>
-            <p>The module could benefit from stronger input validation to ensure proper file formats and parameters.</p>
-            <img src="https://i.imgflip.com/65efzo.jpg" alt="Input Validation Meme" style="max-width: 300px;">
-            <div class="code">
-                <pre>
-func validateInput(source *File) error {
-    if source == nil {
-        return fmt.Errorf("source file cannot be nil")
+            <p>Add proper input validation to ensure model files exist and are in the correct format before processing.</p>
+            <img src="https://i.imgflip.com/7zo7pz.jpg" alt="Input Validation Meme" style="max-width: 300px;"/>
+            <pre><code>
+func (m *Model) ValidateInput(ctx context.Context, path string) (*Model, error) {
+    if _, err := os.Stat(path); err != nil {
+        return nil, fmt.Errorf("model file not found: %v", err)
     }
-    // Add format validation
-    if !strings.HasSuffix(source.Path(), ".bin") {
-        return fmt.Errorf("invalid file format: must be .bin")
+    
+    // Check file extension
+    if !strings.HasSuffix(path, ".bin") && !strings.HasSuffix(path, ".gguf") {
+        return nil, fmt.Errorf("unsupported file format: %s", path)
+    }
+    
+    return m, nil
+}
+            </code></pre>
+        </div>
+
+        <div class="suggestion">
+            <h3>2. Implement Progress Reporting</h3>
+            <p>Add progress reporting for long-running operations like conversion and quantization.</p>
+            <pre><code>
+func (m *Model) ConvertToGGUF(ctx context.Context, progress chan float64) error {
+    total := 100
+    for i := 0; i <= total; i++ {
+        // Conversion work here
+        progress <- float64(i) / float64(total) * 100
+        time.Sleep(100 * time.Millisecond)
     }
     return nil
 }
-                </pre>
-            </div>
+            </code></pre>
         </div>
 
         <div class="suggestion">
-            <h3>2. Add Progress Monitoring</h3>
-            <p>Implement progress monitoring for long-running operations like conversion and quantization.</p>
-            <div class="code">
-                <pre>
-func (g *Gguf) convertToGguf(source Directory, progressChan chan float64) (*File, error) {
-    total := 100.0
-    for progress := 0.0; progress <= total; progress += 10.0 {
-        progressChan <- (progress / total) * 100
-        // Existing conversion logic
-    }
-    return result, nil
-}
-                </pre>
-            </div>
+            <h3>3. Add Detailed Documentation</h3>
+            <p>Improve documentation with examples and parameter descriptions.</p>
+            <pre><code>
+// Example documentation
+/**
+ * Quantize applies quantization to a given model file
+ * @param modelPath - Path to the input model file (supported formats: .bin, .gguf)
+ * @param bits - Quantization bits (supported values: 2,3,4,8)
+ * @param outputPath - Path where the quantized model will be saved
+ * @returns error if quantization fails
+ * 
+ * Example:
+ *     model, err := NewModel()
+ *     if err != nil {
+ *         return err
+ *     }
+ *     err = model.Quantize(ctx, "/path/to/model.bin", 4, "/output/model.gguf")
+ */
+            </code></pre>
         </div>
-
-        <div class="suggestion">
-            <h3>3. Add Error Recovery Mechanism</h3>
-            <p>Implement retry mechanisms for failed operations and proper cleanup.</p>
-            <div class="code">
-                <pre>
-const maxRetries = 3
-
-func (g *Gguf) quantizeWithRetry(source *File, quantization string) (*File, error) {
-    var err error
-    for i := 0; i < maxRetries; i++ {
-        result, err := g.quantize(source, quantization)
-        if err == nil {
-            return result, nil
-        }
-        time.Sleep(time.Second * time.Duration(i+1))
-    }
-    return nil, fmt.Errorf("failed after %d retries: %v", maxRetries, err)
-}
-                </pre>
-            </div>
-        </div>
-
-        <h2>Testing Notes</h2>
-        <p>Installation and building of the module completed successfully. No errors were encountered during the testing process.</p>
     </div>
 </body>
 </html>
