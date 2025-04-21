@@ -3,27 +3,13 @@
 <head>
     <title>Dagger Modules QA Report Index</title>
     <style>
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
-        }
-        th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: left;
-        }
-        th {
-            background-color: #f2f2f2;
-        }
-        .pass {
-            color: green;
-            font-size: 20px;
-        }
-        .fail {
-            color: red;
-            font-size: 20px;
-        }
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        table { border-collapse: collapse; width: 100%; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+        .pass { color: green; }
+        .fail { color: red; }
+        .status-icon { font-size: 1.2em; }
     </style>
 </head>
 <body>
@@ -35,6 +21,13 @@
             <th>Status</th>
             <th>Full Report</th>
         </tr>
-</table>
+        <tr>
+            <td>DebtRepayment</td>
+            <td>Module for fetching and analyzing data from Google Sheets for debt and investment information</td>
+            <td class="fail">❌</td>
+            <td><a href="DebtRepayment.html">View Report</a></td>
+        </tr>
+        <!-- Additional entries will be added here as files are processed -->
+    </table>
 </body>
 </html>
