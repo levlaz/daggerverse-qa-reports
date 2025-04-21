@@ -1,31 +1,61 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Dagger Modules QA Report Index</title>
+    <title>Dagger Modules QA Reports</title>
     <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
         table { border-collapse: collapse; width: 100%; }
-        th, td { padding: 8px; text-align: left; border: 1px solid #ddd; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
         th { background-color: #f2f2f2; }
-        .pass { color: green; font-size: 20px; }
-        .fail { color: red; font-size: 20px; }
-        a { color: #0366d6; text-decoration: none; }
-        a:hover { text-decoration: underline; }
+        .pass { color: green; }
+        .fail { color: red; }
+        .status-icon { font-size: 1.2em; }
     </style>
 </head>
 <body>
-    <h1>Dagger Modules QA Report Index</h1>
+    <h1>Dagger Modules QA Reports</h1>
     <table>
-        <thead>
-            <tr>
-                <th>Module Name</th>
-                <th>Brief Description</th>
-                <th>Status</th>
-                <th>Full Report</th>
-            </tr>
-        </thead>
-        <tbody>
-            <!-- Table entries will be populated here -->
-        </tbody>
-    </table>
+        <tr>
+            <th>Module Name</th>
+            <th>Brief Description</th>
+            <th>Status</th>
+            <th>Full Report</th>
+        </tr>
+        <tr>
+            <td>DebtRepayment</td>
+            <td>Module for fetching and analyzing data from Google Sheets to process debt and investment information</td>
+            <td><span class="status-icon fail">❌</span></td>
+            <td><a href="DebtRepayment.html">View Report</a></td>
+        </tr>
+        <tr>
+            <td>ResearcherContainer</td>
+            <td>Module for AI-powered company research using Modal and MongoDB</td>
+            <td><span class="status-icon pass">✓</span></td>
+            <td><a href="ResearcherContainer.html">View Report</a></td>
+        </tr>
+        <tr>
+            <td>SpokaneTech_Py</td>
+            <td>Development and production environment for Python/Django applications with linting, testing, and documentation capabilities</td>
+            <td><span class="status-icon pass">✓</span></td>
+            <td><a href="SpokaneTech_Py.html">View Report</a></td>
+        </tr>
+        <tr>
+            <td>Alpine</td>
+            <td>Core module for creating and customizing Alpine Linux containers with package management capabilities</td>
+            <td><span class="status-icon pass">✓</span></td>
+            <td><a href="alpine.html">View Report</a></td>
+        </tr>
+        <tr>
+            <td>android-pipeline</td>
+            <td>Module for building Android applications with support for debug/release APKs, AAB bundles, tests, and lint checks</td>
+            <td><span class="status-icon pass">✓</span></td>
+            <td><a href="android-pipeline.html">View Report</a></td>
+        </tr>
+        <tr>
+            <td>apache-avro-tools</td>
+            <td>Module for working with Apache Avro Tools, converting IDL files to schema files</td>
+            <td><span class="status-icon pass">✓</span></td>
+            <td><a href="apache-avro-tools.html">View Report</a></td>
+        </tr></table>
 </body>
 </html>
