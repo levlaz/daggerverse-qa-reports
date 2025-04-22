@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>QA Report - Top Level Test Module</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
+        h1, h2 { color: #333; }
+        .error { color: #dc3545; background: #ffebee; padding: 10px; border-radius: 4px; }
+        .functions { background: #f8f9fa; padding: 15px; border-radius: 4px; }
+        .suggestion { margin: 20px 0; padding: 15px; background: #e9ecef; border-radius: 4px; }
+        code { background: #f8f9fa; padding: 2px 5px; border-radius: 3px; }
+    </style>
+</head>
+<body>
+    <h1>Module QA Report</h1>
+    
+    <h2>Basic Information</h2>
+    <ul>
+        <li><strong>Module Name:</strong> bitbucket.org/dagger-modules/dagger-test-modules-public/top-level</li>
+        <li><strong>Author:</strong> Not available (crawling failed)</li>
+        <li><strong>Latest Version:</strong> main</li>
+        <li><strong>Release Date:</strong> Not available (crawling failed)</li>
+        <li><strong>Dagger Engine Version:</strong> v0.18.3</li>
+    </ul>
+
+    <h2>Module Functionality</h2>
+    <div class="functions">
+        <h3>Available Functions:</h3>
+        <ul>
+            <li>fn (no description available)</li>
+        </ul>
+    </div>
+
+    <h2>Testing Issues Encountered</h2>
+    <div class="error">
+        <p><strong>Crawling Error:</strong> Failed to crawl module page due to API limitations.</p>
+    </div>
+
+    <h2>Improvement Suggestions</h2>
+    
+    <div class="suggestion">
+        <h3>1. Add Function Documentation</h3>
+        <p>The module's functions lack descriptions, making it difficult to understand their purpose.</p>
+        <p>Recommended implementation:</p>
+        <pre><code>
+// Before
+func (m *Module) Fn() *Container {
+    // ...
+}
+
+// After
+// Fn performs [describe the function's purpose]
+// +doc=Executes a specific task with the following capabilities...
+func (m *Module) Fn() *Container {
+    // ...
+}
+        </code></pre>
+        <img src="https://i.imgflip.com/7qnx3p.jpg" alt="Documentation Meme" style="max-width: 300px;">
+    </div>
+
+    <div class="suggestion">
+        <h3>2. Add Error Handling</h3>
+        <p>Implement proper error handling and return meaningful error messages.</p>
+        <pre><code>
+// Before
+func (m *Module) Fn() *Container {
+    return m.Container().From("alpine")
+}
+
+// After
+func (m *Module) Fn() (*Container, error) {
+    if err := validateInput(); err != nil {
+        return nil, fmt.Errorf("invalid input: %w", err)
+    }
+    return m.Container().From("alpine"), nil
+}
+        </code></pre>
+    </div>
+
+    <div class="suggestion">
+        <h3>3. Add Version Constraints</h3>
+        <p>Specify version constraints for dependencies to ensure compatibility.</p>
+        <pre><code>
+// In dagger.json
+{
+    "name": "top-level",
+    "sdk": "go",
+    "dependencies": {
+        "alpine": {
+            "source": "alpine",
+            "version": "^3.17.0"
+        }
+    }
+}
+        </code></pre>
+    </div>
+
+</body>
+</html>
