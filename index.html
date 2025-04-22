@@ -6,7 +6,7 @@
         body { font-family: Arial, sans-serif; margin: 20px; }
         table { border-collapse: collapse; width: 100%; }
         th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-        th { background-color: #f2f2f2; }
+        th { background-color: #f5f5f5; }
         .pass { color: green; }
         .fail { color: red; }
     </style>
@@ -14,72 +14,46 @@
 <body>
     <h1>Dagger Modules QA Report Index</h1>
     <table>
-        <tr>
-            <th>Module Name</th>
-            <th>Brief Description</th>
-            <th>Status</th>
-            <th>Full Report</th>
-        </tr>
-        <tr>
-            <td>AWS CLI</td>
-            <td>AWS Command Line Interface Module</td>
-            <td>✅</td>
-            <td><a href="aws-cli.html">View Report</a></td>
-        </tr>
-        <tr>
-            <td>Dagger PHP</td>
-            <td>PHP SDK and Runtime for Dagger</td>
-            <td>✅</td>
-            <td><a href="dagger-php.html">View Report</a></td>
-        </tr>
-        <tr>
-            <td>Docker</td>
-            <td>Docker Container Management Module</td>
-            <td>✅</td>
-            <td><a href="docker.html">View Report</a></td>
-        </tr>
-        <tr>
-            <td>Go</td>
-            <td>Go Language Support Module</td>
-            <td>✅</td>
-            <td><a href="go.html">View Report</a></td>
-        </tr>
-        <tr>
-            <td>Helm</td>
-            <td>Kubernetes Package Manager Module</td>
-            <td>✅</td>
-            <td><a href="helm.html">View Report</a></td>
-        </tr>
-        <tr>
-            <td>Node.js</td>
-            <td>Node.js Runtime and Build Module</td>
-            <td>✅</td>
-            <td><a href="nodejs.html">View Report</a></td>
-        </tr>
-        <tr>
-            <td>PostgreSQL</td>
-            <td>PostgreSQL Database Module</td>
-            <td>✅</td>
-            <td><a href="postgres.html">View Report</a></td>
-        </tr>
-        <tr>
-            <td>Python</td>
-            <td>Python Runtime and Development Module</td>
-            <td>✅</td>
-            <td><a href="python.html">View Report</a></td>
-        </tr>
-        <tr>
-            <td>Terraform</td>
-            <td>Infrastructure as Code Module</td>
-            <td>✅</td>
-            <td><a href="terraform.html">View Report</a></td>
-        </tr>
-        <tr>
-            <td>Rust</td>
-            <td>Rust Development Environment</td>
-            <td>✅</td>
-            <td><a href="rust.html">View Report</a></td>
-        </tr>
+        <thead>
+            <tr>
+                <th>Module Name</th>
+                <th>Brief Description</th>
+                <th>Status</th>
+                <th>Full Report</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>python</td>
+                <td>Python programming language module for working with Python in Dagger pipelines</td>
+                <td>✅</td>
+                <td><a href="python.html">View Report</a></td>
+            </tr>
+            <tr>
+                <td>golang</td>
+                <td>A collection of functions for building, formatting, testing, linting and scanning Go projects</td>
+                <td>✅</td>
+                <td><a href="golang.html">View Report</a></td>
+            </tr>
+            <tr>
+                <td>docker</td>
+                <td>Integration with Docker Engine, allowing users to spawn Docker engines and interact with them through CLI</td>
+                <td>✅</td>
+                <td><a href="docker.html">View Report</a></td>
+            </tr>
+            <tr>
+                <td>aws-cli</td>
+                <td>Generic interface to use AWS CLI in Dagger pipelines with ECR, STS, and credential management</td>
+                <td>✅</td>
+                <td><a href="aws-cli.html">View Report</a></td>
+            </tr>
+            <tr>
+                <td>trivy</td>
+                <td>Security scanner integration for finding vulnerabilities, misconfigurations, secrets, and generating SBOM</td>
+                <td>✅</td>
+                <td><a href="trivy.html">View Report</a></td>
+            </tr>
+        </tbody>
     </table>
 </body>
 </html>
