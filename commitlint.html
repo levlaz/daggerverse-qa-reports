@@ -1,108 +1,102 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>QA Report - commitlint</title>
+    <title>QA Report - Commitlint Module</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 40px; }
-        .container { max-width: 1200px; margin: 0 auto; }
-        .error { color: red; }
-        .suggestion { margin: 20px 0; padding: 20px; background: #f5f5f5; }
-        pre { background: #f0f0f0; padding: 10px; border-radius: 5px; }
-        .meme { max-width: 500px; margin: 20px 0; }
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 20px; }
+        h1, h2 { color: #333; }
+        .error { color: #ff0000; }
+        .function { background: #f5f5f5; padding: 10px; margin: 10px 0; }
+        .suggestion { margin: 20px 0; padding: 10px; border-left: 3px solid #007bff; }
+        code { background: #f8f9fa; padding: 2px 5px; border-radius: 3px; }
+        pre { background: #f8f9fa; padding: 15px; border-radius: 5px; overflow-x: auto; }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>QA Report: commitlint</h1>
-        
-        <h2>Module Information</h2>
+    <h1>QA Report: Commitlint Module</h1>
+    
+    <h2>Module Information</h2>
+    <ul>
+        <li><strong>Name:</strong> github.com/fcanovai/daggerverse/commitlint</li>
+        <li><strong>Author:</strong> fcanovai</li>
+        <li><strong>Latest Version:</strong> main</li>
+        <li><strong>Release Date:</strong> Not available (crawling failed)</li>
+        <li><strong>Dagger Engine Version:</strong> v0.18.4</li>
+    </ul>
+
+    <h2>Module Description</h2>
+    <p>This module provides commit message linting functionality using commitlint. It helps ensure that commit messages follow conventional commit format.</p>
+
+    <h2>Available Functions</h2>
+    <div class="function">
+        <h3>lint</h3>
+        <p>Lint runs commitlint to lint commit messages.</p>
+    </div>
+
+    <h2>Issues Encountered</h2>
+    <div class="error">
+        <p>During testing, we encountered the following issues:</p>
         <ul>
-            <li><strong>Name:</strong> commitlint</li>
-            <li><strong>Author:</strong> cloudnative-pg</li>
-            <li><strong>Latest Version:</strong> 6dd81e0cdd946d5dde24f044f66f1ed8111758cf</li>
-            <li><strong>Dagger Engine Version Used:</strong> v0.18.2</li>
+            <li>Failed to crawl module information due to API limitations</li>
         </ul>
+    </div>
 
-        <h2>Module Purpose</h2>
-        <p>This module runs commitlint to validate conventional commits. It provides tooling to ensure commit messages follow the conventional commits specification.</p>
-
-        <h2>Functions</h2>
-        <ul>
-            <li><strong>lint()</strong> - Runs commitlint to lint commit messages
-                <ul>
-                    <li>Required arguments:
-                        <ul>
-                            <li>source: Directory! - The directory of the repository</li>
-                            <li>args: [String!] - A list of arguments to pass to commitlint</li>
-                        </ul>
-                    </li>
-                </ul>
-            </li>
-        </ul>
-
-        <h2>Improvement Suggestions</h2>
-        
-        <div class="suggestion">
-            <h3>1. Add Input Validation</h3>
-            <p>Add validation for the commit message format before processing to provide better error messages.</p>
-            <pre>
-// Add input validation
-func validateCommitMessage(message string) error {
-    if len(message) < 10 {
-        return fmt.Errorf("commit message too short: minimum length is 10 characters")
+    <h2>Suggestions for Improvement</h2>
+    
+    <div class="suggestion">
+        <h3>1. Add Input Validation</h3>
+        <p>Add proper input validation to ensure commit messages meet basic requirements before running the linter.</p>
+        <pre><code>
+func (m *Commitlint) validateInput(message string) error {
+    if len(message) < 1 {
+        return fmt.Errorf("commit message cannot be empty")
     }
-    if !strings.Contains(message, ":") {
-        return fmt.Errorf("invalid commit format: missing type (feat:, fix:, etc.)")
+    if len(message) > 100 {
+        return fmt.Errorf("commit message too long (max 100 characters)")
     }
     return nil
 }
-            </pre>
-        </div>
-
-        <div class="suggestion">
-            <h3>2. Add Configuration Options</h3>
-            <p>Provide more configuration options for customizing the commit lint rules.</p>
-            <pre>
-type Config struct {
-    MaxHeaderLength    int      `json:"maxHeaderLength"`
-    AllowedTypes      []string `json:"allowedTypes"`
-    RequireScope      bool     `json:"requireScope"`
-    CustomRules       []Rule   `json:"customRules"`
-}
-
-func NewCommitlint(config Config) *Commitlint {
-    // Initialize with custom configuration
-}
-            </pre>
-            <img src="https://i.imgflip.com/65efzo.jpg" alt="Configuration Meme" class="meme">
-        </div>
-
-        <div class="suggestion">
-            <h3>3. Add Testing Helper Functions</h3>
-            <p>Include helper functions for testing commit messages in CI/CD pipelines.</p>
-            <pre>
-func TestCommitMessage(message string) (bool, []string) {
-    errors := []string{}
-    // Add test logic here
-    return len(errors) == 0, errors
-}
-
-func BatchTestCommits(commits []string) TestReport {
-    // Process multiple commits and generate report
-}
-            </pre>
-        </div>
-
-        <h2>Installation and Execution Results</h2>
-        <p>✅ Module installation successful</p>
-        <p>✅ Module build successful</p>
-        
-        <h2>Notes</h2>
-        <ul>
-            <li>The module is well-focused on a single responsibility</li>
-            <li>Documentation is clear and includes examples</li>
-            <li>Default image version is specified (commitlint/commitlint:19.8.0)</li>
-        </ul>
+        </code></pre>
     </div>
+
+    <div class="suggestion">
+        <h3>2. Add Detailed Documentation</h3>
+        <p>Enhance the module documentation with examples and configuration options.</p>
+        <pre><code>
+// Example usage documentation in code:
+/**
+ * Commitlint Module
+ * 
+ * Usage:
+ *   dag := dagger.Connect()
+ *   client := commitlint.New(dag)
+ *   result, err := client.Lint(ctx, &commitlint.LintOpts{
+ *       Message: "feat: add new feature",
+ *       Config: "conventional",
+ *   })
+ */
+        </code></pre>
+    </div>
+
+    <div class="suggestion">
+        <h3>3. Add Custom Rules Support</h3>
+        <p>Allow users to specify custom commitlint rules through configuration.</p>
+        <pre><code>
+type Config struct {
+    Rules map[string]interface{} `json:"rules"`
+}
+
+func (m *Commitlint) WithCustomRules(rules Config) *Commitlint {
+    // Implementation to add custom rules
+    return m
+}
+        </code></pre>
+    </div>
+
+    <div class="meme">
+        <img src="https://i.imgflip.com/7q4o1l.jpg" alt="Commit Message Quality Meme" />
+        <p><em>When the commit message doesn't follow the convention...</em></p>
+    </div>
+
 </body>
 </html>
