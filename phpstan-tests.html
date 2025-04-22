@@ -1,115 +1,88 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>QA Report - PHPStan Tests Module</title>
+    <title>QA Report - phpstan/tests Module</title>
     <style>
         body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
         h1, h2 { color: #333; }
-        .function { background: #f5f5f5; padding: 10px; margin: 10px 0; border-radius: 5px; }
-        .suggestion { border-left: 4px solid #4CAF50; padding-left: 20px; margin: 20px 0; }
         .error { color: #ff0000; }
-        pre { background: #f8f8f8; padding: 10px; border-radius: 5px; overflow-x: auto; }
+        .function-list { background: #f5f5f5; padding: 15px; border-radius: 5px; }
+        .suggestion { margin: 20px 0; padding: 15px; background: #f9f9f9; border-left: 4px solid #007bff; }
+        .meme { max-width: 500px; margin: 20px 0; }
+        pre { background: #f0f0f0; padding: 10px; border-radius: 4px; overflow-x: auto; }
     </style>
 </head>
 <body>
-    <h1>QA Report: PHPStan Tests Module</h1>
-    
-    <h2>Module Information</h2>
+    <h1>QA Report: phpstan/tests Module</h1>
+
+    <h2>Basic Information</h2>
     <ul>
-        <li><strong>Name:</strong> tests (PHPStan Tests)</li>
+        <li><strong>Module Name:</strong> github.com/luanmtruong/daggerverse/phpstan/tests</li>
         <li><strong>Author:</strong> luanmtruong</li>
-        <li><strong>Latest Version:</strong> 96c13b929c636316317f745ff36cda4e4c66f680</li>
-        <li><strong>Release Date:</strong> Not provided in metadata</li>
-        <li><strong>Dagger Cloud Trace:</strong> <a href="https://daggerverse.dev/mod/github.com/luanmtruong/daggerverse/phpstan/tests@96c13b929c636316317f745ff36cda4e4c66f680">View on Daggerverse</a></li>
+        <li><strong>Latest Version:</strong> main</li>
+        <li><strong>Release Date:</strong> N/A (Unable to retrieve from crawl)</li>
+        <li><strong>Dagger Engine Version Used:</strong> v0.18.4</li>
     </ul>
 
-    <h2>Module Purpose</h2>
-    <p>This module appears to be a testing framework for PHPStan integration. It provides functionality to execute tests related to PHPStan analysis.</p>
-
-    <h2>Available Functions</h2>
-    <div class="function">
-        <h3>all()</h3>
-        <p>All executes all tests.</p>
-        <p>Return Type: Void</p>
-    </div>
-    <div class="function">
-        <h3>test()</h3>
-        <p>No description provided</p>
-        <p>Return Type: Void</p>
+    <h2>Module Functions</h2>
+    <div class="function-list">
+        <ul>
+            <li><strong>all()</strong> - All executes all tests.</li>
+            <li><strong>test()</strong> - No description provided</li>
+        </ul>
     </div>
 
-    <h2>Testing Environment</h2>
-    <p><strong>Dagger Engine Version:</strong> v0.18.3</p>
+    <h2>Issues Encountered</h2>
+    <div class="error">
+        <p>Unable to crawl module information due to API limitations: "Payment Required: Failed to scrape URL. Insufficient credits to perform this request."</p>
+    </div>
 
     <h2>Suggestions for Improvement</h2>
     
     <div class="suggestion">
         <h3>1. Add Function Documentation</h3>
-        <p>The 'test()' function lacks documentation. Proper documentation helps users understand the purpose and usage of the function.</p>
+        <p>The module's functions lack proper documentation. Here's how to improve it:</p>
         <pre>
-// Example of improved documentation:
-#[Object]
-pub struct Tests {
-    #[function]
-    /// Executes a single test case for PHPStan analysis
-    /// 
-    /// # Arguments
-    /// * None
-    ///
-    /// # Returns
-    /// * Void
-    pub async fn test(&self) -> Result<()> {
-        // Function implementation
-    }
+// test implements a single test execution
+func (m *Module) Test(ctx context.Context) *Container {
+    // Add documentation about what this test does
+    // Add parameters description if any
+    // Add return value description
+    ...
 }
-</pre>
-        <img src="https://i.imgflip.com/2/1bij.jpg" alt="Documentation meme" />
+        </pre>
     </div>
 
     <div class="suggestion">
-        <h3>2. Add Configuration Options</h3>
-        <p>The module could benefit from configurable test parameters.</p>
+        <h3>2. Add Error Handling</h3>
+        <p>Implement proper error handling and return meaningful error messages:</p>
         <pre>
-#[Object]
-pub struct Tests {
-    #[function]
-    pub async fn test_with_config(
-        &self,
-        #[arg(name = "php_version")] php_version: String,
-        #[arg(name = "memory_limit")] memory_limit: String,
-    ) -> Result<()> {
-        // Implementation with configuration
+func (m *Module) Test(ctx context.Context) (*Container, error) {
+    result, err := m.execute()
+    if err != nil {
+        return nil, fmt.Errorf("failed to execute test: %w", err)
     }
+    return result, nil
 }
-</pre>
+        </pre>
+        <img src="https://i.imgflip.com/2/1bij.jpg" alt="Error Handling Meme" class="meme">
     </div>
 
     <div class="suggestion">
-        <h3>3. Add Test Results Output</h3>
-        <p>Return structured test results instead of void for better integration capabilities.</p>
+        <h3>3. Add Configuration Options</h3>
+        <p>Allow customization of test execution through configuration options:</p>
         <pre>
-#[Object]
-pub struct TestResult {
-    pub success: bool,
-    pub duration: u64,
-    pub error_count: u32,
+type TestConfig struct {
+    Timeout    time.Duration
+    FailFast   bool
+    TestFilter string
 }
 
-#[Object]
-pub struct Tests {
-    #[function]
-    pub async fn test(&self) -> Result<TestResult> {
-        // Implementation returning detailed results
-    }
+func (m *Module) Test(ctx context.Context, config TestConfig) (*Container, error) {
+    // Implementation with configuration options
 }
-</pre>
+        </pre>
     </div>
 
-    <h2>Issues Encountered</h2>
-    <ul>
-        <li>Limited documentation for the test() function makes its specific purpose unclear</li>
-        <li>No detailed module description available in the metadata</li>
-        <li>Release date information is not provided in the module metadata</li>
-    </ul>
 </body>
 </html>
