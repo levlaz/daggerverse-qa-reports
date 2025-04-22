@@ -1,87 +1,90 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>QA Report - shellcheck Module</title>
+    <title>QA Report - Shellcheck Module</title>
     <style>
-        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 20px; }
+        body { font-family: Arial, sans-serif; margin: 40px; line-height: 1.6; }
         h1, h2 { color: #333; }
-        .error { color: #ff0000; }
-        .suggestion { margin: 20px 0; padding: 10px; background: #f5f5f5; }
-        code { background: #f0f0f0; padding: 2px 4px; border-radius: 4px; }
+        .function { background: #f5f5f5; padding: 10px; margin: 10px 0; border-radius: 5px; }
+        .error { color: #d32f2f; }
+        .suggestion { margin: 20px 0; padding: 15px; border-left: 4px solid #2196F3; }
+        code { background: #f8f8f8; padding: 2px 5px; border-radius: 3px; }
     </style>
 </head>
 <body>
-    <h1>QA Report - shellcheck Module</h1>
-
+    <h1>QA Report: Shellcheck Module</h1>
+    
     <h2>Basic Information</h2>
     <ul>
-        <li><strong>Module Name:</strong> github.com/dagger/dagger/ci/std/shellcheck</li>
-        <li><strong>Author:</strong> Unknown (crawl failed)</li>
-        <li><strong>Latest Version:</strong> Unknown (crawl failed)</li>
-        <li><strong>Release Date:</strong> Unknown (crawl failed)</li>
+        <li><strong>Module Name:</strong> github.com/softwaredevelop/daggerverse/shellcheck</li>
+        <li><strong>Author:</strong> softwaredevelop</li>
+        <li><strong>Latest Version:</strong> main</li>
+        <li><strong>Release Date:</strong> N/A (Unable to fetch from daggerverse)</li>
         <li><strong>Dagger Engine Version Used:</strong> v0.18.3</li>
     </ul>
 
-    <h2>Module Functions</h2>
-    <p>Unable to retrieve function list due to module installation and build failures.</p>
-
-    <h2>Encountered Issues</h2>
-    <div class="error">
-        <h3>Critical Issues:</h3>
-        <ul>
-            <li>Module crawl failed due to API limitations</li>
-            <li>Module installation failed: Module does not contain a dagger config file</li>
-            <li>Module build failed: Path "ci/std/shellcheck" does not exist in git repo</li>
-        </ul>
+    <h2>Module Functionality</h2>
+    <p>This module provides shellcheck functionality within Dagger pipelines. It includes the following function:</p>
+    <div class="function">
+        <strong>check()</strong>: Runs the shellcheck command to analyze shell scripts.
     </div>
 
-    <h2>Improvement Suggestions</h2>
+    <h2>Testing Issues Encountered</h2>
+    <div class="error">
+        <p>❌ Unable to crawl module information from daggerverse due to API limitations.</p>
+    </div>
+
+    <h2>Quality Improvement Suggestions</h2>
     
     <div class="suggestion">
-        <h3>1. Add proper module configuration</h3>
-        <p>The module is missing a dagger.json configuration file, which is required for installation.</p>
-        <code>
-{
-    "name": "shellcheck",
-    "sdk": "go",
-    "dependencies": [],
-    "source": "."
+        <h3>1. Add Input Validation and Error Handling</h3>
+        <p>The module should validate input files and provide clear error messages.</p>
+        <code><pre>
+func (s *Shellcheck) Check(ctx context.Context, script string) (*Check, error) {
+    if strings.TrimSpace(script) == "" {
+        return nil, fmt.Errorf("script content cannot be empty")
+    }
+    // Add more validation as needed
+    return s.check(ctx, script)
 }
-        </code>
-        <img src="https://i.imgflip.com/2/7zqnmq.jpg" alt="Configuration Missing Meme" />
+        </pre></code>
     </div>
 
     <div class="suggestion">
-        <h3>2. Fix Repository Structure</h3>
-        <p>Ensure the module path exists in the repository and follows the standard structure:</p>
-        <code>
-ci/
-  std/
-    shellcheck/
-      dagger.json
-      main.go
-      README.md
-        </code>
+        <h3>2. Implement Configuration Options</h3>
+        <p>Add customizable shellcheck options for better flexibility.</p>
+        <code><pre>
+type ShellcheckOpts struct {
+    Severity string
+    Shell    string
+    Format   string
+}
+
+func (s *Shellcheck) WithOptions(opts ShellcheckOpts) *Shellcheck {
+    // Implement options configuration
+    return s
+}
+        </pre></code>
+        <img src="https://i.imgflip.com/65efzo.jpg" alt="Configuration Options Meme" style="max-width: 300px;">
     </div>
 
     <div class="suggestion">
-        <h3>3. Add Documentation</h3>
-        <p>Add comprehensive documentation including:</p>
-        <code>
-# Shellcheck Module
+        <h3>3. Add Result Parsing and Reporting</h3>
+        <p>Implement structured output parsing for better integration capabilities.</p>
+        <code><pre>
+type ShellcheckResult struct {
+    File     string   `json:"file"`
+    Line     int      `json:"line"`
+    Level    string   `json:"level"`
+    Message  string   `json:"message"`
+    Code     int      `json:"code"`
+}
 
-## Description
-[Module description here]
-
-## Usage
-```go
-shellcheck := dag.Shellcheck()
-results := shellcheck.Scan(...)
-```
-
-## Examples
-[Include practical examples]
-        </code>
+func (s *Shellcheck) ParseResults(output string) ([]ShellcheckResult, error) {
+    // Parse shellcheck output into structured format
+    return results, nil
+}
+        </pre></code>
     </div>
 </body>
 </html>
