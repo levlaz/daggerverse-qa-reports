@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>QA Report - github.com/grouville/dagger-test-modules/top-level</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        .error { color: red; }
+        .suggestion { margin: 20px 0; padding: 10px; background: #f5f5f5; }
+        pre { background: #f0f0f0; padding: 10px; border-radius: 5px; }
+    </style>
+</head>
+<body>
+    <h1>QA Report - Dagger Module</h1>
+    
+    <h2>Basic Information</h2>
+    <ul>
+        <li><strong>Module Name:</strong> github.com/grouville/dagger-test-modules/top-level</li>
+        <li><strong>Author:</strong> Unknown (crawl failed)</li>
+        <li><strong>Latest Version:</strong> main</li>
+        <li><strong>Release Date:</strong> Unknown (crawl failed)</li>
+        <li><strong>Dagger Engine Version Used:</strong> v0.18.3</li>
+    </ul>
+
+    <h2>Module Functions</h2>
+    <ul>
+        <li>fn (no description provided)</li>
+    </ul>
+
+    <h2>Issues Encountered</h2>
+    <div class="error">
+        <p>1. Failed to crawl module information from daggerverse due to API limitations</p>
+        <p>2. Module has minimal documentation - function 'fn' has no description</p>
+    </div>
+
+    <h2>Quality Improvement Suggestions</h2>
+    
+    <div class="suggestion">
+        <h3>1. Add Function Documentation</h3>
+        <p>Add proper documentation to explain what each function does.</p>
+        <pre>
+// Example of good function documentation
+#[Function]
+/// Performs a specific task with the given input
+/// 
+/// # Arguments
+/// * `input` - Description of the input parameter
+/// 
+/// # Returns
+/// * Returns description of the output
+fn my_function(input: String) -> Result<String> {
+    // Implementation
+}
+        </pre>
+        <img src="https://i.imgflip.com/2k48t0.jpg" alt="Documentation Meme" />
+    </div>
+
+    <div class="suggestion">
+        <h3>2. Add Error Handling</h3>
+        <p>Implement proper error handling and return meaningful error messages.</p>
+        <pre>
+#[Function]
+fn process_data(input: String) -> Result<String> {
+    if input.is_empty() {
+        return Err("Input cannot be empty".into());
+    }
+    
+    match do_something(input) {
+        Ok(result) => Ok(result),
+        Err(e) => Err(format!("Processing failed: {}", e))
+    }
+}
+        </pre>
+    </div>
+
+    <div class="suggestion">
+        <h3>3. Add Examples and Usage Documentation</h3>
+        <p>Include example usage in the module documentation.</p>
+        <pre>
+// Module level documentation
+/// # Example Usage
+/// ```dagger
+/// dagger call -m github.com/grouville/dagger-test-modules/top-level \
+///     fn --input="example input"
+/// ```
+        </pre>
+    </div>
+</body>
+</html>
