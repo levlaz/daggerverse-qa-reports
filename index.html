@@ -6,54 +6,76 @@
         body { font-family: Arial, sans-serif; margin: 20px; }
         table { border-collapse: collapse; width: 100%; }
         th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-        th { background-color: #f5f5f5; }
-        .pass { color: green; }
-        .fail { color: red; }
+        th { background-color: #f2f2f2; }
+        .pass { color: green; font-weight: bold; }
+        .fail { color: red; font-weight: bold; }
+        a { color: #0066cc; text-decoration: none; }
+        a:hover { text-decoration: underline; }
     </style>
 </head>
 <body>
     <h1>Dagger Modules QA Report Index</h1>
     <table>
-        <thead>
-            <tr>
-                <th>Module Name</th>
-                <th>Brief Description</th>
-                <th>Status</th>
-                <th>Full Report</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>python</td>
-                <td>Python programming language module for working with Python in Dagger pipelines</td>
-                <td>✅</td>
-                <td><a href="python.html">View Report</a></td>
-            </tr>
-            <tr>
-                <td>golang</td>
-                <td>A collection of functions for building, formatting, testing, linting and scanning Go projects</td>
-                <td>✅</td>
-                <td><a href="golang.html">View Report</a></td>
-            </tr>
-            <tr>
-                <td>docker</td>
-                <td>Integration with Docker Engine, allowing users to spawn Docker engines and interact with them through CLI</td>
-                <td>✅</td>
-                <td><a href="docker.html">View Report</a></td>
-            </tr>
-            <tr>
-                <td>aws-cli</td>
-                <td>Generic interface to use AWS CLI in Dagger pipelines with ECR, STS, and credential management</td>
-                <td>✅</td>
-                <td><a href="aws-cli.html">View Report</a></td>
-            </tr>
-            <tr>
-                <td>trivy</td>
-                <td>Security scanner integration for finding vulnerabilities, misconfigurations, secrets, and generating SBOM</td>
-                <td>✅</td>
-                <td><a href="trivy.html">View Report</a></td>
-            </tr>
-        </tbody>
+        <tr>
+            <th>Module Name</th>
+            <th>Brief Description</th>
+            <th>Status</th>
+            <th>Full Report</th>
+        </tr>
+        <tr>
+            <td>alpine</td>
+            <td>Alpine base image module</td>
+            <td><span class="pass">✓</span></td>
+            <td><a href="alpine.html">View Report</a></td>
+        </tr>
+        <tr>
+            <td>aws-cli</td>
+            <td>AWS CLI tools integration</td>
+            <td><span class="pass">✓</span></td>
+            <td><a href="aws-cli.html">View Report</a></td>
+        </tr>
+        <tr>
+            <td>docker</td>
+            <td>Docker operations module</td>
+            <td><span class="pass">✓</span></td>
+            <td><a href="docker.html">View Report</a></td>
+        </tr>
+        <tr>
+            <td>golang</td>
+            <td>Go development environment</td>
+            <td><span class="pass">✓</span></td>
+            <td><a href="golang.html">View Report</a></td>
+        </tr>
+        <tr>
+            <td>helm</td>
+            <td>Kubernetes Helm package manager</td>
+            <td><span class="pass">✓</span></td>
+            <td><a href="helm.html">View Report</a></td>
+        </tr>
+        <tr>
+            <td>nodejs</td>
+            <td>Node.js runtime and tools</td>
+            <td><span class="pass">✓</span></td>
+            <td><a href="nodejs.html">View Report</a></td>
+        </tr>
+        <tr>
+            <td>postgres</td>
+            <td>PostgreSQL database service</td>
+            <td><span class="pass">✓</span></td>
+            <td><a href="postgres.html">View Report</a></td>
+        </tr>
+        <tr>
+            <td>python</td>
+            <td>Python development environment</td>
+            <td><span class="pass">✓</span></td>
+            <td><a href="python.html">View Report</a></td>
+        </tr>
+        <tr>
+            <td>terraform</td>
+            <td>Infrastructure as Code tooling</td>
+            <td><span class="pass">✓</span></td>
+            <td><a href="terraform.html">View Report</a></td>
+        </tr>
     </table>
 </body>
 </html>
