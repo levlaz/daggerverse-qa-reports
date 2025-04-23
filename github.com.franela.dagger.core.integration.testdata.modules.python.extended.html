@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>QA Report - Python Extended Module</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; line-height: 1.6; }
+        h1, h2 { color: #333; }
+        .error { color: #dc3545; padding: 10px; background-color: #f8d7da; border-radius: 4px; }
+        .success { color: #28a745; padding: 10px; background-color: #d4edda; border-radius: 4px; }
+        .meme { max-width: 500px; margin: 20px 0; }
+        pre { background-color: #f8f9fa; padding: 15px; border-radius: 4px; }
+    </style>
+</head>
+<body>
+    <h1>QA Report - Python Extended Module</h1>
+    
+    <h2>Module Information</h2>
+    <ul>
+        <li><strong>Module Name:</strong> github.com/franela/dagger/core/integration/testdata/modules/python/extended</li>
+        <li><strong>Version:</strong> main</li>
+        <li><strong>Dagger Engine Version:</strong> v0.18.4</li>
+    </ul>
+
+    <h2>Module Functions</h2>
+    <ul>
+        <li>codegen</li>
+        <li>module-runtime</li>
+        <li>required-paths</li>
+    </ul>
+
+    <h2>Issues Encountered</h2>
+    <div class="error">
+        <p><strong>Crawling Issue:</strong> Unable to crawl module information from daggerverse due to API limitations.</p>
+    </div>
+
+    <h2>Suggestions for Improvement</h2>
+    
+    <h3>1. Add Function Documentation</h3>
+    <p>The module functions lack descriptions, making it difficult for users to understand their purpose.</p>
+    <pre>
+// Before:
+func codegen() {}
+
+// After:
+// CodeGen generates Python code from the Dagger module definition
+// It processes the input module and creates corresponding Python classes and functions
+func codegen() {
+    // Implementation
+}
+    </pre>
+
+    <h3>2. Implement Error Handling</h3>
+    <p>Add proper error handling and return meaningful error messages.</p>
+    <pre>
+// Before:
+func moduleRuntime() string {
+    return process()
+}
+
+// After:
+func moduleRuntime() (string, error) {
+    result, err := process()
+    if err != nil {
+        return "", fmt.Errorf("failed to process module runtime: %w", err)
+    }
+    return result, nil
+}
+    </pre>
+
+    <h3>3. Add Tests</h3>
+    <p>Include comprehensive tests to ensure module reliability.</p>
+    <pre>
+func TestModuleRuntime(t *testing.T) {
+    tests := []struct {
+        name     string
+        input    string
+        expected string
+        wantErr  bool
+    }{
+        {
+            name:     "basic test",
+            input:    "test input",
+            expected: "expected output",
+            wantErr:  false,
+        },
+    }
+
+    for _, tt := range tests {
+        t.Run(tt.name, func(t *testing.T) {
+            got, err := moduleRuntime(tt.input)
+            if (err != nil) != tt.wantErr {
+                t.Errorf("moduleRuntime() error = %v, wantErr %v", err, tt.wantErr)
+                return
+            }
+            if got != tt.expected {
+                t.Errorf("moduleRuntime() = %v, want %v", got, tt.expected)
+            }
+        })
+    }
+}
+    </pre>
+
+    <h2>Meme Feedback</h2>
+    <img src="https://i.imgflip.com/5k8kh5.jpg" alt="Documentation Meme" class="meme">
+    <p>When you see a module with no documentation...</p>
+
+    <h2>Testing Environment</h2>
+    <ul>
+        <li>Dagger Version: v0.18.4 (docker-image://registry.dagger.io/engine:v0.18.4) linux/amd64</li>
+        <li>Test Date: Current Date</li>
+    </ul>
+
+</body>
+</html>
