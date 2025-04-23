@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>QA Report - ssh-manager</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .error { color: #dc3545; background: #f8d7da; padding: 10px; border-radius: 4px; }
+        .suggestion { margin: 20px 0; padding: 15px; background: #f8f9fa; border-radius: 4px; }
+        pre { background: #f4f4f4; padding: 15px; border-radius: 4px; overflow-x: auto; }
+        .meme { max-width: 500px; margin: 20px 0; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>QA Report: ssh-manager</h1>
+        
+        <h2>Module Information</h2>
+        <ul>
+            <li><strong>Name:</strong> ssh-manager</li>
+            <li><strong>Author:</strong> felipepimentel</li>
+            <li><strong>Latest Version:</strong> main</li>
+            <li><strong>Repository:</strong> <a href="https://github.com/felipepimentel/daggerverse">https://github.com/felipepimentel/daggerverse</a></li>
+            <li><strong>Module Path:</strong> github.com/felipepimentel/daggerverse/libraries/ssh-manager</li>
+            <li><strong>Commit:</strong> 4e7dc6be33dab127679dae9305ad266099600737</li>
+        </ul>
+
+        <h2>Testing Environment</h2>
+        <ul>
+            <li><strong>Dagger Version:</strong> v0.18.4</li>
+            <li><strong>Platform:</strong> linux/amd64</li>
+        </ul>
+
+        <h2>Issues Encountered</h2>
+        <div class="error">
+            <h3>Critical Issues:</h3>
+            <ul>
+                <li>Failed to crawl module page due to API limitations</li>
+                <li>Module build failed with error: "main object not found, check that your module's name and main object match"</li>
+            </ul>
+        </div>
+
+        <h2>Improvement Suggestions</h2>
+        
+        <div class="suggestion">
+            <h3>1. Fix Main Object Configuration</h3>
+            <p>The module fails to build because the main object is not properly configured. This needs to be fixed in the dagger.json file:</p>
+            <pre>
+{
+  "name": "ssh-manager",
+  "sdk": "go",
+  "dependencies": [],
+  "source": ".",
+  "mainObject": "SSHManager"  // Add this line with the correct main object name
+}</pre>
+        </div>
+
+        <div class="suggestion">
+            <h3>2. Add Proper Documentation</h3>
+            <p>The module would benefit from better documentation. Add a comprehensive README.md:</p>
+            <pre>
+# SSH Manager
+
+A Dagger module for managing SSH operations.
+
+## Features
+- List of features
+- Usage examples
+- Configuration options
+
+## Quick Start
+```go
+ssh := dag.SSHManager().New()
+```</pre>
+        </div>
+
+        <div class="suggestion">
+            <h3>3. Add Input Validation</h3>
+            <p>Implement proper input validation for SSH configurations:</p>
+            <pre>
+type SSHManager struct {
+    Host     string
+    Port     int
+    Username string
+}
+
+func (m *SSHManager) Validate() error {
+    if m.Host == "" {
+        return fmt.Errorf("host cannot be empty")
+    }
+    if m.Port <= 0 || m.Port > 65535 {
+        return fmt.Errorf("invalid port number")
+    }
+    return nil
+}</pre>
+            <img src="https://i.imgflip.com/2k48t0.jpg" alt="Input Validation Meme" class="meme">
+        </div>
+    </div>
+</body>
+</html>
