@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>QA Report - gitlocal Module</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
+        h1, h2 { color: #333; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .function-list { background-color: #f5f5f5; padding: 20px; border-radius: 5px; }
+        .suggestion { margin: 20px 0; padding: 20px; background-color: #e9f7ff; border-radius: 5px; }
+        .error { color: #721c24; background-color: #f8d7da; padding: 10px; border-radius: 5px; }
+        code { background-color: #f8f9fa; padding: 2px 5px; border-radius: 3px; }
+        pre { background-color: #f8f9fa; padding: 15px; border-radius: 5px; overflow-x: auto; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>QA Report: gitlocal Module</h1>
+        
+        <h2>Module Information</h2>
+        <ul>
+            <li><strong>Name:</strong> gitlocal</li>
+            <li><strong>Author:</strong> juli3nk</li>
+            <li><strong>Version Tested:</strong> latest</li>
+            <li><strong>Dagger Version Used:</strong> v0.18.4</li>
+        </ul>
+
+        <h2>Module Functionality</h2>
+        <div class="function-list">
+            <h3>Available Functions:</h3>
+            <ul>
+                <li><code>get-latest-commit</code> - Get the latest commit from local git repository</li>
+                <li><code>get-latest-tag</code> - Get the latest tag from local git repository</li>
+                <li><code>get-modified-files</code> - Get list of modified files in local git repository</li>
+                <li><code>uncommitted</code> - Returns if there are uncommitted files</li>
+                <li><code>worktree</code> - Access to git worktree</li>
+            </ul>
+        </div>
+
+        <h2>Quality Improvement Suggestions</h2>
+        
+        <div class="suggestion">
+            <h3>1. Add Function Documentation</h3>
+            <p>The module's functions lack descriptions. Adding proper documentation would improve usability.</p>
+            <img src="https://i.imgflip.com/4/2zo1ki.jpg" alt="Documentation Meme" style="max-width: 300px;"/>
+            <pre>
+// Example of improved documentation:
+#code Function modifiedFiles() string {
+    /*
+     * Returns a list of modified files in the git repository
+     * @returns String containing newline-separated list of modified files
+     * @throws Error if not in a git repository
+     */
+    // Implementation...
+}
+            </pre>
+        </div>
+
+        <div class="suggestion">
+            <h3>2. Add Error Handling</h3>
+            <p>Implement proper error handling and return descriptive error messages.</p>
+            <pre>
+#code Function getLatestCommit() *GetLatestCommitResult {
+    if !isGitRepo() {
+        return GetLatestCommitResult{
+            error: "Not a git repository"
+        }
+    }
+    // Implementation...
+}
+            </pre>
+        </div>
+
+        <div class="suggestion">
+            <h3>3. Add Input Validation</h3>
+            <p>Implement input validation for functions that accept parameters.</p>
+            <pre>
+#code Function getModifiedFiles(path string) *ModifiedFilesResult {
+    if len(path) == 0 {
+        return ModifiedFilesResult{
+            error: "Path cannot be empty"
+        }
+    }
+    if !exists(path) {
+        return ModifiedFilesResult{
+            error: "Path does not exist"
+        }
+    }
+    // Implementation...
+}
+            </pre>
+        </div>
+
+        <h2>Testing Issues Encountered</h2>
+        <div class="error">
+            <p>Unable to crawl module information from daggerverse due to API limitations.</p>
+        </div>
+
+    </div>
+</body>
+</html>
