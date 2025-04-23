@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>QA Report: dagger-doctum</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
+        h1, h2 { color: #333; }
+        .error { color: #ff0000; }
+        .function { background: #f5f5f5; padding: 10px; margin: 10px 0; }
+        .suggestion { margin: 20px 0; }
+        pre { background: #f0f0f0; padding: 10px; overflow-x: auto; }
+        .meme { max-width: 500px; margin: 20px 0; }
+    </style>
+</head>
+<body>
+    <h1>QA Report: dagger-doctum</h1>
+    
+    <h2>Module Information</h2>
+    <ul>
+        <li><strong>Name:</strong> github.com/jasonmccallister/dagger-doctum</li>
+        <li><strong>Author:</strong> Jason McCallister</li>
+        <li><strong>Latest Version:</strong> main</li>
+        <li><strong>Release Date:</strong> N/A (Unable to fetch from daggerverse)</li>
+        <li><strong>Dagger Engine Version Used:</strong> v0.18.4</li>
+    </ul>
+
+    <h2>Module Purpose</h2>
+    <p>This module is designed to generate and serve documentation for PHP projects using Doctum, a documentation generator. It provides two main functions:</p>
+    <div class="function">
+        <h3>Available Functions:</h3>
+        <ul>
+            <li><strong>run:</strong> Builds the documentation for the given source directory</li>
+            <li><strong>serve:</strong> Builds the documentation and serves it, providing a local preview capability</li>
+        </ul>
+    </div>
+
+    <h2>Testing Issues Encountered</h2>
+    <div class="error">
+        <p>⚠️ Unable to crawl module information from daggerverse due to API limitations.</p>
+    </div>
+
+    <h2>Suggestions for Improvement</h2>
+    
+    <div class="suggestion">
+        <h3>1. Add Input Validation</h3>
+        <p>Add proper input validation to ensure source directory exists and contains PHP files.</p>
+        <pre>
+// Example implementation in Go
+func (m *Module) run(ctx context.Context, sourceDir *Directory) (*Directory, error) {
+    // Validate source directory
+    exists, err := sourceDir.File("composer.json").Exists(ctx)
+    if err != nil {
+        return nil, fmt.Errorf("failed to check source directory: %w", err)
+    }
+    if !exists {
+        return nil, fmt.Errorf("composer.json not found in source directory")
+    }
+    // Continue with existing logic...
+}
+        </pre>
+    </div>
+
+    <div class="suggestion">
+        <h3>2. Add Configuration Options</h3>
+        <p>Provide more configuration options for Doctum generation</p>
+        <pre>
+type Config struct {
+    Title string
+    SourceDir string
+    OutputDir string
+    VersionName string
+    Themes []string
+}
+
+func (m *Module) run(ctx context.Context, config Config) (*Directory, error) {
+    // Implementation using the config...
+}
+        </pre>
+        <img src="https://i.imgflip.com/65efzo.jpg" alt="Configuration Options Meme" class="meme">
+    </div>
+
+    <div class="suggestion">
+        <h3>3. Add Progress Reporting</h3>
+        <p>Implement progress reporting for better user feedback during documentation generation</p>
+        <pre>
+func (m *Module) run(ctx context.Context) *Container {
+    return dag.Container().
+        With(progressReporting()).
+        WithExec([]string{
+            "php", "/doctum.phar", 
+            "update", 
+            "--force", 
+            "--no-ansi", 
+            "--progress-bar=false", 
+            "doctum.php"
+        })
+}
+
+func progressReporting() func(*Container) *Container {
+    return func(c *Container) *Container {
+        return c.WithMountedFile(
+            "/progress.sh",
+            dag.String(`
+                while true; do
+                    echo "Processing..."
+                    sleep 5
+                done
+            `),
+        )
+    }
+}
+        </pre>
+    </div>
+</body>
+</html>
