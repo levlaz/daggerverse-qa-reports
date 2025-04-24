@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>QA Report - github.com/levlaz/medplum</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
+        h1 { color: #333; }
+        .error { color: #dc3545; padding: 10px; background-color: #f8d7da; border-radius: 4px; }
+        .suggestion { margin: 20px 0; padding: 15px; background-color: #f8f9fa; border-radius: 4px; }
+        pre { background-color: #f8f9fa; padding: 10px; border-radius: 4px; overflow-x: auto; }
+        .meme { max-width: 500px; margin: 20px 0; }
+    </style>
+</head>
+<body>
+    <h1>QA Report: github.com/levlaz/medplum</h1>
+
+    <h2>Module Information</h2>
+    <p><strong>Name:</strong> github.com/levlaz/medplum</p>
+    <p><strong>Author:</strong> levlaz</p>
+    <p><strong>Latest Version:</strong> main (no proper version tag found)</p>
+    <p><strong>Release Date:</strong> Not available</p>
+
+    <h2>Testing Environment</h2>
+    <p><strong>Dagger Engine Version:</strong> v0.18.4</p>
+
+    <h2>Module Analysis</h2>
+    <div class="error">
+        <h3>Issues Encountered:</h3>
+        <ul>
+            <li>Failed to crawl module page: Insufficient credits for scraping</li>
+            <li>Installation failed: Module does not contain a dagger.json configuration file</li>
+            <li>Build failed: Unable to retrieve module functions due to missing configuration</li>
+        </ul>
+    </div>
+
+    <h2>Quality Improvement Suggestions</h2>
+    
+    <div class="suggestion">
+        <h3>1. Add Basic Dagger Configuration</h3>
+        <p>The module is missing a dagger.json configuration file, which is required for Dagger modules.</p>
+        <pre>
+{
+    "name": "medplum",
+    "sdk": "go",
+    "dependencies": [],
+    "source": ".",
+    "engineVersion": "v0.18.4"
+}
+        </pre>
+        <img src="https://media.giphy.com/media/3o6MbkZSYy4mI3gLYc/giphy.gif" alt="Configuration Missing" class="meme">
+    </div>
+
+    <div class="suggestion">
+        <h3>2. Add Version Tagging</h3>
+        <p>Implement proper version tagging for better dependency management.</p>
+        <pre>
+# Commands to implement versioning
+git tag v0.1.0
+git push origin v0.1.0
+
+# In dagger.json, specify version
+{
+    "name": "medplum",
+    "version": "0.1.0",
+    ...
+}
+        </pre>
+    </div>
+
+    <div class="suggestion">
+        <h3>3. Add Documentation</h3>
+        <p>Create a README.md with module documentation:</p>
+        <pre>
+# Medplum Dagger Module
+
+## Overview
+[Brief description of what the module does]
+
+## Installation
+```bash
+dagger install github.com/levlaz/medplum@v0.1.0
+```
+
+## Usage
+[Usage examples]
+
+## Functions
+[List of available functions and their usage]
+        </pre>
+    </div>
+
+    <h2>Trace Information</h2>
+    <p>Unable to provide trace link due to module configuration issues.</p>
+</body>
+</html>
