@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>QA Report - Gitleaks Pipeline</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
+        h1, h2 { color: #333; }
+        .error { color: #ff0000; background: #ffeeee; padding: 10px; border-radius: 5px; }
+        .function { background: #f5f5f5; padding: 10px; margin: 10px 0; border-radius: 5px; }
+        .suggestion { margin: 20px 0; padding: 15px; background: #f0f8ff; border-radius: 5px; }
+        code { background: #f0f0f0; padding: 2px 5px; border-radius: 3px; }
+        .meme { margin: 20px 0; }
+    </style>
+</head>
+<body>
+    <h1>QA Report: Gitleaks Pipeline</h1>
+    
+    <h2>Module Information</h2>
+    <ul>
+        <li><strong>Module Name:</strong> github.com/fluent-ci-templates/gitleaks-pipeline</li>
+        <li><strong>Version Tested:</strong> main</li>
+        <li><strong>Dagger Engine Version:</strong> v0.18.4</li>
+    </ul>
+
+    <h2>Functionality</h2>
+    <p>This module provides functionality for detecting secrets in code using Gitleaks. It includes the following function:</p>
+    <div class="function">
+        <strong>detect()</strong> - Detect secrets in code
+    </div>
+
+    <h2>Issues Encountered</h2>
+    <div class="error">
+        <p>Unable to crawl module information from daggerverse due to API limitations.</p>
+    </div>
+
+    <h2>Improvement Suggestions</h2>
+    
+    <div class="suggestion">
+        <h3>1. Add Input Validation</h3>
+        <p>Implement input validation to ensure proper parameters are provided for secret detection.</p>
+        <code>
+func detect(ctx context.Context, src *Directory) (*Container, error) {
+    if src == nil {
+        return nil, fmt.Errorf("source directory cannot be nil")
+    }
+    // ... rest of the implementation
+}
+        </code>
+    </div>
+
+    <div class="suggestion">
+        <h3>2. Add Configuration Options</h3>
+        <p>Allow customization of Gitleaks configuration through function parameters.</p>
+        <code>
+type GitleaksConfig struct {
+    AllowList []string
+    ConfigPath string
+    Verbose bool
+}
+
+func detect(ctx context.Context, src *Directory, config *GitleaksConfig) (*Container, error) {
+    // Implementation with configuration options
+}
+        </code>
+    </div>
+
+    <div class="suggestion">
+        <h3>3. Implement Result Processing</h3>
+        <p>Add functionality to process and format detection results.</p>
+        <code>
+type DetectionResult struct {
+    FilePath string
+    SecretType string
+    LineNumber int
+    Severity string
+}
+
+func processResults(output string) ([]DetectionResult, error) {
+    // Parse and structure the results
+}
+        </code>
+    </div>
+
+    <div class="meme">
+        <img src="https://i.imgflip.com/7zyz8k.jpg" alt="Security meme" />
+        <p><em>When you find an exposed API key in the codebase</em></p>
+    </div>
+
+</body>
+</html>
