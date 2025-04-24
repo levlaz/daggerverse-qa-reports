@@ -1,81 +1,99 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>QA Report - ssh-keygen</title>
+    <title>QA Report - ssh-keygen Module</title>
     <style>
         body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
-        h1 { color: #333; }
+        h1, h2 { color: #333; }
         .error { color: #ff0000; }
-        .suggestions { background-color: #f5f5f5; padding: 20px; border-radius: 5px; }
-        pre { background-color: #f0f0f0; padding: 10px; border-radius: 4px; }
+        .function { background: #f5f5f5; padding: 10px; margin: 5px 0; border-radius: 5px; }
+        .suggestion { border-left: 4px solid #007bff; padding-left: 15px; margin: 10px 0; }
+        pre { background: #f8f9fa; padding: 10px; border-radius: 5px; }
     </style>
 </head>
 <body>
-    <h1>QA Report: ssh-keygen</h1>
+    <h1>QA Report: ssh-keygen Module</h1>
 
     <h2>Basic Information</h2>
     <ul>
-        <li><strong>Module Name:</strong> ssh-keygen/tests</li>
-        <li><strong>Author:</strong> Unknown (crawl failed)</li>
+        <li><strong>Module Name:</strong> ssh-keygen</li>
+        <li><strong>Module Path:</strong> github.com/jedevc/daggerverse-sagikazarmark/ssh-keygen</li>
         <li><strong>Latest Version:</strong> latest</li>
-        <li><strong>Release Date:</strong> Unknown (crawl failed)</li>
-        <li><strong>Dagger Engine Version:</strong> v0.18.3</li>
+        <li><strong>Note:</strong> Could not retrieve author and release date due to crawling limitations</li>
     </ul>
 
-    <h2>Module Functions</h2>
+    <h2>Testing Environment</h2>
     <ul>
-        <li><code>all()</code> - All executes all tests</li>
-        <li><code>ecdsa()</code> - ECDSA key generation test</li>
-        <li><code>ed-25519()</code> - ED25519 key generation test</li>
-        <li><code>rsa()</code> - RSA key generation test</li>
+        <li><strong>Dagger Engine Version:</strong> v0.18.4</li>
     </ul>
 
-    <h2>Module Purpose</h2>
-    <p>This appears to be a test module for an SSH key generation implementation, supporting multiple key types including RSA, ECDSA, and ED25519.</p>
-
-    <h2>Issues Encountered</h2>
-    <div class="error">
+    <h2>Module Functionality</h2>
+    <p>This module provides functionality for generating SSH key pairs using different algorithms:</p>
+    <div class="function">
+        <h3>Available Functions:</h3>
         <ul>
-            <li>Unable to crawl module information from daggerverse due to API limitations</li>
+            <li><strong>ecdsa()</strong> - Generate a new SSH key pair using the ECDSA algorithm</li>
+            <li><strong>ed-25519()</strong> - Generate a new SSH key pair using the Ed25519 algorithm</li>
+            <li><strong>rsa()</strong> - Generate a new SSH key pair using the RSA algorithm</li>
         </ul>
     </div>
 
-    <h2>Quality Improvement Suggestions</h2>
-    <div class="suggestions">
-        <h3>1. Add Function Documentation</h3>
-        <p>The function descriptions are currently empty. Add proper documentation for each function.</p>
+    <h2>Issues Encountered</h2>
+    <div class="error">
+        <p>❌ Unable to crawl the module page due to API limitations</p>
+    </div>
+
+    <h2>Improvement Suggestions</h2>
+    
+    <div class="suggestion">
+        <h3>1. Add Input Validation and Customization Options</h3>
+        <p>Add parameters to customize key generation, such as key size and comment.</p>
         <pre>
-// Example improvement:
-#[Function(
-    description: "Generates and tests an ECDSA SSH key pair"
-)]
-pub fn ecdsa(self) -> Result<()> {
-    // implementation
+// Example implementation:
+func (m *Module) RSA(ctx context.Context, opts RSAOptions) (*Key, error) {
+    if opts.KeySize < 2048 {
+        return nil, fmt.Errorf("key size must be at least 2048 bits")
+    }
+    // Implementation
+}
+
+type RSAOptions struct {
+    KeySize  int    `docs:"Size of the key in bits (minimum 2048)"`
+    Comment  string `docs:"Comment to add to the key"`
 }
         </pre>
+    </div>
 
-        <h3>2. Add Test Results Output</h3>
-        <p>Consider adding more detailed test output to understand what's being tested.</p>
+    <div class="suggestion">
+        <h3>2. Add Key Export Options</h3>
+        <p>Provide different export formats and encryption options for the generated keys.</p>
         <pre>
-// Example improvement:
-pub fn test_result(self, key_type: &str) -> Result<String> {
-    format!("✅ Successfully generated and verified {} SSH key pair", key_type)
+// Example implementation:
+type ExportOptions struct {
+    Format     string `docs:"Format of the key (PEM/OpenSSH)"`
+    Passphrase string `docs:"Optional passphrase for key encryption"`
+}
+
+func (k *Key) Export(ctx context.Context, opts ExportOptions) (*File, error) {
+    // Implementation
 }
         </pre>
+    </div>
 
-        <img src="https://i.imgflip.com/65efzo.jpg" alt="Documentation Meme" />
-        <p><em>"Documentation is like a love letter to your future self"</em></p>
-
-        <h3>3. Add Parameter Customization</h3>
-        <p>Allow customization of key parameters like bit length for RSA.</p>
+    <div class="suggestion">
+        <h3>3. Add Key Validation and Testing</h3>
+        <p>Include validation functions to verify generated keys.</p>
+        <img src="https://i.imgflip.com/2/7p1v6t.jpg" alt="Testing Meme" style="max-width: 300px;"/>
         <pre>
-// Example improvement:
-#[Function(
-    description: "Generates and tests an RSA SSH key pair"
-)]
-pub fn rsa(self, bits: Option<u32>) -> Result<()> {
-    let bits = bits.unwrap_or(2048);
-    // implementation with configurable bits
+// Example implementation:
+func (k *Key) Verify(ctx context.Context) (bool, error) {
+    // Implement key pair validation
+    return true, nil
+}
+
+func (k *Key) Test(ctx context.Context) error {
+    // Implement actual SSH connection test
+    return nil
 }
         </pre>
     </div>
