@@ -3,88 +3,107 @@
 <head>
     <title>QA Report - Shellcheck Module</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 40px; line-height: 1.6; }
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
         h1, h2 { color: #333; }
-        .function { background: #f5f5f5; padding: 10px; margin: 10px 0; border-radius: 5px; }
-        .error { color: #d32f2f; }
-        .suggestion { margin: 20px 0; padding: 15px; border-left: 4px solid #2196F3; }
-        code { background: #f8f8f8; padding: 2px 5px; border-radius: 3px; }
+        .container { max-width: 1000px; margin: 0 auto; }
+        .error { color: #dc3545; padding: 10px; background-color: #f8d7da; border-radius: 4px; }
+        .function { background-color: #f8f9fa; padding: 15px; margin: 10px 0; border-radius: 4px; }
+        .suggestion { margin: 20px 0; padding: 15px; background-color: #e9ecef; border-radius: 4px; }
+        code { background-color: #f0f0f0; padding: 2px 4px; border-radius: 3px; }
     </style>
 </head>
 <body>
-    <h1>QA Report: Shellcheck Module</h1>
-    
-    <h2>Basic Information</h2>
-    <ul>
-        <li><strong>Module Name:</strong> github.com/softwaredevelop/daggerverse/shellcheck</li>
-        <li><strong>Author:</strong> softwaredevelop</li>
-        <li><strong>Latest Version:</strong> main</li>
-        <li><strong>Release Date:</strong> N/A (Unable to fetch from daggerverse)</li>
-        <li><strong>Dagger Engine Version Used:</strong> v0.18.3</li>
-    </ul>
+    <div class="container">
+        <h1>Module QA Report</h1>
+        
+        <h2>Basic Information</h2>
+        <ul>
+            <li><strong>Module Name:</strong> github.com/helderco/dagger/modules/shellcheck</li>
+            <li><strong>Author:</strong> helderco</li>
+            <li><strong>Latest Version:</strong> main</li>
+            <li><strong>Release Date:</strong> N/A (Unable to crawl module information)</li>
+            <li><strong>Dagger Version Used:</strong> v0.18.4</li>
+        </ul>
 
-    <h2>Module Functionality</h2>
-    <p>This module provides shellcheck functionality within Dagger pipelines. It includes the following function:</p>
-    <div class="function">
-        <strong>check()</strong>: Runs the shellcheck command to analyze shell scripts.
-    </div>
+        <h2>Module Functionality</h2>
+        <p>This module provides shellcheck functionality for shell scripts. It includes the following function:</p>
+        <div class="function">
+            <strong>check()</strong>: Report the issues that need to be fixed on a given file.
+        </div>
 
-    <h2>Testing Issues Encountered</h2>
-    <div class="error">
-        <p>❌ Unable to crawl module information from daggerverse due to API limitations.</p>
-    </div>
+        <h2>Issues Encountered</h2>
+        <div class="error">
+            <p>Unable to crawl module information from daggerverse due to API limitations.</p>
+        </div>
 
-    <h2>Quality Improvement Suggestions</h2>
-    
-    <div class="suggestion">
-        <h3>1. Add Input Validation and Error Handling</h3>
-        <p>The module should validate input files and provide clear error messages.</p>
-        <code><pre>
-func (s *Shellcheck) Check(ctx context.Context, script string) (*Check, error) {
-    if strings.TrimSpace(script) == "" {
-        return nil, fmt.Errorf("script content cannot be empty")
+        <h2>Quality Improvement Suggestions</h2>
+        
+        <div class="suggestion">
+            <h3>1. Add Input Validation</h3>
+            <p>Add proper input validation to ensure the file exists and is a valid shell script before processing.</p>
+            <pre><code>
+func (m *Module) check(ctx context.Context, file *File) (*File, error) {
+    // Validate file extension
+    if !strings.HasSuffix(file.Name(), ".sh") {
+        return nil, fmt.Errorf("invalid file type: must be a shell script")
     }
-    // Add more validation as needed
-    return s.check(ctx, script)
+    
+    // Validate file content
+    content, err := file.Contents(ctx)
+    if err != nil || len(content) == 0 {
+        return nil, fmt.Errorf("invalid or empty file")
+    }
+    
+    // Continue with shellcheck...
 }
-        </pre></code>
-    </div>
+            </code></pre>
+        </div>
 
-    <div class="suggestion">
-        <h3>2. Implement Configuration Options</h3>
-        <p>Add customizable shellcheck options for better flexibility.</p>
-        <code><pre>
-type ShellcheckOpts struct {
-    Severity string
-    Shell    string
-    Format   string
+        <div class="suggestion">
+            <h3>2. Add Configuration Options</h3>
+            <p>Allow users to customize shellcheck behavior through configuration options.</p>
+            <pre><code>
+type ShellcheckOptions struct {
+    Shell      string   `json:"shell"`
+    Severity   string   `json:"severity"`
+    Exclude    []string `json:"exclude"`
 }
 
-func (s *Shellcheck) WithOptions(opts ShellcheckOpts) *Shellcheck {
-    // Implement options configuration
-    return s
+func (m *Module) checkWithOptions(
+    ctx context.Context,
+    file *File,
+    options ShellcheckOptions,
+) (*File, error) {
+    // Apply options to shellcheck command
 }
-        </pre></code>
-        <img src="https://i.imgflip.com/65efzo.jpg" alt="Configuration Options Meme" style="max-width: 300px;">
-    </div>
+            </code></pre>
+        </div>
 
-    <div class="suggestion">
-        <h3>3. Add Result Parsing and Reporting</h3>
-        <p>Implement structured output parsing for better integration capabilities.</p>
-        <code><pre>
+        <div class="suggestion">
+            <h3>3. Add Better Error Reporting</h3>
+            <p>Enhance error reporting with more detailed information and formatting.</p>
+            <img src="https://i.imgflip.com/2/1bij.jpg" alt="This is fine meme" style="max-width: 300px;"/>
+            <pre><code>
 type ShellcheckResult struct {
     File     string   `json:"file"`
     Line     int      `json:"line"`
+    Column   int      `json:"col"`
     Level    string   `json:"level"`
-    Message  string   `json:"message"`
     Code     int      `json:"code"`
+    Message  string   `json:"message"`
 }
 
-func (s *Shellcheck) ParseResults(output string) ([]ShellcheckResult, error) {
-    // Parse shellcheck output into structured format
-    return results, nil
+func formatResults(results []ShellcheckResult) string {
+    var output strings.Builder
+    for _, result := range results {
+        fmt.Fprintf(&output, "%s:%d:%d [SC%d] %s\n",
+            result.File, result.Line, result.Column,
+            result.Code, result.Message)
+    }
+    return output.String()
 }
-        </pre></code>
+            </code></pre>
+        </div>
     </div>
 </body>
 </html>
