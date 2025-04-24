@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>QA Report - sem-rel Module</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
+        h1 { color: #333; }
+        h2 { color: #666; }
+        .error { color: #ff0000; background: #ffebee; padding: 10px; border-radius: 4px; }
+        .suggestion { margin: 10px 0; padding: 10px; background: #f5f5f5; border-radius: 4px; }
+        code { background: #eee; padding: 2px 4px; border-radius: 3px; }
+    </style>
+</head>
+<body>
+    <h1>QA Report - sem-rel Module</h1>
+
+    <h2>Basic Information</h2>
+    <ul>
+        <li><strong>Module Name:</strong> sem-rel</li>
+        <li><strong>Author:</strong> Mjb141</li>
+        <li><strong>Latest Version:</strong> 0.1</li>
+        <li><strong>Description:</strong> Semantic Release Dagger</li>
+        <li><strong>Dagger Version Used:</strong> v0.18.4</li>
+    </ul>
+
+    <h2>Module Status</h2>
+    <div class="error">
+        <h3>Installation and Build Issues:</h3>
+        <ul>
+            <li>Module installation completed but build process encountered errors</li>
+            <li>Error during module runtime initialization: "Distribution not found at: file:///src/xxh3:797f31a51f0fad2e/sem-rel/sdk"</li>
+            <li>Failed to execute pip install command with exit code 2</li>
+        </ul>
+    </div>
+
+    <h2>Suggestions for Improvement</h2>
+    
+    <div class="suggestion">
+        <h3>1. Fix SDK Dependencies</h3>
+        <p>The module is failing to find the SDK directory. Ensure the SDK is properly included in the repository.</p>
+        <code>
+        [tool.poetry.dependencies]
+        python = "^3.11"
+        dagger-io = "^0.9.3"  # Use direct package instead of local SDK
+        </code>
+    </div>
+
+    <div class="suggestion">
+        <h3>2. Add Proper Error Handling</h3>
+        <p>Implement proper error handling for SDK initialization:</p>
+        <code>
+        try:
+            from dagger import connect
+            async with connect() as client:
+                # Your code here
+        except Exception as e:
+            logger.error(f"Failed to initialize Dagger client: {e}")
+            raise
+        </code>
+    </div>
+
+    <div class="suggestion">
+        <h3>3. Add Documentation</h3>
+        <p>Include comprehensive documentation with examples:</p>
+        <code>
+        """
+        Semantic Release Dagger Module
+
+        This module provides semantic release functionality for your projects.
+
+        Usage:
+            async with connect() as client:
+                sem_rel = client.host().directory(".")
+                await sem_rel.with_semantic_release().sync()
+        """
+        </code>
+        <p>
+            <img src="https://i.imgflip.com/8ewaww.jpg" alt="Documentation Meme" style="max-width: 400px;" />
+        </p>
+    </div>
+
+    <h2>Additional Notes</h2>
+    <ul>
+        <li>The module appears to be a Python-based Dagger module for semantic versioning</li>
+        <li>Python version requirement: ^3.11</li>
+        <li>Build process indicates the module is using UV package manager</li>
+    </ul>
+
+</body>
+</html>
