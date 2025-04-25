@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>QA Report - runTests Module</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 40px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .error {
+            color: #dc3545;
+            background-color: #f8d7da;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+        .suggestion {
+            background-color: #e9ecef;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+        code {
+            background-color: #f8f9fa;
+            padding: 2px 5px;
+            border-radius: 3px;
+        }
+        pre {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>QA Report: runTests Module</h1>
+        
+        <h2>Module Information</h2>
+        <ul>
+            <li><strong>Module Name:</strong> runTests</li>
+            <li><strong>Author:</strong> EmmS21</li>
+            <li><strong>Repository:</strong> github.com/EmmS21/daggerverse/runTests</li>
+            <li><strong>Version Tested:</strong> main</li>
+            <li><strong>Dagger Engine Version:</strong> v0.18.4</li>
+        </ul>
+
+        <h2>Testing Environment</h2>
+        <p>Testing was performed using Dagger Engine version v0.18.4 on linux/amd64 platform.</p>
+
+        <h2>Test Results</h2>
+        
+        <div class="error">
+            <h3>Installation Issues</h3>
+            <p>The module installation completed but encountered issues during the build process.</p>
+            
+            <h4>Build Error:</h4>
+            <pre>Distribution not found at: file:///src/xxh3:278e8c2d4cb116ea/runTests/dagger/sdk</pre>
+        </div>
+
+        <h2>Improvement Suggestions</h2>
+        
+        <div class="suggestion">
+            <h3>1. Fix SDK Dependencies</h3>
+            <p>The module is failing to locate the SDK directory. Ensure the SDK directory structure is correct:</p>
+            <pre>
+# Project structure should be:
+runTests/
+├── dagger/
+│   ├── sdk/
+│   │   └── setup.py
+│   ├── src/
+│   └── pyproject.toml
+            </pre>
+            <p><img src="https://i.imgur.com/Jvy4AZh.png" alt="Fix it meme" style="max-width: 300px;"></p>
+        </div>
+
+        <div class="suggestion">
+            <h3>2. Improve Package Configuration</h3>
+            <p>Update the pyproject.toml to properly specify dependencies:</p>
+            <pre>
+[project]
+name = "main"
+version = "0.0.0"
+dependencies = [
+    "dagger-io",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+            </pre>
+        </div>
+
+        <div class="suggestion">
+            <h3>3. Add Error Handling</h3>
+            <p>Implement better error handling and validation:</p>
+            <pre>
+import sys
+from typing import Optional
+
+def handle_errors(func):
+    def wrapper(*args, **kwargs):
+        try:
+            return func(*args, **kwargs)
+        except Exception as e:
+            print(f"Error in {func.__name__}: {str(e)}", file=sys.stderr)
+            return None
+    return wrapper
+
+@handle_errors
+def run_tests(self, path: Optional[str] = None) -> bool:
+    if not path:
+        raise ValueError("Test path must be specified")
+    # Implementation
+    return True
+            </pre>
+        </div>
+
+        <h2>Issues Encountered</h2>
+        <ul>
+            <li>Module failed to build due to missing SDK directory structure</li>
+            <li>Unable to determine module functions due to build failure</li>
+            <li>Package dependency resolution failed during installation</li>
+        </ul>
+
+        <h2>Conclusion</h2>
+        <p>The module requires significant structural improvements before it can be properly tested. The main issues revolve around package structure and dependency management.</p>
+    </div>
+</body>
+</html>
