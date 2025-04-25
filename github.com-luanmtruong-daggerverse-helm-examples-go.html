@@ -3,11 +3,10 @@
 <head>
     <title>QA Report - Helm Examples Go Module</title>
     <style>
-        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
+        body { font-family: Arial, sans-serif; margin: 40px; line-height: 1.6; }
         .container { max-width: 1200px; margin: 0 auto; }
-        .error { color: #dc3545; background: #f8d7da; padding: 10px; border-radius: 4px; }
-        .success { color: #28a745; background: #d4edda; padding: 10px; border-radius: 4px; }
-        .functions { background: #f8f9fa; padding: 15px; border-radius: 4px; }
+        .error { color: #dc3545; background: #ffebee; padding: 10px; border-radius: 4px; }
+        .function { background: #f8f9fa; padding: 15px; margin: 10px 0; border-radius: 4px; }
         .suggestion { margin: 20px 0; padding: 15px; background: #e9ecef; border-radius: 4px; }
         pre { background: #f8f9fa; padding: 10px; overflow-x: auto; }
     </style>
@@ -16,89 +15,99 @@
     <div class="container">
         <h1>QA Report: Helm Examples Go Module</h1>
         
-        <h2>Module Information</h2>
+        <h2>Basic Information</h2>
         <ul>
-            <li><strong>Name:</strong> github.com/luanmtruong/daggerverse/helm/examples/go</li>
+            <li><strong>Module Name:</strong> github.com/luanmtruong/daggerverse/helm/examples/go</li>
             <li><strong>Author:</strong> luanmtruong</li>
             <li><strong>Latest Version:</strong> main</li>
-            <li><strong>Release Date:</strong> N/A (Unable to retrieve from crawl)</li>
-            <li><strong>Dagger Engine Version:</strong> v0.18.4</li>
+            <li><strong>Release Date:</strong> N/A (Unable to fetch from daggerverse)</li>
+            <li><strong>Dagger Engine Version Used:</strong> v0.18.4</li>
         </ul>
 
         <h2>Module Functionality</h2>
-        <div class="functions">
+        <p>This module appears to be a Helm-related example module with the following functions:</p>
+        <div class="function">
             <h3>Available Functions:</h3>
             <ul>
-                <li><strong>all()</strong> - All executes all examples</li>
+                <li><strong>all()</strong> - Executes all examples</li>
                 <li><strong>helm-create()</strong> - Creates a new Helm chart</li>
             </ul>
         </div>
 
-        <h2>Testing Issues Encountered</h2>
+        <h2>Quality Assessment</h2>
         <div class="error">
-            <p>Unable to crawl module information due to API limitations:</p>
-            <pre>Failed to scrape URL. Insufficient credits to perform this request.</pre>
+            <h3>Issues Encountered:</h3>
+            <ul>
+                <li>Unable to crawl module information from daggerverse (API limitation)</li>
+            </ul>
         </div>
 
-        <h2>Suggestions for Improvement</h2>
+        <h2>Improvement Suggestions</h2>
         
         <div class="suggestion">
             <h3>1. Add Proper Function Documentation</h3>
-            <p>The functions lack proper documentation. Here's how to improve it:</p>
+            <p>The current function descriptions are minimal or missing. Here's how to improve:</p>
             <pre>
-// Example of proper function documentation
-#Function helm-create() {
-    /*
-     * Creates a new Helm chart with specified parameters
-     * 
-     * @param name The name of the Helm chart
-     * @param description Description of the chart
-     * @return The created Helm chart
-     */
-}</pre>
-            <img src="https://i.imgflip.com/65efzo.jpg" alt="Documentation Meme" style="max-width: 300px;">
+// Example of well-documented function
+// HelmCreate creates a new Helm chart with the specified name and default settings
+// +private=false
+func (m *Module) HelmCreate(ctx context.Context, name string) (*Container, error) {
+    // Function implementation
+    return container, nil
+}
+            </pre>
         </div>
 
         <div class="suggestion">
             <h3>2. Add Input Validation</h3>
-            <p>Add proper input validation to prevent errors:</p>
+            <p>Add proper input validation to ensure robust operation:</p>
             <pre>
-func (h *Helm) Create(name string) *Helm {
+func (m *Module) HelmCreate(ctx context.Context, name string) (*Container, error) {
     if name == "" {
-        panic("Chart name cannot be empty")
+        return nil, fmt.Errorf("chart name cannot be empty")
     }
     if !regexp.MustCompile(`^[a-z0-9-]+$`).MatchString(name) {
-        panic("Chart name must consist of lowercase letters, numbers, and hyphens")
+        return nil, fmt.Errorf("chart name must consist of lowercase letters, numbers, and hyphens")
     }
-    // ... rest of the implementation
-}</pre>
+    // Rest of the implementation
+}
+            </pre>
         </div>
 
         <div class="suggestion">
-            <h3>3. Add Error Handling and Return Values</h3>
-            <p>Implement proper error handling and meaningful return values:</p>
+            <h3>3. Add Error Handling and Testing</h3>
+            <p>Implement comprehensive error handling and tests:</p>
             <pre>
-type HelmResult struct {
-    Success bool
-    ChartPath string
-    Error string
-}
-
-func (h *Helm) Create(name string) *HelmResult {
-    result := &HelmResult{}
-    defer func() {
-        if r := recover(); r != nil {
-            result.Success = false
-            result.Error = fmt.Sprintf("Error: %v", r)
-        }
-    }()
+func TestHelmCreate(t *testing.T) {
+    tests := []struct {
+        name    string
+        input   string
+        wantErr bool
+    }{
+        {"valid name", "my-chart", false},
+        {"empty name", "", true},
+        {"invalid chars", "MyChart!", true},
+    }
     
-    // Implementation
-    result.Success = true
-    result.ChartPath = "/path/to/chart"
-    return result
-}</pre>
+    for _, tt := range tests {
+        t.Run(tt.name, func(t *testing.T) {
+            m := New()
+            _, err := m.HelmCreate(context.Background(), tt.input)
+            if (err != nil) != tt.wantErr {
+                t.Errorf("HelmCreate() error = %v, wantErr %v", err, tt.wantErr)
+            }
+        })
+    }
+}
+            </pre>
         </div>
+
+        <div class="meme">
+            <h3>Quality Reminder</h3>
+            <img src="https://i.imgflip.com/65efzo.jpg" alt="Testing Meme" style="max-width: 400px;">
+            <p><em>When you forget to add proper documentation and testing...</em></p>
+        </div>
+
     </div>
 </body>
 </html>
