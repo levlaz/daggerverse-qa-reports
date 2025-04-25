@@ -1,97 +1,112 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>QA Report - hello Module</title>
+    <title>QA Report - hello module</title>
     <style>
-        body { font-family: Arial, sans-serif; line-height: 1.6; max-width: 1200px; margin: 0 auto; padding: 20px; }
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
         h1, h2 { color: #333; }
-        .error { color: #dc3545; }
-        .suggestion { background: #f8f9fa; padding: 15px; margin: 10px 0; border-radius: 5px; }
-        code { background: #f1f1f1; padding: 2px 5px; border-radius: 3px; }
+        .error { color: #ff0000; }
+        .function-list { background-color: #f5f5f5; padding: 15px; border-radius: 5px; }
+        .suggestion { margin: 20px 0; padding: 15px; background-color: #e9f7ff; border-radius: 5px; }
+        .code { background-color: #f0f0f0; padding: 10px; border-radius: 3px; font-family: monospace; }
         .meme { text-align: center; margin: 20px 0; }
-        .meme img { max-width: 500px; }
     </style>
 </head>
 <body>
-    <h1>QA Report - hello Module</h1>
+    <h1>QA Report: hello module</h1>
     
     <h2>Module Information</h2>
     <ul>
-        <li><strong>Name:</strong> hello</li>
-        <li><strong>Author:</strong> ibuildthecloud</li>
-        <li><strong>Latest Version:</strong> 214762c0b6c5b6510cfa70e35be22118840d254c</li>
-        <li><strong>Release Date:</strong> Not available</li>
-        <li><strong>Dagger Engine Version Used:</strong> v0.18.2</li>
+        <li><strong>Name:</strong> github.com/shykes/daggerverse/hello</li>
+        <li><strong>Author:</strong> shykes</li>
+        <li><strong>Latest Version:</strong> main</li>
+        <li><strong>Release Date:</strong> Not available (crawling failed)</li>
+        <li><strong>Dagger Engine Version Used:</strong> v0.18.5</li>
     </ul>
 
     <h2>Module Functionality</h2>
-    <p>The hello module appears to be a simple greeting module with the following functions:</p>
-    <ul>
-        <li><code>greeting()</code> - Get the current greeting</li>
-        <li><code>name()</code> - Get the current name</li>
-        <li><code>withGreeting(greeting)</code> - Set a custom greeting</li>
-        <li><code>withName(name)</code> - Set a custom name</li>
-        <li><code>message()</code> - Get the complete greeting message</li>
-        <li><code>shout()</code> - Get the greeting message in uppercase</li>
-    </ul>
-
-    <h2>Testing Issues</h2>
-    <div class="error">
-        <h3>Installation Error</h3>
-        <p>Failed to install the module due to dependency issues with amlsdk module:</p>
-        <pre>failed to load sdk module "github.com/ibuildthecloud/daggerverse/amlsdk@main"</pre>
-        
-        <h3>Build Error</h3>
-        <p>Failed to build the module with the same dependency issue:</p>
-        <pre>failed to call module "amlsdk" to get functions</pre>
+    <div class="function-list">
+        <h3>Available Functions:</h3>
+        <ul>
+            <li><strong>hello</strong> - Say hello to the world!</li>
+        </ul>
     </div>
 
-    <h2>Improvement Suggestions</h2>
+    <h2>Issues Encountered</h2>
+    <div class="error">
+        <p>❌ Unable to crawl module information due to API limitations</p>
+    </div>
+
+    <h2>Quality Improvement Suggestions</h2>
     
     <div class="suggestion">
-        <h3>1. Add Input Validation</h3>
-        <img src="https://i.imgflip.com/2k48t0.jpg" alt="Input Validation Meme" style="max-width: 300px;"/>
-        <p>Add validation for the name and greeting inputs to ensure they meet requirements.</p>
-        <pre><code>
-func (h *Hello) withName(name string) (*Hello, error) {
-    if len(name) == 0 {
-        return nil, fmt.Errorf("name cannot be empty")
-    }
-    if len(name) > 50 {
-        return nil, fmt.Errorf("name cannot be longer than 50 characters")
-    }
-    return h.WithName(name)
+        <h3>1. Add Input Parameters</h3>
+        <p>The hello function could be more flexible by accepting a name parameter.</p>
+        <div class="code">
+        <pre>
+// Current implementation:
+func (m *MyModule) Hello() *Container {
+    return dag.Container().From("alpine").WithExec([]string{"echo", "hello world"})
 }
-        </code></pre>
+
+// Suggested improvement:
+func (m *MyModule) Hello(name *string) *Container {
+    greeting := "world"
+    if name != nil {
+        greeting = *name
+    }
+    return dag.Container().From("alpine").WithExec([]string{"echo", "hello " + greeting})
+}</pre>
+        </div>
     </div>
 
     <div class="suggestion">
-        <h3>2. Add Comprehensive Documentation</h3>
-        <p>Add detailed documentation for each function with examples.</p>
-        <pre><code>
-// Hello represents a greeting service
+        <h3>2. Add Documentation</h3>
+        <p>Enhance the module with proper documentation and examples.</p>
+        <div class="code">
+        <pre>
+// Package hello provides a simple greeting functionality
+//
 // Example usage:
-//   hello := dag.Hello().
-//     WithName("World").
-//     WithGreeting("Hello").
-//     Message() // Returns "Hello World"
-type Hello struct {
-    // ... implementation
-}
-        </code></pre>
+//    dag.Hello().WithName("Alice")
+//
+// #Example
+// dagger call hello --name="Alice"
+package hello
+
+// Hello returns a greeting
+// +doc=A simple function that says hello to someone
+func (m *MyModule) Hello(name *string) *Container {
+    ...
+}</pre>
+        </div>
     </div>
 
     <div class="suggestion">
-        <h3>3. Add Error Handling</h3>
-        <p>Implement proper error handling for edge cases.</p>
-        <pre><code>
-func (h *Hello) message() (string, error) {
-    if h.greeting == "" || h.name == "" {
-        return "", fmt.Errorf("greeting and name must be set")
+        <h3>3. Add Testing</h3>
+        <p>Include proper testing for the module.</p>
+        <div class="code">
+        <pre>
+func TestHello(t *testing.T) {
+    c, ctx := dag.NewTestClient(t)
+    defer c.Close()
+
+    hello := dag.Hello()
+    out, err := hello.Stdout(ctx)
+    if err != nil {
+        t.Fatal(err)
     }
-    return fmt.Sprintf("%s %s", h.greeting, h.name), nil
-}
-        </code></pre>
+    if out != "hello world\n" {
+        t.Errorf("expected 'hello world\n', got %q", out)
+    }
+}</pre>
+        </div>
     </div>
+
+    <div class="meme">
+        <img src="https://i.imgflip.com/65efzo.jpg" alt="Testing Meme" />
+        <p><em>When you realize your hello world needs more features</em></p>
+    </div>
+
 </body>
 </html>
