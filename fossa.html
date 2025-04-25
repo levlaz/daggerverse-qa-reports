@@ -1,103 +1,87 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>QA Report - Fossa Module</title>
+    <title>QA Report - FOSSA Module</title>
     <style>
-        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 20px; }
-        h1, h2 { color: #333; }
-        .section { margin: 20px 0; }
-        .function-list { background: #f5f5f5; padding: 15px; border-radius: 5px; }
-        .suggestion { margin: 10px 0; padding: 10px; background: #e9f7ef; border-radius: 5px; }
-        .code { background: #f8f9fa; padding: 10px; border-radius: 3px; font-family: monospace; }
-        .error { color: #dc3545; }
-        .meme { max-width: 500px; margin: 20px 0; }
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
+        h1 { color: #333; }
+        h2 { color: #666; }
+        .error { color: #ff0000; background: #fff3f3; padding: 10px; border-left: 4px solid #ff0000; }
+        .suggestion { background: #f5f5f5; padding: 15px; margin: 10px 0; }
+        code { background: #f0f0f0; padding: 2px 5px; border-radius: 3px; }
     </style>
 </head>
 <body>
-    <h1>QA Report: Fossa Module</h1>
+    <h1>QA Report: FOSSA Module</h1>
     
-    <div class="section">
-        <h2>Module Information</h2>
+    <h2>Module Information</h2>
+    <ul>
+        <li><strong>Module Name:</strong> github.com/jpadams/daggerverse/fossa</li>
+        <li><strong>Author:</strong> jpadams</li>
+        <li><strong>Tested Version:</strong> main</li>
+        <li><strong>Testing Engine Version:</strong> dagger v0.18.4</li>
+    </ul>
+
+    <h2>Testing Results</h2>
+    <div class="error">
+        <h3>Installation & Build Issues</h3>
+        <p>The module failed to build properly due to Python package installation issues. Specifically:</p>
+        <pre>Distribution not found at: file:///src/xxh3:ae3995e639788765/fossa/dagger/sdk</pre>
+    </div>
+
+    <h2>Suggestions for Improvement</h2>
+    
+    <div class="suggestion">
+        <h3>1. Fix Python Package Structure</h3>
+        <p>The current SDK structure seems to be incorrect. Suggestion: Reorganize the Python package structure:</p>
+        <code>
+fossa/
+├── dagger/
+│   ├── pyproject.toml
+│   ├── setup.py
+│   └── src/
+│       └── fossa/
+│           ├── __init__.py
+│           └── main.py
+        </code>
+    </div>
+
+    <div class="suggestion">
+        <h3>2. Add Clear Dependencies</h3>
+        <p>Update pyproject.toml with explicit dependencies:</p>
+        <code>
+[project]
+name = "fossa-dagger"
+version = "0.1.0"
+dependencies = [
+    "dagger-io",
+    # Add other dependencies
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+        </code>
+    </div>
+
+    <div class="suggestion">
+        <h3>3. Add Documentation</h3>
+        <p>Include a comprehensive README.md with:</p>
         <ul>
-            <li><strong>Name:</strong> fossa</li>
-            <li><strong>Author:</strong> jpadams</li>
-            <li><strong>Latest Version:</strong> v0.8.1</li>
-            <li><strong>Release Date:</strong> Not provided in module metadata</li>
-            <li><strong>Dagger Engine Version Used:</strong> v0.18.3</li>
-            <li><strong>Trace Link:</strong> Not available in current context</li>
+            <li>Installation instructions</li>
+            <li>Usage examples</li>
+            <li>Required environment variables</li>
+            <li>Common troubleshooting steps</li>
         </ul>
+        <img src="https://media.giphy.com/media/9J7tdYltWyXIY/giphy.gif" alt="Documentation meme" />
     </div>
 
-    <div class="section">
-        <h2>Module Purpose</h2>
-        <p>The Fossa module is designed to integrate with the Fossa CLI tool for analyzing source code dependencies. It provides functionality to:</p>
-        <div class="function-list">
-            <h3>Available Functions:</h3>
-            <ul>
-                <li><strong>analyze()</strong> - Analyzes a directory of source code, prints to stdout, optionally uploads results to Fossa
-                    <ul>
-                        <li>Parameters: source (Directory!), fossaToken (Secret, optional)</li>
-                        <li>Returns: String!</li>
-                    </ul>
-                </li>
-                <li><strong>base()</strong> - Returns a minimal Container with fossa-cli
-                    <ul>
-                        <li>Returns: Container!</li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
-    </div>
+    <h2>Testing Environment</h2>
+    <ul>
+        <li>Dagger Version: v0.18.4</li>
+        <li>Platform: linux/amd64</li>
+        <li>Test Date: Current</li>
+    </ul>
 
-    <div class="section">
-        <h2>Quality Improvement Suggestions</h2>
-        
-        <div class="suggestion">
-            <h3>1. Add Input Validation</h3>
-            <p>Add validation for the source directory to ensure it contains analyzable content before processing.</p>
-            <div class="code">
-            func validateSource(source dagger.Directory) error {
-                files, err := source.Entries()
-                if err != nil || len(files) == 0 {
-                    return fmt.Errorf("source directory is empty or invalid")
-                }
-                return nil
-            }
-            </div>
-        </div>
-
-        <div class="suggestion">
-            <h3>2. Implement Progress Reporting</h3>
-            <p>Add progress reporting during analysis for better user feedback.</p>
-            <div class="code">
-            func analyze(source dagger.Directory) *dagger.Container {
-                return base().
-                    WithMountedDirectory("/src", source).
-                    WithExec([]string{"fossa", "analyze", "--debug", "/src"})
-            }
-            </div>
-            <img src="https://i.imgflip.com/65efzo.jpg" alt="Progress Bar Meme" class="meme">
-        </div>
-
-        <div class="suggestion">
-            <h3>3. Add Result Caching</h3>
-            <p>Implement caching mechanism for analysis results to improve performance on repeated runs.</p>
-            <div class="code">
-            func getCachedResult(cacheKey string) (string, error) {
-                return dag.Cache().
-                    With(dag.CacheOpts{Key: cacheKey}).
-                    Get()
-            }
-            </div>
-        </div>
-    </div>
-
-    <div class="section">
-        <h2>Testing Issues Encountered</h2>
-        <ul>
-            <li>Note: The module currently only supports amd64 on Linux and not arm architecture.</li>
-            <li>No actual errors were encountered during the testing process.</li>
-        </ul>
-    </div>
 </body>
 </html>
