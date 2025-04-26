@@ -1,88 +1,80 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>QA Report - cool-sdk Module</title>
+    <title>QA Report: cool-sdk Module</title>
     <style>
-        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 20px; }
-        h1, h2 { color: #333; }
-        .error { color: #ff0000; }
-        .suggestion { margin: 20px 0; padding: 10px; background: #f5f5f5; }
-        code { background: #f0f0f0; padding: 2px 5px; border-radius: 3px; }
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .error { color: #dc3545; padding: 10px; background-color: #f8d7da; border-radius: 4px; }
+        .functions { background-color: #f8f9fa; padding: 20px; border-radius: 4px; }
+        .suggestion { margin: 20px 0; padding: 15px; background-color: #e9ecef; border-radius: 4px; }
+        code { background-color: #f8f9fa; padding: 2px 5px; border-radius: 3px; }
+        pre { background-color: #f8f9fa; padding: 15px; border-radius: 4px; overflow-x: auto; }
     </style>
 </head>
 <body>
-    <h1>QA Report: cool-sdk Module</h1>
-    
-    <h2>Basic Information</h2>
-    <ul>
-        <li><strong>Module Name:</strong> github.com/sipsma/dagger-module-tests/cool-sdk</li>
-        <li><strong>Author:</strong> sipsma</li>
-        <li><strong>Latest Version:</strong> latest (specific version unknown due to crawling issues)</li>
-        <li><strong>Release Date:</strong> Unknown (crawling failed)</li>
-        <li><strong>Dagger Engine Version Used:</strong> v0.18.3</li>
-    </ul>
+    <div class="container">
+        <h1>QA Report: cool-sdk Module</h1>
+        
+        <h2>Module Information</h2>
+        <ul>
+            <li><strong>Module Name:</strong> github.com/sipsma/dagger-module-tests/cool-sdk</li>
+            <li><strong>Author:</strong> sipsma</li>
+            <li><strong>Latest Version:</strong> main</li>
+            <li><strong>Release Date:</strong> N/A (information unavailable)</li>
+            <li><strong>Dagger Engine Version Used:</strong> v0.18.5</li>
+        </ul>
 
-    <h2>Module Functions</h2>
-    <ul>
-        <li>codegen</li>
-        <li>module-runtime</li>
-        <li>required-paths</li>
-    </ul>
+        <h2>Module Functions</h2>
+        <div class="functions">
+            <ul>
+                <li>codegen</li>
+                <li>module-runtime</li>
+                <li>required-paths</li>
+            </ul>
+        </div>
 
-    <h2>Module Purpose</h2>
-    <p>The module appears to be a testing module with functionality related to code generation and runtime operations. Due to limited documentation and crawling issues, the exact purpose needs more investigation.</p>
+        <h2>Issues Encountered</h2>
+        <div class="error">
+            <p>Unable to crawl module information from daggerverse due to API limitations.</p>
+        </div>
 
-    <h2>Issues Encountered</h2>
-    <div class="error">
-        <p>1. Unable to crawl module information from daggerverse due to API limitations.</p>
-        <p>2. Limited documentation available about the module's functionality.</p>
-    </div>
+        <h2>Improvement Suggestions</h2>
+        
+        <div class="suggestion">
+            <h3>1. Add Function Documentation</h3>
+            <p>The module functions lack descriptions, which makes it harder for users to understand their purpose.</p>
+            <img src="https://i.imgflip.com/65efzo.jpg" alt="Documentation Meme" style="max-width: 400px;">
+            <pre><code>// Example of how to add documentation
+#Example of good documentation:
+@Function()
+#Description: "Generates SDK code for the module"
+func (m *Module) Codegen() *Container {
+    // Implementation
+}</code></pre>
+        </div>
 
-    <h2>Quality Improvement Suggestions</h2>
-    
-    <div class="suggestion">
-        <h3>1. Add Comprehensive Documentation</h3>
-        <p><img src="https://i.imgflip.com/2/1bij.jpg" alt="Documentation Meme" width="300"/></p>
-        <code>
-        // Add documentation to each function
-        #[Function(
-            description: "Generates code based on the provided configuration",
-            parameter: {
-                config: "The configuration object containing generation settings"
-            }
-        )]
-        pub fn codegen(&self, config: Config) -> Result<GeneratedCode> {
-            // Implementation
-        }
-        </code>
-    </div>
+        <div class="suggestion">
+            <h3>2. Add Version Tagging</h3>
+            <p>The module should use semantic versioning instead of just main branch.</p>
+            <pre><code>git tag -a v1.0.0 -m "Initial stable release"
+git push origin v1.0.0</code></pre>
+        </div>
 
-    <div class="suggestion">
-        <h3>2. Add Input Validation</h3>
-        <code>
-        pub fn validate_input(&self, input: &str) -> Result<()> {
-            if input.is_empty() {
-                return Err(anyhow::anyhow!("Input cannot be empty"));
-            }
-            // Add more validation rules
-            Ok(())
-        }
-        </code>
-    </div>
+        <div class="suggestion">
+            <h3>3. Add Input/Output Type Definitions</h3>
+            <p>Each function should clearly define its input parameters and return types.</p>
+            <pre><code>type CodegenOpts struct {
+    Language string
+    OutputDir string
+}
 
-    <div class="suggestion">
-        <h3>3. Implement Error Handling</h3>
-        <code>
-        pub fn safe_operation(&self) -> Result<Output> {
-            match self.risky_operation() {
-                Ok(result) => Ok(result),
-                Err(e) => {
-                    eprintln!("Operation failed: {}", e);
-                    Err(anyhow::anyhow!("Operation failed: {}", e))
-                }
-            }
-        }
-        </code>
+@Function()
+#Description: "Generates SDK with specified options"
+func (m *Module) Codegen(opts CodegenOpts) *Result {
+    // Implementation
+}</code></pre>
+        </div>
     </div>
 </body>
 </html>
