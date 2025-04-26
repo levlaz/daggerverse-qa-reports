@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>QA Report - Helm Module</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 20px; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .error { color: #dc3545; background: #f8d7da; padding: 10px; border-radius: 4px; }
+        .success { color: #28a745; background: #d4edda; padding: 10px; border-radius: 4px; }
+        code { background: #f4f4f4; padding: 2px 5px; border-radius: 3px; }
+        .meme { max-width: 500px; margin: 20px 0; }
+        .function-list { background: #f8f9fa; padding: 15px; border-radius: 4px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>QA Report: Helm Module</h1>
+        
+        <h2>Module Information</h2>
+        <ul>
+            <li><strong>Name:</strong> github.com/sipsma/dagger/helm</li>
+            <li><strong>Author:</strong> sipsma</li>
+            <li><strong>Latest Version:</strong> main</li>
+            <li><strong>Release Date:</strong> N/A (information unavailable)</li>
+        </ul>
+
+        <h2>Dagger Engine Version Used</h2>
+        <code>dagger v0.18.5 (docker-image://registry.dagger.io/engine:v0.18.5) linux/amd64</code>
+
+        <h2>Module Functionality</h2>
+        <div class="function-list">
+            <h3>Available Functions:</h3>
+            <ul>
+                <li><strong>lint</strong> - Lint the helm chart</li>
+                <li><strong>publish</strong> - Package & publish chart to our registry + github release</li>
+                <li><strong>set-version</strong> - Set chart & app version</li>
+                <li><strong>test</strong> - Test the helm chart on an ephemeral K3S service</li>
+            </ul>
+        </div>
+
+        <h2>Quality Improvement Suggestions</h2>
+        
+        <h3>1. Add Input Validation</h3>
+        <p>Add proper input validation for version numbers and chart paths to prevent potential issues.</p>
+        <code>
+func validateVersion(version string) error {
+    semverRegex := regexp.MustCompile(`^v?\d+\.\d+\.\d+(-[\w.]+)?$`)
+    if !semverRegex.MatchString(version) {
+        return fmt.Errorf("invalid version format: %s", version)
+    }
+    return nil
+}
+        </code>
+
+        <h3>2. Implement Detailed Error Reporting</h3>
+        <p>Enhance error messages with more context and potential solutions.</p>
+        <code>
+type HelmError struct {
+    Operation   string
+    Message     string
+    Suggestion  string
+}
+
+func (e *HelmError) Error() string {
+    return fmt.Sprintf("Helm operation '%s' failed: %s\nSuggestion: %s", 
+        e.Operation, e.Message, e.Suggestion)
+}
+        </code>
+
+        <h3>3. Add Progress Reporting</h3>
+        <p>Implement progress reporting for long-running operations.</p>
+        <code>
+type ProgressReporter struct {
+    Total     int
+    Current   int
+    Operation string
+}
+
+func (p *ProgressReporter) Update(status string) {
+    fmt.Printf("Operation: %s [%d/%d] - %s\n", 
+        p.Operation, p.Current, p.Total, status)
+}
+        </code>
+
+        <div class="meme">
+            <img src="https://i.imgflip.com/7q4zw1.jpg" alt="Helm Chart Testing Meme">
+            <p><em>When your Helm chart tests pass on the first try</em></p>
+        </div>
+
+        <h2>Issues Encountered</h2>
+        <div class="error">
+            <p>Unable to crawl module information from daggerverse due to API limitations.</p>
+        </div>
+
+        <h2>Testing Environment</h2>
+        <p>Testing was performed using Dagger Engine v0.18.5 on linux/amd64 architecture.</p>
+    </div>
+</body>
+</html>
