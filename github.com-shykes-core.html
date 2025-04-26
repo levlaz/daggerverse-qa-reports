@@ -3,11 +3,13 @@
 <head>
     <title>QA Report - github.com/shykes/core</title>
     <style>
-        body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
         h1, h2 { color: #333; }
-        .error { color: red; }
-        .suggestion { margin: 20px 0; padding: 15px; background: #f5f5f5; border-radius: 5px; }
-        pre { background: #f0f0f0; padding: 10px; border-radius: 4px; overflow-x: auto; }
+        .error { color: #ff0000; }
+        .function-list { background: #f5f5f5; padding: 20px; border-radius: 5px; }
+        .suggestion { margin: 20px 0; padding: 15px; background: #e9f7ff; border-radius: 5px; }
+        .code { background: #f0f0f0; padding: 15px; border-radius: 5px; font-family: monospace; }
+        .meme { text-align: center; margin: 20px 0; }
     </style>
 </head>
 <body>
@@ -17,97 +19,94 @@
     <ul>
         <li><strong>Name:</strong> github.com/shykes/core</li>
         <li><strong>Author:</strong> shykes</li>
-        <li><strong>Latest Version:</strong> main</li>
-        <li><strong>Release Date:</strong> Not available (crawling failed)</li>
-        <li><strong>Dagger Version Used:</strong> v0.18.3</li>
+        <li><strong>Latest Version Tested:</strong> main</li>
+        <li><strong>Release Date:</strong> N/A (Information unavailable due to crawling issues)</li>
+        <li><strong>Dagger Engine Version Used:</strong> v0.18.5</li>
     </ul>
 
-    <h2>Module Functions</h2>
-    <ul>
-        <li>container</li>
-        <li>directory</li>
-        <li>git</li>
-        <li>load-container-from-id</li>
-        <li>load-directory-from-id</li>
-        <li>load-git-repository-from-id</li>
-    </ul>
-
-    <h2>Module Purpose</h2>
-    <p>This appears to be a core module providing fundamental Dagger operations for containers, directories, and git repositories, including loading capabilities for these resources.</p>
+    <h2>Module Functionality</h2>
+    <p>This is a core module that provides fundamental Dagger operations. The module includes the following functions:</p>
+    <div class="function-list">
+        <ul>
+            <li>container - Container management operations</li>
+            <li>directory - Directory operations</li>
+            <li>git - Git repository operations</li>
+            <li>load-container-from-id - Load container from ID</li>
+            <li>load-directory-from-id - Load directory from ID</li>
+            <li>load-git-repository-from-id - Load git repository from ID</li>
+        </ul>
+    </div>
 
     <h2>Issues Encountered</h2>
     <div class="error">
-        <p>Failed to crawl module information from daggerverse due to API limitations.</p>
+        <p>Failed to crawl the module on daggerverse due to API limitations.</p>
     </div>
 
-    <h2>Improvement Suggestions</h2>
+    <h2>Suggestions for Improvement</h2>
     
     <div class="suggestion">
-        <h3>1. Add Function Documentation</h3>
-        <p>The module functions lack descriptions, making it difficult for users to understand their purpose. Add comprehensive documentation for each function.</p>
-        <img src="https://i.imgflip.com/2/1bij.jpg" alt="What if I told you documentation matters" style="max-width: 300px;">
-        <pre>
-#Function documentation example:
-@dagger.function
-async def container(self) -> Container:
-    """
-    Creates a new container instance.
-    
-    Returns:
-        Container: A new container instance ready for configuration.
-    
-    Example:
-        cont = await core.container()
-    """
-    return Container()
-        </pre>
+        <h3>1. Add Comprehensive Documentation</h3>
+        <p>The module functions lack descriptions. Adding detailed documentation would improve usability.</p>
+        <div class="code">
+            # Example documentation format in dagger.json:
+            {
+                "name": "container",
+                "description": "Provides core container operations including building, copying, and executing commands",
+                "examples": [
+                    {
+                        "description": "Build a container from Dockerfile",
+                        "code": "core.container().build(context: \"./\")"
+                    }
+                ]
+            }
+        </div>
     </div>
 
     <div class="suggestion">
         <h3>2. Add Input Validation</h3>
-        <p>Implement input validation for the loading functions to prevent errors with invalid IDs.</p>
-        <pre>
-@dagger.function
-async def load_container_from_id(self, id: str) -> Container:
-    """
-    Load a container from its ID with validation.
-    
-    Args:
-        id (str): The container ID to load.
-        
-    Raises:
-        ValueError: If the ID format is invalid.
-    """
-    if not id or not isinstance(id, str):
-        raise ValueError("Container ID must be a non-empty string")
-    return await self._load_container(id)
-        </pre>
+        <p>Implement proper input validation for all functions to prevent runtime errors.</p>
+        <div class="code">
+            func (m *Module) LoadContainerFromID(ctx context.Context, id string) (*Container, error) {
+                if id == "" {
+                    return nil, fmt.Errorf("container ID cannot be empty")
+                }
+                if !IsValidContainerID(id) {
+                    return nil, fmt.Errorf("invalid container ID format")
+                }
+                // ... rest of the implementation
+            }
+        </div>
     </div>
 
     <div class="suggestion">
-        <h3>3. Add Error Handling and Recovery</h3>
-        <p>Implement proper error handling and recovery mechanisms for the core functions.</p>
-        <pre>
-@dagger.function
-async def git(self, url: str, ref: Optional[str] = None) -> GitRepository:
-    """
-    Clone a git repository with error handling.
-    
-    Args:
-        url (str): The repository URL.
-        ref (Optional[str]): The git reference to checkout.
-    
-    Returns:
-        GitRepository: The cloned repository.
-        
-    Raises:
-        GitError: If cloning fails.
-    """
-    try:
-        return await self._clone_repository(url, ref)
-    except Exception as e:
-        raise GitError(f"Failed to clone repository: {str(e)}")
-        </pre>
+        <h3>3. Add Error Handling Best Practices</h3>
+        <p>Implement detailed error handling with custom error types for better debugging.</p>
+        <div class="code">
+            type CoreError struct {
+                Operation string
+                Err      error
+            }
+
+            func (e *CoreError) Error() string {
+                return fmt.Sprintf("core: %s: %v", e.Operation, e.Err)
+            }
+
+            func (m *Module) Directory() (*Directory, error) {
+                if err != nil {
+                    return nil, &CoreError{
+                        Operation: "directory_creation",
+                        Err:      err,
+                    }
+                }
+                // ... rest of the implementation
+            }
+        </div>
     </div>
+
+    <div class="meme">
+        <img src="https://i.imgflip.com/7qok8f.jpg" alt="Documentation Meme" width="400">
+        <p><em>"When you find a module with no documentation"</em></p>
+    </div>
+
 </body>
 </html>
