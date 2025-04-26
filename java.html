@@ -4,94 +4,102 @@
     <title>QA Report - Java Module</title>
     <style>
         body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
-        h1, h2 { color: #333; }
         .container { max-width: 1200px; margin: 0 auto; }
-        .highlight { background-color: #f5f5f5; padding: 15px; border-radius: 5px; }
-        .error { color: #dc3545; }
-        .suggestion { margin: 20px 0; padding: 15px; border-left: 4px solid #007bff; }
-        code { background-color: #f8f9fa; padding: 2px 5px; border-radius: 3px; }
+        .error { color: #ff0000; background: #ffe6e6; padding: 10px; border-radius: 5px; }
+        .suggestion { background: #f0f0f0; padding: 15px; margin: 10px 0; border-radius: 5px; }
+        code { background: #f4f4f4; padding: 2px 5px; border-radius: 3px; }
+        .meme { max-width: 500px; margin: 20px 0; }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>QA Report: Java Module</h1>
         
-        <h2>Module Information</h2>
+        <h2>Basic Information</h2>
         <ul>
-            <li><strong>Name:</strong> java</li>
-            <li><strong>Author:</strong> jcsirot</li>
-            <li><strong>Latest Version:</strong> c591e9e0b99def2fc8a67bb090fca5cd06cf6a1d</li>
-            <li><strong>Release Date:</strong> Not specified in metadata</li>
-            <li><strong>Dagger Cloud Trace:</strong> <a href="https://daggerverse.dev/mod/github.com/jcsirot/daggerverse/java@c591e9e0b99def2fc8a67bb090fca5cd06cf6a1d">View Trace</a></li>
+            <li><strong>Module Name:</strong> github.com/seungyeop-lee/daggerverse/java</li>
+            <li><strong>Author:</strong> seungyeop-lee</li>
+            <li><strong>Latest Version:</strong> main</li>
+            <li><strong>Release Date:</strong> N/A (Currently only main branch available)</li>
+            <li><strong>Dagger Version Used:</strong> v0.18.5</li>
         </ul>
 
-        <h2>Module Description</h2>
-        <p>This module provides Java development environment capabilities with the following functions:</p>
+        <h2>Module Functionality</h2>
+        <p>This module provides Java-related functionality for Dagger pipelines. Currently, it includes:</p>
         <ul>
-            <li><code>ctr()</code> - Creates a base container for Java operations</li>
-            <li><code>withMaven(version)</code> - Configures Maven version</li>
-            <li><code>run(args)</code> - Executes Java commands</li>
-            <li><code>maven(args)</code> - Runs Maven commands</li>
-            <li><code>withJdk(version)</code> - Sets specific JDK version</li>
-            <li><code>withProject(source)</code> - Incorporates a Java project source</li>
+            <li><code>init()</code>: Initializes a JavaConfig with default settings</li>
         </ul>
 
-        <h2>Testing Environment</h2>
-        <p>Tested with Dagger Engine Version: v0.18.3</p>
+        <h2>Issues Encountered</h2>
+        <div class="error">
+            <p>During testing, the following issues were encountered:</p>
+            <ul>
+                <li>Unable to crawl module information due to API limitations</li>
+                <li>Limited documentation available about the module's full capabilities</li>
+            </ul>
+        </div>
 
         <h2>Suggestions for Improvement</h2>
         
         <div class="suggestion">
-            <h3>1. Add Input Validation for Version Numbers</h3>
-            <p>Implement version number validation for JDK and Maven versions to prevent invalid inputs.</p>
-            <pre><code>
-func validateVersion(version string) error {
-    versionPattern := regexp.MustCompile(`^\d+\.\d+\.\d+$`)
-    if !versionPattern.MatchString(version) {
-        return fmt.Errorf("invalid version format: %s. Expected format: X.Y.Z", version)
-    }
-    return nil
+            <h3>1. Add Comprehensive Documentation</h3>
+            <p>The module would benefit from detailed documentation explaining its purpose and usage.</p>
+            <pre><code>// Add a README.md file with the following structure:
+# Java Module for Dagger
+
+## Overview
+Detailed explanation of what the module does
+
+## Usage Examples
+```dagger
+func Example() {
+    java := dag.Java().Init()
+    // Show common use cases
 }
-            </code></pre>
-            <img src="https://i.imgflip.com/2k48t0.jpg" alt="Input Validation Meme" />
+```
+
+## Configuration Options
+List all available options and their purposes
+</code></pre>
         </div>
 
         <div class="suggestion">
-            <h3>2. Add Comprehensive Documentation</h3>
-            <p>Enhance documentation by adding detailed descriptions for each function and parameter.</p>
-            <pre><code>
-// Example documentation format for functions
-/**
- * Configures the Maven version for the Java environment
- * @param version The Maven version to use (e.g., "3.8.4")
- * @return Java environment with configured Maven
- * @throws If version is not available or invalid
- */
-func (j *Java) WithMaven(version string) *Java {
-    // Implementation
+            <h3>2. Add Version Tagging</h3>
+            <p>Implement semantic versioning for better dependency management.</p>
+            <pre><code>// Tag releases using semantic versioning
+git tag -a v1.0.0 -m "Initial stable release"
+git push origin v1.0.0
+
+// Update module to include version info
+func Version() string {
+    return "1.0.0"
 }
-            </code></pre>
+</code></pre>
         </div>
 
         <div class="suggestion">
-            <h3>3. Add Default Configurations</h3>
-            <p>Implement sensible defaults for common configurations to improve user experience.</p>
-            <pre><code>
-const (
-    DefaultJavaVersion = "17"
-    DefaultMavenVersion = "3.8.4"
-)
-
-func (j *Java) WithDefaults() *Java {
-    return j.
-        WithJdk(DefaultJavaVersion).
-        WithMaven(DefaultMavenVersion)
+            <h3>3. Add Common Java Operations</h3>
+            <p>Expand functionality to include common Java operations.</p>
+            <img src="https://i.imgflip.com/7zv1hd.jpg" alt="Java Development Meme" class="meme">
+            <pre><code>// Add methods for common Java operations
+func (j *Java) BuildMaven(pomPath string) *Container {
+    return j.WithMaven().
+           WithWorkdir("/app").
+           WithSource(pomPath).
+           Exec([]string{"mvn", "clean", "install"})
 }
-            </code></pre>
+
+func (j *Java) BuildGradle(buildFile string) *Container {
+    return j.WithGradle().
+           WithWorkdir("/app").
+           WithSource(buildFile).
+           Exec([]string{"./gradlew", "build"})
+}
+</code></pre>
         </div>
 
-        <h2>Testing Issues</h2>
-        <p>No significant issues were encountered during testing. The module installed and built successfully.</p>
+        <h2>Links</h2>
+        <p>Dagger Cloud Trace: Not available due to local execution</p>
     </div>
 </body>
 </html>
