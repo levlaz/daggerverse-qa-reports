@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>QA Report - get-ip Module</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        h1, h2 { color: #333; }
+        .function-list { background: #f4f4f4; padding: 20px; border-radius: 5px; }
+        .suggestion { margin: 20px 0; padding: 20px; border-left: 4px solid #007bff; }
+        .error { color: #dc3545; }
+        .code { background: #f8f9fa; padding: 15px; border-radius: 5px; font-family: monospace; }
+        .meme { max-width: 500px; margin: 20px 0; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>QA Report: get-ip Module</h1>
+        
+        <h2>Module Information</h2>
+        <ul>
+            <li><strong>Name:</strong> get-ip</li>
+            <li><strong>Author:</strong> Felipe Pimentel</li>
+            <li><strong>Latest Version:</strong> main</li>
+            <li><strong>Release Date:</strong> N/A (information unavailable due to crawling limitation)</li>
+            <li><strong>Dagger Engine Version Used:</strong> v0.18.5</li>
+        </ul>
+
+        <h2>Module Functionality</h2>
+        <div class="function-list">
+            <p>This module provides functionality to retrieve IP addresses from containers. Available functions:</p>
+            <ul>
+                <li><strong>ctr:</strong> Container management function</li>
+                <li><strong>run:</strong> Get IP Address of Current Container</li>
+            </ul>
+        </div>
+
+        <h2>Quality Improvement Suggestions</h2>
+        
+        <div class="suggestion">
+            <h3>1. Add Proper Documentation</h3>
+            <p>The module lacks proper documentation for its functions. Here's how to improve it:</p>
+            <div class="code">
+                // Example documentation in your main.go file
+                
+                // GetIP returns the IP address of the current container
+                // +doc Example Usage:
+                // +doc    dag get-ip run
+                // +doc Returns: The IP address as a string
+                func (m *Module) GetIP(ctx context.Context) (*GetIP, error) {
+                    // Your implementation
+                }
+            </div>
+        </div>
+
+        <div class="suggestion">
+            <h3>2. Add Error Handling and Validation</h3>
+            <p>Implement proper error handling and validation:</p>
+            <div class="code">
+                func (m *Module) GetIP(ctx context.Context) (*GetIP, error) {
+                    ip, err := getContainerIP()
+                    if err != nil {
+                        return nil, fmt.Errorf("failed to get container IP: %w", err)
+                    }
+                    
+                    if !isValidIP(ip) {
+                        return nil, fmt.Errorf("invalid IP address format: %s", ip)
+                    }
+                    
+                    return &GetIP{IP: ip}, nil
+                }
+                
+                func isValidIP(ip string) bool {
+                    return net.ParseIP(ip) != nil
+                }
+            </div>
+        </div>
+
+        <div class="suggestion">
+            <h3>3. Add Testing</h3>
+            <p>Include unit tests for the module:</p>
+            <div class="code">
+                func TestGetIP(t *testing.T) {
+                    ctx := context.Background()
+                    
+                    t.Run("successful_ip_retrieval", func(t *testing.T) {
+                        module := &Module{}
+                        result, err := module.GetIP(ctx)
+                        
+                        assert.NoError(t, err)
+                        assert.NotEmpty(t, result.IP)
+                        assert.True(t, isValidIP(result.IP))
+                    })
+                    
+                    t.Run("error_handling", func(t *testing.T) {
+                        // Add error case tests
+                    })
+                }
+            </div>
+            <img src="https://i.imgflip.com/2/1bij.jpg" alt="Testing Meme" class="meme">
+        </div>
+
+        <h2>Issues Encountered</h2>
+        <div class="error">
+            <p>1. Unable to crawl module information from daggerverse due to API limitation.</p>
+            <p>2. Limited documentation available about the module's functionality and usage.</p>
+        </div>
+    </div>
+</body>
+</html>
