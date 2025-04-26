@@ -3,117 +3,131 @@
 <head>
     <title>QA Report - borgo/tests Module</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 40px; line-height: 1.6; }
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
         h1, h2 { color: #333; }
-        .function-list { background: #f5f5f5; padding: 20px; border-radius: 5px; }
-        .suggestion { margin: 20px 0; padding: 15px; border-left: 4px solid #2196F3; }
-        .error { color: #721c24; background-color: #f8d7da; padding: 10px; border-radius: 5px; }
-        .code { background: #f8f9fa; padding: 15px; border-radius: 5px; font-family: monospace; }
-        .meme { text-align: center; margin: 20px 0; }
+        .error { color: #ff0000; }
+        .suggestion { margin: 20px 0; padding: 15px; background-color: #f5f5f5; }
+        pre { background-color: #f0f0f0; padding: 10px; border-radius: 5px; }
+        .meme { max-width: 500px; margin: 20px 0; }
     </style>
 </head>
 <body>
-    <h1>QA Report - borgo/tests Module</h1>
-    
+    <h1>QA Report: borgo/tests Module</h1>
+
     <h2>Module Information</h2>
     <ul>
-        <li><strong>Name:</strong> github.com/sagikazarmark/daggerverse/borgo/tests</li>
-        <li><strong>Author:</strong> Márk Sági-Kazár</li>
-        <li><strong>Latest Version:</strong> Commit 322b00485bc195163df4b81f22e52c5b2ca43472</li>
-        <li><strong>Release Date:</strong> Not specified</li>
-        <li><strong>Dagger Engine Version Used:</strong> v0.17.2</li>
+        <li><strong>Name:</strong> borgo/tests</li>
+        <li><strong>Author:</strong> luanmtruong</li>
+        <li><strong>Latest Version:</strong> main</li>
+        <li><strong>Release Date:</strong> Not available (Crawling failed)</li>
+        <li><strong>Dagger Engine Version:</strong> v0.18.5</li>
+        <li><strong>Cloud Trace:</strong> Not available</li>
     </ul>
 
-    <h2>Module Purpose</h2>
-    <p>The borgo/tests module appears to be a testing utility for the Borgo project. It provides functionality to run all tests and compile test cases.</p>
+    <h2>Module Functionality</h2>
+    <p>This module appears to be a testing framework with the following functions:</p>
+    <ul>
+        <li><strong>all()</strong> - Executes all tests</li>
+        <li><strong>compile()</strong> - Compilation function (no description provided)</li>
+    </ul>
 
-    <h2>Available Functions</h2>
-    <div class="function-list">
-        <ul>
-            <li><strong>all()</strong> - Executes all tests</li>
-            <li><strong>compile()</strong> - Compiles the test cases (no description provided)</li>
-        </ul>
+    <h2>Issues Encountered</h2>
+    <div class="error">
+        <p>1. Module crawling failed with error: Payment Required - Failed to scrape URL. Insufficient credits to perform this request.</p>
     </div>
 
     <h2>Quality Improvement Suggestions</h2>
     
     <div class="suggestion">
-        <h3>1. Add Function Documentation</h3>
-        <p>The module lacks proper documentation for its functions, especially the compile() function.</p>
-        <div class="code">
-        ```typescript
-        // Current state
-        func (t *Tests) compile() {}
+        <h3>1. Improve Function Documentation</h3>
+        <p>The current function descriptions are minimal or non-existent. Add detailed documentation for each function.</p>
+        <pre>
+// Example of improved documentation:
+#[Function(
+    description: "Executes all tests in the test suite and returns detailed results",
+    return_value: "Returns a TestResult object containing pass/fail counts and test details"
+)]
+pub fn all() -> Result<TestResult> {
+    // Implementation
+}
 
-        // Suggested improvement
-        // compile compiles all test cases and verifies their syntax
-        // Returns an error if compilation fails
-        func (t *Tests) compile() error {
-            // Implementation
-        }
-        ```
-        </div>
-        <div class="meme">
-            <p>😅 Documentation right now:</p>
-            <img src="https://i.imgflip.com/2wd65n.jpg" alt="Documentation Meme" width="300">
-        </div>
+#[Function(
+    description: "Compiles the test suite and verifies syntax",
+    return_value: "Returns a CompileResult with compilation status and any warnings"
+)]
+pub fn compile() -> Result<CompileResult> {
+    // Implementation
+}
+        </pre>
     </div>
 
     <div class="suggestion">
-        <h3>2. Add Test Result Reporting</h3>
-        <p>Implement detailed test result reporting with statistics and failure information.</p>
-        <div class="code">
-        ```typescript
-        type TestResult struct {
-            Name      string
-            Passed    bool
-            Duration  time.Duration
-            Error     error
-        }
+        <h3>2. Add Error Handling and Reporting</h3>
+        <p>Implement proper error handling and detailed error reporting.</p>
+        <pre>
+#[derive(Debug)]
+pub struct TestError {
+    pub code: String,
+    pub message: String,
+    pub location: String,
+}
 
-        type TestSuite struct {
-            Results     []TestResult
-            TotalTests int
-            PassedTests int
-            FailedTests int
-            Duration    time.Duration
+impl TestError {
+    pub fn new(code: &str, message: &str, location: &str) -> Self {
+        Self {
+            code: code.to_string(),
+            message: message.to_string(),
+            location: location.to_string(),
         }
+    }
+}
 
-        func (t *Tests) all() *TestSuite {
-            // Implementation with detailed reporting
-        }
-        ```
-        </div>
+pub fn all() -> Result<TestResult, TestError> {
+    match run_tests() {
+        Ok(result) => Ok(result),
+        Err(e) => Err(TestError::new(
+            "TEST_FAILURE",
+            &format!("Test execution failed: {}", e),
+            file!(),
+        ))
+    }
+}
+        </pre>
     </div>
 
     <div class="suggestion">
-        <h3>3. Add Configuration Options</h3>
-        <p>Allow customization of test execution through configuration options.</p>
-        <div class="code">
-        ```typescript
-        type TestConfig struct {
-            Parallel     bool
-            TimeoutSecs  int
-            FailFast     bool
-            Tags         []string
-        }
+        <h3>3. Add Test Progress Reporting</h3>
+        <p>Implement progress reporting for long-running tests.</p>
+        <pre>
+pub struct TestProgress {
+    total_tests: u32,
+    completed: u32,
+    current_test: String,
+}
 
-        func (t *Tests) withConfig(config TestConfig) *Tests {
-            // Implementation
-        }
+#[Function(
+    description: "Get current test execution progress"
+)]
+pub fn get_progress() -> TestProgress {
+    // Implementation
+}
 
-        func (t *Tests) all(config TestConfig) error {
-            // Implementation using config
-        }
-        ```
-        </div>
+// Example usage in test runner:
+pub fn run_test(name: &str) -> Result<()> {
+    update_progress(TestProgress {
+        total_tests: 10,
+        completed: 5,
+        current_test: name.to_string(),
+    });
+    // Test implementation
+}
+        </pre>
     </div>
 
-    <h2>Installation and Testing Results</h2>
-    <p>✅ Module installed successfully</p>
-    <p>✅ Module built successfully</p>
-    <p>⚠️ Limited documentation available</p>
-    <p>⚠️ Compile function lacks description</p>
+    <div class="meme">
+        <img src="https://i.imgflip.com/2zgtxe.jpg" alt="But that's none of my business - Test Documentation Meme" />
+        <p><em>When your tests have no documentation but somehow still pass...</em></p>
+    </div>
 
 </body>
 </html>
