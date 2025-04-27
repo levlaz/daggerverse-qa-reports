@@ -1,134 +1,119 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>QA Report - kubeconform</title>
+    <title>QA Report - Kubeconform Module</title>
     <style>
         body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
         h1, h2 { color: #333; }
-        .section { margin-bottom: 30px; }
-        .function-list { background-color: #f5f5f5; padding: 15px; border-radius: 5px; }
-        .suggestion { margin: 20px 0; padding: 15px; background-color: #e1f5fe; border-radius: 5px; }
-        .code { background-color: #f8f9fa; padding: 15px; border-radius: 5px; font-family: monospace; }
-        .error { color: #d32f2f; }
-        .meme { max-width: 500px; margin: 20px 0; }
+        .function-list { background: #f5f5f5; padding: 20px; border-radius: 5px; }
+        .suggestion { margin: 20px 0; padding: 15px; border-left: 4px solid #007bff; }
+        .error { color: #721c24; background-color: #f8d7da; padding: 15px; border-radius: 5px; }
+        code { background: #f8f9fa; padding: 2px 5px; border-radius: 3px; }
+        pre { background: #f8f9fa; padding: 15px; border-radius: 5px; overflow-x: auto; }
     </style>
 </head>
 <body>
-    <h1>QA Report: kubeconform</h1>
+    <h1>QA Report: Kubeconform Module</h1>
     
-    <div class="section">
-        <h2>Module Information</h2>
+    <h2>Module Information</h2>
+    <ul>
+        <li><strong>Name:</strong> github.com/purpleclay/daggerverse/kubeconform</li>
+        <li><strong>Author:</strong> purpleclay</li>
+        <li><strong>Latest Version:</strong> main</li>
+        <li><strong>Tested with Dagger Version:</strong> v0.18.5</li>
+    </ul>
+
+    <h2>Module Purpose</h2>
+    <p>The Kubeconform module provides functionality for validating Kubernetes manifests and working with Custom Resource Definitions (CRDs). It offers the following functions:</p>
+    
+    <div class="function-list">
+        <h3>Available Functions:</h3>
         <ul>
-            <li><strong>Name:</strong> kubeconform</li>
-            <li><strong>Author:</strong> Smana</li>
-            <li><strong>Latest Version:</strong> v0.1.3</li>
-            <li><strong>Release Date:</strong> Found in repository at commit 12859451a8d9ed52c913471e44dbc592094e50f2</li>
-            <li><strong>Dagger Engine Version Used:</strong> v0.18.3</li>
+            <li><strong>validate</strong>: Check and validate your Kubernertes manifests for conformity against the Kubernetes specifications</li>
+            <li><strong>with-local-crds</strong>: Generates OpenAPI JSON schemas from provided local Kubernetes CRDs</li>
+            <li><strong>with-remote-crds</strong>: Generates OpenAPI JSON schemas from provided remote Kubernetes CRDs</li>
         </ul>
     </div>
 
-    <div class="section">
-        <h2>Module Purpose</h2>
-        <p>kubeconform is a Kubernetes manifest validation tool that checks resources against the Kubernetes OpenAPI specification. Key features include:</p>
+    <h2>Quality Improvement Suggestions</h2>
+
+    <div class="suggestion">
+        <h3>1. Add Input Validation and Error Handling</h3>
+        <p>The module could benefit from more robust input validation and clearer error messages.</p>
+        <pre><code>
+// Example implementation:
+func (m *Module) validate(ctx context.Context, manifests *Directory) (*Directory, error) {
+    if manifests == nil {
+        return nil, fmt.Errorf("manifests directory cannot be nil")
+    }
+    
+    // Add detailed error messages
+    result, err := m.validateManifests(ctx, manifests)
+    if err != nil {
+        return nil, fmt.Errorf("validation failed: %w", err)
+    }
+    
+    return result, nil
+}
+        </code></pre>
+    </div>
+
+    <div class="suggestion">
+        <h3>2. Add Progress Reporting</h3>
+        <p>Implement progress reporting for long-running operations, especially when dealing with multiple manifests.</p>
+        <pre><code>
+// Example implementation:
+func (m *Module) validateWithProgress(ctx context.Context, manifests *Directory) (*Directory, error) {
+    files, err := manifests.Entries(ctx)
+    if err != nil {
+        return nil, err
+    }
+    
+    for i, file := range files {
+        fmt.Printf("Validating file %d of %d: %s\n", i+1, len(files), file)
+        // Validation logic here
+    }
+    
+    return result, nil
+}
+        </code></pre>
+    </div>
+
+    <div class="suggestion">
+        <h3>3. Add Caching Support</h3>
+        <p>Implement caching for remote CRD schemas to improve performance.</p>
+        <pre><code>
+// Example implementation:
+func (m *Module) withCachedRemoteCRDs(ctx context.Context, url string) (*Directory, error) {
+    cacheKey := fmt.Sprintf("crd-cache-%s", hash(url))
+    
+    if cached := m.cache.Get(cacheKey); cached != nil {
+        return cached, nil
+    }
+    
+    result, err := m.fetchRemoteCRDs(ctx, url)
+    if err != nil {
+        return nil, err
+    }
+    
+    m.cache.Set(cacheKey, result)
+    return result, nil
+}
+        </code></pre>
+    </div>
+
+    <h2>Testing Issues Encountered</h2>
+    <div class="error">
+        <p>During testing, the following issues were encountered:</p>
         <ul>
-            <li>Validates standalone YAML files and kustomization files</li>
-            <li>Can exclude specific directories from validation</li>
-            <li>Converts CRDs into JSONSchemas</li>
-            <li>Supports additional schemas from the Datree Catalog</li>
-            <li>Supports Flux variables substitution</li>
+            <li>Unable to crawl module information from daggerverse due to API limitations</li>
         </ul>
     </div>
 
-    <div class="section">
-        <h2>Available Functions</h2>
-        <div class="function-list">
-            <h3>1. validate()</h3>
-            <p>Validates Kubernetes manifests in a provided directory with the following options:</p>
-            <ul>
-                <li>version: Kubeconform version (default: "v0.6.7")</li>
-                <li>manifests: Base directory for validation (required)</li>
-                <li>kustomize: Enable kustomization.yaml validation</li>
-                <li>exclude: Directories/files to exclude</li>
-                <li>catalog: Use Datree catalog</li>
-                <li>flux: Enable flux support</li>
-                <li>fluxVersion: Specify flux version</li>
-                <li>crds: List of CRD URLs</li>
-                <li>env: Environment variables</li>
-            </ul>
-
-            <h3>2. version()</h3>
-            <p>Returns the Kubeconform version being used for validation</p>
-        </div>
-    </div>
-
-    <div class="section">
-        <h2>Quality Improvement Suggestions</h2>
-        
-        <div class="suggestion">
-            <h3>1. Add Input Validation</h3>
-            <p>Add proper input validation for the manifests directory and CRD URLs to prevent potential errors.</p>
-            <div class="code">
-                <pre>
-func validateInput(path string) error {
-    if path == "" {
-        return fmt.Errorf("manifests path cannot be empty")
-    }
-    if !filepath.IsAbs(path) {
-        return fmt.Errorf("please provide absolute path")
-    }
-    return nil
-}
-                </pre>
-            </div>
-            <img src="https://i.imgflip.com/2k48t0.jpg" alt="Input Validation Meme" class="meme">
-        </div>
-
-        <div class="suggestion">
-            <h3>2. Implement Progress Reporting</h3>
-            <p>Add progress reporting for large manifest validations to improve user experience.</p>
-            <div class="code">
-                <pre>
-type ValidationProgress struct {
-    TotalFiles int
-    Validated  int
-    Errors     int
-}
-
-func (k *Kubeconform) validateWithProgress(ctx context.Context) (*ValidationProgress, error) {
-    progress := &ValidationProgress{}
-    // Implementation
-    return progress, nil
-}
-                </pre>
-            </div>
-        </div>
-
-        <div class="suggestion">
-            <h3>3. Add Caching Support</h3>
-            <p>Implement caching for validated schemas to improve performance on repeated validations.</p>
-            <div class="code">
-                <pre>
-type SchemaCache struct {
-    cache    map[string][]byte
-    maxSize  int
-    lifetime time.Duration
-}
-
-func NewSchemaCache() *SchemaCache {
-    return &SchemaCache{
-        cache:    make(map[string][]byte),
-        maxSize:  1000,
-        lifetime: 24 * time.Hour,
-    }
-}
-                </pre>
-            </div>
-        </div>
-    </div>
-
-    <div class="section">
-        <h2>Testing Notes</h2>
-        <p>No errors were encountered during the testing process. The module installed and built successfully, and all functions were properly documented.</p>
+    <div style="margin-top: 30px;">
+        <h3>Quality Assurance Meme</h3>
+        <img src="https://i.imgflip.com/2hwc01.jpg" alt="QA Testing Meme" style="max-width: 500px;">
+        <p><em>When the tests pass in development but fail in production</em></p>
     </div>
 </body>
 </html>
