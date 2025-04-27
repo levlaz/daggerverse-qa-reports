@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>QA Report - awesome-ci</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
+        h1, h2 { color: #333; }
+        .error { color: #ff0000; }
+        .success { color: #008000; }
+        .function-list { background-color: #f5f5f5; padding: 20px; border-radius: 5px; }
+        .suggestion { margin: 20px 0; padding: 20px; background-color: #f9f9f9; border-left: 4px solid #007bff; }
+        pre { background-color: #f0f0f0; padding: 10px; border-radius: 4px; overflow-x: auto; }
+        .meme { max-width: 500px; margin: 20px 0; }
+    </style>
+</head>
+<body>
+    <h1>QA Report: awesome-ci</h1>
+    
+    <h2>Module Information</h2>
+    <ul>
+        <li><strong>Name:</strong> awesome-ci</li>
+        <li><strong>Author:</strong> tsirysndr</li>
+        <li><strong>Latest Version:</strong> main</li>
+        <li><strong>Release Date:</strong> N/A (information unavailable due to crawling error)</li>
+        <li><strong>Dagger Engine Version Used:</strong> v0.18.5</li>
+    </ul>
+
+    <h2>Module Description</h2>
+    <p>awesome-ci is a comprehensive code quality checking tool that provides various scanning and validation functions for different file types and coding standards.</p>
+
+    <h2>Available Functions</h2>
+    <div class="function-list">
+        <ul>
+            <li><strong>dev</strong> - Returns a container with awesome-ci installed.</li>
+            <li><strong>file-cr</strong> - Scan files and check if they contain CR (Carriage Return only).</li>
+            <li><strong>file-crlf</strong> - Scan files and check if they contain CRLF (Windows Line Feeds).</li>
+            <li><strong>file-empty</strong> - Scan files and check if they are empty (0 bytes).</li>
+            <li><strong>file-null-byte-char</strong> - Scan files and check if they contain a null-byte character (\x00).</li>
+            <li><strong>file-trailing-newline</strong> - Scan files and check if they contain a trailing newline.</li>
+            <li><strong>file-trailing-single-newline</strong> - Scan files and check if they contain exactly one trailing newline.</li>
+            <li><strong>file-trailing-space</strong> - Scan files and check if they contain trailing whitespaces.</li>
+            <li><strong>file-utf-8</strong> - Scan files and check if they have a non UTF-8 encoding.</li>
+            <li><strong>file-utf-8-bom</strong> - Scan files and check if they contain BOM (Byte Order Mark).</li>
+            <li><strong>git-conflicts</strong> - Scan files and check if they contain git conflicts.</li>
+            <li><strong>git-ignored</strong> - Scan git directory and see if ignored files are still in git cache.</li>
+            <li><strong>inline-css</strong> - Scan files and check if they contain inline css code.</li>
+            <li><strong>inline-js</strong> - Scan files and check if they contain inline javascript code.</li>
+            <li><strong>syntax-bash</strong> - Scan shell files for bash syntax errors.</li>
+            <li><strong>syntax-css</strong> - Scan CSS files for CSS syntax errors.</li>
+            <li><strong>syntax-js</strong> - Scan JS files for JS syntax errors.</li>
+            <li><strong>syntax-json</strong> - Scan files for JSON syntax errors.</li>
+            <li><strong>syntax-markdown</strong> - Scan files for Markdown syntax errors.</li>
+            <li><strong>syntax-perl</strong> - Scan Perl files for Perl syntax errors.</li>
+            <li><strong>syntax-php</strong> - Scan PHP files for PHP syntax errors.</li>
+            <li><strong>syntax-python</strong> - Scan Python files for Python syntax errors.</li>
+            <li><strong>syntax-ruby</strong> - Scan Ruby files for Ruby syntax errors.</li>
+            <li><strong>syntax-scss</strong> - Scan SCSS files for SCSS syntax errors.</li>
+            <li><strong>syntax-sh</strong> - Scan sh files for /bin/sh syntax errors.</li>
+        </ul>
+    </div>
+
+    <h2>Quality Improvement Suggestions</h2>
+
+    <div class="suggestion">
+        <h3>1. Add Input Validation and Error Handling</h3>
+        <p>Current implementation could benefit from better input validation and error handling for file paths and configurations.</p>
+        <pre>
+// Example improvement for file scanning functions:
+func (a *AwesomeCi) fileCheck(ctx context.Context, path string) (*File, error) {
+    if path == "" {
+        return nil, fmt.Errorf("path cannot be empty")
+    }
+    
+    file := dag.File(path)
+    exists, err := file.Exists(ctx)
+    if err != nil {
+        return nil, fmt.Errorf("failed to check file existence: %w", err)
+    }
+    if !exists {
+        return nil, fmt.Errorf("file %s does not exist", path)
+    }
+    
+    return file, nil
+}
+        </pre>
+    </div>
+
+    <div class="suggestion">
+        <h3>2. Add Progress Reporting and Verbose Mode</h3>
+        <p>Add detailed progress reporting for long-running operations.</p>
+        <pre>
+// Add progress reporting to scanning functions:
+func (a *AwesomeCi) ScanWithProgress(ctx context.Context, path string) (*ScanResult, error) {
+    progress := dag.Progress()
+    
+    progress.Start("Scanning %s", path)
+    defer progress.Done()
+    
+    files, err := a.listFiles(ctx, path)
+    if err != nil {
+        return nil, err
+    }
+    
+    for i, file := range files {
+        progress.Update("%d/%d files processed", i+1, len(files))
+        // scanning logic here
+    }
+    
+    return result, nil
+}
+        </pre>
+        <img src="https://i.imgur.com/QAjGp6h.gif" alt="Progress Bar Meme" class="meme">
+    </div>
+
+    <div class="suggestion">
+        <h3>3. Add Configuration File Support</h3>
+        <p>Allow users to configure scanning rules and exceptions through a configuration file.</p>
+        <pre>
+// Example configuration structure:
+type Config struct {
+    IgnorePatterns []string `yaml:"ignore_patterns"`
+    CustomRules    []struct {
+        Name     string `yaml:"name"`
+        Pattern  string `yaml:"pattern"`
+        Severity string `yaml:"severity"`
+    } `yaml:"custom_rules"`
+    MaxFileSize int64 `yaml:"max_file_size"`
+}
+
+func LoadConfig(path string) (*Config, error) {
+    data, err := os.ReadFile(path)
+    if err != nil {
+        return nil, err
+    }
+    
+    var config Config
+    if err := yaml.Unmarshal(data, &config); err != nil {
+        return nil, err
+    }
+    
+    return &config, nil
+}
+        </pre>
+    </div>
+
+    <h2>Issues Encountered</h2>
+    <div class="error">
+        <p>1. Unable to crawl module information from daggerverse due to API limitation:</p>
+        <pre>failed to sync: select: failed to crawl github.com/tsirysndr/daggerverse/awesome-ci: 
+input: firecrawlDag.scrape Payment Required: Failed to scrape URL. 
+Insufficient credits to perform this request.</pre>
+    </div>
+
+    <h2>Test Results</h2>
+    <div class="success">
+        <p>✅ Module installation successful</p>
+        <p>✅ Module build successful</p>
+        <p>✅ Function listing successful</p>
+    </div>
+
+</body>
+</html>

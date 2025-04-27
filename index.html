@@ -1,112 +1,104 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>QA Report - aws-cli</title>
+    <title>QA Report - golang Module</title>
     <style>
-        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 2em; }
-        h1, h2 { color: #333; }
-        .section { margin-bottom: 2em; }
-        .function-list { margin-left: 2em; }
-        .suggestion { background: #f5f5f5; padding: 1em; margin: 1em 0; border-radius: 5px; }
-        .code { background: #f0f0f0; padding: 1em; font-family: monospace; }
-        .error { color: #c00; }
-        .meme { max-width: 500px; margin: 1em 0; }
+        body { font-family: Arial, sans-serif; max-width: 1200px; margin: 0 auto; padding: 20px; }
+        .section { margin: 20px 0; }
+        .function-list { background-color: #f5f5f5; padding: 20px; border-radius: 5px; }
+        .error { color: #cc0000; }
+        .suggestion { margin: 20px 0; padding: 15px; background-color: #f0f8ff; border-radius: 5px; }
+        code { background-color: #f0f0f0; padding: 2px 5px; border-radius: 3px; }
+        pre { background-color: #f5f5f5; padding: 15px; border-radius: 5px; overflow-x: auto; }
     </style>
 </head>
 <body>
-    <h1>QA Report - aws-cli</h1>
+    <h1>QA Report - golang Module</h1>
     
     <div class="section">
         <h2>Module Information</h2>
         <ul>
-            <li><strong>Name:</strong> aws-cli</li>
-            <li><strong>Author:</strong> sagikazarmark</li>
-            <li><strong>Latest Version:</strong> v0.2.0</li>
-            <li><strong>Release Date:</strong> Extracted from reference: 9ee6739db1b1cc4c806ed9389ecd534bf9f5705a</li>
-            <li><strong>Dagger Engine Version Used:</strong> v0.18.3</li>
-            <li><strong>Dagger Cloud Trace:</strong> <em>Not available in local testing environment</em></li>
+            <li><strong>Module Name:</strong> github.com/purpleclay/daggerverse/golang</li>
+            <li><strong>Author:</strong> purpleclay</li>
+            <li><strong>Latest Version:</strong> latest (specific version information unavailable due to crawl error)</li>
+            <li><strong>Release Date:</strong> Unknown (crawl error)</li>
         </ul>
     </div>
 
     <div class="section">
-        <h2>Module Purpose</h2>
-        <p>This module provides a generic interface to use AWS CLI in Dagger pipelines. It offers both direct AWS CLI command execution capabilities and high-level functions for common AWS interactions.</p>
-        
-        <h3>Available Functions:</h3>
-        <ul class="function-list">
-            <li><strong>container()</strong> - Base container access</li>
-            <li><strong>ecr()</strong> - Amazon ECR registry operations</li>
-            <li><strong>exec()</strong> - Run AWS CLI commands</li>
-            <li><strong>region()</strong> - Get/set AWS region</li>
-            <li><strong>sts()</strong> - AWS STS operations</li>
-            <li><strong>withConfig()</strong> - Mount AWS config file</li>
-            <li><strong>withCredentials()</strong> - Mount AWS credentials</li>
-            <li><strong>withProfile()</strong> - Set AWS profile</li>
-            <li><strong>withRegion()</strong> - Set AWS region</li>
-            <li><strong>withStaticCredentials()</strong> - Set static AWS credentials</li>
-            <li><strong>withTemporaryCredentials()</strong> - Set temporary credentials</li>
-            <li><strong>withoutStaticCredentials()</strong> - Remove static credentials</li>
-        </ul>
+        <h2>Testing Environment</h2>
+        <p><strong>Dagger Engine Version:</strong> v0.18.3</p>
+    </div>
+
+    <div class="section">
+        <h2>Module Functionality</h2>
+        <p>This module provides a comprehensive suite of Go development tools and utilities. The following functions are available:</p>
+        <div class="function-list">
+            <ul>
+                <li><strong>bench</strong>: Execute benchmarks defined within the target project, excludes all other tests</li>
+                <li><strong>build</strong>: Build a static binary from a Go project using the provided configuration</li>
+                <li><strong>format</strong>: Format the source code within a target project using gofumpt</li>
+                <li><strong>lint</strong>: Lint the target project using golangci-lint</li>
+                <li><strong>mod-version</strong>: Echoes the version of go defined within a projects go.mod file</li>
+                <li><strong>test</strong>: Execute tests defined within the target project, ignores benchmarks by default</li>
+                <li><strong>vulncheck</strong>: Scans the target project for vulnerabilities using govulncheck</li>
+                <li><strong>with-private</strong>: Enable private Go module support by dynamically constructing a .netrc auto-login</li>
+                <li><strong>with-private-load</strong>: Enable private Go module support by loading an existing .netrc auto-login configuration</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>Issues Encountered</h2>
+        <div class="error">
+            <p>Unable to crawl module information from daggerverse due to API rate limiting/credits issue.</p>
+        </div>
     </div>
 
     <div class="section">
         <h2>Quality Improvement Suggestions</h2>
         
         <div class="suggestion">
-            <h3>1. Add Input Validation</h3>
-            <p>Add comprehensive input validation for AWS credentials and region formats.</p>
-            <div class="code">
-            // Example implementation:
-            func validateAwsRegion(region string) error {
-                // AWS region format: xx-xxxx-#
-                regionPattern := regexp.MustCompile(`^[a-z]{2}-[a-z]+-\d$`)
-                if !regionPattern.MatchString(region) {
-                    return fmt.Errorf("invalid AWS region format: %s", region)
-                }
-                return nil
-            }
-            </div>
-            <img src="https://i.imgflip.com/2k0qad.jpg" alt="Input Validation Meme" class="meme">
+            <h3>1. Add Example Usage Documentation</h3>
+            <p>Include clear examples for each function to improve user onboarding. Here's a suggested documentation format:</p>
+            <pre>
+# Example for the build function
+with dag.golang().build(
+    src=dag.host().directory("."),
+    package="./cmd/myapp",
+    ldflags="-s -w"
+)</pre>
+            <img src="https://i.imgflip.com/2/5qxnx8.jpg" alt="Documentation Meme" style="max-width: 300px;">
         </div>
 
         <div class="suggestion">
-            <h3>2. Add Comprehensive Error Handling</h3>
-            <p>Implement detailed error handling with specific error types for different AWS CLI failures.</p>
-            <div class="code">
-            type AwsCliError struct {
-                Code    string
-                Message string
-                Detail  map[string]interface{}
-            }
+            <h3>2. Implement Version Pinning</h3>
+            <p>Add version pinning for critical tools like golangci-lint to ensure consistent behavior:</p>
+            <pre>
+// Current implementation could be enhanced with:
+type Golang struct {
+    golangciLintVersion string
+}
 
-            func (e *AwsCliError) Error() string {
-                return fmt.Sprintf("AWS CLI error [%s]: %s", e.Code, e.Message)
-            }
-            </div>
+func (g *Golang) WithGolangciLintVersion(version string) *Golang {
+    g.golangciLintVersion = version
+    return g
+}</pre>
         </div>
 
         <div class="suggestion">
-            <h3>3. Add Retry Mechanism</h3>
-            <p>Implement retry logic for transient AWS API failures.</p>
-            <div class="code">
-            func withRetry(op func() error, maxAttempts int) error {
-                var err error
-                for attempt := 1; attempt <= maxAttempts; attempt++ {
-                    err = op()
-                    if err == nil {
-                        return nil
-                    }
-                    time.Sleep(time.Second * time.Duration(attempt))
-                }
-                return fmt.Errorf("operation failed after %d attempts: %v", maxAttempts, err)
-            }
-            </div>
+            <h3>3. Add Progress Reporting</h3>
+            <p>Implement progress reporting for long-running operations:</p>
+            <pre>
+func (g *Golang) build(ctx context.Context) (*Container, error) {
+    progress := dag.Progress("Building Go binary")
+    defer progress.Done()
+    
+    // Existing build logic
+    progress.Update("Compiling...")
+    // More build steps
+}</pre>
         </div>
-    </div>
-
-    <div class="section">
-        <h2>Testing Issues</h2>
-        <p>No significant issues were encountered during testing. The module installed and built successfully. All core functionalities appear to be working as documented.</p>
     </div>
 </body>
 </html>
