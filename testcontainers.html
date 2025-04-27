@@ -5,122 +5,120 @@
     <style>
         body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
         h1, h2 { color: #333; }
-        .container { max-width: 1200px; margin: 0 auto; }
-        .function-list { background: #f5f5f5; padding: 20px; border-radius: 5px; }
-        .suggestion { margin: 20px 0; padding: 20px; background: #f9f9f9; border-left: 4px solid #007bff; }
-        .error { color: #dc3545; }
-        .code { background: #f8f9fa; padding: 15px; border-radius: 5px; font-family: monospace; }
+        .error { color: #ff0000; }
+        .function { background: #f5f5f5; padding: 10px; margin: 10px 0; }
+        .suggestion { border-left: 4px solid #4CAF50; padding-left: 20px; margin: 20px 0; }
         .meme { max-width: 500px; margin: 20px 0; }
+        pre { background: #f8f8f8; padding: 10px; border-radius: 5px; }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>QA Report: testcontainers Module</h1>
-        
-        <h2>Module Information</h2>
-        <ul>
-            <li><strong>Module Name:</strong> github.com/kpenfound/testcontainers-java-repro/module/testcontainers</li>
-            <li><strong>Author:</strong> kpenfound</li>
-            <li><strong>Latest Version:</strong> latest</li>
-            <li><strong>Release Date:</strong> N/A (Unable to retrieve from crawl)</li>
-            <li><strong>Dagger Engine Version Used:</strong> v0.18.5</li>
-        </ul>
-
-        <h2>Module Functionality</h2>
-        <div class="function-list">
-            <h3>Available Functions:</h3>
-            <ul>
-                <li><strong>enable()</strong>: Enables Testcontainers with optional boolean for Testcontainers Cloud and optional TCC_TOKEN (secret)</li>
-            </ul>
-        </div>
-
-        <h2>Issues Encountered</h2>
-        <div class="error">
-            <p>✖ Unable to crawl module information due to API limits</p>
-        </div>
-
-        <h2>Quality Improvement Suggestions</h2>
-        
-        <div class="suggestion">
-            <h3>1. Add Comprehensive Documentation</h3>
-            <p>The module would benefit from more detailed documentation, including examples and use cases.</p>
-            <div class="code">
-                <pre>
-// Example documentation improvement
-/*
-* Enables Testcontainers integration
-* 
-* @param useCloud - Whether to use Testcontainers Cloud (default: false)
-* @param tccToken - Testcontainers Cloud token (required if useCloud is true)
-* 
-* Example usage:
-* dag.testcontainers().enable(
-*     useCloud: true,
-*     tccToken: dag.setSecret("TCC_TOKEN", "your-token-here")
-* )
-*/
-func enable(useCloud: bool = false, tccToken: *Secret) -> *Container
-</pre>
-            </div>
-        </div>
-
-        <div class="suggestion">
-            <h3>2. Add Error Handling and Validation</h3>
-            <p>Implement proper error handling and input validation for more robust operation.</p>
-            <div class="code">
-                <pre>
-func enable(useCloud: bool = false, tccToken: *Secret) *Container {
-    if useCloud && tccToken == nil {
-        fail("TCC_TOKEN is required when using Testcontainers Cloud")
-    }
+    <h1>QA Report: testcontainers Module</h1>
     
-    // Validate token format if provided
-    if tccToken != nil {
-        if !strings.hasPrefix(tccToken.plaintext(), "tcc_") {
-            fail("Invalid TCC_TOKEN format. Must start with 'tcc_'")
-        }
-    }
-    
-    // Continue with implementation...
-}
-</pre>
-            </div>
-        </div>
+    <h2>Module Information</h2>
+    <ul>
+        <li><strong>Name:</strong> github.com/kpenfound/testcontainers-java-repro/module/testcontainers</li>
+        <li><strong>Author:</strong> kpenfound</li>
+        <li><strong>Latest Version:</strong> main</li>
+        <li><strong>Release Date:</strong> N/A (Unable to fetch from daggerverse)</li>
+        <li><strong>Dagger Engine Version:</strong> v0.18.5</li>
+    </ul>
 
-        <div class="suggestion">
-            <h3>3. Add Health Check and Version Compatibility</h3>
-            <p>Include health checks and version compatibility verification.</p>
-            <div class="code">
-                <pre>
-func checkCompatibility() error {
-    supportedVersions := []string{"1.18.0", "1.18.1", "1.18.2"}
-    currentVersion := getCurrentVersion()
-    
-    for _, version := range supportedVersions {
-        if version == currentVersion {
-            return nil
-        }
-    }
-    return fmt.Errorf("Unsupported Testcontainers version: %s", currentVersion)
-}
-
-func healthCheck() error {
-    // Implement basic health check
-    ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
-    defer cancel()
-    
-    // Test connection and basic functionality
-    return testcontainers.CheckConnection(ctx)
-}
-</pre>
-            </div>
-        </div>
-
-        <div class="meme">
-            <img src="https://i.imgflip.com/4/2k48t0.jpg" alt="It works on my machine" />
-            <p><em>Testing containers be like...</em></p>
-        </div>
-
+    <h2>Module Functionality</h2>
+    <p>This module provides functionality related to Testcontainers, with the following function:</p>
+    <div class="function">
+        <h3>enable</h3>
+        <p>Description: Provides optional boolean for Testcontainers Cloud, with optional TCC_TOKEN (secret).</p>
     </div>
+
+    <h2>Quality Improvement Suggestions</h2>
+    
+    <div class="suggestion">
+        <h3>1. Improve Documentation</h3>
+        <p>The current documentation is minimal. Add comprehensive documentation including examples and use cases.</p>
+        <pre>
+// Example of improved documentation in code:
+/*
+* Enables Testcontainers Cloud integration
+* @param {boolean} useCloud - Whether to use Testcontainers Cloud (default: false)
+* @param {string} tccToken - Testcontainers Cloud authentication token
+* @returns {boolean} - Success status of the operation
+*
+* Example usage:
+* dagger call enable --use-cloud=true --tcc-token=your-token
+*/
+</pre>
+    </div>
+
+    <div class="suggestion">
+        <h3>2. Add Error Handling</h3>
+        <p>Implement proper error handling and status reporting.</p>
+        <pre>
+func enable(ctx context.Context, useCloud bool, tccToken *string) (*EnableResult, error) {
+    if useCloud && tccToken == nil {
+        return nil, fmt.Errorf("tccToken is required when useCloud is true")
+    }
+    
+    result := &EnableResult{
+        Success: false,
+        Message: "",
+    }
+    
+    // Implementation
+    
+    return result, nil
+}
+</pre>
+    </div>
+
+    <div class="suggestion">
+        <h3>3. Add Testing Suite</h3>
+        <p>Include comprehensive tests for the module.</p>
+        <img src="https://i.imgflip.com/2/1bij.jpg" alt="Testing All The Things" class="meme">
+        <pre>
+func TestEnable(t *testing.T) {
+    testCases := []struct {
+        name     string
+        useCloud bool
+        tccToken *string
+        wantErr  bool
+    }{
+        {
+            name:     "success_local",
+            useCloud: false,
+            tccToken: nil,
+            wantErr:  false,
+        },
+        {
+            name:     "success_cloud",
+            useCloud: true,
+            tccToken: ptr("valid-token"),
+            wantErr:  false,
+        },
+    }
+    
+    for _, tc := range testCases {
+        t.Run(tc.name, func(t *testing.T) {
+            _, err := enable(context.Background(), tc.useCloud, tc.tccToken)
+            if (err != nil) != tc.wantErr {
+                t.Errorf("enable() error = %v, wantErr %v", err, tc.wantErr)
+            }
+        })
+    }
+}
+</pre>
+    </div>
+
+    <h2>Issues Encountered</h2>
+    <div class="error">
+        <ul>
+            <li>Unable to crawl module information from daggerverse due to API limitations</li>
+            <li>Limited documentation available about the module's functionality</li>
+            <li>No explicit version information available, defaulting to 'main'</li>
+        </ul>
+    </div>
+
+    <h2>Additional Notes</h2>
+    <p>This module appears to be a utility for enabling Testcontainers Cloud integration. While functional, it would benefit from more robust documentation and error handling mechanisms.</p>
 </body>
 </html>
