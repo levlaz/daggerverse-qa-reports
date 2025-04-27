@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>QA Report - dirdiff Module</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
+        .container { max-width: 800px; margin: 0 auto; }
+        .error { color: red; background: #ffebee; padding: 10px; border-radius: 4px; }
+        .suggestion { margin: 20px 0; padding: 15px; background: #f5f5f5; border-radius: 4px; }
+        code { background: #eee; padding: 2px 5px; border-radius: 3px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>QA Report: dirdiff Module</h1>
+        
+        <h2>Basic Information</h2>
+        <ul>
+            <li><strong>Module Name:</strong> github.com/grouville/dagger/modules/dirdiff</li>
+            <li><strong>Version Tested:</strong> main</li>
+            <li><strong>Dagger Engine Version:</strong> v0.18.5</li>
+        </ul>
+
+        <h2>Test Results</h2>
+        <div class="error">
+            <h3>Installation Errors:</h3>
+            <p>The module installation failed with the following error:</p>
+            <pre>git module source "github.com/grouville/dagger/modules/dirdiff" does not contain a dagger config file</pre>
+        </div>
+
+        <div class="error">
+            <h3>Build Errors:</h3>
+            <p>The module build failed with the following error:</p>
+            <pre>failed to get configured module: input: moduleSource path "modules/dirdiff" does not exist in git repo</pre>
+        </div>
+
+        <h2>Quality Improvement Suggestions</h2>
+        
+        <div class="suggestion">
+            <h3>1. Add Required Configuration Files</h3>
+            <p>The module is missing the essential dagger.json configuration file. Here's how to fix it:</p>
+            <pre><code>{
+    "name": "dirdiff",
+    "sdk": "go",
+    "description": "A module for comparing directory contents",
+    "version": "0.1.0"
+}</code></pre>
+        </div>
+
+        <div class="suggestion">
+            <h3>2. Improve Repository Structure</h3>
+            <p>The module should follow the standard Dagger module structure:</p>
+            <pre><code>modules/dirdiff/
+├── dagger.json
+├── main.go
+├── README.md
+└── tests/</code></pre>
+            <p><img src="https://i.imgflip.com/65efzo.jpg" alt="Project Structure Meme" width="300"></p>
+        </div>
+
+        <div class="suggestion">
+            <h3>3. Add Documentation</h3>
+            <p>Create a comprehensive README.md with usage examples:</p>
+            <pre><code># Dirdiff Module
+
+A Dagger module for comparing directory contents.
+
+## Usage
+
+```go
+dagger := dagger.Connect()
+diff := dagger.GetModule("github.com/grouville/dagger/modules/dirdiff")
+result := diff.Compare(dir1, dir2)
+```</code></pre>
+        </div>
+
+        <h2>Summary</h2>
+        <p>The module appears to be non-functional in its current state. The primary issues are:</p>
+        <ul>
+            <li>Missing dagger.json configuration file</li>
+            <li>Incorrect repository structure</li>
+            <li>Module path does not exist in the repository</li>
+        </ul>
+    </div>
+</body>
+</html>
