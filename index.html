@@ -1,119 +1,123 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>QA Report - ResearcherContainer</title>
+    <title>QA Report - DebtRepayment Module</title>
     <style>
-        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 20px; }
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
         h1, h2 { color: #333; }
-        .function-list { background: #f5f5f5; padding: 15px; border-radius: 5px; }
-        .suggestion { margin: 20px 0; padding: 15px; background: #e9ecef; border-radius: 5px; }
-        .code { background: #f8f9fa; padding: 10px; border-radius: 5px; font-family: monospace; }
-        .error { color: #dc3545; }
+        .error { color: #dc3545; background: #ffebee; padding: 10px; border-radius: 4px; }
+        .suggestion { margin: 20px 0; padding: 15px; background: #f8f9fa; border-radius: 4px; }
+        code { background: #f4f4f4; padding: 2px 5px; border-radius: 3px; }
         .meme { max-width: 500px; margin: 20px 0; }
     </style>
 </head>
 <body>
-    <h1>QA Report: ResearcherContainer</h1>
+    <h1>QA Report: DebtRepayment Module</h1>
     
     <h2>Module Information</h2>
     <ul>
-        <li><strong>Name:</strong> ResearcherContainer</li>
+        <li><strong>Name:</strong> DebtRepayment</li>
         <li><strong>Author:</strong> EmmS21</li>
-        <li><strong>Latest Version:</strong> bd0e80d862e048ff0033b305e33c935b8ae40da3</li>
-        <li><strong>Dagger Engine Version Used:</strong> v0.18.2</li>
+        <li><strong>Latest Version:</strong> fbd39125783b71e8181a9f0e30b62172eea8d9a1</li>
+        <li><strong>Release Date:</strong> Not provided in metadata</li>
+        <li><strong>Dagger Cloud Trace:</strong> See terminal output</li>
     </ul>
 
     <h2>Module Purpose</h2>
-    <p>This module interacts with an AI Agent hosted in Modal to perform research on companies. It:</p>
+    <p>This module is designed to fetch and analyze data from two Google Sheets to process debt and investment information. It includes functionality to:</p>
     <ul>
-        <li>Conducts research on companies and their user bases</li>
-        <li>Uses web automation for internet browsing</li>
-        <li>Generates exploration paths for the agent</li>
-        <li>Collects keywords and adtext</li>
-        <li>Stores data in MongoDB collections</li>
+        <li>Fetch data from two separate Google Sheets</li>
+        <li>Run analysis on debts and investments using an AI agent</li>
+        <li>Send results via email using SendGrid</li>
     </ul>
 
-    <h2>Available Functions</h2>
-    <div class="function-list">
-        <h3>run()</h3>
-        <p>Calls marketing agent with business and persona data, then writes results to MongoDB.</p>
-        <p>Parameters:</p>
-        <ul>
-            <li>businessName (String, required)</li>
-            <li>personas (String, required)</li>
-            <li>connection (Secret, required)</li>
-            <li>modalEntryPoint (Secret, required)</li>
-        </ul>
+    <h2>Module Functions</h2>
+    <ul>
+        <li><strong>fetchData()</strong>
+            <ul>
+                <li>Arguments:
+                    <ul>
+                        <li>apiKey (Secret): Google Sheets API key</li>
+                        <li>sheet (Secret): First Google Sheet secret</li>
+                        <li>sheetTwo (Secret): Second Google Sheet secret</li>
+                        <li>openKey (Secret): OpenAI API key</li>
+                        <li>sendGrid (Secret): SendGrid API key</li>
+                        <li>name (String): Sheet name</li>
+                        <li>sendTo (String): Email recipient</li>
+                    </ul>
+                </li>
+                <li>Returns: Array of strings</li>
+            </ul>
+        </li>
+    </ul>
+
+    <h2>Testing Environment</h2>
+    <p>Tested with Dagger Engine Version: v0.18.2</p>
+
+    <h2>Issues Encountered</h2>
+    <div class="error">
+        <p>Failed to build the module with error: "failed to sync: select: process "/runtime" did not complete successfully: exit code: 2"</p>
     </div>
 
-    <h2>Quality Improvement Suggestions</h2>
+    <h2>Improvement Suggestions</h2>
     
     <div class="suggestion">
         <h3>1. Add Input Validation</h3>
-        <p>The module could benefit from input validation to ensure the business name and personas are in the correct format before making the request.</p>
-        <div class="code">
-        <pre>
-func validateInput(businessName string, personas string) error {
-    if len(businessName) < 2 {
-        return fmt.Errorf("business name must be at least 2 characters long")
-    }
-    if !json.Valid([]byte(personas)) {
-        return fmt.Errorf("personas must be valid JSON")
+        <p>Add input validation for email addresses and sheet names to prevent runtime errors.</p>
+        <code>
+func validateEmail(email string) error {
+    if _, err := mail.ParseAddress(email); err != nil {
+        return fmt.Errorf("invalid email address: %v", err)
     }
     return nil
 }
-        </pre>
-        </div>
-    </div>
 
-    <div class="suggestion">
-        <h3>2. Add Retry Mechanism</h3>
-        <p>Given that this module depends on external services (Modal and MongoDB), implementing a retry mechanism would improve reliability.</p>
-        <div class="code">
-        <pre>
-func (m *Module) runWithRetry(ctx context.Context, maxRetries int) (string, error) {
-    for i := 0; i < maxRetries; i++ {
-        result, err := m.run(ctx)
-        if err == nil {
-            return result, nil
-        }
-        time.Sleep(time.Second * time.Duration(i+1))
+func (m *DebtRepayment) FetchData(ctx context.Context, ...) ([]string, error) {
+    if err := validateEmail(sendTo); err != nil {
+        return nil, err
     }
-    return "", fmt.Errorf("max retries exceeded")
+    // rest of the function
 }
-        </pre>
-        </div>
+        </code>
     </div>
 
     <div class="suggestion">
-        <h3>3. Add Progress Reporting</h3>
-        <p>The module could provide better feedback about the research progress.</p>
-        <div class="code">
-        <pre>
-type ProgressReport struct {
-    Stage string `json:"stage"`
-    Progress int `json:"progress"`
-    Details string `json:"details"`
-}
-
-func (m *Module) runWithProgress(ctx context.Context) chan ProgressReport {
-    progressChan := make(chan ProgressReport)
-    go func() {
-        progressChan <- ProgressReport{
-            Stage: "Initializing research",
-            Progress: 0,
-            Details: "Setting up connection to Modal agent"
+        <h3>2. Implement Error Handling and Retries</h3>
+        <p>Add retry mechanism for API calls to handle temporary failures.</p>
+        <code>
+func withRetry(maxAttempts int, fn func() error) error {
+    var err error
+    for i := 0; i < maxAttempts; i++ {
+        if err = fn(); err == nil {
+            return nil
         }
-        // ... continue with other stages
-    }()
-    return progressChan
+        time.Sleep(time.Second * time.Duration(math.Pow(2, float64(i))))
+    }
+    return fmt.Errorf("failed after %d attempts: %v", maxAttempts, err)
 }
-        </pre>
-        </div>
-        <img src="https://i.imgflip.com/65efzo.jpg" alt="Progress Bar Meme" class="meme">
+        </code>
     </div>
 
-    <h2>Testing Notes</h2>
-    <p>The module was successfully installed and built. No errors were encountered during the testing process. However, full functional testing would require valid MongoDB connection strings and Modal entry points, which were not available during this QA session.</p>
+    <div class="suggestion">
+        <h3>3. Add Comprehensive Documentation</h3>
+        <p>Improve documentation with examples and usage scenarios.</p>
+        <code>
+// DebtRepayment analyzes financial data from Google Sheets
+//
+// Example usage:
+//
+//     result, err := dag.DebtRepayment().FetchData(
+//         ctx,
+//         dag.SetSecret("GOOGLE_API_KEY", apiKey),
+//         dag.SetSecret("SHEET_ONE", sheetOne),
+//         dag.SetSecret("SHEET_TWO", sheetTwo),
+//         dag.SetSecret("OPENAI_KEY", openAIKey),
+//         dag.SetSecret("SENDGRID_KEY", sendGridKey),
+//         "MySheet",
+//         "user@example.com",
+//     )
+        </code>
+        <img src="https://i.imgflip.com/50q5zs.jpg" alt="Documentation Meme" class="meme">
+    </div>
 </body>
 </html>
