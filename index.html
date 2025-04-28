@@ -1,93 +1,119 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>QA Report - Python Module</title>
+    <title>QA Report - ResearcherContainer</title>
     <style>
-        body { font-family: Arial, sans-serif; line-height: 1.6; max-width: 1200px; margin: 0 auto; padding: 20px; }
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 20px; }
         h1, h2 { color: #333; }
-        .section { margin-bottom: 30px; }
-        .function-list { background-color: #f5f5f5; padding: 15px; border-radius: 5px; }
-        .suggestion { margin: 20px 0; padding: 15px; background-color: #f9f9f9; border-left: 4px solid #007bff; }
+        .function-list { background: #f5f5f5; padding: 15px; border-radius: 5px; }
+        .suggestion { margin: 20px 0; padding: 15px; background: #e9ecef; border-radius: 5px; }
+        .code { background: #f8f9fa; padding: 10px; border-radius: 5px; font-family: monospace; }
         .error { color: #dc3545; }
-        code { background-color: #f8f9fa; padding: 2px 5px; border-radius: 3px; }
-        pre { background-color: #f8f9fa; padding: 15px; border-radius: 5px; overflow-x: auto; }
+        .meme { max-width: 500px; margin: 20px 0; }
     </style>
 </head>
 <body>
-    <h1>QA Report: Python Module</h1>
+    <h1>QA Report: ResearcherContainer</h1>
     
-    <div class="section">
-        <h2>Module Information</h2>
+    <h2>Module Information</h2>
+    <ul>
+        <li><strong>Name:</strong> ResearcherContainer</li>
+        <li><strong>Author:</strong> EmmS21</li>
+        <li><strong>Latest Version:</strong> bd0e80d862e048ff0033b305e33c935b8ae40da3</li>
+        <li><strong>Dagger Engine Version Used:</strong> v0.18.2</li>
+    </ul>
+
+    <h2>Module Purpose</h2>
+    <p>This module interacts with an AI Agent hosted in Modal to perform research on companies. It:</p>
+    <ul>
+        <li>Conducts research on companies and their user bases</li>
+        <li>Uses web automation for internet browsing</li>
+        <li>Generates exploration paths for the agent</li>
+        <li>Collects keywords and adtext</li>
+        <li>Stores data in MongoDB collections</li>
+    </ul>
+
+    <h2>Available Functions</h2>
+    <div class="function-list">
+        <h3>run()</h3>
+        <p>Calls marketing agent with business and persona data, then writes results to MongoDB.</p>
+        <p>Parameters:</p>
         <ul>
-            <li><strong>Name:</strong> python</li>
-            <li><strong>Author:</strong> sagikazarmark</li>
-            <li><strong>Latest Version:</strong> v0.2.0</li>
-            <li><strong>Release Date:</strong> Not specified in module metadata</li>
-            <li><strong>Dagger Cloud Trace:</strong> <a href="https://daggerverse.dev/mod/github.com/sagikazarmark/daggerverse/python@b45dbd7448bb967aca4a538af9ce7f042abf0316">View Trace</a></li>
+            <li>businessName (String, required)</li>
+            <li>personas (String, required)</li>
+            <li>connection (Secret, required)</li>
+            <li>modalEntryPoint (Secret, required)</li>
         </ul>
     </div>
 
-    <div class="section">
-        <h2>Module Description</h2>
-        <p>Python programming language module. This module provides functionality for working with Python in Dagger pipelines.</p>
-        
-        <h3>Available Functions:</h3>
-        <div class="function-list">
-            <ul>
-                <li><strong>container()</strong> - Returns the container instance</li>
-                <li><strong>withPipCache(cache: CacheVolume)</strong> - Mount a cache volume for Pip cache</li>
-                <li><strong>withSource(source: Directory)</strong> - Mount a source directory</li>
-            </ul>
+    <h2>Quality Improvement Suggestions</h2>
+    
+    <div class="suggestion">
+        <h3>1. Add Input Validation</h3>
+        <p>The module could benefit from input validation to ensure the business name and personas are in the correct format before making the request.</p>
+        <div class="code">
+        <pre>
+func validateInput(businessName string, personas string) error {
+    if len(businessName) < 2 {
+        return fmt.Errorf("business name must be at least 2 characters long")
+    }
+    if !json.Valid([]byte(personas)) {
+        return fmt.Errorf("personas must be valid JSON")
+    }
+    return nil
+}
+        </pre>
         </div>
     </div>
 
-    <div class="section">
-        <h2>Testing Environment</h2>
-        <p><strong>Dagger Engine Version:</strong> v0.18.3</p>
-    </div>
-
-    <div class="section">
-        <h2>Suggestions for Improvement</h2>
-        
-        <div class="suggestion">
-            <h3>1. Add Version Pinning Support</h3>
-            <p>Allow users to pin specific Python package versions for better reproducibility.</p>
-            <img src="https://i.imgflip.com/65efzo.jpg" alt="Version pinning meme" style="max-width: 300px;">
-            <pre><code>func (m *Python) withPackageVersion(pkg string, version string) *Python {
-    return m.WithExec([]string{
-        "pip", "install", 
-        fmt.Sprintf("%s==%s", pkg, version),
-    })
-}</code></pre>
-        </div>
-
-        <div class="suggestion">
-            <h3>2. Add Virtual Environment Support</h3>
-            <p>Implement built-in virtual environment handling for isolation.</p>
-            <pre><code>func (m *Python) withVirtualEnv(name string) *Python {
-    return m.WithExec([]string{
-        "python", "-m", "venv", name,
-    }).WithEnvVariable(
-        "VIRTUAL_ENV", fmt.Sprintf("/app/%s", name),
-    )
-}</code></pre>
-        </div>
-
-        <div class="suggestion">
-            <h3>3. Add Requirements.txt Helper</h3>
-            <p>Add a dedicated helper for handling requirements.txt files.</p>
-            <pre><code>func (m *Python) withRequirements(requirements *Directory) *Python {
-    return m.WithSource(requirements).
-        WithExec([]string{
-            "pip", "install", "-r", "requirements.txt",
-        })
-}</code></pre>
+    <div class="suggestion">
+        <h3>2. Add Retry Mechanism</h3>
+        <p>Given that this module depends on external services (Modal and MongoDB), implementing a retry mechanism would improve reliability.</p>
+        <div class="code">
+        <pre>
+func (m *Module) runWithRetry(ctx context.Context, maxRetries int) (string, error) {
+    for i := 0; i < maxRetries; i++ {
+        result, err := m.run(ctx)
+        if err == nil {
+            return result, nil
+        }
+        time.Sleep(time.Second * time.Duration(i+1))
+    }
+    return "", fmt.Errorf("max retries exceeded")
+}
+        </pre>
         </div>
     </div>
 
-    <div class="section">
-        <h2>Testing Issues</h2>
-        <p>No significant issues were encountered during testing. The module installed and built successfully.</p>
+    <div class="suggestion">
+        <h3>3. Add Progress Reporting</h3>
+        <p>The module could provide better feedback about the research progress.</p>
+        <div class="code">
+        <pre>
+type ProgressReport struct {
+    Stage string `json:"stage"`
+    Progress int `json:"progress"`
+    Details string `json:"details"`
+}
+
+func (m *Module) runWithProgress(ctx context.Context) chan ProgressReport {
+    progressChan := make(chan ProgressReport)
+    go func() {
+        progressChan <- ProgressReport{
+            Stage: "Initializing research",
+            Progress: 0,
+            Details: "Setting up connection to Modal agent"
+        }
+        // ... continue with other stages
+    }()
+    return progressChan
+}
+        </pre>
+        </div>
+        <img src="https://i.imgflip.com/65efzo.jpg" alt="Progress Bar Meme" class="meme">
     </div>
+
+    <h2>Testing Notes</h2>
+    <p>The module was successfully installed and built. No errors were encountered during the testing process. However, full functional testing would require valid MongoDB connection strings and Modal entry points, which were not available during this QA session.</p>
 </body>
 </html>

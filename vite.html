@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>QA Report - Vite Module</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
+        h1 { color: #2c3e50; }
+        h2 { color: #34495e; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .function-list { background-color: #f8f9fa; padding: 20px; border-radius: 5px; }
+        .error { color: #e74c3c; padding: 10px; background-color: #fdeaea; border-radius: 5px; }
+        .suggestion { margin: 20px 0; padding: 15px; background-color: #f0f7ff; border-radius: 5px; }
+        pre { background-color: #f5f5f5; padding: 15px; border-radius: 5px; overflow-x: auto; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>QA Report: Vite Module</h1>
+        
+        <h2>Module Information</h2>
+        <ul>
+            <li><strong>Name:</strong> github.com/crjm/dagger-modules/vite</li>
+            <li><strong>Author:</strong> crjm</li>
+            <li><strong>Latest Version:</strong> latest</li>
+            <li><strong>Release Date:</strong> Unknown (Unable to fetch from daggerverse)</li>
+        </ul>
+
+        <h2>Dagger Engine Version</h2>
+        <p>Tested with: dagger v0.18.5 (docker-image://registry.dagger.io/engine:v0.18.5) linux/amd64</p>
+
+        <h2>Module Functionality</h2>
+        <div class="function-list">
+            <h3>Available Functions:</h3>
+            <ul>
+                <li><strong>build</strong> - builds the project and saves the output to /app/dist dir in the container</li>
+                <li><strong>install-deps</strong> - install project dependencies with npm</li>
+                <li><strong>source</strong> - prints the contents of the vite project directory</li>
+            </ul>
+        </div>
+
+        <h2>Issues Encountered</h2>
+        <div class="error">
+            <p>Unable to crawl module information from daggerverse due to API limitations.</p>
+        </div>
+
+        <h2>Suggestions for Improvement</h2>
+        
+        <div class="suggestion">
+            <h3>1. Add Input Validation and Error Handling</h3>
+            <p>The module could benefit from better input validation and error handling for the build process.</p>
+            <pre>
+// Example implementation:
+func (m *Module) Build(ctx context.Context) (*Container, error) {
+    if !m.hasRequiredFiles() {
+        return nil, fmt.Errorf("missing required files: package.json or vite.config.js")
+    }
+    // ... rest of the build logic
+}
+            </pre>
+            <img src="https://i.imgflip.com/2k55web.jpg" alt="Error Handling Meme" style="max-width: 300px;">
+        </div>
+
+        <div class="suggestion">
+            <h3>2. Add Configuration Options</h3>
+            <p>Provide more configuration options for the build process, such as environment variables and build modes.</p>
+            <pre>
+type BuildOpts struct {
+    Mode string        // 'development' or 'production'
+    Env  map[string]string
+}
+
+func (m *Module) BuildWithOptions(ctx context.Context, opts BuildOpts) (*Container, error) {
+    // Implementation with configuration options
+}
+            </pre>
+        </div>
+
+        <div class="suggestion">
+            <h3>3. Add Testing Capabilities</h3>
+            <p>Include functions for running tests and generating coverage reports.</p>
+            <pre>
+func (m *Module) Test(ctx context.Context) (*Container, error) {
+    return m.Container().
+        WithExec([]string{"npm", "test"}).
+        WithExec([]string{"npm", "run", "coverage"})
+}
+            </pre>
+        </div>
+    </div>
+</body>
+</html>
