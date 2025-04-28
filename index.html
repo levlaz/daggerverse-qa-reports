@@ -1,104 +1,50 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>QA Report - APT Module</title>
+    <title>Dagger Module QA Reports</title>
     <style>
-        body { font-family: Arial, sans-serif; line-height: 1.6; max-width: 1200px; margin: 0 auto; padding: 20px; }
-        h1, h2 { color: #333; }
-        .error { color: #ff0000; background: #ffeeee; padding: 10px; border-radius: 5px; }
-        pre { background: #f4f4f4; padding: 10px; border-radius: 5px; overflow-x: auto; }
-        .suggestion { margin: 20px 0; padding: 10px; background: #f8f9fa; border-left: 4px solid #007bff; }
-        .meme { max-width: 500px; margin: 20px 0; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f5f5f5;
+        }
+        .pass {
+            color: green;
+            font-weight: bold;
+        }
+        .fail {
+            color: red;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
-    <h1>QA Report - APT Module</h1>
-    
-    <h2>Basic Information</h2>
-    <ul>
-        <li><strong>Module Name:</strong> apt</li>
-        <li><strong>Author:</strong> pck</li>
-        <li><strong>Latest Version:</strong> b0a9f92d368c6a6ad9ccb3d90b2847bc83565ed8</li>
-        <li><strong>Release Date:</strong> Not available in metadata</li>
-        <li><strong>Dagger Engine Version Used:</strong> v0.18.2</li>
-    </ul>
-
-    <h2>Module Purpose & Functions</h2>
-    <p>The APT module provides functionality for managing Debian/Ubuntu packages using the APT package manager. It offers the following functions:</p>
-    <ul>
-        <li><strong>container()</strong> - Returns the container instance</li>
-        <li><strong>update()</strong> - Updates the package lists</li>
-        <li><strong>install(packages []string)</strong> - Installs specified packages</li>
-    </ul>
-
-    <h2>Quality Assessment Issues</h2>
-    <div class="error">
-        <h3>Installation Errors</h3>
-        <p>Failed to install the module due to authentication issues with the repository:</p>
-        <pre>Support for password authentication was removed on August 13, 2021.
-Remote: Please see https://docs.github.com/get-started/getting-started-with-git/about-remote-repositories#cloning-with-https-urls for information on currently recommended modes of authentication.</pre>
-    </div>
-
-    <h2>Suggestions for Improvement</h2>
-    
-    <div class="suggestion">
-        <h3>1. Add Comprehensive Documentation</h3>
-        <p>The module lacks detailed documentation about its purpose and usage.</p>
-        <pre>
-// Example improved documentation
-"""
-APT Module for Dagger
-
-This module provides a convenient interface for managing Debian/Ubuntu packages
-using the APT package manager within Dagger pipelines.
-
-Examples:
-    dag.apt().update().install(["nginx", "curl"])
-
-Features:
-- Package installation
-- Repository updates
-- Clean integration with existing containers
-"""</pre>
-    </div>
-
-    <div class="suggestion">
-        <h3>2. Add Error Handling and Validation</h3>
-        <p>The module could benefit from better error handling and input validation.</p>
-        <pre>
-func (m *Apt) Install(packages []string) (*Container, error) {
-    if len(packages) == 0 {
-        return nil, fmt.Errorf("at least one package must be specified")
-    }
-    
-    for _, pkg := range packages {
-        if !validatePackageName(pkg) {
-            return nil, fmt.Errorf("invalid package name: %s", pkg)
-        }
-    }
-    
-    // Continue with installation...
-}</pre>
-        <img src="https://i.imgur.com/HTisMpC.jpg" alt="Proper error handling meme" class="meme">
-    </div>
-
-    <div class="suggestion">
-        <h3>3. Add Progress Feedback and Logging</h3>
-        <p>Implement progress reporting for long-running operations.</p>
-        <pre>
-func (m *Apt) Update() *Apt {
-    m.container = m.container.WithExec([]string{
-        "sh", "-c",
-        `apt-get update 2>&1 | tee /dev/stderr | while read line; do
-            echo "::notice::APT Update: $line"
-        done`
-    })
-    return m
-}</pre>
-    </div>
-
-    <h2>Testing Environment</h2>
-    <p>All tests were performed using Dagger v0.18.2 on the linux/amd64 platform.</p>
-
+    <h1>Dagger Module QA Reports</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Module Name</th>
+                <th>Brief Description</th>
+                <th>Status</th>
+                <th>Full Report</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>DebtRepayment</td>
+                <td>Module for fetching and analyzing data from Google Sheets to process debt and investment information</td>
+                <td><span class="fail">❌ Failed</span></td>
+                <td><a href="DebtRepayment.html">View Report</a></td>
+            </tr>
+        </tbody>
+    </table>
 </body>
 </html>
