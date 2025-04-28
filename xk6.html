@@ -3,87 +3,96 @@
 <head>
     <title>QA Report - xk6 Module</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 40px; }
-        h1 { color: #333; }
-        .function-list { background-color: #f5f5f5; padding: 20px; border-radius: 5px; }
-        .suggestion { margin: 20px 0; padding: 15px; border-left: 4px solid #007bff; }
-        .code-snippet { background-color: #f8f9fa; padding: 15px; border-radius: 5px; font-family: monospace; }
-        .error { color: #dc3545; }
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
+        h1, h2 { color: #333; }
+        .error { color: red; }
+        .functions { background-color: #f5f5f5; padding: 15px; border-radius: 5px; }
+        .suggestion { margin: 20px 0; padding: 15px; background-color: #e9f7ef; border-radius: 5px; }
+        .code { background-color: #f8f9fa; padding: 15px; border-radius: 5px; font-family: monospace; }
+        .meme { max-width: 500px; margin: 20px 0; }
     </style>
 </head>
 <body>
     <h1>QA Report: xk6 Module</h1>
     
-    <h2>Module Information</h2>
+    <h2>Basic Information</h2>
     <ul>
-        <li><strong>Name:</strong> xk6</li>
-        <li><strong>Author:</strong> sagikazarmark (via jedevc's daggerverse)</li>
-        <li><strong>Latest Version:</strong> a104424df38ca8b0b758f699dcfeeb0c2210cc2e</li>
-        <li><strong>Cloud Trace:</strong> <a href="https://dagger.cloud/runs/TODO">View Trace</a></li>
+        <li><strong>Module Name:</strong> github.com/sagikazarmark/daggerverse/xk6</li>
+        <li><strong>Author:</strong> sagikazarmark</li>
+        <li><strong>Version Tested:</strong> main</li>
+        <li><strong>Dagger Version Used:</strong> v0.18.5</li>
     </ul>
 
     <h2>Module Purpose</h2>
-    <p>The xk6 module is designed to build custom k6 binaries with extensions. It provides functionality to customize and build k6 testing tools with additional features.</p>
+    <p>The xk6 module is a Dagger module designed to build custom k6 binaries. k6 is an open-source load testing tool that makes performance testing easy and productive for engineering teams.</p>
 
-    <h2>Functions</h2>
-    <div class="function-list">
+    <h2>Available Functions</h2>
+    <div class="functions">
         <ul>
-            <li><strong>build()</strong> - Build a custom k6 binary</li>
-            <li><strong>container()</strong> - Access the underlying container</li>
-            <li><strong>withPlatform()</strong> - Set GOOS, GOARCH and GOARM environment variables</li>
+            <li><strong>build()</strong>: Build a custom k6 binary</li>
+            <li><strong>container()</strong>: Container operations</li>
+            <li><strong>with-platform()</strong>: Set GOOS, GOARCH and GOARM environment variables for cross-compilation</li>
         </ul>
     </div>
 
-    <h2>Testing Environment</h2>
-    <p>Tested with Dagger Engine Version: v0.18.2</p>
+    <h2>Issues Encountered</h2>
+    <div class="error">
+        <p>Unable to crawl the module page due to API limitations: "Payment Required: Failed to scrape URL. Insufficient credits to perform this request."</p>
+    </div>
 
-    <h2>Improvement Suggestions</h2>
+    <h2>Quality Improvement Suggestions</h2>
     
     <div class="suggestion">
-        <h3>1. Add Input Validation</h3>
-        <p>Add validation for platform strings to prevent invalid combinations.</p>
-        <div class="code-snippet">
-            func validatePlatform(platform string) error {
-                parts := strings.Split(platform, "/")
-                if len(parts) < 2 || len(parts) > 3 {
-                    return fmt.Errorf("invalid platform format: %s", platform)
-                }
-                // Add more validation logic here
-                return nil
-            }
+        <h3>1. Add Better Documentation</h3>
+        <p>The module would benefit from more detailed function documentation, especially for the container() function which currently has no description.</p>
+        <div class="code">
+        // Example of better documentation
+        #container() {
+            description: "Container configuration for building k6"
+            summary: """
+            Configure the container environment for building k6.
+            Use this to customize the build environment with additional dependencies or settings.
+            """
+        }
         </div>
     </div>
 
     <div class="suggestion">
-        <h3>2. Improve Error Handling</h3>
-        <p>Add detailed error messages for build failures.</p>
-        <div class="code-snippet">
-            func (x *Xk6) build(ctx context.Context) (*File, error) {
-                if err := x.validateInputs(); err != nil {
-                    return nil, fmt.Errorf("invalid build configuration: %w", err)
-                }
-                // Build logic here
+        <h3>2. Add Input Validation</h3>
+        <p>Implement input validation for the with-platform function to ensure valid GOOS/GOARCH combinations.</p>
+        <div class="code">
+        func (m *Module) WithPlatform(ctx context.Context, goos string, goarch string, goarm *string) (*Module, error) {
+            // Validate GOOS
+            validGOOS := []string{"linux", "darwin", "windows"}
+            if !contains(validGOOS, goos) {
+                return nil, fmt.Errorf("invalid GOOS: %s", goos)
             }
+            
+            // Validate GOARCH
+            validGOARCH := []string{"amd64", "arm64", "arm"}
+            if !contains(validGOARCH, goarch) {
+                return nil, fmt.Errorf("invalid GOARCH: %s", goarch)
+            }
+            
+            // Continue with existing logic...
+        }
         </div>
-        <img src="https://i.imgflip.com/2/1bij.jpg" alt="Error Handling Meme" />
     </div>
 
     <div class="suggestion">
-        <h3>3. Add Progress Feedback</h3>
-        <p>Implement build progress reporting.</p>
-        <div class="code-snippet">
-            func (x *Xk6) Build(ctx context.Context) (*File, error) {
-                fmt.Printf("Building k6 version %s\n", x.version)
-                for _, ext := range x.extensions {
-                    fmt.Printf("Adding extension: %s\n", ext)
-                }
-                // Build logic here
-            }
+        <h3>3. Add Testing Examples</h3>
+        <p>Include example configurations and usage patterns in the documentation.</p>
+        <div class="code">
+        // Example usage in README.md
+        ```dagger
+        xk6 := dag.Pipeline("build-k6").
+            Module("github.com/sagikazarmark/daggerverse/xk6").
+            WithPlatform("linux", "amd64", nil).
+            Build()
+        ```
         </div>
+        <img src="https://i.imgflip.com/3o7jk8.jpg" alt="Testing Meme" class="meme"/>
     </div>
-
-    <h2>Testing Issues</h2>
-    <p>No significant issues were encountered during testing. The module installed and built successfully.</p>
 
 </body>
 </html>
