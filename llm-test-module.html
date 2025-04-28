@@ -3,99 +3,97 @@
 <head>
     <title>QA Report - llm-test-module</title>
     <style>
-        body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }
-        h1, h2 { color: #333; }
-        .section { margin: 20px 0; }
-        .function-list { background: #f5f5f5; padding: 15px; border-radius: 5px; }
-        .suggestion { margin: 15px 0; padding: 15px; border-left: 4px solid #007bff; }
-        .code { background: #f8f9fa; padding: 10px; border-radius: 4px; font-family: monospace; }
-        .meme { text-align: center; margin: 20px 0; }
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 20px; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .error { color: #dc3545; background: #f8d7da; padding: 10px; border-radius: 4px; }
+        .suggestion { background: #f8f9fa; padding: 15px; margin: 10px 0; border-radius: 4px; }
+        pre { background: #f8f9fa; padding: 10px; border-radius: 4px; overflow-x: auto; }
     </style>
 </head>
 <body>
-    <h1>QA Report: llm-test-module</h1>
-    
-    <div class="section">
+    <div class="container">
+        <h1>QA Report: llm-test-module</h1>
+        
         <h2>Module Information</h2>
         <ul>
             <li><strong>Name:</strong> llm-test-module</li>
-            <li><strong>Author:</strong> Dagger Team (github.com/dagger)</li>
-            <li><strong>Latest Version:</strong> 73670b0338c02cdd190f56b34c6e25066c7c8875</li>
-            <li><strong>Dagger Engine Version:</strong> v0.18.2</li>
+            <li><strong>Source:</strong> github.com/cwlbraa/dagger-test-modules/llm-dir-module-depender/llm-test-module</li>
+            <li><strong>Version Tested:</strong> main</li>
+            <li><strong>Dagger Engine Version:</strong> v0.18.5</li>
         </ul>
-    </div>
 
-    <div class="section">
-        <h2>Module Purpose</h2>
-        <p>This module is designed for testing allow-llm policy enforcement around git-sourced modules and is called by its parent LLMDirModuleDepender. It provides functionality to interact with LLM APIs in a minimal way.</p>
-    </div>
-
-    <div class="section">
-        <h2>Module Functions</h2>
-        <div class="function-list">
-            <ul>
-                <li><strong>prompt(stringArg: String!)</strong>: access the LLM api in the most minimal way: prompt it, then retrieve history</li>
-                <li><strong>save(stringArg: String!)</strong>: this is a hack until we can return the LLM type and replay history</li>
-            </ul>
+        <h2>Testing Results</h2>
+        <div class="error">
+            <h3>Encountered Issues:</h3>
+            <ol>
+                <li>Module information crawling failed due to API limitations</li>
+                <li>Module build failed with compilation errors:
+                    <pre>./main.go:33:71: dag.LLM(dagger.LLMOpts{…}).WithPrompt(stringArg).SetString undefined (type *dagger.LLM has no field or method SetString)</pre>
+                </li>
+            </ol>
         </div>
-    </div>
 
-    <div class="section">
-        <h2>Quality Improvement Suggestions</h2>
+        <h2>Suggestions for Improvement</h2>
         
         <div class="suggestion">
-            <h3>1. Improve Documentation</h3>
-            <p>The module lacks detailed documentation for its functions and parameters.</p>
-            <div class="code">
-            // Example of improved documentation
-            /**
-             * Prompts the LLM with a given input and returns the response
-             * @param stringArg The prompt text to send to the LLM
-             * @returns Promise<string> The LLM's response
-             * @example
-             * const response = await mod.prompt("What is the capital of France?")
-             */
-            func prompt(stringArg: String!) -> String!
-            </div>
+            <h3>1. Fix the compilation error</h3>
+            <p>The current code is trying to use a non-existent method <code>SetString</code> on the LLM type. Here's how to fix it:</p>
+            <pre>
+// Instead of:
+llm.WithPrompt(stringArg).SetString()
+
+// Use:
+llm.WithPrompt(stringArg).Compute()
+            </pre>
+            <img src="https://i.imgflip.com/2/3pz4nx.jpg" alt="Bug fixing meme" style="max-width: 400px;"/>
         </div>
 
         <div class="suggestion">
-            <h2>2. Add Error Handling</h2>
-            <p>The module should include proper error handling and validation.</p>
-            <div class="code">
-            func prompt(stringArg: String!) -> Result! {
-                if len(stringArg) == 0 {
-                    return Result{
-                        error: "Prompt cannot be empty"
-                    }
-                }
-                // ... rest of the function
-            }
-            </div>
-            <div class="meme">
-                <img src="https://i.imgflip.com/2/2zo1ki.jpg" alt="Error Handling Meme" />
-                <p><em>"One does not simply skip error handling"</em></p>
-            </div>
+            <h3>2. Add proper error handling</h3>
+            <p>Implement proper error handling for the LLM operations:</p>
+            <pre>
+func (m *Module) GenerateText(ctx context.Context, stringArg string) (*string, error) {
+    llm := dag.LLM(dagger.LLMOpts{
+        Model: "gpt-3.5-turbo",
+    })
+    
+    result, err := llm.WithPrompt(stringArg).Compute(ctx)
+    if err != nil {
+        return nil, fmt.Errorf("failed to generate text: %w", err)
+    }
+    
+    return result, nil
+}
+            </pre>
         </div>
 
         <div class="suggestion">
-            <h3>3. Add Type Safety</h3>
-            <p>Implement stronger type checking and proper return types instead of generic strings.</p>
-            <div class="code">
-            type LLMResponse struct {
-                content: String!
-                timestamp: String!
-                model: String!
-            }
+            <h3>3. Add Documentation</h3>
+            <p>Include comprehensive documentation for the module:</p>
+            <pre>
+// Package documentation
+/*
+Package llm-test-module provides LLM integration capabilities for Dagger pipelines.
 
-            func prompt(stringArg: String!) -> LLMResponse!
-            </div>
+Example usage:
+    module := llm.New()
+    result, err := module.GenerateText(ctx, "Write a hello world program")
+    if err != nil {
+        log.Fatal(err)
+    }
+    fmt.Println(*result)
+*/
+
+// Function documentation
+// GenerateText generates text using the configured LLM model
+// Parameters:
+//   - stringArg: The prompt to send to the LLM
+// Returns:
+//   - *string: The generated text
+//   - error: Any error that occurred during generation
+func (m *Module) GenerateText(ctx context.Context, stringArg string) (*string, error)
+            </pre>
         </div>
-    </div>
-
-    <div class="section">
-        <h2>Testing Notes</h2>
-        <p>The module was successfully installed and built without any errors. All functions were identified and documented correctly.</p>
     </div>
 </body>
 </html>
