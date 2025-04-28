@@ -3,87 +3,130 @@
 <head>
     <title>QA Report - Borgo Module</title>
     <style>
-        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
-        h1, h2 { color: #333; }
-        .container { max-width: 1200px; margin: 0 auto; }
-        .info-box { background: #f5f5f5; padding: 20px; border-radius: 5px; margin: 20px 0; }
-        .function-list { list-style-type: none; padding-left: 20px; }
-        .error { color: #cc0000; }
-        .suggestion { background: #e1f5fe; padding: 15px; margin: 10px 0; border-radius: 5px; }
-        .code { background: #f8f9fa; padding: 15px; border-radius: 5px; font-family: monospace; }
-        .meme { max-width: 500px; margin: 20px 0; }
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .container {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .error {
+            color: #721c24;
+            background-color: #f8d7da;
+            padding: 10px;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+        .functions {
+            background-color: #e9ecef;
+            padding: 15px;
+            border-radius: 4px;
+        }
+        .suggestion {
+            margin: 20px 0;
+            padding: 15px;
+            background-color: #e3f2fd;
+            border-radius: 4px;
+        }
+        pre {
+            background-color: #f8f9fa;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+        .meme {
+            max-width: 500px;
+            margin: 20px 0;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>QA Report: Borgo Module</h1>
         
-        <div class="info-box">
-            <h2>Module Information</h2>
-            <p><strong>Name:</strong> borgo</p>
-            <p><strong>Author:</strong> sagikazarmark</p>
-            <p><strong>Latest Version:</strong> ceffda4aebd349a24fc00e591b4ed9b801535b65</p>
-            <p><strong>Purpose:</strong> A module for working with Borgo, a statically typed language that compiles to Go</p>
-            <p><strong>Dagger Engine Version Used:</strong> v0.18.3</p>
-        </div>
+        <h2>Basic Information</h2>
+        <ul>
+            <li><strong>Module Name:</strong> borgo</li>
+            <li><strong>Repository:</strong> github.com/jedevc/daggerverse-sagikazarmark/borgo</li>
+            <li><strong>Version Tested:</strong> latest</li>
+            <li><strong>Dagger Engine Version:</strong> v0.18.5</li>
+        </ul>
 
-        <div class="info-box">
-            <h2>Module Functions</h2>
-            <ul class="function-list">
-                <li><strong>compile()</strong> - Compiles Borgo source code (Input: Directory, Output: Directory)</li>
-                <li><strong>terminal()</strong> - Provides a terminal environment for Borgo (Input: Directory, Output: Container)</li>
+        <h2>Module Functions</h2>
+        <div class="functions">
+            <ul>
+                <li><strong>compile</strong> - No description provided</li>
+                <li><strong>terminal</strong> - No description provided</li>
             </ul>
         </div>
 
-        <div class="info-box">
-            <h2>Quality Improvement Suggestions</h2>
-            
-            <div class="suggestion">
-                <h3>1. Add Function Documentation</h3>
-                <p>The functions lack proper documentation describing their purpose and usage.</p>
-                <div class="code">
-                // Example documentation improvement:
-                /**
-                 * Compiles Borgo source code to Go
-                 * @param {Directory} source The directory containing Borgo source files
-                 * @returns {Directory} Compiled Go code
-                 * @example
-                 * dag.borgo().compile(source)
-                 */
-                func compile(source Directory!) Directory!</div>
-            </div>
-
-            <div class="suggestion">
-                <h3>2. Add Input Validation</h3>
-                <p>The module could benefit from input validation to ensure source directories contain valid Borgo files.</p>
-                <div class="code">
-                func compile(source Directory!) Directory! {
-                    // Validate source directory contains .borgo files
-                    if !source.contains("*.borgo") {
-                        fail "No Borgo source files found in directory"
-                    }
-                    // Continue with compilation...
-                }</div>
-            </div>
-
-            <div class="suggestion">
-                <h3>3. Add Error Handling and Reporting</h3>
-                <p><img src="https://i.imgflip.com/65efzo.jpg" alt="Error Handling Meme" class="meme"></p>
-                <p>Better error handling would improve user experience.</p>
-                <div class="code">
-                func compile(source Directory!) Directory! {
-                    try {
-                        // Compilation logic
-                    } catch (error) {
-                        fail "Compilation failed: ${error.message}"
-                    }
-                }</div>
-            </div>
+        <h2>Issues Encountered</h2>
+        <div class="error">
+            <p>1. Unable to crawl the daggerverse page due to API limitations</p>
+            <p>2. Limited documentation available for the module functions</p>
         </div>
 
-        <div class="info-box">
-            <h2>Testing Notes</h2>
-            <p>No errors were encountered during the testing process. The module installed and built successfully. However, actual compilation testing would require Borgo source files which were not provided in this testing environment.</p>
+        <h2>Suggestions for Improvement</h2>
+        
+        <div class="suggestion">
+            <h3>1. Add Function Documentation</h3>
+            <p>The module functions lack descriptions, making it unclear what they do. Add proper documentation:</p>
+            <pre>
+// Example of documented functions
+#Compile compiles a Borgo project
+func (m *Module) Compile(ctx context.Context) (*Compile, error) {
+    // Implementation
+}
+
+#Terminal provides an interactive terminal for Borgo development
+func (m *Module) Terminal(ctx context.Context) (*Terminal, error) {
+    // Implementation
+}
+            </pre>
+            <img src="https://i.imgflip.com/65efzo.jpg" alt="Documentation Meme" class="meme">
+        </div>
+
+        <div class="suggestion">
+            <h3>2. Add Example Usage</h3>
+            <p>Include example usage in the README.md:</p>
+            <pre>
+# Borgo Module Examples
+
+```dagger
+dagger call -m github.com/jedevc/daggerverse-sagikazarmark/borgo compile --help
+dagger call -m github.com/jedevc/daggerverse-sagikazarmark/borgo terminal --help
+```
+            </pre>
+        </div>
+
+        <div class="suggestion">
+            <h3>3. Add Input Validation</h3>
+            <p>Add proper input validation to ensure robust operation:</p>
+            <pre>
+func (m *Module) Compile(ctx context.Context, src *Directory) (*Directory, error) {
+    if src == nil {
+        return nil, fmt.Errorf("source directory is required")
+    }
+    
+    // Check if it's a valid Borgo project
+    exists, err := src.File("borgo.yaml").Exists(ctx)
+    if err != nil {
+        return nil, err
+    }
+    if !exists {
+        return nil, fmt.Errorf("not a valid Borgo project: borgo.yaml not found")
+    }
+    
+    // Rest of the implementation
+}
+            </pre>
         </div>
     </div>
 </body>
