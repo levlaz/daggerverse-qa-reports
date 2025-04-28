@@ -3,96 +3,98 @@
 <head>
     <title>QA Report - context-dir Module</title>
     <style>
-        body { font-family: Arial, sans-serif; line-height: 1.6; max-width: 1200px; margin: 0 auto; padding: 20px; }
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
         h1, h2 { color: #333; }
-        .section { margin: 20px 0; padding: 20px; border: 1px solid #ddd; border-radius: 5px; }
-        .function-list { background-color: #f9f9f9; padding: 15px; border-radius: 5px; }
-        .suggestion { margin: 10px 0; padding: 10px; background-color: #f0f0f0; }
-        code { background-color: #f4f4f4; padding: 2px 5px; border-radius: 3px; }
-        .error { color: #d63939; }
+        .error { color: #ff0000; }
+        .function-list { background-color: #f5f5f5; padding: 20px; border-radius: 5px; }
+        .suggestion { margin: 20px 0; padding: 15px; background-color: #e9f7ff; border-radius: 5px; }
+        .code { background-color: #f0f0f0; padding: 15px; border-radius: 5px; font-family: monospace; }
+        .meme { text-align: center; margin: 20px 0; }
     </style>
 </head>
 <body>
     <h1>QA Report: context-dir Module</h1>
     
-    <div class="section">
-        <h2>Module Information</h2>
-        <p><strong>Name:</strong> github.com/dagger/dagger-test-modules/context-dir</p>
-        <p><strong>Author:</strong> dagger</p>
-        <p><strong>Latest Version:</strong> ca6493ac2a5ed309c44565121b7bdd20a17b1abb</p>
-        <p><strong>Dagger Engine Version:</strong> v0.18.2</p>
+    <h2>Module Information</h2>
+    <ul>
+        <li><strong>Name:</strong> context-dir</li>
+        <li><strong>Author:</strong> Unknown (crawling failed)</li>
+        <li><strong>Latest Version:</strong> main</li>
+        <li><strong>Release Date:</strong> Unknown (crawling failed)</li>
+        <li><strong>Dagger Cloud Trace:</strong> Not available</li>
+    </ul>
+
+    <h2>Module Functionality</h2>
+    <div class="function-list">
+        <p>This module appears to be focused on path manipulation with the following functions:</p>
+        <ul>
+            <li>absolute-path</li>
+            <li>absolute-path-subdir</li>
+            <li>relative-path</li>
+            <li>relative-path-subdir</li>
+        </ul>
     </div>
 
-    <div class="section">
-        <h2>Module Description</h2>
-        <p>This module provides functionality for handling directory paths in both absolute and relative formats. It includes methods for working with directories and their subdirectories.</p>
-        
-        <h3>Available Functions:</h3>
-        <div class="function-list">
-            <ul>
-                <li><code>absolutePath()</code> - Handles absolute path operations</li>
-                <li><code>absolutePathSubdir()</code> - Manages absolute paths for subdirectories</li>
-                <li><code>relativePath()</code> - Handles relative path operations</li>
-                <li><code>relativePathSubdir()</code> - Manages relative paths for subdirectories</li>
-            </ul>
+    <h2>Testing Environment</h2>
+    <p><strong>Dagger Engine Version:</strong> v0.18.5</p>
+
+    <h2>Issues Encountered</h2>
+    <div class="error">
+        <p>⚠️ Failed to crawl module information due to API limitations</p>
+    </div>
+
+    <h2>Suggestions for Improvement</h2>
+    
+    <div class="suggestion">
+        <h3>1. Add Function Documentation</h3>
+        <p>The functions lack descriptions, making it unclear what they do. Add proper documentation:</p>
+        <div class="code">
+        // Example documentation format
+        #Function Documentation
+        /**
+         * Returns the absolute path of the given directory
+         * @param {string} path - The input path to convert
+         * @returns {string} The absolute path
+         */
+        func absolutePath(path string) (string, error) {
+            // Implementation
+        }
         </div>
     </div>
 
-    <div class="section">
-        <h2>Quality Improvement Suggestions</h2>
-        
-        <div class="suggestion">
-            <h3>1. Add Comprehensive Documentation</h3>
-            <p>The module lacks detailed documentation for its functions. Add proper descriptions and examples.</p>
-            <pre><code>
-// Example documentation improvement
-/**
- * absolutePath processes a directory using absolute path
- * @param dir The source directory to process
- * @returns Processed directory with absolute path
- * @example
- * dag.absolutePath(dir: sourceDir)
- */
-func (m *Test) absolutePath(dir Directory) *Directory {
-    // Implementation
-}
-            </code></pre>
-            <img src="https://i.imgflip.com/65efzo.jpg" alt="Documentation Meme" style="max-width: 300px;"/>
-        </div>
-
-        <div class="suggestion">
-            <h3>2. Add Input Validation</h3>
-            <p>Add proper input validation to ensure directory paths are valid.</p>
-            <pre><code>
-func (m *Test) absolutePath(dir Directory) (*Directory, error) {
-    if dir == nil {
-        return nil, fmt.Errorf("directory cannot be nil")
-    }
-    // Additional validation logic
-    return processDirectory(dir)
-}
-            </code></pre>
-        </div>
-
-        <div class="suggestion">
-            <h3>3. Add Error Handling</h3>
-            <p>Implement proper error handling and return meaningful error messages.</p>
-            <pre><code>
-func (m *Test) relativePath(dir Directory) (*Directory, error) {
-    result, err := processRelativePath(dir)
-    if err != nil {
-        return nil, fmt.Errorf("failed to process relative path: %w", err)
-    }
-    return result, nil
-}
-            </code></pre>
+    <div class="suggestion">
+        <h3>2. Add Input Validation</h3>
+        <p>Add proper input validation to prevent errors:</p>
+        <div class="code">
+        func validatePath(path string) error {
+            if path == "" {
+                return fmt.Errorf("path cannot be empty")
+            }
+            if strings.Contains(path, "..") {
+                return fmt.Errorf("path cannot contain parent directory references")
+            }
+            return nil
+        }
         </div>
     </div>
 
-    <div class="section">
-        <h2>Testing Notes</h2>
-        <p>No significant errors were encountered during testing. The module installed and built successfully.</p>
-        <p><strong>Trace Link:</strong> <a href="https://dagger.cloud/trace/LATEST">View Latest Trace</a></p>
+    <div class="suggestion">
+        <h3>3. Add Error Handling</h3>
+        <p>Implement proper error handling and return meaningful error messages:</p>
+        <div class="code">
+        func relativePath(path string) (string, error) {
+            if err := validatePath(path); err != nil {
+                return "", fmt.Errorf("invalid path: %w", err)
+            }
+            // Implementation
+        }
+        </div>
     </div>
+
+    <div class="meme">
+        <img src="https://i.imgflip.com/7q4o2f.jpg" alt="Path manipulation meme" />
+        <p><em>When your paths are not properly validated...</em></p>
+    </div>
+
 </body>
 </html>
