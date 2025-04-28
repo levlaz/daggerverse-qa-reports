@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>QA Report: build-image</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; line-height: 1.6; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .error { color: #dc3545; background: #f8d7da; padding: 10px; border-radius: 4px; }
+        .function-list { background: #f8f9fa; padding: 20px; border-radius: 4px; }
+        .suggestion { margin: 20px 0; padding: 15px; background: #f8f9fa; border-left: 4px solid #007bff; }
+        code { background: #f8f9fa; padding: 2px 4px; border-radius: 4px; }
+        pre { background: #f8f9fa; padding: 15px; border-radius: 4px; overflow-x: auto; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>QA Report: build-image</h1>
+        
+        <h2>Module Information</h2>
+        <ul>
+            <li><strong>Name:</strong> github.com/antonkad/build-image</li>
+            <li><strong>Author:</strong> antonkad</li>
+            <li><strong>Latest Version:</strong> main</li>
+            <li><strong>Release Date:</strong> N/A (Unable to fetch from daggerverse)</li>
+        </ul>
+
+        <h2>Dagger Engine Version</h2>
+        <p>Tested with: v0.18.5 (docker-image://registry.dagger.io/engine:v0.18.5) linux/amd64</p>
+
+        <h2>Module Functions</h2>
+        <div class="function-list">
+            <ul>
+                <li>build-docker</li>
+                <li>build-next</li>
+                <li>build-nginx</li>
+                <li>npm-build</li>
+                <li>npm-install</li>
+                <li>publish</li>
+                <li>test</li>
+            </ul>
+        </div>
+
+        <h2>Module Purpose</h2>
+        <p>This module appears to be focused on building and managing different types of applications and containers. It includes functions for:</p>
+        <ul>
+            <li>Building Docker images</li>
+            <li>Building Next.js applications</li>
+            <li>Setting up Nginx configurations</li>
+            <li>Managing NPM operations (install and build)</li>
+            <li>Publishing and testing capabilities</li>
+        </ul>
+
+        <h2>Issues Encountered</h2>
+        <div class="error">
+            <p>⚠️ Unable to crawl daggerverse page due to API limitations</p>
+        </div>
+
+        <h2>Suggestions for Improvement</h2>
+        
+        <div class="suggestion">
+            <h3>1. Add Function Documentation</h3>
+            <p>The module lacks function descriptions, which makes it harder for users to understand their purpose.</p>
+            <img src="https://i.imgflip.com/65939r.jpg" alt="Documentation Meme" style="max-width: 300px;">
+            <pre><code>// Example of how to improve function documentation:
+func buildDocker(ctx *engine.Context) *Container {
+    // BuildDocker creates a Docker image from the specified context
+    // 
+    // Parameters:
+    //   - context: The build context directory
+    //   - dockerfile: Path to the Dockerfile
+    //
+    // Returns:
+    //   - A container with the built image
+    ...
+}</code></pre>
+        </div>
+
+        <div class="suggestion">
+            <h3>2. Add Input Validation</h3>
+            <p>Implement proper input validation for all functions to prevent runtime errors.</p>
+            <pre><code>func npmInstall(ctx *engine.Context, workdir *Directory) (*Directory, error) {
+    if workdir == nil {
+        return nil, fmt.Errorf("workdir cannot be nil")
+    }
+    
+    // Check if package.json exists
+    if _, err := workdir.File("package.json").Contents(ctx); err != nil {
+        return nil, fmt.Errorf("package.json not found in workdir")
+    }
+    ...
+}</code></pre>
+        </div>
+
+        <div class="suggestion">
+            <h3>3. Add Error Handling and Recovery</h3>
+            <p>Implement proper error handling and recovery mechanisms.</p>
+            <pre><code>func buildNext(ctx *engine.Context) (string, error) {
+    defer func() {
+        if r := recover(); r != nil {
+            log.Printf("Recovered from panic in buildNext: %v", r)
+        }
+    }()
+
+    // Add proper error handling
+    result, err := executeNextBuild(ctx)
+    if err != nil {
+        return "", fmt.Errorf("failed to build Next.js project: %w", err)
+    }
+    
+    return result, nil
+}</code></pre>
+        </div>
+    </div>
+</body>
+</html>
