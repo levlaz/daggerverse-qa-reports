@@ -1,114 +1,86 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>QA Report - Go Module</title>
+    <title>QA Report - amlsdk</title>
     <style>
         body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
-        h1 { color: #333; }
-        .container { max-width: 1200px; margin: 0 auto; }
-        .functions { background: #f5f5f5; padding: 20px; border-radius: 5px; }
-        .suggestion { margin: 20px 0; padding: 20px; border: 1px solid #ddd; border-radius: 5px; }
-        .code { background: #f8f8f8; padding: 15px; border-radius: 3px; font-family: monospace; }
-        .error { color: #dc3545; }
+        h1, h2 { color: #333; }
+        .error { color: #cc0000; background: #ffebeb; padding: 10px; border-radius: 5px; }
+        .suggestion { background: #f5f5f5; padding: 15px; margin: 10px 0; border-radius: 5px; }
+        code { background: #f0f0f0; padding: 2px 5px; border-radius: 3px; }
         .meme { max-width: 500px; margin: 20px 0; }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>QA Report: Go Module</h1>
-        
-        <h2>Module Information</h2>
-        <ul>
-            <li><strong>Name:</strong> github.com/vito/daggerverse/go</li>
-            <li><strong>Author:</strong> vito</li>
-            <li><strong>Latest Version:</strong> main</li>
-            <li><strong>Release Date:</strong> N/A (Information unavailable due to crawling error)</li>
-            <li><strong>Dagger Engine Version Used:</strong> v0.18.4</li>
-        </ul>
-
-        <h2>Module Description</h2>
-        <p>This module provides a comprehensive set of functions for working with Go in Dagger pipelines. It includes functionality for building, testing, and managing Go applications.</p>
-
-        <h2>Available Functions</h2>
-        <div class="functions">
-            <ul>
-                <li><strong>base</strong>: Base container configuration</li>
-                <li><strong>bin-path</strong>: Sets $GOBIN to /go/bin and prepends it to $PATH</li>
-                <li><strong>build</strong>: Builds Go code using the go build CLI</li>
-                <li><strong>build-cache</strong>: Manages build cache</li>
-                <li><strong>from-version</strong>: Sets the base image to the given Go version</li>
-                <li><strong>generate</strong>: Runs go generate ./... and returns the updated directory</li>
-                <li><strong>global-cache</strong>: Sets $GOMODCACHE and $GOCACHE paths</li>
-                <li><strong>golang-cilint</strong>: Runs golangci-lint</li>
-                <li><strong>gotestsum</strong>: Runs tests using the gotestsum CLI</li>
-                <li><strong>mod-cache</strong>: Manages module cache</li>
-                <li><strong>test</strong>: Runs tests using the go test CLI</li>
-            </ul>
-        </div>
-
-        <h2>Issues Encountered</h2>
-        <div class="error">
-            <p>Unable to crawl the module page on daggerverse due to API limitations.</p>
-        </div>
-
-        <h2>Suggestions for Improvement</h2>
-        
-        <div class="suggestion">
-            <h3>1. Add Comprehensive Documentation</h3>
-            <p>The module would benefit from detailed documentation for each function. Here's an example:</p>
-            <pre class="code">
-#Code example for documentation
-/**
-* Function: build
-* Description: Builds Go code using the go build CLI
-* Parameters:
-*   - src: Source directory containing Go code
-*   - output: Name of the output binary
-*   - flags: Additional build flags
-* Example Usage:
-*   dagger call build --src=. --output=myapp --flags="-race,-trimpath"
-*/
-func (m *Module) Build(src Directory, output string, flags []string) *Container {
-    // Implementation
-}</pre>
-            <img src="https://i.imgflip.com/65efzo.jpg" alt="Documentation Meme" class="meme">
-        </div>
-
-        <div class="suggestion">
-            <h3>2. Add Error Handling and Validation</h3>
-            <p>Implement better error handling and input validation:</p>
-            <pre class="code">
-#Example implementation
-func (m *Module) Build(ctx context.Context, src Directory, output string) (*Container, error) {
-    if output == "" {
-        return nil, fmt.Errorf("output binary name cannot be empty")
-    }
+    <h1>QA Report: amlsdk</h1>
     
-    if !strings.HasSuffix(output, ".exe") && runtime.GOOS == "windows" {
-        output += ".exe"
-    }
+    <h2>Module Information</h2>
+    <ul>
+        <li><strong>Name:</strong> amlsdk</li>
+        <li><strong>Path:</strong> github.com/ibuildthecloud/daggerverse/amlsdk</li>
+        <li><strong>Version:</strong> main</li>
+        <li><strong>Dagger Version Used:</strong> v0.18.4</li>
+    </ul>
 
-    // Implementation with error handling
-}</pre>
-        </div>
-
-        <div class="suggestion">
-            <h3>3. Add Cross-Compilation Support</h3>
-            <p>Enhance the build function to support cross-compilation:</p>
-            <pre class="code">
-#Example implementation
-func (m *Module) BuildCross(
-    src Directory,
-    output string,
-    goos string,
-    goarch string,
-) *Container {
-    return m.Base().
-        WithEnvVariable("GOOS", goos).
-        WithEnvVariable("GOARCH", goarch).
-        WithExec([]string{"go", "build", "-o", output})
-}</pre>
-        </div>
+    <h2>Testing Results</h2>
+    <div class="error">
+        <h3>Issues Encountered:</h3>
+        <ul>
+            <li>Failed to crawl module information from daggerverse due to API limitations</li>
+            <li>Module installation completed but with potential issues</li>
+            <li>Build failed with Go compilation errors:
+                <ul>
+                    <li>dag.Host undefined (type *dagger.Client has no field or method Host)</li>
+                    <li>Not enough arguments in call to dag.Container().From()</li>
+                </ul>
+            </li>
+        </ul>
     </div>
+
+    <h2>Improvement Suggestions</h2>
+    
+    <div class="suggestion">
+        <h3>1. Update Dagger SDK Usage</h3>
+        <p>The code is using undefined methods from the Dagger SDK. Update the code to use the current SDK version.</p>
+        <pre><code>
+// Instead of:
+dag.Host
+
+// Use:
+dag.Host()
+        </code></pre>
+    </div>
+
+    <div class="suggestion">
+        <h3>2. Fix Container Arguments</h3>
+        <p>The Container configuration is missing required arguments.</p>
+        <pre><code>
+// Current problematic code:
+dag.Container().From("cgr.dev/chainguard/go").WithFile("/usr/local/bin/dagamole", bin).WithEntrypoint([]string{...}).WithDefaultArgs()
+
+// Should be:
+dag.Container().
+    From("cgr.dev/chainguard/go").
+    WithFile("/usr/local/bin/dagamole", bin).
+    WithEntrypoint([]string{"dagamole"}).
+    WithDefaultArgs([]string{"--help"})
+        </code></pre>
+    </div>
+
+    <div class="suggestion">
+        <h3>3. Add Better Error Handling</h3>
+        <p>Implement proper error handling and validation.</p>
+        <pre><code>
+if client, err := dagger.Connect(ctx); err != nil {
+    return fmt.Errorf("failed to connect to Dagger: %w", err)
+}
+defer client.Close()
+        </code></pre>
+        <img src="https://i.imgflip.com/65efzo.jpg" alt="Error Handling Meme" class="meme">
+    </div>
+
+    <h2>Trace Information</h2>
+    <p>Dagger Cloud trace is not available due to build failures.</p>
+
 </body>
 </html>
