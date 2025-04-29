@@ -4,92 +4,134 @@
     <title>QA Report - daggerverse-cockpit</title>
     <style>
         body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
-        h1, h2 { color: #333; }
-        .function { margin-left: 20px; }
-        .suggestion { background: #f5f5f5; padding: 15px; margin: 10px 0; border-radius: 5px; }
-        code { background: #f0f0f0; padding: 2px 5px; border-radius: 3px; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .error { color: red; }
+        .success { color: green; }
+        .function-list { background-color: #f5f5f5; padding: 20px; border-radius: 5px; }
+        .suggestion { margin: 20px 0; padding: 20px; background-color: #f9f9f9; border-left: 4px solid #007bff; }
         .meme { max-width: 500px; margin: 20px 0; }
+        pre { background-color: #f5f5f5; padding: 15px; border-radius: 5px; overflow-x: auto; }
     </style>
 </head>
 <body>
-    <h1>QA Report - daggerverse-cockpit</h1>
-    
-    <h2>Module Information</h2>
-    <ul>
-        <li><strong>Name:</strong> daggerverse-cockpit</li>
-        <li><strong>Author:</strong> Quartz Technology</li>
-        <li><strong>Latest Version:</strong> v0.0.3</li>
-        <li><strong>Release Date:</strong> Not specified in documentation</li>
-        <li><strong>Dagger Cloud Trace:</strong> <a href="https://daggerverse.dev/mod/github.com/quartz-technology/daggerverse/daggerverse-cockpit@627fc4df7de8ce3bd8710fa08ea2db6cf16712b3">View on Daggerverse</a></li>
-    </ul>
-
-    <h2>Module Purpose</h2>
-    <p>Daggerverse Cockpit aims to provide a simple and easy to use interface to manage your Daggerverse repository. It provides single commands action to publish all your modules, generate usage examples, get a dagger CLI and more!</p>
-
-    <h2>Module Functions</h2>
-    <div class="function">
-        <h3>1. cli()</h3>
-        <p>Installs the Dagger CLI in a container and returns it. Requires version parameter.</p>
+    <div class="container">
+        <h1>QA Report: daggerverse-cockpit</h1>
         
-        <h3>2. publish()</h3>
-        <p>Loops through all directories containing a dagger.json and publishes them to the daggerverse.</p>
+        <h2>Module Information</h2>
+        <ul>
+            <li><strong>Name:</strong> daggerverse-cockpit</li>
+            <li><strong>Author:</strong> Quartz Technology</li>
+            <li><strong>Latest Version:</strong> main</li>
+            <li><strong>Release Date:</strong> N/A (Information unavailable due to crawling limitations)</li>
+            <li><strong>Dagger Engine Version Used:</strong> v0.18.5</li>
+        </ul>
+
+        <h2>Module Functions</h2>
+        <div class="function-list">
+            <ul>
+                <li><strong>cli:</strong> CLI installs the Dagger CLI in a container and returns it.</li>
+                <li><strong>publish:</strong> Publish loop through all your directory that contains a `dagger.json`</li>
+                <li><strong>usage-generator:</strong> UsageGenerator generates a simple usage documentation for a module.</li>
+            </ul>
+        </div>
+
+        <h2>Module Purpose</h2>
+        <p>The daggerverse-cockpit module appears to be a utility module that helps with Dagger CLI operations and module documentation. It provides functionality for installing the Dagger CLI, publishing modules, and generating usage documentation.</p>
+
+        <h2>Issues Encountered</h2>
+        <div class="error">
+            <p>Unable to crawl the daggerverse page due to API limitations: "Payment Required: Failed to scrape URL. Insufficient credits to perform this request."</p>
+        </div>
+
+        <h2>Suggestions for Improvement</h2>
         
-        <h3>3. usageGenerator()</h3>
-        <p>Generates simple usage documentation for a module. Currently in development phase.</p>
-    </div>
-
-    <h2>Testing Environment</h2>
-    <p>Tested with Dagger Engine Version: v0.18.2</p>
-
-    <h2>Quality Improvement Suggestions</h2>
+        <div class="suggestion">
+            <h3>1. Add Input Validation</h3>
+            <p>Add proper input validation for the publish function to ensure valid directory paths.</p>
+            <pre>
+func (m *Module) publish(ctx context.Context, path string) (*Container, error) {
+    if path == "" {
+        return nil, fmt.Errorf("path cannot be empty")
+    }
     
-    <div class="suggestion">
-        <h3>1. Add Input Validation</h3>
-        <p>Add better input validation for the version parameter in the CLI function:</p>
-        <code>
-            func validateVersion(version string) error {<br>
-                if !semver.IsValid(version) {<br>
-                    return fmt.Errorf("invalid version format: %s", version)<br>
-                }<br>
-                return nil<br>
+    if !filepath.IsAbs(path) {
+        return nil, fmt.Errorf("path must be absolute")
+    }
+    
+    // Check if directory exists and contains dagger.json
+    if _, err := os.Stat(filepath.Join(path, "dagger.json")); os.IsNotExist(err) {
+        return nil, fmt.Errorf("dagger.json not found in directory: %s", path)
+    }
+    
+    // Continue with existing publish logic
+    ...
+}
+            </pre>
+        </div>
+
+        <div class="suggestion">
+            <h3>2. Improve Error Handling</h3>
+            <p>Add more detailed error messages and proper error handling throughout the module.</p>
+            <img src="https://i.imgflip.com/2kuh6f.jpg" alt="Error Handling Meme" class="meme"/>
+            <pre>
+type PublishError struct {
+    Path string
+    Err  error
+}
+
+func (e *PublishError) Error() string {
+    return fmt.Sprintf("failed to publish module at %s: %v", e.Path, e.Err)
+}
+
+func (m *Module) publish(ctx context.Context, path string) (*Container, error) {
+    if err := validatePath(path); err != nil {
+        return nil, &PublishError{Path: path, Err: err}
+    }
+    // Continue with publish logic
+    ...
+}
+            </pre>
+        </div>
+
+        <div class="suggestion">
+            <h3>3. Add Documentation Generator Tests</h3>
+            <p>Implement comprehensive tests for the usage-generator function to ensure reliable documentation generation.</p>
+            <pre>
+func TestUsageGenerator(t *testing.T) {
+    testCases := []struct {
+        name     string
+        input    string
+        expected string
+        wantErr  bool
+    }{
+        {
+            name:     "valid module",
+            input:    "path/to/valid/module",
+            expected: "# Module Usage\n...",
+            wantErr:  false,
+        },
+        {
+            name:     "invalid module",
+            input:    "path/to/invalid/module",
+            expected: "",
+            wantErr:  true,
+        },
+    }
+
+    for _, tc := range testCases {
+        t.Run(tc.name, func(t *testing.T) {
+            result, err := UsageGenerator(tc.input)
+            if tc.wantErr {
+                assert.Error(t, err)
+            } else {
+                assert.NoError(t, err)
+                assert.Contains(t, result, tc.expected)
             }
-        </code>
-        <img src="https://i.imgur.com/WZFShOP.jpg" alt="Input Validation Meme" class="meme">
+        })
+    }
+}
+            </pre>
+        </div>
     </div>
-
-    <div class="suggestion">
-        <h3>2. Improve Error Handling</h3>
-        <p>Add more detailed error messages and recovery mechanisms:</p>
-        <code>
-            func (m *Module) publish(ctx context.Context, path string) (string, error) {<br>
-                if _, err := os.Stat(filepath.Join(path, "dagger.json")); os.IsNotExist(err) {<br>
-                    return "", fmt.Errorf("dagger.json not found in %s: %w", path, err)<br>
-                }<br>
-                // ... rest of the publish logic<br>
-            }
-        </code>
-    </div>
-
-    <div class="suggestion">
-        <h3>3. Add Progress Reporting</h3>
-        <p>Implement progress reporting for long-running operations:</p>
-        <code>
-            func (m *Module) publish(ctx context.Context, paths []string) error {<br>
-                total := len(paths)<br>
-                for i, path := range paths {<br>
-                    fmt.Printf("Publishing %d/%d: %s\n", i+1, total, path)<br>
-                    // ... publish logic<br>
-                }<br>
-                return nil<br>
-            }
-        </code>
-    </div>
-
-    <h2>Issues Encountered</h2>
-    <ul>
-        <li>Release date information is not available in the module metadata</li>
-        <li>The usageGenerator function is marked as "still in development" which might lead to incomplete or inconsistent documentation generation</li>
-    </ul>
-
 </body>
 </html>
