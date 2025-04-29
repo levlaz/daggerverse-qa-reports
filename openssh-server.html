@@ -1,110 +1,170 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>QA Report - openssh-server</title>
+    <title>QA Report - OpenSSH Server Module</title>
     <style>
-        body { font-family: Arial, sans-serif; line-height: 1.6; max-width: 1200px; margin: 0 auto; padding: 20px; }
-        h1, h2 { color: #333; }
-        .function-list { background: #f5f5f5; padding: 20px; border-radius: 5px; }
-        .suggestion { margin: 20px 0; padding: 15px; border-left: 4px solid #007bff; }
-        .code { background: #f8f9fa; padding: 15px; border-radius: 5px; font-family: monospace; }
-        .error { color: #dc3545; }
-        .meme { max-width: 500px; margin: 20px 0; }
+        body { 
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 2em;
+            color: #333;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .function-list {
+            background: #f5f5f5;
+            padding: 1em;
+            border-radius: 5px;
+        }
+        .error {
+            color: #721c24;
+            background-color: #f8d7da;
+            padding: 1em;
+            border-radius: 5px;
+            margin: 1em 0;
+        }
+        .suggestion {
+            background: #e3f2fd;
+            padding: 1em;
+            margin: 1em 0;
+            border-radius: 5px;
+        }
+        pre {
+            background: #f8f9fa;
+            padding: 1em;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        .meme {
+            text-align: center;
+            margin: 2em 0;
+        }
     </style>
 </head>
 <body>
-    <h1>QA Report - openssh-server</h1>
-    
-    <h2>Module Information</h2>
-    <ul>
-        <li><strong>Name:</strong> openssh-server</li>
-        <li><strong>Author:</strong> jedevc (fork of sagikazarmark's module)</li>
-        <li><strong>Latest Version:</strong> a104424df38ca8b0b758f699dcfeeb0c2210cc2e</li>
-        <li><strong>Dagger Engine Version Used:</strong> v0.18.1</li>
-    </ul>
-
-    <h2>Module Purpose</h2>
-    <p>This module provides an OpenSSH server for testing SSH connections. It offers a convenient way to set up and configure an SSH server in your Dagger pipelines.</p>
-
-    <h2>Functions</h2>
-    <div class="function-list">
+    <div class="container">
+        <h1>QA Report: OpenSSH Server Module</h1>
+        
+        <h2>Module Information</h2>
         <ul>
-            <li><strong>host-keys()</strong> - Returns the SSH host keys</li>
-            <li><strong>known-hosts(host)</strong> - Returns a formatted SSH known_hosts file</li>
-            <li><strong>port()</strong> - Gets the current port number</li>
-            <li><strong>service()</strong> - Returns a service that runs the OpenSSH server</li>
-            <li><strong>with-authorized-key(publicKey, [user])</strong> - Authorizes a public key</li>
-            <li><strong>with-config(name, file)</strong> - Mounts a custom SSH configuration file</li>
-            <li><strong>with-port(port)</strong> - Sets the port number for the OpenSSH server</li>
+            <li><strong>Module Name:</strong> github.com/jedevc/daggerverse-sagikazarmark/openssh-server</li>
+            <li><strong>Author:</strong> sagikazarmark (via jedevc's daggerverse)</li>
+            <li><strong>Version Tested:</strong> main</li>
+            <li><strong>Dagger Engine Version:</strong> v0.18.5</li>
         </ul>
-    </div>
 
-    <h2>Quality Improvement Suggestions</h2>
+        <h2>Module Description</h2>
+        <p>This module provides an OpenSSH server configuration for Dagger pipelines. It allows users to set up and configure an SSH server with various options including port configuration, authorized keys, and custom SSH configurations.</p>
+
+        <h2>Available Functions</h2>
+        <div class="function-list">
+            <h3>Core Functions:</h3>
+            <ul>
+                <li><strong>host-keys()</strong> - Returns the SSH host keys</li>
+                <li><strong>known-hosts()</strong> - Return a formatted SSH known_hosts file</li>
+                <li><strong>port()</strong> - Get the current port configuration</li>
+                <li><strong>service()</strong> - Return a service that runs the OpenSSH server</li>
+                <li><strong>with-authorized-key()</strong> - Authorize a public key</li>
+                <li><strong>with-config()</strong> - Mount a custom SSH configuration file (with .conf extension)</li>
+                <li><strong>with-port()</strong> - Set the port number for the OpenSSH server</li>
+            </ul>
+        </div>
+
+        <h2>Issues Encountered</h2>
+        <div class="error">
+            <h3>Module Information Crawling Failed</h3>
+            <p>Unable to retrieve complete module information from daggerverse due to API limitations. This affected our ability to get the full module metadata, release date, and version history.</p>
+        </div>
+
+        <h2>Quality Improvement Suggestions</h2>
+        
+        <div class="suggestion">
+            <h3>1. Add Input Validation for SSH Keys</h3>
+            <p>The module could benefit from validation of SSH key format and strength before accepting them.</p>
+            <pre>
+func (m *Module) withAuthorizedKey(ctx context.Context, key *File) (*Module, error) {
+    // Validate SSH key format and minimum length
+    keyContent, err := key.Contents(ctx)
+    if err != nil {
+        return nil, fmt.Errorf("failed to read key: %w", err)
+    }
     
-    <div class="suggestion">
-        <h3>1. Add Input Validation</h3>
-        <p>The module could benefit from more robust input validation, especially for port numbers and file paths.</p>
-        <div class="code">
-        func validatePort(port int) error {
-            if port < 1 || port > 65535 {
-                return fmt.Errorf("port must be between 1 and 65535")
-            }
-            return nil
-        }
-
-        func (s *OpensshServer) WithPort(port int) *OpensshServer {
-            if err := validatePort(port); err != nil {
-                panic(err)
-            }
-            return s.withPort(port)
-        }
+    if !strings.HasPrefix(keyContent, "ssh-") && !strings.HasPrefix(keyContent, "ecdsa-") {
+        return nil, fmt.Errorf("invalid SSH key format")
+    }
+    
+    if len(keyContent) < 256 {
+        return nil, fmt.Errorf("SSH key too short, minimum 256 bytes required")
+    }
+    
+    return &Module{
+        authorized_keys: key,
+    }, nil
+}
+</pre>
         </div>
-    </div>
 
-    <div class="suggestion">
-        <h3>2. Implement Default Configuration Templates</h3>
-        <p>Provide pre-configured templates for common use cases.</p>
-        <div class="code">
-        func (s *OpensshServer) WithDefaultSecureConfig() *OpensshServer {
-            return s.
-                WithConfig("hardened.conf", `
-                    PermitRootLogin no
-                    PasswordAuthentication no
-                    X11Forwarding no
-                    AllowTcpForwarding yes
-                    MaxAuthTries 3
-                `)
-        }
+        <div class="suggestion">
+            <h3>2. Implement Health Checks</h3>
+            <p>Add health checks to verify the SSH server is running correctly after startup.</p>
+            <pre>
+func (m *Module) service(ctx context.Context) (*Service, error) {
+    svc := dag.Service().
+        WithExec([]string{"/usr/sbin/sshd", "-D"}).
+        WithExposedPort(m.port).
+        WithHealthcheck(
+            dag.Service().
+                WithExec([]string{
+                    "timeout", "5", "bash", "-c",
+                    "while ! nc -z localhost " + strconv.Itoa(m.port) + "; do sleep 0.1; done"
+                })
+        )
+    return svc, nil
+}
+</pre>
         </div>
-        <img src="https://i.imgflip.com/2/2qw5y.jpg" alt="Security Meme" class="meme">
-    </div>
 
-    <div class="suggestion">
-        <h3>3. Add Health Check Functionality</h3>
-        <p>Implement a health check method to verify the SSH server is running correctly.</p>
-        <div class="code">
-        func (s *OpensshServer) HealthCheck(ctx context.Context) (bool, error) {
-            service := s.Service()
-            port := s.Port()
-            
-            // Implement TCP connection test to verify server is listening
-            // Add basic SSH handshake verification
-            return true, nil
-        }
+        <div class="suggestion">
+            <h3>3. Add Support for SSH Certificate Authority</h3>
+            <p>Implement SSH CA support for more secure key management in enterprise environments.</p>
+            <pre>
+type Module struct {
+    ca_key         *File
+    ca_public_key  *File
+    // ... other fields
+}
+
+func (m *Module) WithCAKey(key *File) *Module {
+    return &Module{
+        ca_key: key,
+        // ... maintain other fields
+    }
+}
+
+func (m *Module) SignHostKey(ctx context.Context) (*File, error) {
+    return dag.Directory().
+        WithFile("/tmp/sign.sh", `
+            ssh-keygen -s /ca/key -I "host-$(date +%s)" \
+            -n "$(hostname)" -V "+52w" /etc/ssh/ssh_host_key
+        `).
+        WithFile("/ca/key", m.ca_key).
+        WithExec([]string{"bash", "/tmp/sign.sh"}).
+        File("/etc/ssh/ssh_host_key-cert.pub"), nil
+}
+</pre>
         </div>
+
+        <div class="meme">
+            <h3>Quality Assurance Mood</h3>
+            <img src="https://i.imgflip.com/7p8gp1.jpg" alt="QA Engineer walks into a bar" style="max-width: 500px;">
+            <p><em>When a QA engineer walks into a bar, orders a beer, orders 0 beers, orders 999999999 beers, orders a lizard, orders -1 beers, orders a sfdeljknesv...</em></p>
+        </div>
+
+        <h2>Testing Details</h2>
+        <p>Testing was performed using Dagger Engine v0.18.5. The module was successfully installed and its functions were analyzed. The module appears to be well-structured with clear function purposes, though some advanced security features could be added to enhance its enterprise readiness.</p>
+
     </div>
-
-    <h2>Testing Results</h2>
-    <ul>
-        <li>✅ Module Installation: Successful</li>
-        <li>✅ Module Build: Successful</li>
-        <li>✅ Function Discovery: All functions documented and working</li>
-    </ul>
-
-    <h2>Links</h2>
-    <ul>
-        <li><a href="/qa/openssh-server-crawl.html">Raw Crawl Results</a></li>
-        <li><a href="https://daggerverse.dev/mod/github.com/jedevc/daggerverse-sagikazarmark/openssh-server">Module Documentation</a></li>
-    </ul>
 </body>
 </html>
