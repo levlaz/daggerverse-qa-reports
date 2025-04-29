@@ -1,92 +1,86 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>QA Report - shellcheck Module</title>
+    <title>QA Report - Shellcheck Module</title>
     <style>
         body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
-        h1, h2 { color: #333; }
-        .error { color: #ff0000; }
-        .suggestion { margin: 20px 0; padding: 10px; background: #f5f5f5; }
-        .code { background: #eee; padding: 10px; font-family: monospace; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .error { color: #dc3545; background: #f8d7da; padding: 10px; border-radius: 4px; }
+        .success { color: #28a745; background: #d4edda; padding: 10px; border-radius: 4px; }
+        code { background: #f4f4f4; padding: 2px 5px; border-radius: 3px; }
         .meme { max-width: 500px; margin: 20px 0; }
     </style>
 </head>
 <body>
-    <h1>QA Report: shellcheck Module</h1>
-    
-    <h2>Module Information</h2>
-    <ul>
-        <li><strong>Module Name:</strong> github.com/grouville/dagger/modules/shellcheck</li>
-        <li><strong>Author:</strong> Unknown (unable to crawl metadata)</li>
-        <li><strong>Latest Version:</strong> Unknown (unable to crawl metadata)</li>
-        <li><strong>Release Date:</strong> Unknown (unable to crawl metadata)</li>
-        <li><strong>Dagger Engine Version Used:</strong> v0.18.4</li>
-    </ul>
-
-    <h2>Module Analysis</h2>
-    <p>Unable to determine module functionality due to installation and build failures.</p>
-
-    <h2>Errors Encountered</h2>
-    <div class="error">
-        <h3>Critical Issues:</h3>
+    <div class="container">
+        <h1>QA Report: Shellcheck Module</h1>
+        
+        <h2>Module Information</h2>
         <ul>
-            <li>Failed to crawl module metadata due to API limitations</li>
-            <li>Installation failed: Module does not contain a dagger config file</li>
-            <li>Build failed: Path "modules/shellcheck" does not exist in git repo</li>
+            <li><strong>Name:</strong> github.com/lgtdio/dagger/modules/shellcheck</li>
+            <li><strong>Author:</strong> lgtdio</li>
+            <li><strong>Latest Version:</strong> main</li>
+            <li><strong>Release Date:</strong> Not available (crawling failed)</li>
+            <li><strong>Dagger Version Used:</strong> v0.18.5</li>
         </ul>
-    </div>
 
-    <h2>Improvement Suggestions</h2>
-    
-    <div class="suggestion">
-        <h3>1. Add proper module configuration</h3>
-        <p>The module is missing a dagger.json configuration file, which is required for all Dagger modules.</p>
-        <div class="code">
-            // dagger.json
-            {
-                "name": "shellcheck",
-                "sdk": "go",
-                "dependencies": [],
-                "source": "./",
-                "engineVersion": "v0.18.4"
-            }
+        <h2>Module Functionality</h2>
+        <p>This module provides shell script validation capabilities using shellcheck. It offers the following function:</p>
+        <ul>
+            <li><strong>check</strong>: Report the issues that need to be fixed on a given file.</li>
+        </ul>
+
+        <h2>Testing Issues Encountered</h2>
+        <div class="error">
+            <p>Unable to crawl module information from daggerverse due to API limitations.</p>
         </div>
-    </div>
 
-    <div class="suggestion">
-        <h3>2. Fix Repository Structure</h3>
-        <p>The module path should exist in the repository structure</p>
-        <div class="code">
-            repository_root/
-            └── modules/
-                └── shellcheck/
-                    ├── dagger.json
-                    ├── main.go
-                    └── README.md
+        <h2>Quality Improvement Suggestions</h2>
+        
+        <h3>1. Add Comprehensive Documentation</h3>
+        <p>The module would benefit from more detailed documentation, including examples and use cases.</p>
+        <code>
+        // Add documentation like this:
+        /**
+         * Check performs shellcheck validation on a shell script
+         * @param {string} file - Path to the shell script to check
+         * @returns {string} Shellcheck output with any found issues
+         * @example
+         * dag.shellcheck().check("/scripts/deploy.sh")
+         */
+        func (m *Module) Check(ctx context.Context, file string) (*string, error) {
+            // Implementation
+        }
+        </code>
+
+        <h3>2. Add Configuration Options</h3>
+        <p>Allow users to customize shellcheck behavior with configuration options.</p>
+        <code>
+        type ShellcheckOpts struct {
+            Severity    string   // error, warning, info, style
+            Shell       string   // sh, bash, dash, ksh
+            Exclude     []string // List of error codes to exclude
+        }
+
+        func (m *Module) WithOptions(opts ShellcheckOpts) *Module {
+            // Implementation
+        }
+        </code>
+
+        <h3>3. Add Batch Processing Support</h3>
+        <p>Enable checking multiple files at once for better efficiency.</p>
+        <code>
+        func (m *Module) CheckMultiple(ctx context.Context, files []string) (*string, error) {
+            // Implementation for checking multiple files
+            return result, nil
+        }
+        </code>
+
+        <div class="meme">
+            <img src="https://i.imgflip.com/7q4oz1.jpg" alt="Shell Script Quality Meme" />
+            <p><em>When your shell script passes shellcheck without errors</em></p>
         </div>
+
     </div>
-
-    <div class="suggestion">
-        <h3>3. Add Documentation</h3>
-        <p>Once the module is properly structured, add comprehensive documentation</p>
-        <div class="code">
-            // README.md
-            # Shellcheck Dagger Module
-
-            This module provides shellcheck functionality for shell script validation.
-
-            ## Usage
-            ```go
-            dag.Shellcheck().
-                Script("my_script.sh").
-                Validate()
-            ```
-        </div>
-        <img src="https://i.imgflip.com/65efzo.jpg" alt="Documentation Meme" class="meme" />
-    </div>
-
-    <h2>Trace Links</h2>
-    <p>No successful traces available due to module configuration issues.</p>
-
 </body>
 </html>
