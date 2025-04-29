@@ -6,44 +6,35 @@
         body {
             font-family: Arial, sans-serif;
             line-height: 1.6;
-            margin: 20px;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
+            margin: 40px;
         }
         .container {
-            background-color: #f9f9f9;
-            padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            max-width: 1200px;
+            margin: 0 auto;
         }
         .error {
-            color: #721c24;
+            color: #dc3545;
             background-color: #f8d7da;
-            padding: 10px;
+            padding: 15px;
             border-radius: 4px;
             margin: 10px 0;
         }
         .functions {
-            background-color: #e9ecef;
+            background-color: #f8f9fa;
             padding: 15px;
             border-radius: 4px;
         }
         .suggestion {
             margin: 20px 0;
             padding: 15px;
-            background-color: #e3f2fd;
+            background-color: #e9ecef;
             border-radius: 4px;
         }
         pre {
             background-color: #f8f9fa;
-            padding: 10px;
+            padding: 15px;
             border-radius: 4px;
             overflow-x: auto;
-        }
-        .meme {
-            max-width: 500px;
-            margin: 20px 0;
         }
     </style>
 </head>
@@ -51,80 +42,103 @@
     <div class="container">
         <h1>QA Report: Borgo Module</h1>
         
-        <h2>Basic Information</h2>
+        <h2>Module Information</h2>
         <ul>
-            <li><strong>Module Name:</strong> borgo</li>
-            <li><strong>Repository:</strong> github.com/jedevc/daggerverse-sagikazarmark/borgo</li>
-            <li><strong>Version Tested:</strong> latest</li>
-            <li><strong>Dagger Engine Version:</strong> v0.18.5</li>
+            <li><strong>Name:</strong> borgo</li>
+            <li><strong>Module Path:</strong> github.com/luanmtruong/daggerverse/borgo</li>
+            <li><strong>Latest Version:</strong> main</li>
+            <li><strong>Dagger Engine Version Used:</strong> v0.18.5</li>
         </ul>
 
-        <h2>Module Functions</h2>
+        <h2>Module Functionality</h2>
         <div class="functions">
+            <h3>Available Functions:</h3>
             <ul>
-                <li><strong>compile</strong> - No description provided</li>
-                <li><strong>terminal</strong> - No description provided</li>
+                <li><strong>compile</strong></li>
+                <li><strong>terminal</strong></li>
             </ul>
         </div>
 
         <h2>Issues Encountered</h2>
         <div class="error">
-            <p>1. Unable to crawl the daggerverse page due to API limitations</p>
-            <p>2. Limited documentation available for the module functions</p>
+            <p>1. Module crawling failed due to API limitations: Unable to fetch detailed module information from daggerverse.</p>
+            <p>2. Limited documentation available for function purposes and usage.</p>
         </div>
 
-        <h2>Suggestions for Improvement</h2>
+        <h2>Quality Improvement Suggestions</h2>
         
         <div class="suggestion">
             <h3>1. Add Function Documentation</h3>
-            <p>The module functions lack descriptions, making it unclear what they do. Add proper documentation:</p>
+            <p>Add detailed documentation for each function to improve usability.</p>
+            <img src="https://i.imgur.com/PFpJ8tv.jpg" alt="Documentation Meme" />
             <pre>
-// Example of documented functions
-#Compile compiles a Borgo project
-func (m *Module) Compile(ctx context.Context) (*Compile, error) {
+// Example of improved documentation
+/*
+* Compile executes the borgo compilation process
+* @param {string} source - The source directory to compile
+* @param {string} target - The target output directory
+* @returns {string} - Compilation status and output location
+*/
+func (m *Borgo) Compile(source string, target string) *Borgo {
     // Implementation
 }
-
-#Terminal provides an interactive terminal for Borgo development
-func (m *Module) Terminal(ctx context.Context) (*Terminal, error) {
-    // Implementation
-}
-            </pre>
-            <img src="https://i.imgflip.com/65efzo.jpg" alt="Documentation Meme" class="meme">
-        </div>
-
-        <div class="suggestion">
-            <h3>2. Add Example Usage</h3>
-            <p>Include example usage in the README.md:</p>
-            <pre>
-# Borgo Module Examples
-
-```dagger
-dagger call -m github.com/jedevc/daggerverse-sagikazarmark/borgo compile --help
-dagger call -m github.com/jedevc/daggerverse-sagikazarmark/borgo terminal --help
-```
             </pre>
         </div>
 
         <div class="suggestion">
-            <h3>3. Add Input Validation</h3>
-            <p>Add proper input validation to ensure robust operation:</p>
+            <h3>2. Add Error Handling</h3>
+            <p>Implement comprehensive error handling and return meaningful error messages.</p>
             <pre>
-func (m *Module) Compile(ctx context.Context, src *Directory) (*Directory, error) {
-    if src == nil {
-        return nil, fmt.Errorf("source directory is required")
+func (m *Borgo) Compile(ctx context.Context, source string) (*Borgo, error) {
+    if source == "" {
+        return nil, fmt.Errorf("source directory cannot be empty")
     }
     
-    // Check if it's a valid Borgo project
-    exists, err := src.File("borgo.yaml").Exists(ctx)
-    if err != nil {
-        return nil, err
-    }
-    if !exists {
-        return nil, fmt.Errorf("not a valid Borgo project: borgo.yaml not found")
+    // Validate source directory exists
+    if _, err := os.Stat(source); err != nil {
+        return nil, fmt.Errorf("source directory does not exist: %w", err)
     }
     
-    // Rest of the implementation
+    // Continue with compilation
+    return m, nil
+}
+            </pre>
+        </div>
+
+        <div class="suggestion">
+            <h3>3. Add Integration Tests</h3>
+            <p>Create integration tests to ensure reliability.</p>
+            <pre>
+func TestBorgoCompile(t *testing.T) {
+    testCases := []struct {
+        name        string
+        source      string
+        expectError bool
+    }{
+        {
+            name:        "Valid compilation",
+            source:      "./testdata/valid",
+            expectError: false,
+        },
+        {
+            name:        "Invalid source",
+            source:      "./testdata/nonexistent",
+            expectError: true,
+        },
+    }
+
+    for _, tc := range testCases {
+        t.Run(tc.name, func(t *testing.T) {
+            borgo := New()
+            _, err := borgo.Compile(context.Background(), tc.source)
+            if tc.expectError && err == nil {
+                t.Error("expected error but got none")
+            }
+            if !tc.expectError && err != nil {
+                t.Errorf("unexpected error: %v", err)
+            }
+        })
+    }
 }
             </pre>
         </div>
