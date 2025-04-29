@@ -3,96 +3,107 @@
 <head>
     <title>QA Report - xk6 Module</title>
     <style>
-        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
-        h1, h2 { color: #333; }
-        .error { color: red; }
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 20px; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .error { color: red; padding: 10px; background-color: #fee; border-radius: 5px; }
         .functions { background-color: #f5f5f5; padding: 15px; border-radius: 5px; }
-        .suggestion { margin: 20px 0; padding: 15px; background-color: #e9f7ef; border-radius: 5px; }
-        .code { background-color: #f8f9fa; padding: 15px; border-radius: 5px; font-family: monospace; }
-        .meme { max-width: 500px; margin: 20px 0; }
+        .suggestion { margin: 20px 0; padding: 15px; background-color: #f0f8ff; border-radius: 5px; }
+        pre { background-color: #f0f0f0; padding: 10px; border-radius: 5px; overflow-x: auto; }
     </style>
 </head>
 <body>
-    <h1>QA Report: xk6 Module</h1>
-    
-    <h2>Basic Information</h2>
-    <ul>
-        <li><strong>Module Name:</strong> github.com/sagikazarmark/daggerverse/xk6</li>
-        <li><strong>Author:</strong> sagikazarmark</li>
-        <li><strong>Version Tested:</strong> main</li>
-        <li><strong>Dagger Version Used:</strong> v0.18.5</li>
-    </ul>
-
-    <h2>Module Purpose</h2>
-    <p>The xk6 module is a Dagger module designed to build custom k6 binaries. k6 is an open-source load testing tool that makes performance testing easy and productive for engineering teams.</p>
-
-    <h2>Available Functions</h2>
-    <div class="functions">
+    <div class="container">
+        <h1>QA Report: xk6 Module</h1>
+        
+        <h2>Module Information</h2>
         <ul>
-            <li><strong>build()</strong>: Build a custom k6 binary</li>
-            <li><strong>container()</strong>: Container operations</li>
-            <li><strong>with-platform()</strong>: Set GOOS, GOARCH and GOARM environment variables for cross-compilation</li>
+            <li><strong>Module Name:</strong> github.com/jedevc/daggerverse-sagikazarmark/xk6</li>
+            <li><strong>Author:</strong> sagikazarmark (forked by jedevc)</li>
+            <li><strong>Latest Version:</strong> latest</li>
+            <li><strong>Dagger Engine Version Used:</strong> v0.18.5</li>
         </ul>
-    </div>
 
-    <h2>Issues Encountered</h2>
-    <div class="error">
-        <p>Unable to crawl the module page due to API limitations: "Payment Required: Failed to scrape URL. Insufficient credits to perform this request."</p>
-    </div>
+        <h2>Module Functionality</h2>
+        <p>This module provides functionality for building custom k6 binaries. k6 is an open-source load testing tool that makes performance testing easy and productive for engineering teams.</p>
 
-    <h2>Quality Improvement Suggestions</h2>
-    
-    <div class="suggestion">
-        <h3>1. Add Better Documentation</h3>
-        <p>The module would benefit from more detailed function documentation, especially for the container() function which currently has no description.</p>
-        <div class="code">
-        // Example of better documentation
-        #container() {
-            description: "Container configuration for building k6"
-            summary: """
-            Configure the container environment for building k6.
-            Use this to customize the build environment with additional dependencies or settings.
-            """
+        <div class="functions">
+            <h3>Available Functions:</h3>
+            <ul>
+                <li><strong>build()</strong> - Build a custom k6 binary</li>
+                <li><strong>container()</strong> - Container management functionality</li>
+                <li><strong>with-platform()</strong> - Set GOOS, GOARCH and GOARM environment variables for cross-compilation</li>
+            </ul>
+        </div>
+
+        <h2>Issues Encountered</h2>
+        <div class="error">
+            <p>✖ Unable to crawl module information from daggerverse due to API limitations</p>
+        </div>
+
+        <h2>Quality Improvement Suggestions</h2>
+        
+        <div class="suggestion">
+            <h3>1. Add Comprehensive Documentation</h3>
+            <p>The module would benefit from more detailed documentation, including examples and use cases.</p>
+            <pre>
+// Example documentation structure to add in main.go:
+/**
+ * XK6 Module for Dagger
+ * 
+ * This module helps you build custom k6 binaries with extensions.
+ * 
+ * Example usage:
+ * ```dagger
+ * dag.xk6().build(
+ *   withExtensions: ["xk6-prometheus"]
+ * )
+ * ```
+ */</pre>
+            <img src="https://i.imgflip.com/65efzo.jpg" alt="Documentation Meme" style="max-width: 300px;">
+        </div>
+
+        <div class="suggestion">
+            <h3>2. Add Input Validation</h3>
+            <p>Implement proper input validation for the build function parameters.</p>
+            <pre>
+func (m *Module) Build(ctx context.Context, extensions []string) (*Container, error) {
+    for _, ext := range extensions {
+        if !strings.HasPrefix(ext, "xk6-") {
+            return nil, fmt.Errorf("invalid extension format: %s. Must start with 'xk6-'", ext)
         }
+    }
+    // Rest of the build logic
+}</pre>
         </div>
-    </div>
 
-    <div class="suggestion">
-        <h3>2. Add Input Validation</h3>
-        <p>Implement input validation for the with-platform function to ensure valid GOOS/GOARCH combinations.</p>
-        <div class="code">
-        func (m *Module) WithPlatform(ctx context.Context, goos string, goarch string, goarm *string) (*Module, error) {
-            // Validate GOOS
-            validGOOS := []string{"linux", "darwin", "windows"}
-            if !contains(validGOOS, goos) {
-                return nil, fmt.Errorf("invalid GOOS: %s", goos)
-            }
-            
-            // Validate GOARCH
-            validGOARCH := []string{"amd64", "arm64", "arm"}
-            if !contains(validGOARCH, goarch) {
-                return nil, fmt.Errorf("invalid GOARCH: %s", goarch)
-            }
-            
-            // Continue with existing logic...
+        <div class="suggestion">
+            <h3>3. Add Testing Framework</h3>
+            <p>Implement comprehensive testing for the module functions.</p>
+            <pre>
+// test/build_test.go
+package test
+
+import (
+    "testing"
+    "dagger.io/dagger"
+)
+
+func TestBuild(t *testing.T) {
+    t.Run("basic build", func(t *testing.T) {
+        client, err := dagger.Connect(ctx)
+        if err != nil {
+            t.Fatal(err)
         }
+        defer client.Close()
+
+        xk6 := client.Module(".")
+        _, err = xk6.Build()
+        if err != nil {
+            t.Fatal(err)
+        }
+    })
+}</pre>
         </div>
     </div>
-
-    <div class="suggestion">
-        <h3>3. Add Testing Examples</h3>
-        <p>Include example configurations and usage patterns in the documentation.</p>
-        <div class="code">
-        // Example usage in README.md
-        ```dagger
-        xk6 := dag.Pipeline("build-k6").
-            Module("github.com/sagikazarmark/daggerverse/xk6").
-            WithPlatform("linux", "amd64", nil).
-            Build()
-        ```
-        </div>
-        <img src="https://i.imgflip.com/3o7jk8.jpg" alt="Testing Meme" class="meme"/>
-    </div>
-
 </body>
 </html>
