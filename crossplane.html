@@ -3,111 +3,123 @@
 <head>
     <title>QA Report - Crossplane Module</title>
     <style>
-        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 20px; }
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
         h1, h2 { color: #333; }
-        .container { max-width: 1200px; margin: 0 auto; }
-        .error { color: #dc3545; padding: 10px; background-color: #ffebee; border-radius: 4px; }
-        .function-list { background-color: #f8f9fa; padding: 15px; border-radius: 4px; }
-        .suggestion { margin: 20px 0; padding: 15px; background-color: #e9ecef; border-radius: 4px; }
-        pre { background-color: #f8f9fa; padding: 10px; border-radius: 4px; overflow-x: auto; }
+        .error { color: #ff0000; }
+        .function-list { background-color: #f8f9fa; padding: 15px; border-radius: 5px; }
+        .suggestion { margin: 20px 0; padding: 15px; background-color: #f0f8ff; border-radius: 5px; }
+        pre { background-color: #f0f0f0; padding: 10px; border-radius: 5px; overflow-x: auto; }
+        .meme { margin: 20px 0; }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>QA Report: Crossplane Module</h1>
-        
-        <h2>Module Information</h2>
+    <h1>QA Report - Crossplane Module</h1>
+    
+    <h2>Module Information</h2>
+    <ul>
+        <li><strong>Name:</strong> github.com/felipepimentel/daggerverse/pipelines/crossplane</li>
+        <li><strong>Author:</strong> Felipe Pimentel</li>
+        <li><strong>Latest Version:</strong> main</li>
+        <li><strong>Release Date:</strong> N/A (Information unavailable due to crawling error)</li>
+        <li><strong>Dagger Engine Version Used:</strong> v0.18.5</li>
+    </ul>
+
+    <h2>Module Description</h2>
+    <p>This module provides functionality for working with Crossplane packages. It includes tools for initializing, packaging, and pushing Crossplane packages, as well as handling custom templates and configurations.</p>
+
+    <h2>Available Functions</h2>
+    <div class="function-list">
         <ul>
-            <li><strong>Name:</strong> github.com/felipepimentel/daggerverse/pipelines/crossplane</li>
-            <li><strong>Author:</strong> Felipe Pimentel</li>
-            <li><strong>Latest Version:</strong> main</li>
-            <li><strong>Release Date:</strong> N/A (Information unavailable due to crawling error)</li>
-            <li><strong>Dagger Version Used:</strong> v0.18.4</li>
-        </ul>
-
-        <h2>Module Functions</h2>
-        <div class="function-list">
-            <ul>
-                <li><strong>get-xplane-container:</strong> Returns the default image for helm</li>
-                <li><strong>init-custom-package:</strong> Initializes Crossplane Package based on custom templates and a configuration file</li>
-                <li><strong>init-package:</strong> Initializes Crossplane Package</li>
-                <li><strong>package:</strong> Packages Crossplane Package</li>
-                <li><strong>push:</strong> Pushes Crossplane Package</li>
-                <li><strong>xplane-container:</strong> Container functionality (details not provided)</li>
-            </ul>
-        </div>
-
-        <h2>Issues Encountered</h2>
-        <div class="error">
-            <p>Unable to crawl the daggerverse page due to API limitations: "Payment Required: Failed to scrape URL. Insufficient credits to perform this request."</p>
-        </div>
-
-        <h2>Suggestions for Improvement</h2>
-        
-        <div class="suggestion">
-            <h3>1. Add Comprehensive Documentation</h3>
-            <p>The module would benefit from detailed documentation for each function, including examples and parameter descriptions.</p>
-            <pre>
-// Example documentation format
-/**
- * GetXplaneContainer returns the default image for helm
- * @param version: The version of Crossplane to use
- * @returns Container with Crossplane helm chart
- * @example
- * dagger call get-xplane-container --version=v1.11.0
- */
-func (m *Module) GetXplaneContainer(version string) *Container {
-    // Implementation
-}
-</pre>
-            <img src="https://i.imgflip.com/65efzo.jpg" alt="Documentation Meme" style="max-width: 400px;" />
-        </div>
-
-        <div class="suggestion">
-            <h3>2. Implement Input Validation</h3>
-            <p>Add proper input validation for all functions to prevent errors and improve user experience.</p>
-            <pre>
-func (m *Module) InitPackage(ctx context.Context, version string) error {
-    if version == "" {
-        return fmt.Errorf("version cannot be empty")
-    }
-    if !semver.IsValid(version) {
-        return fmt.Errorf("invalid version format: %s", version)
-    }
-    // Implementation
-}
-</pre>
-        </div>
-
-        <div class="suggestion">
-            <h3>3. Add Error Handling and Recovery</h3>
-            <p>Implement proper error handling and recovery mechanisms for better reliability.</p>
-            <pre>
-func (m *Module) PushPackage(ctx context.Context) (string, error) {
-    defer func() {
-        if r := recover(); r != nil {
-            log.Printf("Recovered from panic in PushPackage: %v", r)
-        }
-    }()
-
-    // Implementation with proper error handling
-    result, err := m.push()
-    if err != nil {
-        return "", fmt.Errorf("failed to push package: %w", err)
-    }
-    return result, nil
-}
-</pre>
-        </div>
-
-        <h2>Module Purpose</h2>
-        <p>This module provides a set of functions for working with Crossplane packages. It allows users to:</p>
-        <ul>
-            <li>Initialize Crossplane packages (both standard and custom)</li>
-            <li>Package Crossplane configurations</li>
-            <li>Push packages to repositories</li>
-            <li>Manage Crossplane container images</li>
+            <li><strong>get-xplane-container:</strong> Returns the default image for helm</li>
+            <li><strong>init-custom-package:</strong> Initializes Crossplane Package based on custom templates and a configuration file</li>
+            <li><strong>init-package:</strong> Initializes Crossplane Package</li>
+            <li><strong>package:</strong> Packages Crossplane Package</li>
+            <li><strong>push:</strong> Pushes Crossplane Package</li>
+            <li><strong>xplane-container:</strong> Container configuration (no description provided)</li>
         </ul>
     </div>
+
+    <h2>Issues Encountered</h2>
+    <div class="error">
+        <p>Failed to crawl the daggerverse page due to API limitations. This limited our ability to gather complete metadata about the module.</p>
+    </div>
+
+    <h2>Quality Improvement Suggestions</h2>
+    
+    <div class="suggestion">
+        <h3>1. Improve Function Documentation</h3>
+        <p>The functions lack detailed descriptions. Better documentation would help users understand the purpose and usage of each function.</p>
+        <pre>
+// Example of improved documentation:
+#Example Documentation
+#Description: Initializes a new Crossplane package with custom templates
+#Params:
+#  - templatePath: string // Path to custom templates
+#  - configPath: string   // Path to configuration file
+#Returns: *Package        // Initialized package object
+func (m *Module) InitCustomPackage(ctx context.Context, 
+    templatePath string, 
+    configPath string) (*Package, error) {
+    // Implementation
+}
+</pre>
+    </div>
+
+    <div class="suggestion">
+        <h3>2. Add Input Validation</h3>
+        <p>Add proper input validation for all functions to prevent errors and provide better error messages.</p>
+        <pre>
+func (m *Module) Push(ctx context.Context, packagePath string) error {
+    if packagePath == "" {
+        return fmt.Errorf("package path cannot be empty")
+    }
+    if !strings.HasSuffix(packagePath, ".xpkg") {
+        return fmt.Errorf("invalid package format: must be .xpkg file")
+    }
+    // Rest of implementation
+}
+</pre>
+        <div class="meme">
+            <img src="https://i.imgflip.com/65lafb.jpg" alt="Input validation meme" />
+            <p><em>"Always validate your inputs, or you're gonna have a bad time"</em></p>
+        </div>
+    </div>
+
+    <div class="suggestion">
+        <h3>3. Add Example Usage</h3>
+        <p>Include example usage for each function to help users get started quickly.</p>
+        <pre>
+// Example usage in README.md:
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    crossplane "github.com/felipepimentel/daggerverse/pipelines/crossplane"
+)
+
+func main() {
+    ctx := context.Background()
+    module := crossplane.New()
+    
+    // Initialize a new package
+    err := module.InitPackage(ctx, "my-package")
+    if err != nil {
+        panic(err)
+    }
+    
+    // Package it
+    err = module.Package(ctx, "my-package")
+    if err != nil {
+        panic(err)
+    }
+    
+    fmt.Println("Package created successfully!")
+}
+```
+</pre>
+    </div>
+
 </body>
 </html>
