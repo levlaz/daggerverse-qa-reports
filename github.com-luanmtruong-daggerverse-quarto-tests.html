@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>QA Report - quarto/tests Module</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
+        h1, h2 { color: #333; }
+        .error { color: #ff0000; background: #ffebeb; padding: 10px; border-radius: 5px; }
+        .functions { background: #f5f5f5; padding: 15px; border-radius: 5px; }
+        .suggestion { margin: 20px 0; padding: 15px; background: #f0f8ff; border-radius: 5px; }
+        code { background: #f4f4f4; padding: 2px 5px; border-radius: 3px; }
+    </style>
+</head>
+<body>
+    <h1>QA Report: quarto/tests Module</h1>
+    
+    <h2>Module Information</h2>
+    <ul>
+        <li><strong>Module Name:</strong> github.com/luanmtruong/daggerverse/quarto/tests</li>
+        <li><strong>Author:</strong> luanmtruong</li>
+        <li><strong>Version Tested:</strong> main</li>
+        <li><strong>Testing Engine Version:</strong> v0.18.5</li>
+    </ul>
+
+    <h2>Module Functions</h2>
+    <div class="functions">
+        <ul>
+            <li><strong>all()</strong> - All executes all tests.</li>
+            <li><strong>render()</strong> - No description provided</li>
+        </ul>
+    </div>
+
+    <h2>Issues Encountered</h2>
+    <div class="error">
+        <p>⚠️ Unable to crawl module information from daggerverse due to API limitations.</p>
+    </div>
+
+    <h2>Improvement Suggestions</h2>
+    
+    <div class="suggestion">
+        <h3>1. Add Function Documentation</h3>
+        <p>The 'render' function lacks documentation. Good documentation helps users understand the purpose and usage of each function.</p>
+        <code>
+        // render renders a Quarto document
+        // +doc docs="Renders a Quarto document with specified options"
+        func (m *Module) render(ctx context.Context, opts RenderOpts) (*Result, error) {
+            // Implementation
+        }
+        </code>
+        <img src="https://i.imgflip.com/2/7h6x21.jpg" alt="Documentation Meme" style="max-width: 300px;">
+    </div>
+
+    <div class="suggestion">
+        <h3>2. Add Input Validation</h3>
+        <p>Implement input validation to ensure robust error handling:</p>
+        <code>
+        type RenderOpts struct {
+            InputPath  string `validate:"required,filepath"`
+            OutputDir string `validate:"required,dir"`
+        }
+
+        func (o *RenderOpts) Validate() error {
+            if o.InputPath == "" {
+                return fmt.Errorf("input path is required")
+            }
+            if o.OutputDir == "" {
+                return fmt.Errorf("output directory is required")
+            }
+            return nil
+        }
+        </code>
+    </div>
+
+    <div class="suggestion">
+        <h3>3. Add Test Coverage</h3>
+        <p>Implement comprehensive tests for the module:</p>
+        <code>
+        func TestRender(t *testing.T) {
+            testCases := []struct {
+                name    string
+                input   string
+                wantErr bool
+            }{
+                {
+                    name:    "valid document",
+                    input:   "test.qmd",
+                    wantErr: false,
+                },
+                {
+                    name:    "invalid document",
+                    input:   "nonexistent.qmd",
+                    wantErr: true,
+                },
+            }
+            
+            for _, tc := range testCases {
+                t.Run(tc.name, func(t *testing.T) {
+                    // Test implementation
+                })
+            }
+        }
+        </code>
+    </div>
+</body>
+</html>
