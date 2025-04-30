@@ -1,112 +1,123 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>QA Report - aws-cli</title>
+    <title>QA Report - DebtRepayment Module</title>
     <style>
-        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 2em; }
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
         h1, h2 { color: #333; }
-        .section { margin-bottom: 2em; }
-        .function-list { margin-left: 2em; }
-        .suggestion { background: #f5f5f5; padding: 1em; margin: 1em 0; border-radius: 5px; }
-        .code { background: #f0f0f0; padding: 1em; font-family: monospace; }
-        .error { color: #c00; }
-        .meme { max-width: 500px; margin: 1em 0; }
+        .error { color: #dc3545; background: #ffebee; padding: 10px; border-radius: 4px; }
+        .suggestion { margin: 20px 0; padding: 15px; background: #f8f9fa; border-radius: 4px; }
+        code { background: #f4f4f4; padding: 2px 5px; border-radius: 3px; }
+        .meme { max-width: 500px; margin: 20px 0; }
     </style>
 </head>
 <body>
-    <h1>QA Report - aws-cli</h1>
+    <h1>QA Report: DebtRepayment Module</h1>
     
-    <div class="section">
-        <h2>Module Information</h2>
-        <ul>
-            <li><strong>Name:</strong> aws-cli</li>
-            <li><strong>Author:</strong> sagikazarmark</li>
-            <li><strong>Latest Version:</strong> v0.2.0</li>
-            <li><strong>Release Date:</strong> Extracted from reference: 9ee6739db1b1cc4c806ed9389ecd534bf9f5705a</li>
-            <li><strong>Dagger Engine Version Used:</strong> v0.18.3</li>
-            <li><strong>Dagger Cloud Trace:</strong> <em>Not available in local testing environment</em></li>
-        </ul>
+    <h2>Module Information</h2>
+    <ul>
+        <li><strong>Name:</strong> DebtRepayment</li>
+        <li><strong>Author:</strong> EmmS21</li>
+        <li><strong>Latest Version:</strong> fbd39125783b71e8181a9f0e30b62172eea8d9a1</li>
+        <li><strong>Release Date:</strong> Not provided in metadata</li>
+        <li><strong>Dagger Cloud Trace:</strong> See terminal output</li>
+    </ul>
+
+    <h2>Module Purpose</h2>
+    <p>This module is designed to fetch and analyze data from two Google Sheets to process debt and investment information. It includes functionality to:</p>
+    <ul>
+        <li>Fetch data from two separate Google Sheets</li>
+        <li>Run analysis on debts and investments using an AI agent</li>
+        <li>Send results via email using SendGrid</li>
+    </ul>
+
+    <h2>Module Functions</h2>
+    <ul>
+        <li><strong>fetchData()</strong>
+            <ul>
+                <li>Arguments:
+                    <ul>
+                        <li>apiKey (Secret): Google Sheets API key</li>
+                        <li>sheet (Secret): First Google Sheet secret</li>
+                        <li>sheetTwo (Secret): Second Google Sheet secret</li>
+                        <li>openKey (Secret): OpenAI API key</li>
+                        <li>sendGrid (Secret): SendGrid API key</li>
+                        <li>name (String): Sheet name</li>
+                        <li>sendTo (String): Email recipient</li>
+                    </ul>
+                </li>
+                <li>Returns: Array of strings</li>
+            </ul>
+        </li>
+    </ul>
+
+    <h2>Testing Environment</h2>
+    <p>Tested with Dagger Engine Version: v0.18.2</p>
+
+    <h2>Issues Encountered</h2>
+    <div class="error">
+        <p>Failed to build the module with error: "failed to sync: select: process "/runtime" did not complete successfully: exit code: 2"</p>
     </div>
 
-    <div class="section">
-        <h2>Module Purpose</h2>
-        <p>This module provides a generic interface to use AWS CLI in Dagger pipelines. It offers both direct AWS CLI command execution capabilities and high-level functions for common AWS interactions.</p>
-        
-        <h3>Available Functions:</h3>
-        <ul class="function-list">
-            <li><strong>container()</strong> - Base container access</li>
-            <li><strong>ecr()</strong> - Amazon ECR registry operations</li>
-            <li><strong>exec()</strong> - Run AWS CLI commands</li>
-            <li><strong>region()</strong> - Get/set AWS region</li>
-            <li><strong>sts()</strong> - AWS STS operations</li>
-            <li><strong>withConfig()</strong> - Mount AWS config file</li>
-            <li><strong>withCredentials()</strong> - Mount AWS credentials</li>
-            <li><strong>withProfile()</strong> - Set AWS profile</li>
-            <li><strong>withRegion()</strong> - Set AWS region</li>
-            <li><strong>withStaticCredentials()</strong> - Set static AWS credentials</li>
-            <li><strong>withTemporaryCredentials()</strong> - Set temporary credentials</li>
-            <li><strong>withoutStaticCredentials()</strong> - Remove static credentials</li>
-        </ul>
+    <h2>Improvement Suggestions</h2>
+    
+    <div class="suggestion">
+        <h3>1. Add Input Validation</h3>
+        <p>Add input validation for email addresses and sheet names to prevent runtime errors.</p>
+        <code>
+func validateEmail(email string) error {
+    if _, err := mail.ParseAddress(email); err != nil {
+        return fmt.Errorf("invalid email address: %v", err)
+    }
+    return nil
+}
+
+func (m *DebtRepayment) FetchData(ctx context.Context, ...) ([]string, error) {
+    if err := validateEmail(sendTo); err != nil {
+        return nil, err
+    }
+    // rest of the function
+}
+        </code>
     </div>
 
-    <div class="section">
-        <h2>Quality Improvement Suggestions</h2>
-        
-        <div class="suggestion">
-            <h3>1. Add Input Validation</h3>
-            <p>Add comprehensive input validation for AWS credentials and region formats.</p>
-            <div class="code">
-            // Example implementation:
-            func validateAwsRegion(region string) error {
-                // AWS region format: xx-xxxx-#
-                regionPattern := regexp.MustCompile(`^[a-z]{2}-[a-z]+-\d$`)
-                if !regionPattern.MatchString(region) {
-                    return fmt.Errorf("invalid AWS region format: %s", region)
-                }
-                return nil
-            }
-            </div>
-            <img src="https://i.imgflip.com/2k0qad.jpg" alt="Input Validation Meme" class="meme">
-        </div>
-
-        <div class="suggestion">
-            <h3>2. Add Comprehensive Error Handling</h3>
-            <p>Implement detailed error handling with specific error types for different AWS CLI failures.</p>
-            <div class="code">
-            type AwsCliError struct {
-                Code    string
-                Message string
-                Detail  map[string]interface{}
-            }
-
-            func (e *AwsCliError) Error() string {
-                return fmt.Sprintf("AWS CLI error [%s]: %s", e.Code, e.Message)
-            }
-            </div>
-        </div>
-
-        <div class="suggestion">
-            <h3>3. Add Retry Mechanism</h3>
-            <p>Implement retry logic for transient AWS API failures.</p>
-            <div class="code">
-            func withRetry(op func() error, maxAttempts int) error {
-                var err error
-                for attempt := 1; attempt <= maxAttempts; attempt++ {
-                    err = op()
-                    if err == nil {
-                        return nil
-                    }
-                    time.Sleep(time.Second * time.Duration(attempt))
-                }
-                return fmt.Errorf("operation failed after %d attempts: %v", maxAttempts, err)
-            }
-            </div>
-        </div>
+    <div class="suggestion">
+        <h3>2. Implement Error Handling and Retries</h3>
+        <p>Add retry mechanism for API calls to handle temporary failures.</p>
+        <code>
+func withRetry(maxAttempts int, fn func() error) error {
+    var err error
+    for i := 0; i < maxAttempts; i++ {
+        if err = fn(); err == nil {
+            return nil
+        }
+        time.Sleep(time.Second * time.Duration(math.Pow(2, float64(i))))
+    }
+    return fmt.Errorf("failed after %d attempts: %v", maxAttempts, err)
+}
+        </code>
     </div>
 
-    <div class="section">
-        <h2>Testing Issues</h2>
-        <p>No significant issues were encountered during testing. The module installed and built successfully. All core functionalities appear to be working as documented.</p>
+    <div class="suggestion">
+        <h3>3. Add Comprehensive Documentation</h3>
+        <p>Improve documentation with examples and usage scenarios.</p>
+        <code>
+// DebtRepayment analyzes financial data from Google Sheets
+//
+// Example usage:
+//
+//     result, err := dag.DebtRepayment().FetchData(
+//         ctx,
+//         dag.SetSecret("GOOGLE_API_KEY", apiKey),
+//         dag.SetSecret("SHEET_ONE", sheetOne),
+//         dag.SetSecret("SHEET_TWO", sheetTwo),
+//         dag.SetSecret("OPENAI_KEY", openAIKey),
+//         dag.SetSecret("SENDGRID_KEY", sendGridKey),
+//         "MySheet",
+//         "user@example.com",
+//     )
+        </code>
+        <img src="https://i.imgflip.com/50q5zs.jpg" alt="Documentation Meme" class="meme">
     </div>
 </body>
 </html>
