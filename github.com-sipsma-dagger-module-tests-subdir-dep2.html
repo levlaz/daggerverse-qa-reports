@@ -3,90 +3,93 @@
 <head>
     <title>QA Report: dagger-module-tests/subdir/dep2</title>
     <style>
-        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 20px; }
-        .container { max-width: 1200px; margin: 0 auto; }
-        .error { color: #dc3545; background: #f8d7da; padding: 10px; border-radius: 4px; }
-        .success { color: #28a745; background: #d4edda; padding: 10px; border-radius: 4px; }
-        .suggestion { margin: 20px 0; padding: 15px; background: #f8f9fa; border-radius: 4px; }
-        pre { background: #f8f9fa; padding: 10px; border-radius: 4px; overflow-x: auto; }
-        .meme { margin: 20px 0; }
+        body { font-family: Arial, sans-serif; margin: 40px; line-height: 1.6; }
+        h1, h2 { color: #333; }
+        .error { color: #ff0000; }
+        .suggestion { margin: 20px 0; padding: 10px; background: #f5f5f5; }
+        .code { background: #f0f0f0; padding: 10px; font-family: monospace; }
+        .meme { max-width: 500px; margin: 20px 0; }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>QA Report: github.com/sipsma/dagger-module-tests/subdir/dep2</h1>
-        
-        <h2>Module Information</h2>
-        <ul>
-            <li><strong>Name:</strong> github.com/sipsma/dagger-module-tests/subdir/dep2</li>
-            <li><strong>Author:</strong> sipsma</li>
-            <li><strong>Latest Version:</strong> main</li>
-            <li><strong>Release Date:</strong> Not available</li>
-        </ul>
+    <h1>QA Report: dagger-module-tests/subdir/dep2</h1>
+    
+    <h2>Basic Information</h2>
+    <ul>
+        <li><strong>Module Name:</strong> github.com/sipsma/dagger-module-tests/subdir/dep2</li>
+        <li><strong>Author:</strong> sipsma</li>
+        <li><strong>Latest Version:</strong> latest</li>
+        <li><strong>Release Date:</strong> N/A (Unable to retrieve)</li>
+        <li><strong>Dagger Engine Version Used:</strong> v0.18.5</li>
+    </ul>
 
-        <h2>Testing Environment</h2>
-        <ul>
-            <li><strong>Dagger Engine Version:</strong> v0.18.5</li>
-            <li><strong>Platform:</strong> linux/amd64</li>
-        </ul>
+    <h2>Module Functions</h2>
+    <ul>
+        <li>fn (no description provided)</li>
+    </ul>
 
-        <h2>Module Functions</h2>
-        <ul>
-            <li>fn (no description provided)</li>
-        </ul>
+    <h2>Issues Encountered</h2>
+    <div class="error">
+        <p>1. Unable to crawl module information from daggerverse due to API limitations</p>
+        <p>2. Limited function documentation available</p>
+    </div>
 
-        <h2>Issues Encountered</h2>
-        <div class="error">
-            <p>Unable to crawl module information from daggerverse due to API limitations.</p>
-        </div>
+    <h2>Suggestions for Improvement</h2>
+    
+    <div class="suggestion">
+        <h3>1. Add Comprehensive Function Documentation</h3>
+        <p>The module functions lack proper documentation. Here's how to improve it:</p>
+        <pre class="code">
+// Before
+fn: func() *Directory
 
-        <h2>Quality Improvement Suggestions</h2>
-        
-        <div class="suggestion">
-            <h3>1. Add Function Documentation</h3>
-            <p>The module's functions lack proper documentation. Add descriptive comments to explain what each function does.</p>
-            <pre>
-// Example improvement:
-#Function documentation
-fn() {
-    description: "This function performs X operation and returns Y result"
-    // Function implementation
-}
-            </pre>
-        </div>
-
-        <div class="suggestion">
-            <h3>2. Add Input Validation</h3>
-            <p>Implement proper input validation to ensure robust operation.</p>
-            <pre>
-// Example improvement:
-fn(input: string) {
-    if !input {
-        error("Input string cannot be empty")
-    }
-    // Function implementation
-}
-            </pre>
-        </div>
-
-        <div class="suggestion">
-            <h3>3. Add Error Handling</h3>
-            <p>Implement comprehensive error handling to improve reliability.</p>
-            <pre>
-// Example improvement:
-fn() {
-    do {
-        // operation
-    } catch(error) {
-        error("Operation failed: ${error}")
+// After
+#Description: {
+    fn: {
+        description: "Creates a directory with specific content"
+        args: {
+            input: "The input content to process"
+        }
+        return: "A directory containing the processed content"
     }
 }
-            </pre>
-            <div class="meme">
-                <img src="https://i.imgflip.com/2/3prdis.jpg" alt="Error Handling Meme">
-                <p><em>"When your code has no error handling and works perfectly in testing"</em></p>
-            </div>
-        </div>
+fn: func() *Directory {
+    // Implementation
+}
+        </pre>
+    </div>
+
+    <div class="suggestion">
+        <h3>2. Add Input Validation</h3>
+        <p>Add proper input validation to ensure robust operation:</p>
+        <pre class="code">
+#Validate: {
+    input: string
+    if len(input) == 0 {
+        errors: ["Input cannot be empty"]
+    }
+    if len(input) > 1000 {
+        errors: ["Input exceeds maximum length of 1000 characters"]
+    }
+}
+        </pre>
+        <img src="https://i.imgflip.com/65efzo.jpg" alt="Input Validation Meme" class="meme">
+    </div>
+
+    <div class="suggestion">
+        <h3>3. Add Tests</h3>
+        <p>Include comprehensive tests to verify functionality:</p>
+        <pre class="code">
+#Test: {
+    "test basic functionality": {
+        fn: actions.fn
+        assert: {
+            output: directory
+            success: true
+        }
+    }
+}
+        </pre>
     </div>
 </body>
 </html>
