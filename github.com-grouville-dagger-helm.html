@@ -1,13 +1,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>QA Report - github.com/grouville/dagger/helm</title>
+    <title>QA Report: github.com/grouville/dagger/helm</title>
     <style>
         body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
-        h1, h2 { color: #333; }
-        .error { color: #cc0000; background: #ffebeb; padding: 10px; border-radius: 5px; }
-        .suggestion { background: #f5f5f5; padding: 15px; margin: 10px 0; border-radius: 5px; }
-        code { background: #f0f0f0; padding: 2px 5px; border-radius: 3px; }
+        .error { color: #dc3545; background: #ffebe9; padding: 10px; border-radius: 5px; }
+        .suggestion { background: #f8f9fa; padding: 15px; margin: 10px 0; border-radius: 5px; }
+        code { background: #f6f8fa; padding: 2px 5px; border-radius: 3px; }
         .meme { max-width: 500px; margin: 20px 0; }
     </style>
 </head>
@@ -15,63 +14,72 @@
     <h1>QA Report: github.com/grouville/dagger/helm</h1>
 
     <h2>Module Information</h2>
-    <p><strong>Module Name:</strong> github.com/grouville/dagger/helm</p>
-    <p><strong>Testing Environment:</strong> Dagger v0.18.5</p>
+    <ul>
+        <li><strong>Name:</strong> github.com/grouville/dagger/helm</li>
+        <li><strong>Author:</strong> grouville</li>
+        <li><strong>Latest Version:</strong> Unknown (unable to retrieve)</li>
+        <li><strong>Release Date:</strong> Unknown (unable to retrieve)</li>
+    </ul>
 
-    <h2>Testing Results</h2>
+    <h2>Testing Environment</h2>
+    <ul>
+        <li><strong>Dagger Engine Version:</strong> v0.18.5</li>
+        <li><strong>Platform:</strong> linux/amd64</li>
+    </ul>
+
+    <h2>Issues Encountered</h2>
     <div class="error">
-        <h3>Issues Encountered:</h3>
-        <ul>
-            <li>Failed to crawl module information due to API limitations</li>
+        <h3>Critical Issues:</h3>
+        <ol>
+            <li>Unable to crawl module information due to API limitations</li>
             <li>Installation failed: Module does not contain a dagger config file</li>
             <li>Build failed: Path "helm" does not exist in git repo</li>
-        </ul>
+        </ol>
     </div>
 
-    <h2>Improvement Suggestions</h2>
+    <h2>Suggestions for Improvement</h2>
     
     <div class="suggestion">
         <h3>1. Add proper module configuration</h3>
-        <p>The module is missing a dagger.json configuration file. Here's how to add one:</p>
+        <p>The module is missing a dagger.json configuration file. Here's a basic template:</p>
         <pre><code>{
   "name": "helm",
   "sdk": "go",
   "dependencies": [],
   "source": "./",
-  "description": "A Dagger module for Helm chart operations"
+  "engineVersion": "v0.18.5"
 }</code></pre>
     </div>
 
     <div class="suggestion">
-        <h3>2. Implement proper directory structure</h3>
+        <h3>2. Fix Repository Structure</h3>
         <p>The module should follow the standard Dagger module structure:</p>
-        <pre><code>helm/
+        <pre><code>github.com/grouville/dagger/helm/
 ├── dagger.json
+├── main.go
 ├── go.mod
-├── go.sum
-└── main.go</code></pre>
+└── go.sum</code></pre>
     </div>
 
     <div class="suggestion">
-        <h3>3. Add documentation and examples</h3>
-        <p>Create a README.md with clear documentation:</p>
+        <h3>3. Add Documentation</h3>
+        <p>Include a comprehensive README.md with:</p>
         <pre><code># Helm Module for Dagger
-
 ## Usage
-```go
-dag.Helm().Install(chart, values)
-```
-
 ## Examples
-Check the /examples directory for more use cases.</code></pre>
+## Configuration
+## Functions</code></pre>
+        <img src="https://i.imgflip.com/65efzo.jpg" alt="Documentation Meme" class="meme">
     </div>
 
-    <h2>Meme Feedback</h2>
-    <img src="https://i.imgflip.com/2/6v337p.jpg" alt="Where config?" class="meme">
-    <p><em>Caption: When you try to install a Dagger module but there's no config file</em></p>
+    <h2>Dagger Cloud Trace</h2>
+    <p>Unable to provide trace link due to installation failures.</p>
 
-    <h2>Trace Information</h2>
-    <p>No Dagger Cloud trace available due to module configuration issues.</p>
+    <h2>Module Functions</h2>
+    <p>Unable to list functions due to build failure.</p>
 
+    <footer>
+        <p>Report generated on: ${new Date().toISOString()}</p>
+    </footer>
 </body>
 </html>
