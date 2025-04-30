@@ -1,106 +1,123 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>QA Report - Bats Module</title>
+    <title>QA Report - DebtRepayment Module</title>
     <style>
-        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 20px; }
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
         h1, h2 { color: #333; }
-        .section { margin: 20px 0; }
-        .function-list { margin-left: 20px; }
-        .suggestion { background: #f5f5f5; padding: 15px; margin: 10px 0; border-radius: 5px; }
-        code { background: #f0f0f0; padding: 2px 5px; border-radius: 3px; }
+        .error { color: #dc3545; background: #ffebee; padding: 10px; border-radius: 4px; }
+        .suggestion { margin: 20px 0; padding: 15px; background: #f8f9fa; border-radius: 4px; }
+        code { background: #f4f4f4; padding: 2px 5px; border-radius: 3px; }
         .meme { max-width: 500px; margin: 20px 0; }
     </style>
 </head>
 <body>
-    <h1>QA Report: Bats Module</h1>
+    <h1>QA Report: DebtRepayment Module</h1>
+    
+    <h2>Module Information</h2>
+    <ul>
+        <li><strong>Name:</strong> DebtRepayment</li>
+        <li><strong>Author:</strong> EmmS21</li>
+        <li><strong>Latest Version:</strong> fbd39125783b71e8181a9f0e30b62172eea8d9a1</li>
+        <li><strong>Release Date:</strong> Not provided in metadata</li>
+        <li><strong>Dagger Cloud Trace:</strong> See terminal output</li>
+    </ul>
 
-    <div class="section">
-        <h2>Module Information</h2>
-        <ul>
-            <li><strong>Name:</strong> github.com/jedevc/daggerverse-sagikazarmark/bats</li>
-            <li><strong>Author:</strong> jedevc (forked from sagikazarmark)</li>
-            <li><strong>Latest Version:</strong> a104424df38ca8b0b758f699dcfeeb0c2210cc2e</li>
-            <li><strong>Release Date:</strong> Not specified in module info</li>
-            <li><strong>Dagger Cloud Trace:</strong> Not available in current context</li>
-        </ul>
-    </div>
+    <h2>Module Purpose</h2>
+    <p>This module is designed to fetch and analyze data from two Google Sheets to process debt and investment information. It includes functionality to:</p>
+    <ul>
+        <li>Fetch data from two separate Google Sheets</li>
+        <li>Run analysis on debts and investments using an AI agent</li>
+        <li>Send results via email using SendGrid</li>
+    </ul>
 
-    <div class="section">
-        <h2>Module Purpose</h2>
-        <p>This module provides integration with Bash Automated Testing System (Bats). It allows users to run Bats tests within their Dagger pipelines.</p>
-        
-        <h3>Available Functions:</h3>
-        <div class="function-list">
+    <h2>Module Functions</h2>
+    <ul>
+        <li><strong>fetchData()</strong>
             <ul>
-                <li><code>withSource()</code> - Mounts a source directory for testing</li>
-                <li><code>run()</code> - Executes Bats tests with specified arguments</li>
+                <li>Arguments:
+                    <ul>
+                        <li>apiKey (Secret): Google Sheets API key</li>
+                        <li>sheet (Secret): First Google Sheet secret</li>
+                        <li>sheetTwo (Secret): Second Google Sheet secret</li>
+                        <li>openKey (Secret): OpenAI API key</li>
+                        <li>sendGrid (Secret): SendGrid API key</li>
+                        <li>name (String): Sheet name</li>
+                        <li>sendTo (String): Email recipient</li>
+                    </ul>
+                </li>
+                <li>Returns: Array of strings</li>
             </ul>
-        </div>
+        </li>
+    </ul>
+
+    <h2>Testing Environment</h2>
+    <p>Tested with Dagger Engine Version: v0.18.2</p>
+
+    <h2>Issues Encountered</h2>
+    <div class="error">
+        <p>Failed to build the module with error: "failed to sync: select: process "/runtime" did not complete successfully: exit code: 2"</p>
     </div>
 
-    <div class="section">
-        <h2>Testing Environment</h2>
-        <p><strong>Dagger Engine Version:</strong> v0.18.3</p>
+    <h2>Improvement Suggestions</h2>
+    
+    <div class="suggestion">
+        <h3>1. Add Input Validation</h3>
+        <p>Add input validation for email addresses and sheet names to prevent runtime errors.</p>
+        <code>
+func validateEmail(email string) error {
+    if _, err := mail.ParseAddress(email); err != nil {
+        return fmt.Errorf("invalid email address: %v", err)
+    }
+    return nil
+}
+
+func (m *DebtRepayment) FetchData(ctx context.Context, ...) ([]string, error) {
+    if err := validateEmail(sendTo); err != nil {
+        return nil, err
+    }
+    // rest of the function
+}
+        </code>
     </div>
 
-    <div class="section">
-        <h2>Quality Improvement Suggestions</h2>
-        
-        <div class="suggestion">
-            <h3>1. Add Version Validation</h3>
-            <p>The module should validate the Bats version parameter to ensure compatibility.</p>
-            <pre><code>
-func validateVersion(version string) error {
-    validVersions := []string{"1.0.0", "1.1.0", "1.2.0"}
-    for _, v := range validVersions {
-        if version == v {
+    <div class="suggestion">
+        <h3>2. Implement Error Handling and Retries</h3>
+        <p>Add retry mechanism for API calls to handle temporary failures.</p>
+        <code>
+func withRetry(maxAttempts int, fn func() error) error {
+    var err error
+    for i := 0; i < maxAttempts; i++ {
+        if err = fn(); err == nil {
             return nil
         }
+        time.Sleep(time.Second * time.Duration(math.Pow(2, float64(i))))
     }
-    return fmt.Errorf("unsupported Bats version: %s", version)
+    return fmt.Errorf("failed after %d attempts: %v", maxAttempts, err)
 }
-            </code></pre>
-        </div>
-
-        <div class="suggestion">
-            <h3>2. Enhanced Error Handling</h3>
-            <p>Add better error handling and reporting for test failures.</p>
-            <pre><code>
-func (b *Bats) run(args []string) (*Container, error) {
-    result := b.Container().
-        WithExec(args)
-    
-    if result.Stdout() == "" {
-        return nil, fmt.Errorf("test execution failed: no output")
-    }
-    return result, nil
-}
-            </code></pre>
-            <img src="https://i.giphy.com/media/wzE1IlaPMoNXi/giphy.webp" class="meme" alt="Debug All The Things!">
-        </div>
-
-        <div class="suggestion">
-            <h3>3. Add Test Result Summary</h3>
-            <p>Implement a summary generator for test results.</p>
-            <pre><code>
-func generateTestSummary(output string) string {
-    return fmt.Sprintf(`
-Test Summary:
-------------
-Total Tests: %d
-Passed: %d
-Failed: %d
-Duration: %s
-    `, totalTests, passedTests, failedTests, duration)
-}
-            </code></pre>
-        </div>
+        </code>
     </div>
 
-    <div class="section">
-        <h2>Issues Encountered</h2>
-        <p>No significant issues were encountered during the testing process. The module installed and built successfully.</p>
+    <div class="suggestion">
+        <h3>3. Add Comprehensive Documentation</h3>
+        <p>Improve documentation with examples and usage scenarios.</p>
+        <code>
+// DebtRepayment analyzes financial data from Google Sheets
+//
+// Example usage:
+//
+//     result, err := dag.DebtRepayment().FetchData(
+//         ctx,
+//         dag.SetSecret("GOOGLE_API_KEY", apiKey),
+//         dag.SetSecret("SHEET_ONE", sheetOne),
+//         dag.SetSecret("SHEET_TWO", sheetTwo),
+//         dag.SetSecret("OPENAI_KEY", openAIKey),
+//         dag.SetSecret("SENDGRID_KEY", sendGridKey),
+//         "MySheet",
+//         "user@example.com",
+//     )
+        </code>
+        <img src="https://i.imgflip.com/50q5zs.jpg" alt="Documentation Meme" class="meme">
     </div>
 </body>
 </html>
