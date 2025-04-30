@@ -3,129 +3,119 @@
 <head>
     <title>QA Report - Windows Module</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 40px; }
-        .container { max-width: 1200px; margin: 0 auto; }
-        .info-section { margin-bottom: 30px; }
-        .function-list { background-color: #f5f5f5; padding: 20px; border-radius: 5px; }
-        .suggestion { margin: 20px 0; padding: 20px; background-color: #e9f5ff; border-radius: 5px; }
-        .error { color: red; }
-        code { background-color: #f0f0f0; padding: 2px 5px; border-radius: 3px; }
-        pre { background-color: #f5f5f5; padding: 15px; border-radius: 5px; overflow-x: auto; }
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
+        h1 { color: #333; }
+        .section { margin: 20px 0; }
+        .error { color: #ff0000; }
+        .function-list { background: #f5f5f5; padding: 10px; border-radius: 5px; }
+        .suggestion { margin: 20px 0; padding: 10px; background: #e9f7ff; border-radius: 5px; }
+        .code { background: #f0f0f0; padding: 10px; border-radius: 5px; font-family: monospace; }
+        .meme { margin: 20px 0; }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>QA Report: Windows Module</h1>
+    <h1>QA Report: Windows Module</h1>
+    
+    <div class="section">
+        <h2>Module Information</h2>
+        <ul>
+            <li><strong>Name:</strong> github.com/marcosnils/daggerverse/windows</li>
+            <li><strong>Author:</strong> marcosnils</li>
+            <li><strong>Latest Version:</strong> latest</li>
+            <li><strong>Release Date:</strong> N/A (Unable to fetch)</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>Dagger Engine Version</h2>
+        <p>Tested with: dagger v0.18.5 (docker-image://registry.dagger.io/engine:v0.18.5) linux/amd64</p>
+    </div>
+
+    <div class="section">
+        <h2>Module Functions</h2>
+        <div class="function-list">
+            <ul>
+                <li>service - A Windows service object (no description provided)</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>Issues Encountered</h2>
+        <div class="error">
+            <ul>
+                <li>Unable to crawl daggerverse page due to API limitations</li>
+                <li>Limited documentation available about the module's functionality</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>Suggestions for Improvement</h2>
         
-        <div class="info-section">
-            <h2>Basic Information</h2>
-            <ul>
-                <li><strong>Module Name:</strong> windows</li>
-                <li><strong>Author:</strong> marcosnils</li>
-                <li><strong>Latest Version:</strong> v0.0.2</li>
-                <li><strong>Release Date:</strong> Not specified in crawl data</li>
-                <li><strong>Dagger Cloud Trace:</strong> <a href="https://daggerverse.dev/mod/github.com/marcosnils/daggerverse/windows@777379d61206237f09019168d75bf145c0538c0f">View Trace</a></li>
-            </ul>
-        </div>
-
-        <div class="info-section">
-            <h2>Module Description</h2>
-            <p>The Windows module provides functionality for managing Windows service containers. It allows configuration of Windows instances with customizable RAM, CPU, and disk space.</p>
-            
-            <h3>Available Functions:</h3>
-            <div class="function-list">
-                <ul>
-                    <li><strong>service()</strong> - Creates a Windows service instance</li>
-                </ul>
-                
-                <h4>Constructor Arguments:</h4>
-                <ul>
-                    <li>version (String, default: "win11")</li>
-                    <li>ram (String, default: "4G")</li>
-                    <li>cpu (String, default: "2")</li>
-                    <li>disk (String, default: "64G")</li>
-                </ul>
+        <div class="suggestion">
+            <h3>1. Add Comprehensive Documentation</h3>
+            <p>The module lacks proper documentation for its functions and usage.</p>
+            <div class="code">
+                // Add documentation comments above functions
+                #[Function]
+                /// Creates a new Windows service instance
+                /// 
+                /// # Arguments
+                /// * `version` - Windows version to use (e.g., "ltsc2019", "ltsc2022")
+                /// * `base_image` - Optional custom base image
+                /// 
+                /// # Example
+                /// ```rust
+                /// let windows = service().with_version("ltsc2022");
+                /// ```
+                pub fn service(&self) -> Service {
+                    // Implementation
+                }
             </div>
         </div>
 
-        <div class="info-section">
-            <h2>Testing Environment</h2>
-            <p><strong>Dagger Engine Version:</strong> v0.18.2</p>
-        </div>
-
-        <div class="info-section">
-            <h2>Quality Improvement Suggestions</h2>
-            
-            <div class="suggestion">
-                <h3>1. Add Comprehensive Documentation</h3>
-                <p>The module lacks detailed documentation about its purpose and usage.</p>
-                <img src="https://i.imgflip.com/2/2ccl6p.jpg" alt="Documentation Meme" style="max-width: 300px;"/>
-                <pre>
-// Add detailed module documentation
-/**
- * Windows Module
- * 
- * This module provides Windows container management capabilities for Dagger pipelines.
- * It supports creating Windows services with customizable resources and versions.
- * 
- * Common use cases:
- * - Windows-based testing environments
- * - Windows application builds
- * - Windows service deployment testing
- */</pre>
-            </div>
-
-            <div class="suggestion">
-                <h3>2. Add Input Validation</h3>
-                <p>Add validation for constructor parameters to ensure valid values.</p>
-                <pre>
-func validateInput(version string, ram string, cpu string, disk string) error {
-    validVersions := []string{"win11", "win10", "win2019"}
-    if !contains(validVersions, version) {
-        return fmt.Errorf("invalid Windows version. Must be one of: %v", validVersions)
-    }
-    
-    // Validate RAM format (e.g., "4G", "8G")
-    if !regexp.MustCompile(`^\d+G$`).MatchString(ram) {
-        return fmt.Errorf("invalid RAM format. Must be in format: NG where N is a number")
-    }
-    
-    return nil
-}</pre>
-            </div>
-
-            <div class="suggestion">
-                <h3>3. Add Helper Functions</h3>
-                <p>Implement helper functions for common Windows service operations.</p>
-                <pre>
-type Windows struct {
-    // existing fields...
-}
-
-func (w *Windows) WithAntivirus() *Windows {
-    // Implementation for adding antivirus
-    return w
-}
-
-func (w *Windows) WithDotNet(version string) *Windows {
-    // Implementation for adding .NET runtime
-    return w
-}
-
-func (w *Windows) WithPowershell(version string) *Windows {
-    // Implementation for adding PowerShell
-    return w
-}</pre>
+        <div class="suggestion">
+            <h3>2. Add Input Validation</h3>
+            <p>Add proper input validation for service configuration.</p>
+            <div class="code">
+                impl Service {
+                    pub fn validate_windows_version(version: &str) -> Result<(), Error> {
+                        let valid_versions = vec!["ltsc2019", "ltsc2022"];
+                        if !valid_versions.contains(&version) {
+                            return Err(Error::InvalidVersion(format!(
+                                "Version {} not supported. Valid versions: {:?}",
+                                version, valid_versions
+                            )));
+                        }
+                        Ok(())
+                    }
+                }
             </div>
         </div>
 
-        <div class="info-section">
-            <h2>Testing Issues</h2>
-            <ul>
-                <li>No significant errors encountered during testing</li>
-                <li>Module installed and built successfully</li>
-                <li>Basic functionality appears to work as expected</li>
-            </ul>
+        <div class="suggestion">
+            <h3>3. Add Error Handling and Testing</h3>
+            <p>Implement proper error handling and unit tests.</p>
+            <div class="code">
+                #[cfg(test)]
+                mod tests {
+                    use super::*;
+
+                    #[test]
+                    fn test_windows_service_creation() {
+                        let result = Service::new("ltsc2022");
+                        assert!(result.is_ok());
+                        
+                        let error_result = Service::new("invalid_version");
+                        assert!(error_result.is_err());
+                    }
+                }
+            </div>
+            <div class="meme">
+                <img src="https://i.imgflip.com/7q2qk1.jpg" alt="Windows Testing Meme" />
+                <p><em>When you forget to test your Windows module</em></p>
+            </div>
         </div>
     </div>
 </body>
