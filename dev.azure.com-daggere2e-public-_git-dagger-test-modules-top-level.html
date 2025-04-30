@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>QA Report - top-level Module</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
+        .error { color: red; background: #fee; padding: 10px; border-radius: 5px; }
+        .suggestion { background: #f0f0f0; padding: 15px; margin: 10px 0; border-radius: 5px; }
+        code { background: #f4f4f4; padding: 2px 5px; border-radius: 3px; }
+        .meme { max-width: 500px; margin: 20px 0; }
+    </style>
+</head>
+<body>
+    <h1>QA Report: top-level Module</h1>
+
+    <h2>Module Information</h2>
+    <ul>
+        <li><strong>Name:</strong> dev.azure.com/daggere2e/public/_git/dagger-test-modules/top-level</li>
+        <li><strong>Author:</strong> Unknown (crawling failed)</li>
+        <li><strong>Latest Version:</strong> latest</li>
+        <li><strong>Release Date:</strong> Unknown (crawling failed)</li>
+        <li><strong>Dagger Engine Version Used:</strong> v0.18.5</li>
+    </ul>
+
+    <h2>Module Functions</h2>
+    <ul>
+        <li>fn (no description provided)</li>
+    </ul>
+
+    <h2>Issues Encountered</h2>
+    <div class="error">
+        <h3>Crawling Error:</h3>
+        <p>Failed to crawl module information due to API limitations. Error message: "Payment Required: Failed to scrape URL. Insufficient credits to perform this request."</p>
+    </div>
+
+    <h2>Quality Improvement Suggestions</h2>
+    
+    <div class="suggestion">
+        <h3>1. Add Function Documentation</h3>
+        <p>The module's functions lack proper documentation. Add descriptions to help users understand their purpose.</p>
+        <img src="https://i.imgflip.com/2/1otk96.jpg" alt="Documentation Meme" class="meme">
+        <pre><code>
+// Before:
+fn() {
+    // ...
+}
+
+// After:
+#Description: "This function performs X operation and returns Y result"
+fn() {
+    // ...
+}
+        </code></pre>
+    </div>
+
+    <div class="suggestion">
+        <h3>2. Implement Error Handling</h3>
+        <p>Add proper error handling and return meaningful error messages.</p>
+        <pre><code>
+// Before:
+fn() {
+    // ... raw operations
+}
+
+// After:
+fn() {
+    if err != nil {
+        return #error("Operation failed: {err}")
+    }
+    // ... operations with error handling
+}
+        </code></pre>
+    </div>
+
+    <div class="suggestion">
+        <h3>3. Add Input Validation</h3>
+        <p>Implement input validation to ensure proper parameter values.</p>
+        <pre><code>
+// Before:
+fn(input: string) {
+    // ... process input directly
+}
+
+// After:
+fn(input: string) {
+    if len(input) == 0 {
+        return #error("Input cannot be empty")
+    }
+    if len(input) > 100 {
+        return #error("Input exceeds maximum length of 100 characters")
+    }
+    // ... process validated input
+}
+        </code></pre>
+    </div>
+
+    <h2>Test Execution Details</h2>
+    <p>Tests were executed using Dagger Engine v0.18.5. While the module could be installed and built, limited information could be gathered due to crawling restrictions.</p>
+</body>
+</html>
