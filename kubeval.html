@@ -1,113 +1,124 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>QA Report - kubeval Module</title>
+    <title>QA Report - Kubeval Module</title>
     <style>
-        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
-        h1, h2 { color: #333; }
-        .function { background: #f5f5f5; padding: 10px; margin: 10px 0; border-radius: 5px; }
-        .suggestion { margin: 20px 0; padding: 15px; border-left: 4px solid #007bff; }
-        .code { background: #f8f9fa; padding: 15px; border-radius: 5px; font-family: monospace; }
-        .error { color: #dc3545; padding: 10px; border-left: 4px solid #dc3545; }
-        .meme { text-align: center; margin: 20px 0; }
+        body { font-family: Arial, sans-serif; margin: 40px; line-height: 1.6; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .header { background-color: #f4f4f4; padding: 20px; border-radius: 5px; }
+        .section { margin: 20px 0; padding: 20px; border: 1px solid #ddd; border-radius: 5px; }
+        .functions { background-color: #f8f9fa; padding: 15px; }
+        .error { color: #dc3545; }
+        .suggestion { margin: 10px 0; padding: 10px; background-color: #e9ecef; }
+        code { background-color: #f8f9fa; padding: 2px 5px; border-radius: 3px; }
+        pre { background-color: #f8f9fa; padding: 15px; border-radius: 5px; overflow-x: auto; }
     </style>
 </head>
 <body>
-    <h1>QA Report: kubeval Module</h1>
-    
-    <h2>Module Information</h2>
-    <ul>
-        <li><strong>Name:</strong> kubeval</li>
-        <li><strong>Author:</strong> tsirysndr</li>
-        <li><strong>Latest Version:</strong> e8bed26dfefaaf4ef3d00958965575131f34c69c</li>
-        <li><strong>Release Date:</strong> Not specified in metadata</li>
-        <li><strong>Dagger Cloud Trace:</strong> <a href="https://dagger.cloud/traces">View Trace</a></li>
-        <li><strong>Dagger Engine Version Used:</strong> v0.18.2</li>
-    </ul>
+    <div class="container">
+        <div class="header">
+            <h1>QA Report: Kubeval Module</h1>
+            <p><strong>Date:</strong> ${new Date().toISOString().split('T')[0]}</p>
+        </div>
 
-    <h2>Module Description</h2>
-    <p>This module provides functionality to lint Kubernetes files and create a development environment with kubeval installed.</p>
+        <div class="section">
+            <h2>Module Information</h2>
+            <ul>
+                <li><strong>Name:</strong> kubeval</li>
+                <li><strong>Source:</strong> github.com/tsirysndr/daggerverse/kubeval</li>
+                <li><strong>Author:</strong> tsirysndr</li>
+                <li><strong>Latest Version:</strong> main</li>
+                <li><strong>Dagger Engine Version Used:</strong> v0.18.5</li>
+            </ul>
+        </div>
 
-    <h2>Module Functions</h2>
-    <div class="function">
-        <h3>lint()</h3>
-        <p>Lints Kubernetes files</p>
-        <ul>
-            <li>Parameters:
+        <div class="section">
+            <h2>Module Functionality</h2>
+            <p>The Kubeval module is designed to validate Kubernetes manifests. It provides tools for linting and validating Kubernetes configuration files to ensure they conform to the Kubernetes schema.</p>
+            
+            <h3>Available Functions:</h3>
+            <div class="functions">
                 <ul>
-                    <li>src (Directory!) - Required source directory</li>
-                    <li>files (String) - Optional, defaults to "*.yml"</li>
+                    <li><strong>dev()</strong> - Returns a container with kubeval installed</li>
+                    <li><strong>lint()</strong> - Lint Kubernetes files</li>
                 </ul>
-            </li>
-            <li>Returns: Directory!</li>
-        </ul>
-    </div>
+            </div>
+        </div>
 
-    <div class="function">
-        <h3>dev()</h3>
-        <p>Returns a container with kubeval installed</p>
-        <ul>
-            <li>Parameters:
-                <ul>
-                    <li>src (Directory) - Optional source directory</li>
-                </ul>
-            </li>
-            <li>Returns: Container!</li>
-        </ul>
-    </div>
-
-    <h2>Improvement Suggestions</h2>
+        <div class="section">
+            <h2>Quality Improvement Suggestions</h2>
+            
+            <div class="suggestion">
+                <h3>1. Add Input Validation and Error Handling</h3>
+                <p>The module would benefit from more robust input validation and error handling.</p>
+                <pre><code>
+func (k *Kubeval) Lint(ctx context.Context, files *Directory) (*Directory, error) {
+    if files == nil {
+        return nil, fmt.Errorf("input directory cannot be nil")
+    }
     
-    <div class="suggestion">
-        <h3>1. Add Input Validation</h3>
-        <p>Add validation for the YAML file extensions to support more formats.</p>
-        <div class="code">
-        func (m *Kubeval) lint(src *Directory, files string) (*Directory, error) {
-            validExtensions := []string{".yml", ".yaml", ".json"}
-            if !isValidExtension(files, validExtensions) {
-                return nil, fmt.Errorf("unsupported file extension. Supported: %v", validExtensions)
-            }
-            // ... rest of the function
-        }
+    // Add validation for kubernetes files
+    hasK8sFiles, err := k.validateK8sFiles(files)
+    if err != nil {
+        return nil, fmt.Errorf("failed to validate kubernetes files: %w", err)
+    }
+    
+    if !hasK8sFiles {
+        return nil, fmt.Errorf("no kubernetes manifests found in input directory")
+    }
+    
+    // Continue with existing logic...
+}
+                </code></pre>
+            </div>
+
+            <div class="suggestion">
+                <h3>2. Add Configuration Options</h3>
+                <p>Implement configuration options for more flexible validation rules.</p>
+                <pre><code>
+type KubevalConfig struct {
+    IgnoreErrors    []string
+    Strict          bool
+    KubernetesVersion string
+}
+
+func (k *Kubeval) WithConfig(config KubevalConfig) *Kubeval {
+    k.config = config
+    return k
+}
+                </code></pre>
+            </div>
+
+            <div class="suggestion">
+                <h3>3. Enhance Documentation and Examples</h3>
+                <p>Add comprehensive documentation with examples.</p>
+                <pre><code>
+// Example usage in README.md
+```go
+func Example() {
+    kubeval := dag.Kubeval().
+        WithConfig(KubevalConfig{
+            Strict: true,
+            KubernetesVersion: "1.24.0"
+        })
+    
+    result, err := kubeval.Lint(ctx, dag.Directory(sourcePath))
+    if err != nil {
+        log.Fatal(err)
+    }
+}
+```
+                </code></pre>
+                <img src="https://i.imgflip.com/65rfxq.jpg" alt="Documentation Meme" style="max-width: 400px;"/>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Testing Issues Encountered</h2>
+            <ul>
+                <li class="error">Unable to crawl module information due to API limitations</li>
+            </ul>
         </div>
     </div>
-
-    <div class="suggestion">
-        <h3>2. Add Progress Reporting</h3>
-        <p>Implement detailed progress reporting for better user feedback.</p>
-        <div class="code">
-        func (m *Kubeval) lint(src *Directory) (*Directory, error) {
-            fmt.Printf("Starting Kubernetes validation...\n")
-            fileCount := 0
-            errors := 0
-            // ... validation logic
-            fmt.Printf("Validation complete: %d files processed, %d errors found\n", fileCount, errors)
-            return result, nil
-        }
-        </div>
-    </div>
-
-    <div class="suggestion">
-        <h3>3. Add Kubernetes Version Specification</h3>
-        <p>Allow users to specify which Kubernetes version to validate against.</p>
-        <div class="code">
-        func (m *Kubeval) lint(src *Directory, k8sVersion string) (*Directory, error) {
-            if k8sVersion == "" {
-                k8sVersion = "1.27.0" // default version
-            }
-            // Add version validation to kubeval command
-            // kubeval --kubernetes-version $k8sVersion ...
-        }
-        </div>
-    </div>
-
-    <div class="meme">
-        <img src="https://i.imgflip.com/6h04op.jpg" alt="Kubernetes Configuration Meme" />
-        <p><em>When your YAML passes kubeval but still crashes in production</em></p>
-    </div>
-
-    <h2>Issues Encountered</h2>
-    <p>No significant issues were encountered during testing. The module installed and built successfully.</p>
-
 </body>
 </html>
