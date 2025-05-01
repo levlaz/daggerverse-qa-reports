@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>QA Report - pre-commit-tf</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .alert { padding: 15px; margin-bottom: 20px; border: 1px solid transparent; border-radius: 4px; }
+        .alert-warning { background-color: #fff3cd; border-color: #ffeeba; color: #856404; }
+        .code { background-color: #f8f9fa; padding: 15px; border-radius: 4px; font-family: monospace; }
+        .meme-container { margin: 20px 0; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>QA Report: pre-commit-tf</h1>
+        
+        <h2>Module Information</h2>
+        <ul>
+            <li><strong>Name:</strong> pre-commit-tf</li>
+            <li><strong>Author:</strong> Smana</li>
+            <li><strong>Latest Version:</strong> main</li>
+            <li><strong>Dagger Engine Version Used:</strong> v0.18.5</li>
+        </ul>
+
+        <h2>Module Functionality</h2>
+        <p>This module provides pre-commit hooks for Terraform code. It includes the following function:</p>
+        <ul>
+            <li><strong>run:</strong> Runs pre-commit-terraform on the given directory</li>
+        </ul>
+
+        <h2>Quality Improvement Suggestions</h2>
+        
+        <h3>1. Add Input Validation</h3>
+        <div class="code">
+        <pre>
+// Add input validation for the directory path
+func (m *Module) Run(ctx context.Context, directory *Directory) (*Directory, error) {
+    if directory == nil {
+        return nil, fmt.Errorf("directory cannot be nil")
+    }
+    
+    // Additional validation logic here
+    return m.run(ctx, directory)
+}
+        </pre>
+        </div>
+
+        <h3>2. Add More Comprehensive Documentation</h3>
+        <div class="code">
+        <pre>
+// Example of improved documentation
+#Description: |
+  Pre-commit hooks for Terraform code validation and formatting
+  
+  Features:
+  - Terraform format checking
+  - Terraform validation
+  - Terraform docs generation
+  - Security scanning (optional)
+
+#Example: |
+  dag.post-commit-tf().run(directory)
+        </pre>
+        </div>
+
+        <h3>3. Add Configuration Options</h3>
+        <div class="code">
+        <pre>
+type Config struct {
+    SkipValidation bool
+    AutoFix        bool
+    CustomChecks   []string
+}
+
+func (m *Module) WithConfig(config Config) *Module {
+    // Implementation
+}
+        </pre>
+        </div>
+
+        <div class="meme-container">
+            <img src="https://i.imgflip.com/65efzo.jpg" alt="Terraform Configuration Meme" />
+            <p><em>When your Terraform code passes all pre-commit hooks</em></p>
+        </div>
+
+        <h2>Issues Encountered</h2>
+        <div class="alert alert-warning">
+            <p>During testing, we encountered the following issues:</p>
+            <ul>
+                <li>Unable to crawl the daggerverse page due to API limitations</li>
+            </ul>
+        </div>
+
+        <h2>Additional Notes</h2>
+        <p>The module provides a straightforward interface for running pre-commit hooks on Terraform code. While functional, there's room for improvement in terms of configuration options and error handling.</p>
+    </div>
+</body>
+</html>
