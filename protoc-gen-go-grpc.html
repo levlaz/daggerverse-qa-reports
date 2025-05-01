@@ -3,100 +3,138 @@
 <head>
     <title>QA Report - protoc-gen-go-grpc</title>
     <style>
-        body { font-family: Arial, sans-serif; max-width: 1200px; margin: 0 auto; padding: 20px; }
-        h1, h2 { color: #333; }
-        .error { color: #ff0000; }
-        .suggestion { background: #f9f9f9; padding: 15px; margin: 10px 0; border-radius: 5px; }
-        pre { background: #f0f0f0; padding: 10px; border-radius: 3px; overflow-x: auto; }
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .error { color: #dc3545; background: #f8d7da; padding: 10px; border-radius: 4px; }
+        .success { color: #28a745; background: #d4edda; padding: 10px; border-radius: 4px; }
+        code { background: #f4f4f4; padding: 2px 5px; border-radius: 3px; }
+        .meme { max-width: 500px; margin: 20px 0; }
+        .function-list { background: #f8f9fa; padding: 15px; border-radius: 4px; }
     </style>
 </head>
 <body>
-    <h1>QA Report: protoc-gen-go-grpc</h1>
-    
-    <h2>Module Information</h2>
-    <ul>
-        <li><strong>Name:</strong> protoc-gen-go-grpc</li>
-        <li><strong>Author:</strong> cloudnative-pg</li>
-        <li><strong>Latest Version:</strong> main</li>
-        <li><strong>Release Date:</strong> N/A (Unable to fetch from daggerverse)</li>
-        <li><strong>Dagger Engine Version Used:</strong> v0.18.3</li>
-    </ul>
-
-    <h2>Module Purpose & Functions</h2>
-    <p>This module is designed to generate gRPC Go code from Protocol Buffer definitions. It provides the following functions:</p>
-    <ul>
-        <li><strong>run:</strong> Runs protoc on proto files, returning the generated go files as a directory.</li>
-        <li><strong>container:</strong> Gets the current container</li>
-    </ul>
-
-    <h2>Issues Encountered</h2>
-    <div class="error">
+    <div class="container">
+        <h1>QA Report: protoc-gen-go-grpc</h1>
+        
+        <h2>Module Information</h2>
         <ul>
-            <li>Unable to crawl daggerverse page due to API limitations</li>
+            <li><strong>Name:</strong> protoc-gen-go-grpc</li>
+            <li><strong>Author:</strong> fcanovai</li>
+            <li><strong>Latest Version:</strong> main</li>
+            <li><strong>Release Date:</strong> Not available (crawling failed)</li>
+            <li><strong>Dagger Engine Version Used:</strong> v0.18.5</li>
         </ul>
-    </div>
 
-    <h2>Quality Improvement Suggestions</h2>
-    
-    <div class="suggestion">
+        <h2>Module Functionality</h2>
+        <p>This module provides functionality for generating Go gRPC code from protocol buffer definitions. It exposes the following functions:</p>
+        <div class="function-list">
+            <ul>
+                <li><strong>container:</strong> Get the current container</li>
+                <li><strong>run:</strong> Run protoc on proto files, returning the generated go files as a directory</li>
+            </ul>
+        </div>
+
+        <h2>Issues Encountered</h2>
+        <div class="error">
+            <p>Failed to crawl the module on daggerverse due to API limitations. This affected our ability to gather complete metadata about the module.</p>
+        </div>
+
+        <h2>Quality Improvement Suggestions</h2>
+        
         <h3>1. Add Comprehensive Documentation</h3>
         <p>The module would benefit from better documentation, including examples and usage patterns.</p>
-        <pre>
-// Example improvement in dagger.json:
-{
-    "name": "protoc-gen-go-grpc",
-    "sdk": "go",
-    "description": "A comprehensive gRPC code generator for Go",
-    "readme": {
-        "overview": "This module generates gRPC Go code from Protocol Buffer definitions",
-        "examples": [
-            {
-                "title": "Basic Usage",
-                "code": "dagger call -m github.com/cloudnative-pg/daggerverse/protoc-gen-go-grpc run --proto-file=service.proto"
-            }
-        ]
-    }
-}
-        </pre>
-        <img src="https://i.imgflip.com/65efzo.jpg" alt="Documentation Meme" />
-    </div>
+        <code>
+        // Add doc comments like this:
+        #! README.md
+        # Protoc Gen Go GRPC Dagger Module
 
-    <div class="suggestion">
+        This module helps you generate Go gRPC code from proto files using Dagger.
+
+        ## Usage Example:
+        ```go
+        dag.Protoc().Run(ctx, dag.Directory(), "path/to/protos")
+        ```
+        </code>
+
         <h3>2. Add Input Validation</h3>
-        <p>Implement proper input validation for proto files and options.</p>
-        <pre>
-func (m *Module) validateInput(ctx context.Context, protoFile string) error {
-    if !strings.HasSuffix(protoFile, ".proto") {
-        return fmt.Errorf("invalid proto file extension: %s", protoFile)
-    }
-    
-    // Add more validation as needed
-    return nil
-}
-        </pre>
-    </div>
-
-    <div class="suggestion">
-        <h3>3. Add Error Handling and Retries</h3>
-        <p>Implement robust error handling and retry mechanisms for the protoc command execution.</p>
-        <pre>
-func (m *Module) runWithRetry(ctx context.Context, cmd []string) error {
-    maxRetries := 3
-    for i := 0; i < maxRetries; i++ {
-        err := m.run(ctx, cmd)
-        if err == nil {
-            return nil
+        <p>Implement proper input validation for the proto files directory.</p>
+        <code>
+        func (r *Run) WithValidation(ctx context.Context, protoDir *Directory) (*Directory, error) {
+            // Check if directory contains .proto files
+            entries, err := protoDir.Entries(ctx)
+            if err != nil {
+                return nil, fmt.Errorf("failed to read proto directory: %w", err)
+            }
+            
+            hasProtoFiles := false
+            for _, entry := range entries {
+                if strings.HasSuffix(entry, ".proto") {
+                    hasProtoFiles = true
+                    break
+                }
+            }
+            
+            if !hasProtoFiles {
+                return nil, fmt.Errorf("no .proto files found in directory")
+            }
+            
+            return r.Run(ctx, protoDir)
         }
-        if i < maxRetries-1 {
-            time.Sleep(time.Second * time.Duration(i+1))
-            continue
-        }
-        return fmt.Errorf("failed after %d retries: %w", maxRetries, err)
-    }
-    return nil
-}
-        </pre>
-    </div>
+        </code>
 
+        <h3>3. Add Testing Support</h3>
+        <p>Include test cases and examples to ensure reliability.</p>
+        <code>
+        #! test/main.go
+        package test
+
+        import (
+            "testing"
+            "dagger.io/dagger"
+        )
+
+        func TestProtocGeneration(t *testing.T) {
+            ctx := context.Background()
+            
+            c, err := dagger.Connect(ctx)
+            if err != nil {
+                t.Fatal(err)
+            }
+            defer c.Close()
+            
+            // Test proto generation
+            result, err := c.Protoc().Run(ctx, c.Directory().WithNewFile("test.proto", `
+                syntax = "proto3";
+                package test;
+                service TestService {
+                    rpc Test (TestRequest) returns (TestResponse);
+                }
+                message TestRequest {}
+                message TestResponse {}
+            `))
+            
+            if err != nil {
+                t.Fatal(err)
+            }
+            
+            // Verify generated files exist
+            entries, err := result.Entries(ctx)
+            if err != nil {
+                t.Fatal(err)
+            }
+            
+            if len(entries) == 0 {
+                t.Fatal("no files generated")
+            }
+        }
+        </code>
+
+        <div class="meme">
+            <h3>Quality Assurance Mood:</h3>
+            <img src="https://i.imgflip.com/7qx0pc.jpg" alt="QA Engineer walks into a bar meme" />
+            <p><em>When a QA Engineer walks into a bar, orders 1 beer, 0 beers, 99999999 beers, a lizard, -1 beers, 'drop table beers;'</em></p>
+        </div>
+
+    </div>
 </body>
 </html>
