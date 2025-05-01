@@ -3,104 +3,108 @@
 <head>
     <title>QA Report - apache-avro-tools</title>
     <style>
-        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
+        body { font-family: Arial, sans-serif; line-height: 1.6; max-width: 1200px; margin: 0 auto; padding: 20px; }
         h1, h2 { color: #333; }
-        .section { margin: 20px 0; }
-        .function-list { background: #f5f5f5; padding: 15px; border-radius: 5px; }
-        .suggestion { margin: 20px 0; padding: 15px; background: #e9f7ef; border-radius: 5px; }
-        .code { background: #f8f9fa; padding: 15px; border-radius: 5px; font-family: monospace; }
-        .error { color: #dc3545; }
-        .meme { max-width: 500px; margin: 20px 0; }
+        .error { color: #ff0000; background: #ffeeee; padding: 10px; border-radius: 5px; }
+        .functions { background: #f5f5f5; padding: 15px; border-radius: 5px; }
+        .suggestion { margin: 20px 0; padding: 15px; background: #f0f8ff; border-radius: 5px; }
+        pre { background: #f0f0f0; padding: 10px; border-radius: 5px; overflow-x: auto; }
     </style>
 </head>
 <body>
     <h1>QA Report: apache-avro-tools</h1>
     
-    <div class="section">
-        <h2>Module Information</h2>
+    <h2>Module Information</h2>
+    <ul>
+        <li><strong>Name:</strong> apache-avro-tools</li>
+        <li><strong>Author:</strong> pjmagee</li>
+        <li><strong>Latest Version:</strong> main</li>
+        <li><strong>Release Date:</strong> N/A (Unable to fetch from daggerverse)</li>
+    </ul>
+
+    <h2>Dagger Engine Version</h2>
+    <pre>dagger v0.18.5 (docker-image://registry.dagger.io/engine:v0.18.5) linux/amd64</pre>
+
+    <h2>Module Functionality</h2>
+    <p>This module provides Apache Avro tools and utilities for working with Avro schemas and IDL files.</p>
+    
+    <h3>Available Functions:</h3>
+    <div class="functions">
         <ul>
-            <li><strong>Name:</strong> apache-avro-tools</li>
-            <li><strong>Author:</strong> pjmagee</li>
-            <li><strong>Latest Version:</strong> daa6feeb6e7b599b6ac5ae202e989fd296212c95</li>
-            <li><strong>Release Date:</strong> Not specified in module information</li>
-            <li><strong>Dagger Engine Version Used:</strong> v0.18.3</li>
+            <li><strong>avro-tools:</strong> Get a container with Apache Avro Tools installed</li>
+            <li><strong>idl:</strong> Convert an Avro IDL file to Avro schema file</li>
+            <li><strong>idl-2-schemata:</strong> Convert an Avro IDL file to Avro schema files in the provided directory</li>
         </ul>
     </div>
 
-    <div class="section">
-        <h2>Module Purpose</h2>
-        <p>This module provides a set of functions to work with Apache Avro Tools. It helps in converting Avro IDL files to Avro schema files and provides access to Apache Avro Tools functionality.</p>
-        
-        <h3>Available Functions:</h3>
-        <div class="function-list">
-            <ul>
-                <li><strong>avro-tools</strong> - Get a container with Apache Avro Tools installed</li>
-                <li><strong>idl</strong> - Convert an Avro IDL file to Avro schema file</li>
-                <li><strong>idl-2-schemata</strong> - Convert an Avro IDL file to Avro schema files in the provided directory</li>
-            </ul>
-        </div>
+    <h2>Issues Encountered</h2>
+    <div class="error">
+        <p>Failed to crawl daggerverse page due to API limitations.</p>
     </div>
 
-    <div class="section">
-        <h2>Quality Improvement Suggestions</h2>
-        
-        <div class="suggestion">
-            <h3>1. Add Input Validation</h3>
-            <p>Add validation for the version parameter to ensure it's a valid Maven version format.</p>
-            <div class="code">
-            func validateVersion(version string) error {
-                versionPattern := regexp.MustCompile(`^\d+\.\d+\.\d+$`)
-                if !versionPattern.MatchString(version) {
-                    return fmt.Errorf("invalid version format: %s. Expected format: X.Y.Z", version)
-                }
-                return nil
-            }
-            </div>
-        </div>
+    <h2>Improvement Suggestions</h2>
+    
+    <div class="suggestion">
+        <h3>1. Add Input Validation</h3>
+        <p>Add input validation for IDL files to ensure they exist and are valid before processing.</p>
+        <pre>
+func (m *Module) idl(ctx context.Context, idlFile *File) (*File, error) {
+    if idlFile == nil {
+        return nil, fmt.Errorf("IDL file is required")
+    }
 
-        <div class="suggestion">
-            <h3>2. Add Function Documentation</h3>
-            <p>Enhance documentation with usage examples and expected outputs.</p>
-            <img src="https://i.imgflip.com/2k48t0.jpg" alt="Documentation Meme" class="meme">
-            <div class="code">
-            // Example enhanced documentation
-            // idl converts an Avro IDL file to an Avro schema file
-            // Parameters:
-            //   - file: Input IDL file (required)
-            // Returns:
-            //   - A File object containing the generated Avro schema
-            // Example:
-            //   result := dag.ApacheAvroTools("1.11.3").idl(inputFile)
-            func (m *ApacheAvroTools) idl(file *File) *File
-            </div>
-        </div>
+    content, err := ioutil.ReadAll(idlFile)
+    if err != nil {
+        return nil, fmt.Errorf("failed to read IDL file: %w", err)
+    }
 
-        <div class="suggestion">
-            <h3>3. Add Error Handling and Logging</h3>
-            <p>Implement comprehensive error handling and logging mechanisms.</p>
-            <div class="code">
-            func (m *ApacheAvroTools) idl2Schemata(file *File) (*Directory, error) {
-                if file == nil {
-                    return nil, fmt.Errorf("input file cannot be nil")
-                }
-                
-                // Add logging
-                fmt.Printf("Converting IDL file to schemata\n")
-                
-                result, err := m.convert(file)
-                if err != nil {
-                    return nil, fmt.Errorf("failed to convert IDL: %w", err)
-                }
-                
-                return result, nil
-            }
-            </div>
-        </div>
+    // Validate IDL content
+    if !strings.Contains(string(content), "protocol") {
+        return nil, fmt.Errorf("invalid IDL file: missing protocol definition")
+    }
+    
+    // Rest of the implementation...
+}</pre>
     </div>
 
-    <div class="section">
-        <h2>Testing Issues</h2>
-        <p>No significant issues were encountered during testing. The module installed and built successfully, and all functions were properly exposed.</p>
+    <div class="suggestion">
+        <h3>2. Add Progress Feedback</h3>
+        <p>Implement progress feedback for long-running operations.</p>
+        <pre>
+func (m *Module) idl2schemata(ctx context.Context, idlFile *File, outputDir string) (*Directory, error) {
+    fmt.Printf("Processing IDL file: %s\n", idlFile.Name())
+    fmt.Printf("Output directory: %s\n", outputDir)
+    
+    // Process schemas
+    for i, schema := range schemas {
+        fmt.Printf("Processing schema %d of %d: %s\n", i+1, len(schemas), schema.Name)
+        // Process schema...
+    }
+    
+    fmt.Println("Schema generation complete!")
+    return output, nil
+}</pre>
     </div>
+
+    <div class="suggestion">
+        <h3>3. Add Schema Validation</h3>
+        <p>Implement post-conversion schema validation to ensure generated schemas are valid.</p>
+        <pre>
+func validateSchema(schema []byte) error {
+    parser := avro.NewParser()
+    _, err := parser.Parse(string(schema))
+    if err != nil {
+        return fmt.Errorf("invalid schema generated: %w", err)
+    }
+    return nil
+}</pre>
+    </div>
+
+    <h2>Fun Corner</h2>
+    <img src="https://i.imgflip.com/4/2k48t0.jpg" alt="It works on my machine" title="Testing like a pro!">
+
+    <h2>Links</h2>
+    <p>Dagger Cloud Trace: N/A (Trace link not available in current context)</p>
+
 </body>
 </html>
