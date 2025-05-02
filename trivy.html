@@ -1,51 +1,16 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>QA Report - Trivy Module</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        .container {
-            background-color: #f9f9f9;
-            border-radius: 8px;
-            padding: 20px;
-            margin-bottom: 20px;
-        }
-        h1, h2 {
-            color: #333;
-        }
-        .function-list {
-            background-color: #f5f5f5;
-            padding: 15px;
-            border-radius: 5px;
-        }
-        .error-section {
-            background-color: #fff3f3;
-            padding: 15px;
-            border-left: 4px solid #ff4444;
-            margin: 10px 0;
-        }
-        .suggestion {
-            background-color: #f0f8ff;
-            padding: 15px;
-            margin: 10px 0;
-            border-radius: 5px;
-        }
-        code {
-            background-color: #272822;
-            color: #f8f8f2;
-            padding: 10px;
-            border-radius: 5px;
-            display: block;
-            white-space: pre-wrap;
-        }
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
+        h1, h2 { color: #333; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .function-list { background: #f5f5f5; padding: 20px; border-radius: 5px; }
+        .error { color: #dc3545; }
+        .suggestion { margin: 20px 0; padding: 20px; background: #f8f9fa; border-left: 4px solid #007bff; }
+        code { background: #f8f9fa; padding: 2px 5px; border-radius: 3px; }
+        pre { background: #f8f9fa; padding: 15px; border-radius: 5px; overflow-x: auto; }
     </style>
 </head>
 <body>
@@ -54,40 +19,43 @@
         
         <h2>Module Information</h2>
         <ul>
-            <li><strong>Name:</strong> github.com/jpadams/daggerverse/trivy</li>
-            <li><strong>Author:</strong> jpadams</li>
-            <li><strong>Latest Version:</strong> latest</li>
-            <li><strong>Release Date:</strong> N/A (Information unavailable due to crawling error)</li>
-            <li><strong>Dagger Engine Version Used:</strong> v0.18.5</li>
+            <li><strong>Name:</strong> github.com/luanmtruong/daggerverse/trivy</li>
+            <li><strong>Author:</strong> luanmtruong</li>
+            <li><strong>Latest Version:</strong> main</li>
+            <li><strong>Release Date:</strong> N/A (Information unavailable from crawl)</li>
+            <li><strong>Dagger Cloud Trace:</strong> N/A (Trace link unavailable)</li>
         </ul>
 
         <h2>Module Description</h2>
-        <p>The Trivy module provides container and image scanning capabilities using the Trivy security scanner. It offers the following functions:</p>
-        
+        <p>The Trivy module provides comprehensive security scanning capabilities for various targets including containers, filesystems, and Helm charts. It integrates the popular Trivy security scanner into your Dagger pipelines.</p>
+
+        <h2>Available Functions</h2>
         <div class="function-list">
-            <h3>Available Functions:</h3>
             <ul>
-                <li><strong>base()</strong> - Returns a Container from the official trivy image</li>
-                <li><strong>scan-container()</strong> - Scans a Dagger Container</li>
-                <li><strong>scan-image()</strong> - Scans an image ref</li>
+                <li><strong>binary</strong> - Scan a binary</li>
+                <li><strong>container</strong> - Scan a container</li>
+                <li><strong>filesystem</strong> - Scan a filesystem</li>
+                <li><strong>helm-chart</strong> - Scan a Helm chart</li>
+                <li><strong>image</strong> - Scan a container image</li>
+                <li><strong>image-tarball</strong> - Scan a container image tarball</li>
+                <li><strong>rootfs</strong> - Scan a root filesystem</li>
+                <li><strong>sbom</strong> - Scan an SBOM</li>
             </ul>
         </div>
 
-        <h2>Issues Encountered</h2>
-        <div class="error-section">
-            <p>The following errors were encountered during testing:</p>
-            <ul>
-                <li>Unable to crawl the module page due to API rate limiting/credits issue</li>
-            </ul>
-        </div>
+        <h2>Testing Environment</h2>
+        <ul>
+            <li><strong>Dagger Engine Version:</strong> v0.18.5</li>
+        </ul>
 
         <h2>Quality Improvement Suggestions</h2>
         
         <div class="suggestion">
             <h3>1. Add Input Validation and Error Handling</h3>
-            <p>Implement proper input validation and error handling for image references and container inputs.</p>
-            <code>
-func (t *Trivy) ScanImage(ctx context.Context, ref string) (*ScanResult, error) {
+            <p>Enhance the module with proper input validation and descriptive error messages.</p>
+            <pre><code>
+// Example implementation for the image scan function
+func (t *Trivy) Image(ctx context.Context, ref string) (*ScanResult, error) {
     if ref == "" {
         return nil, fmt.Errorf("image reference cannot be empty")
     }
@@ -97,53 +65,67 @@ func (t *Trivy) ScanImage(ctx context.Context, ref string) (*ScanResult, error) 
         return nil, fmt.Errorf("invalid image reference format: %s", ref)
     }
     
-    // Existing scan logic...
+    // Wrap trivy errors with context
+    result, err := t.scanner.ScanImage(ctx, ref)
+    if err != nil {
+        return nil, fmt.Errorf("failed to scan image %s: %w", ref, err)
+    }
+    
+    return result, nil
 }
-            </code>
-            <img src="https://i.imgflip.com/65efzo.jpg" alt="Error Handling Meme" style="max-width: 300px;">
+            </code></pre>
+            <img src="https://i.imgflip.com/3qcu82.jpg" alt="Error Handling Meme" width="300">
         </div>
 
         <div class="suggestion">
-            <h3>2. Add Configurable Scan Options</h3>
-            <p>Provide more configuration options for scans, such as severity levels and scan types.</p>
-            <code>
-type ScanOptions struct {
-    Severity []string `json:"severity"`
-    ScanType string   `json:"scanType"`
-    Timeout  int      `json:"timeout"`
-}
-
-func (t *Trivy) ScanContainerWithOptions(container *Container, opts ScanOptions) (*ScanResult, error) {
-    args := []string{"--severity", strings.Join(opts.Severity, ",")}
-    if opts.ScanType != "" {
-        args = append(args, "--scan-type", opts.ScanType)
+            <h3>2. Add Progress Reporting</h3>
+            <p>Implement progress reporting for long-running scans to improve user experience.</p>
+            <pre><code>
+// Add progress reporting
+func (t *Trivy) ScanWithProgress(ctx context.Context, target string) (*ScanResult, error) {
+    progress := dagger.Progress{
+        Title: "Scanning with Trivy",
+        Total: 100,
     }
-    // Continue with scan...
+    
+    // Update progress during scan phases
+    progress.Update("Initializing scan", 10)
+    // ... scanning ...
+    progress.Update("Processing vulnerabilities", 50)
+    // ... processing ...
+    progress.Update("Generating report", 90)
+    
+    return result, nil
 }
-            </code>
+            </code></pre>
         </div>
 
         <div class="suggestion">
-            <h3>3. Implement Result Formatting Options</h3>
-            <p>Add support for different output formats (JSON, SARIF, HTML) and filtering capabilities.</p>
-            <code>
-type OutputOptions struct {
-    Format     string `json:"format"`
-    OutputFile string `json:"outputFile"`
-    Template   string `json:"template,omitempty"`
+            <h3>3. Add Configurable Scan Policies</h3>
+            <p>Allow users to configure scan policies and severity thresholds.</p>
+            <pre><code>
+type ScanPolicy struct {
+    IgnoreCVEs     []string
+    MinSeverity    string
+    FailOnSeverity string
 }
 
-func (t *Trivy) ScanWithFormat(ctx context.Context, target string, output OutputOptions) error {
-    args := []string{
-        "--format", output.Format,
-        "--output", output.OutputFile,
+func (t *Trivy) SetScanPolicy(policy ScanPolicy) *Trivy {
+    return &Trivy{
+        ignoreCVEs:     policy.IgnoreCVEs,
+        minSeverity:    policy.MinSeverity,
+        failOnSeverity: policy.FailOnSeverity,
     }
-    if output.Template != "" {
-        args = append(args, "--template", output.Template)
-    }
-    // Execute scan with formatting...
 }
-            </code>
+            </code></pre>
+        </div>
+
+        <h2>Issues Encountered</h2>
+        <div class="error">
+            <ul>
+                <li>Unable to crawl the daggerverse page due to API rate limiting issues</li>
+                <li>Limited documentation about function parameters and return values</li>
+            </ul>
         </div>
     </div>
 </body>
