@@ -5,125 +5,115 @@
     <style>
         body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
         h1, h2 { color: #333; }
-        .function { margin: 10px 0; padding: 10px; background: #f5f5f5; }
-        .suggestion { margin: 20px 0; padding: 15px; background: #e1f5fe; }
-        .error { color: #d32f2f; }
-        pre { background: #f8f8f8; padding: 10px; overflow-x: auto; }
-        .meme { max-width: 500px; margin: 20px 0; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .error { color: #ff0000; }
+        .function-list { background-color: #f5f5f5; padding: 20px; border-radius: 5px; }
+        .suggestion { margin: 20px 0; padding: 20px; background-color: #f9f9f9; border-left: 4px solid #007bff; }
+        pre { background-color: #f0f0f0; padding: 15px; border-radius: 5px; overflow-x: auto; }
     </style>
 </head>
 <body>
-    <h1>QA Report: flyio Module</h1>
-    
-    <h2>Module Information</h2>
-    <ul>
-        <li><strong>Name:</strong> flyio</li>
-        <li><strong>Author:</strong> peterj</li>
-        <li><strong>Latest Version:</strong> v0.0.3</li>
-        <li><strong>Release Date:</strong> Not specified in metadata</li>
-        <li><strong>Dagger Engine Version Used:</strong> v0.18.2</li>
-    </ul>
-
-    <h2>Module Purpose</h2>
-    <p>This is a basic Dagger module for deploying applications to Fly.io. It provides functionality to interact with Fly.io's deployment system.</p>
-
-    <h2>Available Functions</h2>
-    <div class="function">
-        <h3>deploy()</h3>
-        <p>Deploy deploys an app from the src folder to Fly.io</p>
-        <strong>Parameters:</strong>
+    <div class="container">
+        <h1>QA Report: flyio Module</h1>
+        
+        <h2>Module Information</h2>
         <ul>
-            <li>src (Directory!) - Source directory containing the application</li>
-            <li>token (Secret!) - Authentication token for Fly.io</li>
+            <li><strong>Name:</strong> github.com/gerhard/daggerverse/flyio</li>
+            <li><strong>Author:</strong> gerhard</li>
+            <li><strong>Latest Version:</strong> main</li>
+            <li><strong>Release Date:</strong> N/A (Information unavailable due to crawling error)</li>
         </ul>
-    </div>
 
-    <div class="function">
-        <h3>flyContainer()</h3>
-        <p>Creates a container with the flyctl CLI installed</p>
-        <strong>Parameters:</strong>
-        <ul>
-            <li>token (Secret!) - Authentication token for Fly.io</li>
-        </ul>
-    </div>
+        <h2>Dagger Engine Version</h2>
+        <p>v0.18.5 (docker-image://registry.dagger.io/engine:v0.18.5) linux/amd64</p>
 
-    <h2>Quality Improvement Suggestions</h2>
-    
-    <div class="suggestion">
-        <h3>1. Add Input Validation</h3>
-        <p>The module should validate the src directory and token before proceeding with deployment.</p>
-        <img src="https://i.imgflip.com/2/2k0qad.jpg" alt="Input Validation Meme" class="meme">
-        <pre>
-func ValidateInputs(src *Directory, token *Secret) error {
-    if src == nil {
-        return fmt.Errorf("source directory cannot be nil")
+        <h2>Module Functions</h2>
+        <div class="function-list">
+            <ul>
+                <li><strong>create:</strong> Creates app - required for deploy to work</li>
+                <li><strong>deploy:</strong> Deploys app from current directory</li>
+                <li><strong>destroy:</strong> Destroys app</li>
+                <li><strong>run:</strong> Run command against app, e.g. destroy, scale, etc.</li>
+                <li><strong>terminal:</strong> Opens terminal in this app</li>
+            </ul>
+        </div>
+
+        <h2>Module Purpose</h2>
+        <p>This module provides a Dagger interface for managing applications on fly.io, including deployment, creation, destruction, and management of fly.io applications.</p>
+
+        <h2>Issues Encountered</h2>
+        <div class="error">
+            <p>Unable to crawl module information due to API limitations: "Payment Required: Failed to scrape URL. Insufficient credits to perform this request."</p>
+        </div>
+
+        <h2>Suggestions for Improvement</h2>
+        
+        <div class="suggestion">
+            <h3>1. Add Input Validation</h3>
+            <p>Add proper input validation for critical parameters like app names and directories.</p>
+            <img src="https://i.imgflip.com/65efhx.jpg" alt="Input Validation Meme" />
+            <pre>
+func (f *Flyio) Create(ctx context.Context, app string) (*Flyio, error) {
+    if app == "" {
+        return nil, fmt.Errorf("app name cannot be empty")
     }
-    if token == nil {
-        return fmt.Errorf("Fly.io token cannot be nil")
+    if !regexp.MustCompile(`^[a-zA-Z0-9-]+$`).MatchString(app) {
+        return nil, fmt.Errorf("app name must contain only alphanumeric characters and hyphens")
     }
-    return nil
+    // ... rest of the create function
 }
-        </pre>
-    </div>
+            </pre>
+        </div>
 
-    <div class="suggestion">
-        <h3>2. Add Proper Error Handling and Logging</h3>
-        <p>Implement comprehensive error handling and logging mechanisms.</p>
-        <pre>
-func (f *Flyio) deploy(ctx context.Context, src *Directory, token *Secret) (string, error) {
-    logger := log.New("flyio-deploy")
-    logger.Info("Starting deployment to Fly.io")
-    
-    result, err := f.flyContainer(token).
-        WithDirectory("/src", src).
-        WithExec([]string{"fly", "deploy"}).
-        Stdout(ctx)
-    
-    if err != nil {
-        logger.Error("Deployment failed", "error", err)
-        return "", fmt.Errorf("deployment failed: %w", err)
-    }
-    
-    logger.Info("Deployment successful")
-    return result, nil
-}
-        </pre>
-    </div>
-
-    <div class="suggestion">
-        <h3>3. Add Configuration Options</h3>
-        <p>Provide more configuration options for deployment customization.</p>
-        <pre>
-type DeployConfig struct {
-    Region string
-    AppName string
-    Strategy string
-    Env map[string]string
+        <div class="suggestion">
+            <h3>2. Add Comprehensive Error Handling</h3>
+            <p>Implement detailed error handling with specific error types for different failure scenarios.</p>
+            <pre>
+type FlyError struct {
+    Type    string
+    Message string
+    Details map[string]interface{}
 }
 
-func (f *Flyio) DeployWithConfig(ctx context.Context, src *Directory, token *Secret, config DeployConfig) (string, error) {
-    args := []string{"fly", "deploy"}
-    
-    if config.Region != "" {
-        args = append(args, "--region", config.Region)
+func (f *Flyio) Deploy(ctx context.Context, dir string) (*Flyio, error) {
+    if _, err := os.Stat(dir); os.IsNotExist(err) {
+        return nil, &FlyError{
+            Type:    "DirectoryNotFound",
+            Message: fmt.Sprintf("Directory %s does not exist", dir),
+            Details: map[string]interface{}{"dir": dir},
+        }
     }
-    if config.AppName != "" {
-        args = append(args, "--app", config.AppName)
-    }
-    // Add other config options...
-    
-    return f.flyContainer(token).
-        WithDirectory("/src", src).
-        WithExec(args).
-        Stdout(ctx)
+    // ... rest of the deploy function
 }
-        </pre>
+            </pre>
+        </div>
+
+        <div class="suggestion">
+            <h3>3. Add Progress Reporting</h3>
+            <p>Implement progress reporting for long-running operations like deployments.</p>
+            <pre>
+type ProgressReporter interface {
+    Report(status string, progress float64)
+}
+
+func (f *Flyio) DeployWithProgress(ctx context.Context, dir string, reporter ProgressReporter) (*Flyio, error) {
+    reporter.Report("Validating directory", 0.1)
+    // ... directory validation
+    
+    reporter.Report("Preparing deployment", 0.3)
+    // ... preparation steps
+    
+    reporter.Report("Uploading files", 0.5)
+    // ... file upload
+    
+    reporter.Report("Finalizing deployment", 0.8)
+    // ... deployment finalization
+    
+    reporter.Report("Deployment complete", 1.0)
+    return f, nil
+}
+            </pre>
+        </div>
     </div>
-
-    <h2>Issues Encountered</h2>
-    <p>No major issues were encountered during the testing of this module. The module installs and builds successfully.</p>
-
-    <h2>Test Information</h2>
-    <p>Testing was performed using Dagger Engine version v0.18.2</p>
 </body>
 </html>
