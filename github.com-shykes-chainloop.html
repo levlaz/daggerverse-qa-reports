@@ -4,46 +4,46 @@
     <title>QA Report - github.com/shykes/chainloop</title>
     <style>
         body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
-        h1, h2 { color: #333; }
-        .error { color: #dc3545; background: #ffebee; padding: 10px; border-radius: 4px; }
-        .suggestion { background: #f8f9fa; padding: 15px; margin: 10px 0; border-left: 4px solid #007bff; }
-        pre { background: #f8f9fa; padding: 10px; border-radius: 4px; overflow-x: auto; }
+        h1 { color: #333; }
+        .error { color: #ff0000; }
+        .suggestion { margin: 20px 0; padding: 10px; background-color: #f0f0f0; }
+        pre { background: #f4f4f4; padding: 10px; overflow-x: auto; }
+        .meme { max-width: 500px; margin: 20px 0; }
     </style>
 </head>
 <body>
     <h1>QA Report: github.com/shykes/chainloop</h1>
-    
-    <h2>Module Information</h2>
+
+    <h2>Basic Information</h2>
     <ul>
-        <li><strong>Name:</strong> github.com/shykes/chainloop</li>
+        <li><strong>Module Name:</strong> github.com/shykes/chainloop</li>
         <li><strong>Author:</strong> shykes</li>
-        <li><strong>Latest Version:</strong> Not available</li>
-        <li><strong>Release Date:</strong> Not available</li>
+        <li><strong>Latest Version:</strong> Unknown (tried main)</li>
+        <li><strong>Release Date:</strong> Unknown</li>
+        <li><strong>Dagger Engine Version Used:</strong> v0.18.5</li>
     </ul>
 
-    <h2>Testing Environment</h2>
-    <ul>
-        <li><strong>Dagger Engine Version:</strong> v0.18.5 (docker-image://registry.dagger.io/engine:v0.18.5) linux/amd64</li>
-    </ul>
+    <h2>Module Overview</h2>
+    <p>Unable to determine module functionality due to installation and build failures.</p>
 
-    <h2>Module Functions</h2>
-    <p>Unable to retrieve function list due to module configuration issues.</p>
+    <h2>Functions</h2>
+    <p>Unable to retrieve function list due to build failure.</p>
 
-    <h2>Issues Encountered</h2>
+    <h2>Errors Encountered</h2>
     <div class="error">
-        <h3>Critical Issues:</h3>
+        <h3>Error Details:</h3>
         <ul>
-            <li>Failed to crawl module information due to API limitations</li>
-            <li>Installation failed: Module does not contain a dagger config file</li>
-            <li>Building failed: Unable to find module configuration</li>
+            <li>Failed to crawl module information due to API limits</li>
+            <li>Installation failed: Module does not contain a dagger.json configuration file</li>
+            <li>Build failed: Unable to build module due to missing dagger configuration</li>
         </ul>
     </div>
 
     <h2>Quality Improvement Suggestions</h2>
     
     <div class="suggestion">
-        <h3>1. Add Dagger Configuration File</h3>
-        <p>The module is missing a crucial dagger.json configuration file. Here's a basic template:</p>
+        <h3>1. Add Basic Dagger Configuration</h3>
+        <p>The module is missing a basic dagger.json configuration file, which is required for Dagger modules.</p>
         <pre>
 {
     "name": "chainloop",
@@ -53,44 +53,40 @@
     "engineVersion": ">=0.18.0"
 }
         </pre>
+        <img src="https://i.imgflip.com/65efzo.jpg" alt="Configuration Meme" class="meme">
     </div>
 
     <div class="suggestion">
-        <h3>2. Add Documentation</h3>
-        <p>Create a comprehensive README.md with usage instructions:</p>
+        <h3>2. Add Module Documentation</h3>
+        <p>Create a comprehensive README.md file:</p>
         <pre>
 # Chainloop Dagger Module
 
-## Usage
+## Overview
+[Description of what the module does]
 
+## Usage
 ```go
-dag.Chainloop().WithConfig(...).Run()
+// Example usage code
 ```
 
-## Requirements
-- Dagger v0.18.0 or higher
-- ...
+## Functions
+- Function1: Description
+- Function2: Description
         </pre>
     </div>
 
     <div class="suggestion">
-        <h3>3. Add Module Testing</h3>
-        <p>Implement basic module tests:</p>
+        <h3>3. Add Version Tags</h3>
+        <p>Add proper version tags to the repository for better version control:</p>
         <pre>
-// test/main.go
-package test
-
-func TestChainloop(t *testing.T) {
-    dag := dag.Chainloop()
-    result, err := dag.Run()
-    assert.NoError(t, err)
-    assert.NotNil(t, result)
-}
+git tag -a v0.1.0 -m "Initial release"
+git push origin v0.1.0
         </pre>
-        <img src="https://i.imgflip.com/65efzo.jpg" alt="Testing Meme" style="max-width: 400px;" />
     </div>
 
-    <hr>
-    <p><strong>QA Test Date:</strong> Generated on: ${new Date().toISOString()}</p>
+    <h2>Cloud Trace</h2>
+    <p>Not available due to module build failure.</p>
+
 </body>
 </html>
