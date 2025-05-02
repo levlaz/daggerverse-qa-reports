@@ -5,78 +5,110 @@
     <style>
         body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
         h1, h2 { color: #333; }
-        .error { color: #ff0000; }
-        .suggestion { margin: 20px 0; padding: 15px; background: #f5f5f5; }
-        code { background: #eee; padding: 2px 5px; border-radius: 3px; }
+        .error { color: #cc0000; padding: 10px; background-color: #ffebeb; border-radius: 5px; }
+        .function { background-color: #f5f5f5; padding: 10px; margin: 10px 0; border-radius: 5px; }
+        .suggestion { margin: 20px 0; padding: 15px; background-color: #f8f9fa; border-left: 4px solid #007bff; }
+        .meme { max-width: 500px; margin: 20px 0; }
+        pre { background-color: #f8f9fa; padding: 10px; border-radius: 5px; overflow-x: auto; }
     </style>
 </head>
 <body>
-    <h1>QA Report - xcaddy Module</h1>
+    <h1>QA Report: xcaddy Module</h1>
     
-    <h2>Basic Information</h2>
+    <h2>Module Information</h2>
     <ul>
-        <li><strong>Module Name:</strong> xcaddy</li>
-        <li><strong>Author:</strong> luanmtruong</li>
+        <li><strong>Name:</strong> xcaddy</li>
+        <li><strong>Author:</strong> swanncroiset</li>
         <li><strong>Latest Version:</strong> main</li>
-        <li><strong>Release Date:</strong> Not available (crawl failed)</li>
-        <li><strong>Dagger Engine Version Used:</strong> v0.18.3</li>
+        <li><strong>Release Date:</strong> N/A (information unavailable due to crawling issues)</li>
+        <li><strong>Dagger Engine Version Used:</strong> v0.18.5</li>
     </ul>
 
     <h2>Module Description</h2>
-    <p>This module provides functionality to build Caddy with plugins. It exposes one main function:</p>
-    <ul>
-        <li><code>build()</code>: Build Caddy with plugins.</li>
-    </ul>
+    <p>The xcaddy module is a Dagger module that provides functionality to build Caddy with plugins. It offers a simple interface for customizing Caddy builds with additional plugins.</p>
 
-    <h2>Testing Issues Encountered</h2>
-    <div class="error">
-        <p>✗ Unable to crawl module information from daggerverse due to API limitations</p>
+    <h2>Available Functions</h2>
+    <div class="function">
+        <h3>build</h3>
+        <p>Build Caddy with plugins.</p>
     </div>
 
-    <h2>Improvement Suggestions</h2>
+    <h2>Issues Encountered</h2>
+    <div class="error">
+        <p>During testing, we encountered the following issues:</p>
+        <ul>
+            <li>Unable to crawl module information due to API limitations/credits</li>
+        </ul>
+    </div>
+
+    <h2>Suggestions for Improvement</h2>
     
     <div class="suggestion">
-        <h3>1. Add Input Validation</h3>
-        <p>Add input validation for plugin names and versions to prevent build failures.</p>
-        <code><pre>
-func (x *Xcaddy) ValidatePlugin(name string, version string) (bool, error) {
-    if name == "" {
-        return false, fmt.Errorf("plugin name cannot be empty")
-    }
-    if version == "" {
-        return false, fmt.Errorf("plugin version cannot be empty")
-    }
-    // Add more validation as needed
-    return true, nil
-}
-        </pre></code>
-        <img src="https://i.imgflip.com/2k41qr.jpg" alt="Trust but verify meme" />
+        <h3>1. Add Function Documentation</h3>
+        <p>The module would benefit from detailed function documentation.</p>
+        <pre>
+// Example of improved documentation
+#Example of how to document the build function
+func (m *Module) Build(ctx context.Context) (*Container, error) {
+    /*
+     * Build builds a custom Caddy binary with specified plugins
+     * 
+     * @returns Container containing the built Caddy binary
+     * @example
+     * dag.xcaddy().build()
+     */
+}</pre>
     </div>
 
     <div class="suggestion">
-        <h3>2. Add Progress Reporting</h3>
-        <p>Implement progress reporting during the build process for better user experience.</p>
-        <code><pre>
-func (x *Xcaddy) Build(ctx context.Context) (*Container, error) {
-    // ... existing code ...
-    fmt.Printf("Building Caddy with %d plugins\n", len(plugins))
-    for i, plugin := range plugins {
-        fmt.Printf("Adding plugin %d/%d: %s\n", i+1, len(plugins), plugin)
+        <h3>2. Add Version Control</h3>
+        <p>Implement version control for Caddy builds</p>
+        <pre>
+// Add version parameter to build function
+func (m *Module) Build(ctx context.Context, opts BuildOpts) (*Container, error) {
+    type BuildOpts struct {
+        CaddyVersion string    // Version of Caddy to build
+        Plugins      []Plugin  // List of plugins to include
     }
-    // ... continue build process ...
-}
-        </pre></code>
+}</pre>
     </div>
 
     <div class="suggestion">
-        <h3>3. Add Caching Strategy</h3>
-        <p>Implement caching for downloaded plugins to speed up subsequent builds.</p>
-        <code><pre>
-func (x *Xcaddy) WithCache(enable bool) *Xcaddy {
-    x = x.WithEnvVariable("XCADDY_CACHE_ENABLED", fmt.Sprintf("%t", enable))
-    return x.WithMountedCache("/root/.xcaddy", dag.CacheVolume("xcaddy-cache"))
-}
-        </pre></code>
+        <h3>3. Add Testing</h3>
+        <p>Include comprehensive tests for the module</p>
+        <pre>
+// Example test structure
+func TestXCaddyBuild(t *testing.T) {
+    ctx := context.Background()
+    c, err := dag.Container().From("golang:latest")
+    if err != nil {
+        t.Fatal(err)
+    }
+    
+    // Test basic build
+    result, err := c.WithXCaddy().Build()
+    if err != nil {
+        t.Fatal(err)
+    }
+    
+    // Verify binary exists and runs
+    out, err := result.WithExec([]string{"caddy", "version"}).Stdout()
+    if err != nil {
+        t.Fatal(err)
+    }
+    if !strings.Contains(out, "Caddy") {
+        t.Fatalf("Expected Caddy version output, got: %s", out)
+    }
+}</pre>
     </div>
+
+    <div class="meme">
+        <img src="https://i.imgflip.com/7zckz9.jpg" alt="Testing Meme" width="400">
+        <p><em>When you realize you need more tests...</em></p>
+    </div>
+
+    <h2>Links</h2>
+    <p>Dagger Cloud Trace: Not available due to crawling limitations</p>
+
 </body>
 </html>
