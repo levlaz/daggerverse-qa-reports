@@ -3,12 +3,13 @@
 <head>
     <title>QA Report - PHP Examples Go Module</title>
     <style>
-        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 20px; }
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
+        h1, h2 { color: #333; }
         .container { max-width: 1200px; margin: 0 auto; }
-        .error { color: red; padding: 10px; background-color: #ffebee; border-radius: 4px; }
-        .function-list { background-color: #f5f5f5; padding: 15px; border-radius: 4px; }
-        .suggestion { margin: 20px 0; padding: 15px; background-color: #e3f2fd; border-radius: 4px; }
-        .code { background-color: #f8f9fa; padding: 15px; border-radius: 4px; font-family: monospace; }
+        .function-list { background: #f5f5f5; padding: 20px; border-radius: 5px; }
+        .suggestion { margin: 20px 0; padding: 20px; background: #f9f9f9; border-left: 4px solid #007bff; }
+        .error { color: #dc3545; }
+        .code { background: #f8f9fa; padding: 15px; border-radius: 5px; font-family: monospace; }
         .meme { max-width: 500px; margin: 20px 0; }
     </style>
 </head>
@@ -18,95 +19,84 @@
         
         <h2>Module Information</h2>
         <ul>
-            <li><strong>Name:</strong> github.com/sagikazarmark/daggerverse/php/examples/go</li>
+            <li><strong>Module Name:</strong> github.com/sagikazarmark/daggerverse/php/examples/go</li>
             <li><strong>Author:</strong> sagikazarmark</li>
-            <li><strong>Latest Version:</strong> main (no specific version tag found)</li>
-            <li><strong>Release Date:</strong> Not available (crawl failed)</li>
+            <li><strong>Latest Version:</strong> main</li>
+            <li><strong>Release Date:</strong> Not available (crawling failed)</li>
+            <li><strong>Dagger Engine Version:</strong> v0.18.5</li>
         </ul>
-
-        <h2>Dagger Engine Version Used</h2>
-        <p>dagger v0.18.4 (docker-image://registry.dagger.io/engine:v0.18.4) linux/amd64</p>
 
         <h2>Module Functions</h2>
         <div class="function-list">
             <ul>
-                <li><strong>all</strong> - All executes all examples.</li>
-                <li><strong>php-composer</strong> - No description provided</li>
-                <li><strong>php-extension</strong> - No description provided</li>
+                <li><strong>all</strong>: All executes all examples.</li>
+                <li><strong>php-composer</strong></li>
+                <li><strong>php-extension</strong></li>
             </ul>
         </div>
 
-        <h2>Issues Encountered</h2>
+        <h2>Testing Issues</h2>
         <div class="error">
-            <p>Failed to crawl the daggerverse page for this module. Error: Failed to parse Firecrawl error response as JSON. Status code: 502</p>
+            <p>Encountered following issues during testing:</p>
+            <ul>
+                <li>Failed to crawl module information due to API limitations</li>
+            </ul>
         </div>
 
-        <h2>Quality Improvement Suggestions</h2>
+        <h2>Suggestions for Improvement</h2>
         
         <div class="suggestion">
             <h3>1. Add Function Documentation</h3>
-            <p>The functions 'php-composer' and 'php-extension' lack descriptions, making it unclear what they do.</p>
+            <p>The module's functions lack proper documentation. Consider adding detailed descriptions for each function.</p>
             <div class="code">
-                <pre>
-// Add documentation like this:
-#Description: Manages PHP Composer dependencies and installations
-func (m *Module) PhpComposer(ctx context.Context) *Container {
-    // implementation
-}
+            // Example of improved documentation:
+            #[Function("php-composer", "Manages PHP Composer dependencies and installations")]
+            fn php_composer(&self) -> Result<()> {
+                // Implementation
+            }
 
-#Description: Handles PHP extension installation and configuration
-func (m *Module) PhpExtension(ctx context.Context) *Container {
-    // implementation
-}</pre>
+            #[Function("php-extension", "Handles PHP extension installation and configuration")]
+            fn php_extension(&self) -> Result<()> {
+                // Implementation
+            }
+            </div>
+            <img src="https://i.imgflip.com/2k48t0.jpg" alt="Documentation Meme" class="meme">
+        </div>
+
+        <div class="suggestion">
+            <h3>2. Add Error Handling</h3>
+            <p>Implement proper error handling and return meaningful error messages.</p>
+            <div class="code">
+            fn handle_error(result: Result<(), Error>) -> Result<(), Error> {
+                match result {
+                    Ok(_) => Ok(()),
+                    Err(e) => {
+                        eprintln!("Error occurred: {}", e);
+                        Err(e)
+                    }
+                }
+            }
             </div>
         </div>
 
         <div class="suggestion">
-            <h3>2. Add Version Tagging</h3>
-            <p>The module lacks proper version tagging, making it harder to manage dependencies.</p>
-            <img src="https://i.imgflip.com/65efzo.jpg" alt="Version Control Meme" class="meme">
+            <h3>3. Add Testing Examples</h3>
+            <p>Include example usage and test cases for each function.</p>
             <div class="code">
-                <pre>
-# Create a new tag
-git tag -a v1.0.0 -m "Initial stable release"
-git push origin v1.0.0
+            #[cfg(test)]
+            mod tests {
+                use super::*;
 
-# In your module's go.mod:
-module github.com/sagikazarmark/daggerverse/php/examples/go
+                #[test]
+                fn test_php_composer() {
+                    // Test implementation
+                }
 
-go 1.20
-
-require (
-    dagger.io/dagger v0.18.4
-)</pre>
-            </div>
-        </div>
-
-        <div class="suggestion">
-            <h3>3. Add Example Usage</h3>
-            <p>Include example usage in the module documentation to help users understand how to use each function.</p>
-            <div class="code">
-                <pre>
-// Example in your README.md:
-```go
-func ExamplePhpComposer() {
-    ctx := context.Background()
-    client, err := dagger.Connect(ctx)
-    if err != nil {
-        panic(err)
-    }
-    defer client.Close()
-
-    php := client.Module("github.com/sagikazarmark/daggerverse/php/examples/go")
-    
-    // Example usage of php-composer
-    result, err := php.PhpComposer().Sync(ctx)
-    if err != nil {
-        panic(err)
-    }
-    fmt.Println(result)
-}
-```</pre>
+                #[test]
+                fn test_php_extension() {
+                    // Test implementation
+                }
+            }
             </div>
         </div>
     </div>
