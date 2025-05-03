@@ -3,99 +3,96 @@
 <head>
     <title>QA Report - Proxy Module</title>
     <style>
-        body { font-family: Arial, sans-serif; line-height: 1.6; max-width: 1200px; margin: 0 auto; padding: 20px; }
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
         h1, h2 { color: #333; }
-        .container { background: #f9f9f9; padding: 20px; border-radius: 5px; margin: 20px 0; }
-        .functions { background: #f5f5f5; padding: 15px; border-left: 4px solid #007bff; }
-        .suggestion { background: #e9ecef; padding: 15px; margin: 10px 0; border-radius: 5px; }
-        .code { background: #f8f9fa; padding: 10px; font-family: monospace; }
-        .error { color: #dc3545; }
-        .success { color: #28a745; }
-        img { max-width: 500px; }
+        .error { color: #ff0000; background: #ffeeee; padding: 10px; border-radius: 5px; }
+        .functions { background: #f5f5f5; padding: 15px; border-radius: 5px; }
+        .suggestion { margin: 20px 0; padding: 15px; background: #f0f8ff; border-radius: 5px; }
+        .meme { margin: 20px 0; text-align: center; }
     </style>
 </head>
 <body>
-    <h1>QA Report - Proxy Module</h1>
+    <h1>Module QA Report: Proxy</h1>
     
-    <div class="container">
-        <h2>Module Information</h2>
-        <p><strong>Name:</strong> proxy</p>
-        <p><strong>Author:</strong> vito/kpenfound</p>
-        <p><strong>Latest Version:</strong> f0f6266b4ec78892e52f7c606f16dea742cf3b51</p>
-        <p><strong>Release Date:</strong> Not specified in source</p>
-        <p><strong>Dagger Engine Version Used:</strong> v0.18.2</p>
-    </div>
+    <h2>Basic Information</h2>
+    <ul>
+        <li><strong>Module Name:</strong> github.com/vito/kpenfound-dagger-modules/proxy</li>
+        <li><strong>Author:</strong> vito/kpenfound</li>
+        <li><strong>Version Tested:</strong> main</li>
+        <li><strong>Dagger Engine Version:</strong> v0.18.5</li>
+    </ul>
 
-    <div class="container">
-        <h2>Module Purpose</h2>
-        <p>This module provides proxy functionality to forward multiple services into a single service with multiple ports.</p>
-        
+    <h2>Module Purpose & Functions</h2>
+    <p>This module provides proxy service functionality for Dagger pipelines. It allows you to create and manage proxy services within your Dagger workflows.</p>
+    
+    <div class="functions">
         <h3>Available Functions:</h3>
-        <div class="functions">
-            <ul>
-                <li><strong>ctr()</strong> - Returns an OCI-compatible container</li>
-                <li><strong>withService(service, name, frontend, backend)</strong> - Adds a service to proxy</li>
-                <li><strong>service()</strong> - Gets the proxy Service</li>
-            </ul>
-        </div>
+        <ul>
+            <li><strong>ctr()</strong> - An OCI-compatible container interface</li>
+            <li><strong>service()</strong> - Get the proxy Service</li>
+            <li><strong>with-service()</strong> - Add a service to proxy</li>
+        </ul>
     </div>
 
-    <div class="container">
-        <h2>Quality Improvement Suggestions</h2>
-        
-        <div class="suggestion">
-            <h3>1. Add Comprehensive Documentation</h3>
-            <p>The module lacks a detailed description and examples of usage.</p>
-            <div class="code">
-            // Add to README.md:
-            # Proxy Module
-            
-            This module allows you to create a proxy service that can forward traffic between multiple services.
-            
-            ## Example Usage:
-            ```go
-            proxy := dag.Proxy().
-                WithService(myService, "web", 80, 8080).
-                WithService(myOtherService, "api", 443, 8443).
-                Service()
-            ```
-            </div>
-        </div>
-
-        <div class="suggestion">
-            <h3>2. Add Input Validation</h3>
-            <p>The withService function should validate port numbers.</p>
-            <img src="https://i.imgflip.com/2k0qad.jpg" alt="Input Validation Meme">
-            <div class="code">
-            func validatePort(port int) error {
-                if port < 1 || port > 65535 {
-                    return fmt.Errorf("port %d is invalid: must be between 1 and 65535", port)
-                }
-                return nil
-            }
-            </div>
-        </div>
-
-        <div class="suggestion">
-            <h3>3. Add Health Check Capability</h3>
-            <p>Implement health checking for proxied services.</p>
-            <div class="code">
-            type ProxyConfig struct {
-                HealthCheck struct {
-                    Path     string
-                    Interval string
-                    Timeout  string
-                }
-            }
-            </div>
-        </div>
+    <h2>Issues Encountered</h2>
+    <div class="error">
+        <p>❌ Unable to crawl module information from daggerverse due to API limitations</p>
     </div>
 
-    <div class="container">
-        <h2>Testing Results</h2>
-        <p class="success">✓ Module installation successful</p>
-        <p class="success">✓ Module build successful</p>
-        <p>No errors encountered during testing</p>
+    <h2>Improvement Suggestions</h2>
+    
+    <div class="suggestion">
+        <h3>1. Add Input Validation</h3>
+        <p>Implement input validation for service configuration to prevent runtime errors.</p>
+        <pre>
+func ValidateServiceConfig(config ServiceConfig) error {
+    if config.Port <= 0 || config.Port > 65535 {
+        return fmt.Errorf("invalid port number: %d", config.Port)
+    }
+    if config.Host == "" {
+        return fmt.Errorf("host cannot be empty")
+    }
+    return nil
+}
+        </pre>
     </div>
+
+    <div class="suggestion">
+        <h3>2. Implement Retry Logic</h3>
+        <p>Add retry mechanism for proxy service initialization.</p>
+        <pre>
+func WithRetry(attempts int, delay time.Duration) *ProxyService {
+    for i := 0; i < attempts; i++ {
+        if err := ps.Initialize(); err == nil {
+            return ps
+        }
+        time.Sleep(delay)
+    }
+    return nil
+}
+        </pre>
+    </div>
+
+    <div class="suggestion">
+        <h3>3. Enhanced Logging</h3>
+        <p>Add structured logging for better debugging capabilities.</p>
+        <pre>
+type LoggedProxy struct {
+    *ProxyService
+    Logger *log.Logger
+}
+
+func (lp *LoggedProxy) Forward(req *http.Request) {
+    lp.Logger.Printf("forwarding request to %s", req.URL)
+    // existing forwarding logic
+}
+        </pre>
+    </div>
+
+    <div class="meme">
+        <img src="https://i.imgflip.com/7q8cfj.jpg" alt="Proxy Module Meme" />
+        <p><em>"When your proxy service works on the first try"</em></p>
+    </div>
+
 </body>
 </html>
