@@ -1,101 +1,116 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>QA Report - github Module</title>
+    <title>QA Report - GitHub Module</title>
     <style>
         body { font-family: Arial, sans-serif; line-height: 1.6; margin: 20px; }
-        h1 { color: #333; }
-        .section { margin: 20px 0; }
-        .function-list { background: #f4f4f4; padding: 10px; border-radius: 5px; }
-        .code { background: #f8f8f8; padding: 10px; border-radius: 4px; font-family: monospace; }
+        h1, h2 { color: #333; }
         .error { color: #ff0000; }
-        .success { color: #008000; }
+        .function { background: #f5f5f5; padding: 10px; margin: 5px 0; }
+        .suggestion { border-left: 3px solid #007bff; padding-left: 15px; margin: 10px 0; }
         .meme { max-width: 500px; margin: 20px 0; }
     </style>
 </head>
 <body>
-    <h1>QA Report: github Module</h1>
+    <h1>QA Report - GitHub Module</h1>
     
-    <div class="section">
-        <h2>Basic Information</h2>
-        <ul>
-            <li><strong>Module Name:</strong> github.com/camptocamp/daggerverse/github</li>
-            <li><strong>Author:</strong> Camptocamp</li>
-            <li><strong>Latest Version:</strong> v0.1.3</li>
-            <li><strong>Release Date:</strong> N/A (not provided in crawl data)</li>
-            <li><strong>Dagger Engine Version Used:</strong> v0.18.2</li>
-        </ul>
+    <h2>Module Information</h2>
+    <ul>
+        <li><strong>Name:</strong> github.com/jedevc/daggerverse/github</li>
+        <li><strong>Author:</strong> jedevc</li>
+        <li><strong>Latest Version:</strong> main</li>
+        <li><strong>Release Date:</strong> N/A (Unable to crawl daggerverse page)</li>
+        <li><strong>Dagger Engine Version:</strong> v0.18.5</li>
+    </ul>
+
+    <h2>Module Functionality</h2>
+    <p>This module provides GitHub release management functionality with the following functions:</p>
+    <div class="function">
+        <strong>get-latest-release</strong>: Get the latest release for a repository
+    </div>
+    <div class="function">
+        <strong>get-release</strong>: Get the specified release for a repository
     </div>
 
-    <div class="section">
-        <h2>Module Description</h2>
-        <p>This module provides functionality to work with the GitHub command-line interface (CLI) in various container environments.</p>
-        
-        <h3>Available Functions:</h3>
-        <div class="function-list">
-            <ul>
-                <li><strong>binary()</strong> - Get GitHub executable binary</li>
-                <li><strong>container()</strong> - Get a GitHub container from a base container</li>
-                <li><strong>installation()</strong> - Install GitHub in a container</li>
-                <li><strong>overlay()</strong> - Get a root filesystem overlay with GitHub</li>
-                <li><strong>redhat-container()</strong> - Get a Red Hat Universal Base Image container with GitHub</li>
-                <li><strong>redhat-micro-container()</strong> - Get a Red Hat Micro Universal Base Image container with GitHub</li>
-                <li><strong>redhat-minimal-container()</strong> - Get a Red Hat Minimal Universal Base Image container with GitHub</li>
-            </ul>
-        </div>
+    <h2>Issues Encountered</h2>
+    <div class="error">
+        <p>Unable to crawl daggerverse page due to API limitations: "Payment Required: Failed to scrape URL. Insufficient credits to perform this request."</p>
     </div>
 
-    <div class="section">
-        <h2>Quality Improvement Suggestions</h2>
-        
-        <h3>1. Add Version Validation</h3>
-        <p>Add input validation for the GitHub version parameter to ensure it follows semantic versioning.</p>
-        <div class="code">
-        func validateVersion(version string) error {
-            if !strings.HasPrefix(version, "v") {
-                return fmt.Errorf("version must start with 'v'")
-            }
-            _, err := semver.Parse(strings.TrimPrefix(version, "v"))
-            return err
+    <h2>Suggestions for Improvement</h2>
+    
+    <div class="suggestion">
+        <h3>1. Add Input Validation</h3>
+        <p>Add proper input validation for repository names and release tags.</p>
+        <pre>
+func (g *Github) GetRelease(owner string, repo string, tag string) (*Release, error) {
+    if owner == "" || repo == "" {
+        return nil, fmt.Errorf("owner and repo cannot be empty")
+    }
+    if tag == "" {
+        return nil, fmt.Errorf("tag cannot be empty")
+    }
+    // ... rest of the function
+}
+        </pre>
+    </div>
+
+    <div class="suggestion">
+        <h3>2. Add Error Handling and Retries</h3>
+        <p>Implement robust error handling and retry mechanism for API calls.</p>
+        <pre>
+func (g *Github) getWithRetry(url string, maxRetries int) (*http.Response, error) {
+    for i := 0; i < maxRetries; i++ {
+        resp, err := http.Get(url)
+        if err == nil && resp.StatusCode == http.StatusOK {
+            return resp, nil
         }
-        </div>
-
-        <h3>2. Add Error Handling for Platform-Specific Builds</h3>
-        <p>Improve platform-specific error handling with detailed messages.</p>
-        <div class="code">
-        func validatePlatform(platform string) error {
-            validPlatforms := []string{"linux/amd64", "linux/arm64", "darwin/amd64", "darwin/arm64"}
-            for _, p := range validPlatforms {
-                if platform == p {
-                    return nil
-                }
-            }
-            return fmt.Errorf("unsupported platform %s. Supported platforms: %s", 
-                platform, strings.Join(validPlatforms, ", "))
-        }
-        </div>
-
-        <h3>3. Add Documentation Examples</h3>
-        <p>Enhance documentation with real-world usage examples.</p>
-        <div class="code">
-        // Example: Installing GitHub CLI in a custom container
-        func Example_installGitHub() {
-            baseContainer := dag.Container().From("alpine:latest")
-            githubContainer := dag.Github("v2.32.1").Installation(baseContainer)
-            
-            // Verify installation
-            output := githubContainer.Exec([]string{"gh", "--version"})
-        }
-        </div>
-        
-        <img src="https://media.giphy.com/media/13FrpeVH09Zrb2/giphy.gif" alt="Code quality meme" class="meme" />
+        time.Sleep(time.Second * time.Duration(i+1))
+    }
+    return nil, fmt.Errorf("failed after %d retries", maxRetries)
+}
+        </pre>
     </div>
 
-    <div class="section">
-        <h2>Testing Results</h2>
-        <p class="success">✓ Module installation successful</p>
-        <p class="success">✓ Module build successful</p>
-        <p>No errors encountered during testing</p>
+    <div class="suggestion">
+        <h3>3. Add Comprehensive Documentation</h3>
+        <p>Enhance documentation with examples and usage patterns.</p>
+        <pre>
+# GitHub Release Module
+
+## Examples
+
+```dagger
+dagger call get-latest-release --owner dagger --repo dagger
+
+# Get specific release
+dagger call get-release --owner dagger --repo dagger --tag v0.18.0
+```
+
+## Function Documentation
+
+- get-latest-release:
+  - Parameters:
+    - owner: Repository owner
+    - repo: Repository name
+  - Returns: Latest release information
+
+- get-release:
+  - Parameters:
+    - owner: Repository owner
+    - repo: Repository name
+    - tag: Release tag
+  - Returns: Specific release information
+        </pre>
     </div>
+
+    <div class="meme">
+        <h3>Developer's Reaction to Error Handling</h3>
+        <img src="https://i.giphy.com/media/QMHoU66sBXqqLqYvGO/giphy.gif" alt="Error Handling Meme" />
+    </div>
+
+    <h2>Dagger Cloud Trace</h2>
+    <p>No trace URL available for this execution.</p>
+
 </body>
 </html>
