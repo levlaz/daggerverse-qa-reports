@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QA Report - PSQL Tests Module</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
+        h1 { color: #2c3e50; }
+        h2 { color: #34495e; }
+        .container { max-width: 800px; margin: 0 auto; }
+        .alert { padding: 15px; margin-bottom: 20px; border: 1px solid transparent; border-radius: 4px; }
+        .alert-warning { background-color: #fcf8e3; border-color: #faebcc; color: #8a6d3b; }
+        .function-list { background-color: #f8f9fa; padding: 20px; border-radius: 5px; }
+        .suggestion { margin: 20px 0; padding: 15px; background-color: #e8f4f8; border-radius: 5px; }
+        pre { background-color: #f4f4f4; padding: 10px; border-radius: 4px; overflow-x: auto; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>QA Report: PSQL Tests Module</h1>
+        
+        <h2>Module Information</h2>
+        <ul>
+            <li><strong>Module Name:</strong> github.com/sagikazarmark/daggerverse/psql/tests</li>
+            <li><strong>Author:</strong> sagikazarmark</li>
+            <li><strong>Latest Version:</strong> latest (specific version information unavailable)</li>
+            <li><strong>Release Date:</strong> Not available due to crawling limitations</li>
+            <li><strong>Dagger Engine Version Used:</strong> v0.18.5</li>
+        </ul>
+
+        <h2>Module Purpose & Functions</h2>
+        <p>This module appears to be a testing utility for PostgreSQL, providing various test execution capabilities.</p>
+        
+        <div class="function-list">
+            <h3>Available Functions:</h3>
+            <ul>
+                <li><strong>all()</strong> - Executes all tests</li>
+                <li><strong>list()</strong> - Lists available tests</li>
+                <li><strong>run()</strong> - Runs specified tests</li>
+                <li><strong>run-command()</strong> - Executes a specific test command</li>
+                <li><strong>run-file()</strong> - Runs tests from a specified file</li>
+            </ul>
+        </div>
+
+        <h2>Issues Encountered</h2>
+        <div class="alert alert-warning">
+            <p>During the QA process, the following issues were encountered:</p>
+            <ul>
+                <li>Unable to crawl the daggerverse page due to API limitations</li>
+                <li>Limited documentation available for function parameters and usage</li>
+            </ul>
+        </div>
+
+        <h2>Improvement Suggestions</h2>
+        
+        <div class="suggestion">
+            <h3>1. Add Function Documentation</h3>
+            <p>Current functions lack description and parameter information. Add comprehensive documentation:</p>
+            <pre>
+// Example implementation:
+#Function all
+#Description Executes all PostgreSQL tests in the specified directory
+#Parameter directory string (optional) The directory containing test files. Defaults to current directory
+#Return TestResult object containing test execution results and statistics
+
+func All(ctx context.Context, opts ...Option) (*TestResult, error) {
+    // Implementation
+}
+</pre>
+        </div>
+
+        <div class="suggestion">
+            <h3>2. Add Error Handling and Status Reporting</h3>
+            <p>Implement better error handling and test status reporting:</p>
+            <pre>
+type TestResult struct {
+    Passed    bool
+    Duration  time.Duration
+    TestCount int
+    Failures  []TestFailure
+    Warnings  []TestWarning
+}
+
+func Run(ctx context.Context, testName string) (*TestResult, error) {
+    result := &TestResult{}
+    // Implementation with proper error handling
+    return result, nil
+}
+</pre>
+        </div>
+
+        <div class="suggestion">
+            <h3>3. Add Test Setup Helpers</h3>
+            <p>Include helper functions for common PostgreSQL test setup scenarios:</p>
+            <pre>
+func WithTestDatabase(opts TestDatabaseOptions) Option {
+    return func(c *Config) {
+        c.Database = &TestDatabase{
+            Name:     opts.Name,
+            Version:  opts.Version,
+            Template: opts.Template,
+        }
+    }
+}
+
+// Usage example:
+result, err := tests.Run(ctx,
+    WithTestDatabase(TestDatabaseOptions{
+        Name:    "test_db",
+        Version: "14",
+    }),
+)
+</pre>
+            <p>
+                <img src="https://i.imgflip.com/8d4i8f.jpg" alt="Testing meme" style="max-width: 100%; height: auto;"/>
+                <br>
+                <em>When your tests pass in development but fail in CI</em>
+            </p>
+        </div>
+    </div>
+</body>
+</html>
