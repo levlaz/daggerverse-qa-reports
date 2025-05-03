@@ -3,95 +3,106 @@
 <head>
     <title>QA Report - Kind Module</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 40px; }
-        h1, h2 { color: #333; }
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
         .container { max-width: 1200px; margin: 0 auto; }
+        .error { color: red; padding: 10px; background-color: #ffe6e6; border-radius: 5px; }
         .function-list { background-color: #f5f5f5; padding: 20px; border-radius: 5px; }
-        .suggestion { margin: 20px 0; padding: 15px; border-left: 4px solid #007bff; }
-        .code { background: #f8f9fa; padding: 15px; border-radius: 5px; font-family: monospace; }
+        .suggestion { margin: 20px 0; padding: 15px; background-color: #f0f8ff; border-radius: 5px; }
+        pre { background-color: #f0f0f0; padding: 10px; border-radius: 5px; overflow-x: auto; }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Module QA Report: Kind</h1>
+        <h1>QA Report: Kind Module</h1>
         
-        <h2>Basic Information</h2>
+        <h2>Module Information</h2>
         <ul>
-            <li><strong>Module Name:</strong> kind</li>
-            <li><strong>Author:</strong> orvis98</li>
-            <li><strong>Latest Version:</strong> 0084f3cd2a700b5c3f12464632c135a1d1cb7956</li>
-            <li><strong>Dagger Version Used:</strong> v0.18.3</li>
-            <li><strong>Link to Dagger Cloud Trace:</strong> <a href="https://daggerverse.dev/mod/github.com/orvis98/daggerverse/kind@0084f3cd2a700b5c3f12464632c135a1d1cb7956">View on Daggerverse</a></li>
+            <li><strong>Name:</strong> github.com/prefapp/daggerverse/kind</li>
+            <li><strong>Author:</strong> prefapp</li>
+            <li><strong>Latest Version:</strong> latest</li>
+            <li><strong>Release Date:</strong> Not available (crawling failed)</li>
+            <li><strong>Dagger Engine Version Used:</strong> v0.18.5</li>
         </ul>
 
-        <h2>Module Purpose</h2>
-        <p>This module provides functionality for managing Kind (Kubernetes in Docker) clusters. It allows users to create, manage, and interact with local Kubernetes clusters using Kind.</p>
-
-        <h2>Available Functions</h2>
+        <h2>Module Functionality</h2>
+        <p>This module provides functionality for working with Kind (Kubernetes in Docker) clusters. It includes the following functions:</p>
         <div class="function-list">
             <ul>
-                <li><strong>container()</strong> - Container with the kind and docker binaries</li>
-                <li><strong>version()</strong> - Prints the kind CLI version</li>
-                <li><strong>getClusters()</strong> - Lists existing kind clusters by their name</li>
-                <li><strong>createCluster()</strong> - Creates a local Kubernetes cluster</li>
-                <li><strong>deleteCluster()</strong> - Deletes a cluster</li>
-                <li><strong>kubeconfig()</strong> - Exports cluster kubeconfig</li>
-                <li><strong>logs()</strong> - Exports logs to a directory</li>
+                <li><strong>cluster-name</strong>: Sets/gets the cluster name</li>
+                <li><strong>container</strong>: Container management</li>
+                <li><strong>docker-socket</strong>: Docker socket handling</li>
+                <li><strong>inspect</strong>: Returns the container that will be launched</li>
+                <li><strong>kind-port</strong>: Port management for Kind</li>
+                <li><strong>kind-svc</strong>: Kind service management</li>
+                <li><strong>knines</strong>: Launches k9s terminal</li>
+                <li><strong>load-container-on-kind</strong>: Loads a container to kind cluster from a tarball</li>
+                <li><strong>test</strong>: Testing functionality</li>
             </ul>
+        </div>
+
+        <h2>Issues Encountered</h2>
+        <div class="error">
+            <p>Unable to crawl the daggerverse page due to API limitations: "Payment Required: Failed to scrape URL. Insufficient credits to perform this request."</p>
         </div>
 
         <h2>Quality Improvement Suggestions</h2>
         
         <div class="suggestion">
-            <h3>1. Add Input Validation</h3>
-            <p>Add proper input validation for cluster names and configuration files to prevent errors.</p>
-            <div class="code">
-            func validateClusterName(name string) error {
-                if len(name) < 1 || len(name) > 63 {
-                    return fmt.Errorf("cluster name must be between 1 and 63 characters")
-                }
-                if !regexp.MustCompile("^[a-z0-9][a-z0-9-]*[a-z0-9]$").MatchString(name) {
-                    return fmt.Errorf("cluster name must consist of lower case alphanumeric characters or '-'")
-                }
-                return nil
-            }
-            </div>
+            <h3>1. Improve Function Documentation</h3>
+            <p>The current function descriptions are minimal or non-existent. Add comprehensive documentation for each function.</p>
+            <pre>
+// Example of improved documentation
+/*
+* cluster-name sets or retrieves the name of the Kind cluster
+* @param name: The name to set for the cluster
+* @return string: The current cluster name
+* @example: 
+*   dagger call cluster-name --name=my-test-cluster
+*/
+func (k *Kind) ClusterName(name string) string {
+    // Implementation
+}
+</pre>
+            <img src="https://i.imgflip.com/65efzo.jpg" alt="Documentation Meme" style="max-width: 300px;">
         </div>
 
         <div class="suggestion">
-            <h3>2. Implement Status Checking</h3>
-            <p>Add cluster health checking functionality.</p>
-            <div class="code">
-            func getClusterStatus(clusterName string) (string, error) {
-                cmd := exec.Command("kubectl", "get", "nodes", "--kubeconfig=/path/to/kubeconfig")
-                output, err := cmd.CombinedOutput()
-                if err != nil {
-                    return "NotReady", err
-                }
-                return "Ready", nil
-            }
-            </div>
+            <h3>2. Add Input Validation</h3>
+            <p>Implement proper input validation for all functions to prevent runtime errors.</p>
+            <pre>
+func (k *Kind) ClusterName(ctx context.Context, name string) (*Kind, error) {
+    if name == "" {
+        return nil, fmt.Errorf("cluster name cannot be empty")
+    }
+    if !regexp.MustCompile(`^[a-z0-9][a-z0-9-]*[a-z0-9]$`).MatchString(name) {
+        return nil, fmt.Errorf("invalid cluster name format. Must contain only lowercase letters, numbers, and hyphens")
+    }
+    // Implementation
+}
+</pre>
         </div>
 
         <div class="suggestion">
-            <h3>3. Add Better Error Handling</h3>
-            <p>Implement comprehensive error handling and recovery mechanisms.</p>
-            <div class="code">
-            func safeDeleteCluster(name string) error {
-                if err := checkClusterExists(name); err != nil {
-                    return fmt.Errorf("cluster check failed: %w", err)
-                }
-                if err := backupClusterConfig(name); err != nil {
-                    return fmt.Errorf("backup failed: %w", err)
-                }
-                return deleteCluster(name)
-            }
-            </div>
-            <img src="https://i.imgflip.com/2/2zz06x.jpg" alt="Error Handling Meme" style="max-width: 300px; margin: 20px 0;">
+            <h3>3. Add Error Recovery Mechanisms</h3>
+            <p>Implement proper error handling and recovery mechanisms for cluster operations.</p>
+            <pre>
+func (k *Kind) LoadContainerOnKind(ctx context.Context, imageTarPath string) error {
+    maxRetries := 3
+    for attempt := 1; attempt <= maxRetries; attempt++ {
+        err := k.loadImage(ctx, imageTarPath)
+        if err == nil {
+            return nil
+        }
+        if attempt < maxRetries {
+            time.Sleep(time.Second * time.Duration(attempt))
+            continue
+        }
+        return fmt.Errorf("failed to load container after %d attempts: %w", maxRetries, err)
+    }
+    return nil
+}
+</pre>
         </div>
-
-        <h2>Testing Issues Encountered</h2>
-        <p>No significant issues were encountered during the testing process. The module installed and built successfully, and all functions were properly documented.</p>
     </div>
 </body>
 </html>
