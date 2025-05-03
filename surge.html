@@ -6,11 +6,11 @@
         body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
         h1, h2 { color: #333; }
         .container { max-width: 1200px; margin: 0 auto; }
-        .function-list { background-color: #f5f5f5; padding: 20px; border-radius: 5px; }
-        .suggestion { margin: 20px 0; padding: 20px; background-color: #fff3e0; border-radius: 5px; }
-        .code { background-color: #f0f0f0; padding: 15px; border-radius: 5px; font-family: monospace; }
-        .error { color: #d32f2f; }
-        .meme { margin: 20px 0; }
+        .function-list { background: #f5f5f5; padding: 20px; border-radius: 5px; }
+        .suggestion { margin: 20px 0; padding: 20px; background: #f9f9f9; border-left: 4px solid #007bff; }
+        .error { color: #721c24; background-color: #f8d7da; padding: 15px; border-radius: 5px; }
+        .meme { max-width: 500px; margin: 20px 0; }
+        pre { background: #f8f9fa; padding: 15px; border-radius: 5px; overflow-x: auto; }
     </style>
 </head>
 <body>
@@ -22,19 +22,16 @@
             <li><strong>Name:</strong> github.com/levlaz/daggerverse/surge</li>
             <li><strong>Author:</strong> levlaz</li>
             <li><strong>Latest Version:</strong> main</li>
-            <li><strong>Release Date:</strong> N/A (information unavailable due to crawling issues)</li>
-            <li><strong>Dagger Engine Version Used:</strong> v0.18.5</li>
+            <li><strong>Dagger Engine Version:</strong> v0.18.5</li>
         </ul>
 
-        <h2>Module Description</h2>
-        <p>This module provides functionality to interact with surge.sh, a static web hosting platform. It allows users to publish directories to surge.sh directly from their Dagger pipelines.</p>
-
-        <h2>Available Functions</h2>
+        <h2>Module Functionality</h2>
         <div class="function-list">
+            <p>This module provides functionality to interact with surge.sh, a static web hosting platform. It includes the following functions:</p>
             <ul>
-                <li><strong>base()</strong> - Returns base image with surge installed</li>
-                <li><strong>get-token()</strong> - Get token interactively</li>
-                <li><strong>publish()</strong> - Publish directory to surge.sh</li>
+                <li><strong>base()</strong>: Returns base image with surge installed</li>
+                <li><strong>get-token()</strong>: Get token interactively</li>
+                <li><strong>publish()</strong>: Publish directory to surge.sh</li>
             </ul>
         </div>
 
@@ -43,33 +40,32 @@
         <div class="suggestion">
             <h3>1. Add Input Validation</h3>
             <p>Add proper input validation for the publish function to ensure the directory exists and contains valid web content.</p>
-            <div class="code">
-                <pre>
-func (s *Surge) Publish(ctx context.Context, directory *Directory, domain string) (*Container, error) {
+            <pre>
+func (s *Surge) Publish(ctx context.Context, directory *Directory) (*Container, error) {
+    // Add validation
     if directory == nil {
         return nil, fmt.Errorf("directory cannot be nil")
     }
-    if domain == "" {
-        return nil, fmt.Errorf("domain cannot be empty")
+    
+    // Check if directory contains index.html
+    hasIndex, err := directory.File("index.html").Exists(ctx)
+    if err != nil || !hasIndex {
+        return nil, fmt.Errorf("directory must contain index.html")
     }
-    // Validate domain format
-    if !strings.HasSuffix(domain, "surge.sh") && !strings.Contains(domain, ".") {
-        return nil, fmt.Errorf("invalid domain format")
-    }
-    // ... rest of the implementation
-}</pre>
-            </div>
+    
+    // Continue with existing implementation...
+}
+</pre>
         </div>
 
         <div class="suggestion">
-            <h3>2. Add Proper Error Handling and Retries</h3>
-            <p>Implement retry mechanism for publish operations to handle temporary network issues.</p>
-            <div class="code">
-                <pre>
-func (s *Surge) publishWithRetry(ctx context.Context, directory *Directory, domain string) (*Container, error) {
+            <h3>2. Add Error Handling and Retries</h3>
+            <p>Implement proper error handling and retry mechanism for network-related operations.</p>
+            <pre>
+func (s *Surge) publishWithRetry(ctx context.Context, directory *Directory) (*Container, error) {
     maxRetries := 3
     for i := 0; i < maxRetries; i++ {
-        result, err := s.publish(ctx, directory, domain)
+        result, err := s.Publish(ctx, directory)
         if err == nil {
             return result, nil
         }
@@ -80,44 +76,44 @@ func (s *Surge) publishWithRetry(ctx context.Context, directory *Directory, doma
         return nil, fmt.Errorf("failed to publish after %d retries: %w", maxRetries, err)
     }
     return nil, fmt.Errorf("unexpected error in retry loop")
-}</pre>
-            </div>
+}
+</pre>
         </div>
 
         <div class="suggestion">
-            <h3>3. Add Progress Reporting</h3>
-            <p>Implement detailed progress reporting during the publish process.</p>
-            <div class="code">
-                <pre>
-func (s *Surge) Publish(ctx context.Context, directory *Directory, domain string) (*Container, error) {
-    progress := dag.Progress()
-    
-    progress.Start("Preparing files for upload")
-    // File preparation logic
-    progress.Done()
+            <h3>3. Add Documentation and Examples</h3>
+            <p>Enhance documentation with examples and usage patterns.</p>
+            <pre>
+// Example documentation in code:
+// +doc:example=publish
+// +doc:description=Publish a static website to surge.sh
+// +doc:
+// dagger call publish --directory=./public --domain=mysite.surge.sh
+//
+func (s *Surge) Publish(ctx context.Context, opts PublishOpts) (*Container, error) {
+    // Implementation...
+}
 
-    progress.Start("Uploading to surge.sh")
-    // Upload logic
-    progress.Done()
-
-    progress.Start("Verifying deployment")
-    // Verification logic
-    progress.Done()
-
-    return container, nil
-}</pre>
-            </div>
-            <div class="meme">
-                <img src="https://i.imgflip.com/6g4oy3.jpg" alt="Progress Bar Meme" title="Are we there yet? Progress bar be like...">
-            </div>
+type PublishOpts struct {
+    Directory *Directory `doc:"The directory containing your static website"`
+    Domain    string     `doc:"The surge.sh domain to publish to"`
+}
+</pre>
         </div>
 
-        <h2>Issues Encountered</h2>
+        <h2>Testing Issues Encountered</h2>
         <div class="error">
-            <p>1. Unable to crawl the module page due to API limitations:</p>
-            <pre>Failed to scrape URL. Insufficient credits to perform this request.</pre>
+            <p>The following issues were encountered during testing:</p>
+            <ul>
+                <li>Unable to crawl module information due to API limitations</li>
+            </ul>
         </div>
 
+        <h2>Fun Corner</h2>
+        <div class="meme">
+            <img src="https://i.imgflip.com/7q8eez.jpg" alt="Deployment Meme" width="400">
+            <p><em>When the surge deployment just works perfectly on the first try!</em></p>
+        </div>
     </div>
 </body>
 </html>
