@@ -1,94 +1,134 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>QA Report - Alpine Module</title>
+    <title>QA Report - PHP Module</title>
     <style>
-        body { font-family: Arial, sans-serif; line-height: 1.6; max-width: 1200px; margin: 0 auto; padding: 20px; }
-        h1, h2 { color: #333; }
-        .function-list { background-color: #f5f5f5; padding: 15px; border-radius: 5px; }
-        .suggestion { margin: 20px 0; padding: 15px; border-left: 4px solid #007bff; }
-        .code-snippet { background-color: #f8f9fa; padding: 15px; border-radius: 5px; font-family: monospace; }
-        .error { color: #dc3545; }
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .error {
+            color: #721c24;
+            background-color: #f8d7da;
+            border: 1px solid #f5c6cb;
+            padding: 10px;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+        .function-list {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 4px;
+        }
+        .suggestion {
+            background-color: #e9ecef;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 4px;
+        }
+        pre {
+            background-color: #f8f9fa;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
     </style>
 </head>
 <body>
-    <h1>QA Report: Alpine Module</h1>
+    <h1>QA Report: PHP Module</h1>
     
     <h2>Module Information</h2>
     <ul>
-        <li><strong>Name:</strong> github.com/dagger/dagger/modules/alpine</li>
-        <li><strong>Author:</strong> Dagger</li>
-        <li><strong>Latest Version:</strong> v0.18.2</li>
-        <li><strong>Release Date:</strong> Part of Dagger v0.18.2 release</li>
-        <li><strong>Dagger Version Used:</strong> v0.18.3</li>
-        <li><strong>Dagger Cloud Trace:</strong> <a href="https://alpha.dagger.cloud/playground">Dagger Cloud Playground</a></li>
+        <li><strong>Name:</strong> github.com/sagikazarmark/daggerverse/php</li>
+        <li><strong>Author:</strong> sagikazarmark</li>
+        <li><strong>Latest Version:</strong> main</li>
+        <li><strong>Release Date:</strong> N/A (Unable to fetch from daggerverse)</li>
+        <li><strong>Dagger Engine Version Used:</strong> v0.18.4</li>
     </ul>
 
-    <h2>Module Purpose</h2>
-    <p>The Alpine module is designed to integrate with Alpine Linux, providing a way to create and customize Alpine Linux containers. It offers functionality for:</p>
+    <h2>Module Functionality</h2>
+    <p>This module provides PHP development and build functionality for Dagger pipelines. It includes capabilities for:</p>
     <div class="function-list">
+        <h3>Available Functions:</h3>
         <ul>
-            <li><strong>arch()</strong> - Specify the hardware architecture to build for</li>
-            <li><strong>branch()</strong> - Select the Alpine branch to download packages from</li>
-            <li><strong>container()</strong> - Build an Alpine Linux container</li>
-            <li><strong>distro()</strong> - Choose the distro to use</li>
-            <li><strong>packages()</strong> - Define APK packages to install</li>
+            <li><code>container</code> - Base PHP container</li>
+            <li><code>with-composer</code> - Install Composer</li>
+            <li><code>with-composer-cache</code> - Mount a cache volume for Composer cache</li>
+            <li><code>with-composer-package</code> - Install a Composer package globally</li>
+            <li><code>with-composer-packages</code> - Install a list of Composer packages globally</li>
+            <li><code>with-extension</code> - Install an extension using docker-php-extension-installer</li>
+            <li><code>with-extension-installer</code> - Install docker-php-extension-installer</li>
+            <li><code>with-extensions</code> - Install a list of extensions using docker-php-extension-installer</li>
+            <li><code>with-source</code> - Mount a source directory</li>
         </ul>
+    </div>
+
+    <h2>Issues Encountered</h2>
+    <div class="error">
+        <p>Unable to crawl the daggerverse page due to API limitations: "Payment Required: Failed to scrape URL. Insufficient credits to perform this request."</p>
     </div>
 
     <h2>Quality Improvement Suggestions</h2>
     
     <div class="suggestion">
-        <h3>1. Add Input Validation for Architecture</h3>
-        <p>Currently, the architecture input isn't validated against supported Alpine architectures. Adding validation would prevent issues with unsupported architectures.</p>
-        <div class="code-snippet">
+        <h3>1. Add Input Validation for Extension Names</h3>
+        <p>Add validation to ensure that extension names are valid before attempting installation.</p>
         <pre>
-// Add validation for supported architectures
-func ValidateArch(arch string) error {
-    supportedArch := []string{"x86_64", "aarch64", "armv7", "ppc64le", "s390x"}
-    for _, a := range supportedArch {
-        if arch == a {
-            return nil
-        }
+func (p *PHP) WithExtension(extension string) *PHP {
+    if !isValidExtensionName(extension) {
+        panic(fmt.Sprintf("Invalid PHP extension name: %s", extension))
     }
-    return fmt.Errorf("unsupported architecture: %s", arch)
+    // ... rest of the implementation
+}
+
+func isValidExtensionName(name string) bool {
+    // Add regex pattern for valid PHP extension names
+    pattern := "^[a-zA-Z0-9_-]+$"
+    match, _ := regexp.MatchString(pattern, name)
+    return match
 }
         </pre>
-        </div>
-        <img src="https://media.giphy.com/media/13FrpeVH09Zrb2/giphy.gif" alt="Code validation meme" />
+        <img src="https://i.imgflip.com/65efzo.jpg" alt="Programming Meme" style="max-width: 300px;">
     </div>
 
     <div class="suggestion">
-        <h3>2. Implement Package Version Pinning</h3>
-        <p>Add support for pinning package versions to ensure reproducible builds.</p>
-        <div class="code-snippet">
+        <h3>2. Implement Version Constraints for Composer Packages</h3>
+        <p>Add version constraint validation for Composer packages to ensure compatibility.</p>
         <pre>
-// Example of package version pinning
-func (m *Alpine) WithPackageVersion(pkg string, version string) *Alpine {
-    return m.WithPackages([]string{fmt.Sprintf("%s=%s", pkg, version)})
+type ComposerPackage struct {
+    Name            string
+    VersionConstaint string
+}
+
+func (p *PHP) WithComposerPackage(pkg ComposerPackage) *PHP {
+    if !isValidVersionConstaint(pkg.VersionConstaint) {
+        panic(fmt.Sprintf("Invalid version constraint: %s", pkg.VersionConstaint))
+    }
+    // ... rest of the implementation
 }
         </pre>
-        </div>
     </div>
 
     <div class="suggestion">
-        <h3>3. Add Health Check Capability</h3>
-        <p>Implement a health check function to verify the container's basic functionality after creation.</p>
-        <div class="code-snippet">
+        <h3>3. Add Health Check Function</h3>
+        <p>Implement a health check function to verify the PHP installation and extensions.</p>
         <pre>
-// Add health check functionality
-func (m *Alpine) WithHealthCheck() *Alpine {
-    return m.WithExec([]string{
-        "sh", "-c",
-        "apk update && apk upgrade"
-    })
+func (p *PHP) VerifyInstallation() (bool, error) {
+    // Check PHP version
+    result := p.Container().WithExec([]string{"php", "-v"})
+    
+    // Check installed extensions
+    extResult := p.Container().WithExec([]string{"php", "-m"})
+    
+    // Verify Composer if installed
+    composerResult := p.Container().WithExec([]string{"composer", "--version"})
+    
+    return true, nil
 }
         </pre>
-        </div>
     </div>
-
-    <h2>Testing Issues</h2>
-    <p>No significant issues were encountered during testing. The module installed and built successfully, and all core functions were accessible.</p>
-
 </body>
 </html>

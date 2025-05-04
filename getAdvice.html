@@ -3,106 +3,113 @@
 <head>
     <title>QA Report - getAdvice Module</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 40px; }
-        .error { color: red; }
-        .suggestion { margin: 20px 0; padding: 10px; background-color: #f5f5f5; }
-        .code { background-color: #f0f0f0; padding: 10px; font-family: monospace; }
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
+        h1 { color: #2c3e50; }
+        h2 { color: #34495e; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .error { color: #e74c3c; padding: 10px; background-color: #fadbd8; border-radius: 4px; }
+        .function { background-color: #f8f9fa; padding: 15px; margin: 10px 0; border-radius: 4px; }
+        .suggestion { margin: 20px 0; padding: 15px; background-color: #e8f4f8; border-radius: 4px; }
+        code { background-color: #f7f9fa; padding: 2px 5px; border-radius: 3px; }
+        pre { background-color: #f7f9fa; padding: 15px; border-radius: 4px; overflow-x: auto; }
     </style>
 </head>
 <body>
-    <h1>QA Report - getAdvice Module</h1>
-    
-    <h2>Basic Information</h2>
-    <ul>
-        <li><strong>Module Name:</strong> github.com/EmmS21/daggerverse/getAdvice</li>
-        <li><strong>Author:</strong> EmmS21</li>
-        <li><strong>Latest Version:</strong> main</li>
-        <li><strong>Release Date:</strong> Not available (crawl failed)</li>
-        <li><strong>Dagger Engine Version Used:</strong> v0.18.3</li>
-    </ul>
+    <div class="container">
+        <h1>QA Report: getAdvice Module</h1>
+        
+        <h2>Module Information</h2>
+        <ul>
+            <li><strong>Name:</strong> getAdvice</li>
+            <li><strong>Author:</strong> EmmS21</li>
+            <li><strong>Latest Version:</strong> main</li>
+            <li><strong>Release Date:</strong> Not available (crawl failed)</li>
+            <li><strong>Dagger Engine Version Used:</strong> v0.18.5</li>
+        </ul>
 
-    <h2>Module Functionality</h2>
-    <p>This module provides AI-powered financial advice generation using LangChain and OpenAI. It offers the following functions:</p>
-    <ul>
-        <li><strong>generate:</strong> Uses LangChain with OpenAI to generate financial advice based on the AI's role as a financial advisor.</li>
-        <li><strong>update-prompt:</strong> Updates the initial prompt based on user feedback, then regenerates advice using the updated prompt.</li>
-    </ul>
+        <h2>Module Functionality</h2>
+        <p>This module provides AI-powered financial advice functionality using LangChain and OpenAI. It offers the following functions:</p>
+        
+        <div class="function">
+            <h3>Available Functions:</h3>
+            <ul>
+                <li><strong>generate</strong>: Uses LangChain with OpenAI to generate financial advice based on the AI's role as a financial advisor.</li>
+                <li><strong>update-prompt</strong>: Updates the initial prompt based on user feedback, then regenerates advice using the updated prompt.</li>
+            </ul>
+        </div>
 
-    <h2>Testing Issues Encountered</h2>
-    <div class="error">
-        <p>Unable to crawl the module page due to API limitations:</p>
-        <pre>Failed to scrape URL. Insufficient credits to perform this request.</pre>
-    </div>
+        <h2>Issues Encountered</h2>
+        <div class="error">
+            <p>Crawling the daggerverse page failed due to API limitations:</p>
+            <pre>Failed to scrape URL. Insufficient credits to perform this request.</pre>
+        </div>
 
-    <h2>Improvement Suggestions</h2>
-    
-    <div class="suggestion">
-        <h3>1. Add Input Validation</h3>
-        <p>Add input validation to ensure the OpenAI API key is provided and valid before making API calls.</p>
-        <div class="code">
+        <h2>Suggestions for Improvement</h2>
+        
+        <div class="suggestion">
+            <h3>1. Add Input Validation</h3>
+            <p>Implement input validation to ensure the quality of the financial advice generated.</p>
             <pre>
-func (m *Module) Generate(ctx context.Context) (*Module, error) {
-    if m.apiKey == "" {
-        return nil, fmt.Errorf("OpenAI API key is required")
+func (m *MyModule) Generate(ctx context.Context, input string) (*GenerateResponse, error) {
+    if len(input) < 10 {
+        return nil, fmt.Errorf("input too short: minimum 10 characters required")
     }
-    // Validate API key format
-    if !strings.HasPrefix(m.apiKey, "sk-") {
-        return nil, fmt.Errorf("invalid OpenAI API key format")
+    
+    // Add more validation rules
+    if !strings.Contains(strings.ToLower(input), "finance") {
+        return nil, fmt.Errorf("input must be related to finance")
     }
-    // ... rest of the function
+
+    // Proceed with existing logic
+    return m.generateAdvice(ctx, input)
 }
             </pre>
+            <img src="https://i.imgflip.com/65efzo.jpg" alt="Input Validation Meme" />
         </div>
-    </div>
 
-    <div class="suggestion">
-        <h3>2. Add Error Handling and Retries</h3>
-        <p>Implement retry logic for API calls to handle temporary failures.</p>
-        <img src="https://i.imgflip.com/2/3pcj8k.jpg" alt="Error handling meme" />
-        <div class="code">
+        <div class="suggestion">
+            <h3>2. Add Comprehensive Error Handling</h3>
+            <p>Implement better error handling and retry mechanisms for API calls.</p>
             <pre>
-func (m *Module) generateWithRetry(ctx context.Context) (*Module, error) {
-    maxRetries := 3
+const maxRetries = 3
+
+func (m *MyModule) generateWithRetry(ctx context.Context, prompt string) (*Response, error) {
+    var lastErr error
     for i := 0; i < maxRetries; i++ {
-        result, err := m.generate(ctx)
+        response, err := m.openai.Generate(ctx, prompt)
         if err == nil {
-            return result, nil
+            return response, nil
         }
-        if i < maxRetries-1 {
-            time.Sleep(time.Second * time.Duration(i+1))
-            continue
-        }
-        return nil, fmt.Errorf("failed after %d retries: %w", maxRetries, err)
+        lastErr = err
+        time.Sleep(time.Second * time.Duration(i+1))
     }
-    return nil, fmt.Errorf("unexpected error in retry loop")
+    return nil, fmt.Errorf("failed after %d retries: %v", maxRetries, lastErr)
 }
             </pre>
         </div>
-    </div>
 
-    <div class="suggestion">
-        <h3>3. Add Caching for Common Queries</h3>
-        <p>Implement caching to store common financial advice queries and reduce API calls.</p>
-        <div class="code">
+        <div class="suggestion">
+            <h3>3. Add Result Caching</h3>
+            <p>Implement caching to improve performance and reduce API costs.</p>
             <pre>
 type Cache struct {
-    store map[string]string
-    mu    sync.RWMutex
+    sync.RWMutex
+    items map[string]*CacheItem
 }
 
-func (m *Module) getFromCache(query string) (string, bool) {
-    m.cache.mu.RLock()
-    defer m.cache.mu.RUnlock()
-    advice, exists := m.cache.store[query]
-    return advice, exists
+type CacheItem struct {
+    response *GenerateResponse
+    expiry   time.Time
 }
 
-func (m *Module) Generate(ctx context.Context) (*Module, error) {
-    if advice, exists := m.getFromCache(m.query); exists {
-        return m.WithAdvice(advice), nil
+func (m *MyModule) getFromCache(key string) (*GenerateResponse, bool) {
+    m.cache.RLock()
+    defer m.cache.RUnlock()
+    
+    if item, exists := m.cache.items[key]; exists && time.Now().Before(item.expiry) {
+        return item.response, true
     }
-    // Proceed with API call if not in cache
-    // ... rest of the function
+    return nil, false
 }
             </pre>
         </div>
