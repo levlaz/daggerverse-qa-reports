@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>QA Report - NSV Module</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
+        h1, h2 { color: #333; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .function-list { background: #f5f5f5; padding: 20px; border-radius: 5px; }
+        .suggestion { margin: 20px 0; padding: 20px; background: #f9f9f9; border-left: 4px solid #007bff; }
+        .error { color: #dc3545; }
+        code { background: #f8f9fa; padding: 2px 5px; border-radius: 3px; }
+        pre { background: #f8f9fa; padding: 15px; border-radius: 5px; overflow-x: auto; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>QA Report: NSV (Next Semantic Version) Module</h1>
+        
+        <h2>Module Information</h2>
+        <ul>
+            <li><strong>Module Name:</strong> github.com/purpleclay/daggerverse/nsv</li>
+            <li><strong>Author:</strong> purpleclay</li>
+            <li><strong>Latest Version:</strong> main</li>
+            <li><strong>Release Date:</strong> Not available (crawl failed)</li>
+            <li><strong>Dagger Engine Version Used:</strong> v0.18.5</li>
+        </ul>
+
+        <h2>Module Description</h2>
+        <p>NSV is a semantic versioning utility module for Dagger that helps manage version numbers based on conventional commits. It provides functionality for determining the next semantic version, patching files, and creating version tags.</p>
+
+        <h2>Available Functions</h2>
+        <div class="function-list">
+            <ul>
+                <li><strong>next()</strong> - Prints the next semantic version based on the commit history of your repository.</li>
+                <li><strong>patch()</strong> - Patch files in a repository with the next semantic version based on the conventional.</li>
+                <li><strong>tag()</strong> - Tags the next semantic version based on the commit history of your repository.</li>
+            </ul>
+        </div>
+
+        <h2>Issues Encountered</h2>
+        <div class="error">
+            <p>❌ Unable to crawl module information from daggerverse due to API limitations.</p>
+        </div>
+
+        <h2>Suggestions for Improvement</h2>
+        
+        <div class="suggestion">
+            <h3>1. Add Input Validation</h3>
+            <p>Add proper input validation to ensure semantic versioning rules are followed.</p>
+            <pre><code>
+// Example improvement in Go
+func (m *Module) next(ctx context.Context) (*string, error) {
+    version := m.getNextVersion()
+    if !semver.IsValid(version) {
+        return nil, fmt.Errorf("invalid semantic version: %s", version)
+    }
+    return &version, nil
+}
+            </code></pre>
+        </div>
+
+        <div class="suggestion">
+            <h3>2. Enhanced Documentation</h3>
+            <p>Add comprehensive documentation with examples for each function.</p>
+            <pre><code>
+// Example documentation improvement
+/**
+ * next returns the next semantic version based on conventional commits
+ * 
+ * Example:
+ *   dag.next() // Returns: 1.2.3 based on commit history
+ *   
+ * @returns {Promise<string>} The next semantic version
+ * @throws {Error} If commit history cannot be parsed
+ */
+            </code></pre>
+            <img src="https://i.imgflip.com/65efzo.jpg" alt="Documentation Meme" width="300" />
+        </div>
+
+        <div class="suggestion">
+            <h3>3. Add Dry Run Option</h3>
+            <p>Implement a dry-run flag for tag and patch operations to preview changes.</p>
+            <pre><code>
+// Example implementation
+func (m *Module) tag(ctx context.Context, dryRun bool) (*string, error) {
+    nextVersion := m.getNextVersion()
+    if dryRun {
+        return fmt.Sprintf("Would tag version: %s", nextVersion), nil
+    }
+    return m.createTag(nextVersion)
+}
+            </code></pre>
+        </div>
+    </div>
+</body>
+</html>
