@@ -3,102 +3,150 @@
 <head>
     <title>QA Report - Kafka Tests Module</title>
     <style>
-        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
-        h1, h2 { color: #333; }
-        .section { margin: 20px 0; }
-        .function-list { background: #f5f5f5; padding: 15px; border-radius: 5px; }
-        .suggestion { margin: 20px 0; padding: 15px; background: #fff3e0; border-radius: 5px; }
-        .code { background: #f8f9fa; padding: 15px; border-radius: 5px; font-family: monospace; }
-        .error { color: #d32f2f; }
-        .meme { max-width: 500px; margin: 20px 0; }
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 40px;
+            color: #333;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        h1, h2 {
+            color: #2c3e50;
+        }
+        .section {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #f9f9f9;
+            border-radius: 5px;
+        }
+        .error {
+            color: #e74c3c;
+            padding: 10px;
+            background: #fadbd8;
+            border-radius: 4px;
+        }
+        .code {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 4px;
+            font-family: monospace;
+        }
+        .meme {
+            max-width: 500px;
+            margin: 20px 0;
+        }
     </style>
 </head>
 <body>
-    <h1>QA Report: Kafka Tests Module</h1>
-    
-    <div class="section">
-        <h2>Module Information</h2>
-        <ul>
-            <li><strong>Name:</strong> github.com/sagikazarmark/daggerverse/kafka/tests</li>
-            <li><strong>Author:</strong> sagikazarmark</li>
-            <li><strong>Latest Version:</strong> ceffda4aebd349a24fc00e591b4ed9b801535b65</li>
-            <li><strong>Release Date:</strong> Not specified in module information</li>
-            <li><strong>Dagger Version Used:</strong> v0.18.3</li>
-        </ul>
-    </div>
-
-    <div class="section">
-        <h2>Module Description</h2>
-        <p>This module provides test functionality for Kafka integration, focusing on connection testing in both single-node and cluster environments.</p>
+    <div class="container">
+        <h1>QA Report: Kafka Tests Module</h1>
         
-        <h3>Available Functions:</h3>
-        <div class="function-list">
+        <div class="section">
+            <h2>Module Information</h2>
             <ul>
-                <li><strong>all()</strong> - Executes all tests</li>
-                <li><strong>singleNodeConnect()</strong> - Tests connection to a single Kafka node</li>
-                <li><strong>clusterConnect()</strong> - Tests connection to a Kafka cluster</li>
+                <li><strong>Module Name:</strong> github.com/jedevc/daggerverse-sagikazarmark/kafka/tests</li>
+                <li><strong>Author:</strong> jedevc (forked from sagikazarmark)</li>
+                <li><strong>Latest Version:</strong> main</li>
+                <li><strong>Release Date:</strong> N/A (Crawling API error)</li>
             </ul>
         </div>
-    </div>
 
-    <div class="section">
-        <h2>Quality Improvement Suggestions</h2>
-        
-        <div class="suggestion">
+        <div class="section">
+            <h2>Module Functionality</h2>
+            <p>This module provides Kafka testing functionality with the following functions:</p>
+            <ul>
+                <li><strong>all()</strong>: Executes all tests</li>
+                <li><strong>cluster-connect()</strong>: Tests cluster connectivity</li>
+                <li><strong>single-node-connect()</strong>: Tests single node connectivity</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>Testing Environment</h2>
+            <p><strong>Dagger Engine Version:</strong> v0.18.5</p>
+        </div>
+
+        <div class="section">
+            <h2>Issues Encountered</h2>
+            <div class="error">
+                <p>❌ Unable to crawl the daggerverse page due to API limitations</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Quality Improvement Suggestions</h2>
+            
             <h3>1. Add Function Documentation</h3>
-            <p>The functions singleNodeConnect() and clusterConnect() lack proper documentation. Here's how to improve it:</p>
+            <p>The functions lack proper documentation which makes it harder to understand their purpose.</p>
             <div class="code">
-                // Example documentation format:
-                // singleNodeConnect tests the connection to a single Kafka broker
-                // It verifies:
-                // - Broker availability
-                // - Basic producer/consumer operations
-                // - Connection parameters
-                func (t *Tests) singleNodeConnect(ctx context.Context) error {
-                    // Implementation
-                }
+                <pre>
+// Example of improved documentation:
+#Function Documentation Example
+func all() *Test {
+    // Executes all Kafka connectivity tests in sequence
+    // Returns: Test object containing results of all test executions
+    // Throws: Error if any test fails or timeout occurs
+}
+                </pre>
             </div>
-            <img src="https://i.imgflip.com/65qngn.jpg" alt="Documentation Meme" class="meme">
-        </div>
 
-        <div class="suggestion">
-            <h3>2. Add Test Configuration Options</h3>
-            <p>The tests could benefit from configurable parameters:</p>
+            <h3>2. Add Error Handling and Retries</h3>
+            <p>Kafka connectivity tests should include proper retry mechanisms.</p>
             <div class="code">
-                type TestConfig struct {
-                    BrokerTimeout time.Duration
-                    TopicName     string
-                    MessageCount  int
-                }
-
-                func (t *Tests) WithConfig(config TestConfig) *Tests {
-                    // Implementation
-                    return t
-                }
+                <pre>
+// Example implementation:
+func clusterConnect() *Test {
+    maxRetries := 3
+    retryDelay := time.Second * 5
+    
+    for i := 0; i < maxRetries; i++ {
+        if err := tryConnect(); err != nil {
+            if i == maxRetries - 1 {
+                return &Test{Success: false, Error: err}
+            }
+            time.Sleep(retryDelay)
+            continue
+        }
+        return &Test{Success: true}
+    }
+}
+                </pre>
             </div>
-        </div>
 
-        <div class="suggestion">
-            <h3>3. Implement Test Result Reporting</h3>
-            <p>Add structured test results output:</p>
+            <h3>3. Add Test Result Reporting</h3>
+            <p>Enhance the test output with detailed reporting.</p>
             <div class="code">
-                type TestResult struct {
-                    Name        string
-                    Success     bool
-                    Duration    time.Duration
-                    Error      error
-                }
+                <pre>
+// Example structured test result:
+type TestResult struct {
+    TestName    string
+    Success     bool
+    Duration    time.Duration
+    ErrorDetail string
+    Logs        []string
+}
 
-                func (t *Tests) all() []TestResult {
-                    // Implementation returning detailed test results
-                }
+func singleNodeConnect() *TestResult {
+    start := time.Now()
+    // ... test logic ...
+    return &TestResult{
+        TestName: "Single Node Connect",
+        Success: true,
+        Duration: time.Since(start),
+        Logs: []string{"Connected successfully", "Verified broker response"}
+    }
+}
+                </pre>
+            </div>
+
+            <div class="meme">
+                <img src="https://i.imgflip.com/7q2wdl.jpg" alt="Testing Kafka be like..." />
+                <p><em>When your Kafka tests finally pass</em></p>
             </div>
         </div>
-    </div>
-
-    <div class="section">
-        <h2>Testing Issues</h2>
-        <p>No significant issues were encountered during the testing process. The module installed and built successfully, and all functions were discoverable through the SDK.</p>
     </div>
 </body>
 </html>
