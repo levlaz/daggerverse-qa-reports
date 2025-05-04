@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QA Report - PDF Extractor Module</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .error {
+            color: #dc3545;
+            background-color: #f8d7da;
+            padding: 10px;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+        .function {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+        .suggestion {
+            background-color: #e9ecef;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+        code {
+            background-color: #f8f9fa;
+            padding: 2px 4px;
+            border-radius: 4px;
+            font-family: monospace;
+        }
+        pre {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>QA Report: PDF Extractor Module</h1>
+    
+    <h2>Module Information</h2>
+    <ul>
+        <li><strong>Name:</strong> github.com/EmmS21/daggerverse/pdfextractor</li>
+        <li><strong>Author:</strong> EmmS21</li>
+        <li><strong>Latest Version:</strong> main</li>
+        <li><strong>Release Date:</strong> N/A (Information unavailable due to crawling limitation)</li>
+    </ul>
+
+    <h2>Dagger Engine Version</h2>
+    <p>Tested with: v0.18.5 (docker-image://registry.dagger.io/engine:v0.18.5) linux/amd64</p>
+
+    <h2>Module Functionality</h2>
+    <div class="function">
+        <h3>Available Functions:</h3>
+        <ul>
+            <li><strong>extract:</strong> Extracts a specific page from a PDF and returns it as a base64 encoded string</li>
+        </ul>
+    </div>
+
+    <h2>Issues Encountered</h2>
+    <div class="error">
+        <p>Unable to crawl module information from daggerverse due to API limitations.</p>
+    </div>
+
+    <h2>Suggestions for Improvement</h2>
+    
+    <div class="suggestion">
+        <h3>1. Add Input Validation</h3>
+        <p>Add proper input validation for PDF file paths and page numbers to prevent errors.</p>
+        <pre><code>
+func (m *Module) extract(ctx context.Context, filepath string, page int) (*string, error) {
+    if filepath == "" {
+        return nil, fmt.Errorf("filepath cannot be empty")
+    }
+    if page < 1 {
+        return nil, fmt.Errorf("page number must be greater than 0")
+    }
+    // ... rest of the function
+}
+        </code></pre>
+    </div>
+
+    <div class="suggestion">
+        <h3>2. Add Progress Reporting</h3>
+        <p>Implement progress reporting for better user feedback during extraction.</p>
+        <pre><code>
+type Module struct {
+    progressCh chan float64
+}
+
+func (m *Module) extract(ctx context.Context, filepath string, page int) (*string, error) {
+    // Report progress at key points
+    m.progressCh <- 0.0
+    // ... file loading
+    m.progressCh <- 0.3
+    // ... extraction
+    m.progressCh <- 0.7
+    // ... encoding
+    m.progressCh <- 1.0
+    return result, nil
+}
+        </code></pre>
+    </div>
+
+    <div class="suggestion">
+        <h3>3. Add Error Recovery and Retries</h3>
+        <p>Implement retry mechanism for resilient PDF processing</p>
+        <pre><code>
+func (m *Module) extractWithRetry(ctx context.Context, filepath string, page int, maxRetries int) (*string, error) {
+    var lastErr error
+    for i := 0; i < maxRetries; i++ {
+        result, err := m.extract(ctx, filepath, page)
+        if err == nil {
+            return result, nil
+        }
+        lastErr = err
+        time.Sleep(time.Second * time.Duration(i+1))
+    }
+    return nil, fmt.Errorf("failed after %d retries: %v", maxRetries, lastErr)
+}
+        </code></pre>
+    </div>
+
+    <div style="text-align: center; margin-top: 20px;">
+        <img src="https://i.imgflip.com/7zf3f5.jpg" alt="PDF Processing Meme" style="max-width: 500px;">
+        <p><em>When the PDF extraction works on the first try!</em></p>
+    </div>
+
+</body>
+</html>
