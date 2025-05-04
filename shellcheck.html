@@ -3,106 +3,96 @@
 <head>
     <title>QA Report - Shellcheck Module</title>
     <style>
-        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 20px; }
+        body { font-family: Arial, sans-serif; line-height: 1.6; max-width: 1200px; margin: 0 auto; padding: 20px; }
         h1, h2 { color: #333; }
-        .container { max-width: 1200px; margin: 0 auto; }
-        .error { color: #dc3545; padding: 10px; background-color: #f8d7da; border-radius: 4px; }
-        .function { background-color: #f8f9fa; padding: 15px; margin: 10px 0; border-radius: 4px; }
-        .suggestion { margin: 20px 0; padding: 15px; background-color: #e9ecef; border-radius: 4px; }
-        code { background-color: #f8f9fa; padding: 2px 5px; border-radius: 3px; }
+        .error { color: #ff0000; background: #ffebee; padding: 10px; border-radius: 4px; }
+        .functions { background: #f5f5f5; padding: 15px; border-radius: 4px; }
+        .suggestion { margin: 20px 0; padding: 15px; background: #e3f2fd; border-radius: 4px; }
+        pre { background: #f8f9fa; padding: 10px; border-radius: 4px; overflow-x: auto; }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>QA Report: Shellcheck Module</h1>
-        
-        <h2>Module Information</h2>
+    <h1>QA Report: Shellcheck Module</h1>
+    
+    <h2>Module Information</h2>
+    <ul>
+        <li><strong>Name:</strong> github.com/jedevc/dagger/modules/shellcheck</li>
+        <li><strong>Author:</strong> jedevc</li>
+        <li><strong>Latest Version:</strong> main</li>
+        <li><strong>Release Date:</strong> N/A (Information unavailable due to crawling issues)</li>
+    </ul>
+
+    <h2>Dagger Engine Version Used</h2>
+    <pre>dagger v0.18.5</pre>
+
+    <h2>Module Functionality</h2>
+    <div class="functions">
+        <p>This module provides shellcheck functionality for shell scripts. It includes the following function:</p>
         <ul>
-            <li><strong>Name:</strong> github.com/purpleclay/daggerverse/shellcheck</li>
-            <li><strong>Author:</strong> purpleclay</li>
-            <li><strong>Latest Version:</strong> v0.1.0</li>
-            <li><strong>Release Date:</strong> N/A (Unable to fetch from daggerverse)</li>
-            <li><strong>Dagger Version Used:</strong> v0.18.5</li>
+            <li><strong>check</strong>: Report the issues that need to be fixed on a given file.</li>
         </ul>
+    </div>
 
-        <h2>Module Description</h2>
-        <p>The Shellcheck module provides functionality to check shell scripts for syntactic and semantic issues. It helps identify potential problems in shell scripts that might be difficult to catch otherwise.</p>
+    <h2>Issues Encountered</h2>
+    <div class="error">
+        <p>Failed to crawl module information from daggerverse due to API limitations.</p>
+    </div>
 
-        <h2>Available Functions</h2>
-        <div class="function">
-            <h3>check</h3>
-            <p>Checks shell scripts for syntactic and semantic issues that may otherwise be difficult to detect.</p>
-        </div>
-
-        <h2>Testing Issues Encountered</h2>
-        <div class="error">
-            <p>Unable to crawl module information from daggerverse due to API limitation.</p>
-        </div>
-
-        <h2>Quality Improvement Suggestions</h2>
-        
-        <div class="suggestion">
-            <h3>1. Add Input Validation and Error Handling</h3>
-            <p>Enhance the module with proper input validation and error handling to provide clearer feedback when issues occur.</p>
-            <code><pre>
-// Example implementation
-func (s *Shellcheck) check(ctx context.Context, script *File) (*File, error) {
-    if script == nil {
-        return nil, fmt.Errorf("script file cannot be nil")
+    <h2>Quality Improvement Suggestions</h2>
+    
+    <div class="suggestion">
+        <h3>1. Add Input Validation</h3>
+        <p>Implement proper input validation to ensure the file exists and is a valid shell script.</p>
+        <pre>
+func (m *Module) check(ctx context.Context, path string) (*checkResult, error) {
+    if path == "" {
+        return nil, fmt.Errorf("file path cannot be empty")
     }
     
-    // Validate file extension
-    filename := script.Name(ctx)
-    if !strings.HasSuffix(filename, ".sh") {
-        return nil, fmt.Errorf("invalid file type: %s. Only .sh files are supported", filename)
+    if !strings.HasSuffix(path, ".sh") && !strings.HasSuffix(path, ".bash") {
+        return nil, fmt.Errorf("file must be a shell script (.sh or .bash)")
     }
-    
-    // Continue with existing logic...
+    // ... rest of the implementation
 }
-</pre></code>
-        </div>
+</pre>
+    </div>
 
-        <div class="suggestion">
-            <h3>2. Add Configuration Options</h3>
-            <p>Provide customization options for shellcheck severity levels and rule exclusions.</p>
-            <code><pre>
-type ShellcheckOpts struct {
-    Severity string   // error, warning, info, style
-    Exclude  []string // Rules to exclude
+    <div class="suggestion">
+        <h3>2. Add Severity Levels and Filtering</h3>
+        <p>Allow users to filter issues based on severity levels.</p>
+        <pre>
+type SeverityLevel string
+
+const (
+    Error   SeverityLevel = "error"
+    Warning SeverityLevel = "warning"
+    Info    SeverityLevel = "info"
+)
+
+func (m *Module) checkWithSeverity(ctx context.Context, path string, minSeverity SeverityLevel) (*checkResult, error) {
+    // Implementation here
 }
+</pre>
+        <img src="https://i.imgflip.com/2hwqqa.jpg" alt="Code Quality Meme" style="max-width: 400px;"/>
+    </div>
 
-func (s *Shellcheck) WithOptions(opts ShellcheckOpts) *Shellcheck {
-    return s.WithExec([]string{
-        "shellcheck",
-        "-S", opts.Severity,
-        "--exclude", strings.Join(opts.Exclude, ","),
-    })
-}
-</pre></code>
-            <img src="https://i.imgflip.com/65efzo.jpg" alt="Configuration Options Meme" style="max-width: 400px;">
-        </div>
-
-        <div class="suggestion">
-            <h3>3. Add Multiple File Support</h3>
-            <p>Enhance the module to support checking multiple shell scripts in one operation.</p>
-            <code><pre>
-func (s *Shellcheck) CheckMultiple(ctx context.Context, scripts []*File) (*File, error) {
-    if len(scripts) == 0 {
-        return nil, fmt.Errorf("no scripts provided")
+    <div class="suggestion">
+        <h3>3. Add Batch Processing Capability</h3>
+        <p>Add the ability to check multiple files at once.</p>
+        <pre>
+func (m *Module) checkMultiple(ctx context.Context, paths []string) (map[string]*checkResult, error) {
+    results := make(map[string]*checkResult)
+    for _, path := range paths {
+        result, err := m.check(ctx, path)
+        if err != nil {
+            results[path] = &checkResult{Error: err.Error()}
+            continue
+        }
+        results[path] = result
     }
-    
-    // Create a directory containing all scripts
-    dir := dag.Directory()
-    for _, script := range scripts {
-        dir = dir.WithFile(script.Name(ctx), script)
-    }
-    
-    // Run shellcheck on all files in directory
-    return s.WithDirectory("/src", dir).
-        WithExec([]string{"find", "/src", "-name", "*.sh", "-exec", "shellcheck", "{}", "+"})
+    return results, nil
 }
-</pre></code>
-        </div>
+</pre>
     </div>
 </body>
 </html>
