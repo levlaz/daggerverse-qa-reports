@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>QA Report - DID Module</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .error { color: #dc3545; background: #f8d7da; padding: 10px; border-radius: 4px; }
+        .suggestion { background: #f8f9fa; padding: 15px; margin: 10px 0; border-radius: 4px; }
+        pre { background: #f8f9fa; padding: 10px; border-radius: 4px; overflow-x: auto; }
+        .meme { max-width: 500px; margin: 20px 0; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>QA Report - DID Module</h1>
+        
+        <h2>Basic Information</h2>
+        <ul>
+            <li><strong>Module Name:</strong> github.com/marcosnils/daggerverse/did</li>
+            <li><strong>Author:</strong> marcosnils</li>
+            <li><strong>Latest Version:</strong> main</li>
+            <li><strong>Release Date:</strong> N/A (information unavailable due to crawling error)</li>
+        </ul>
+
+        <h2>Module Purpose</h2>
+        <p>This module provides functionality for working with Decentralized Identifiers (DIDs). It includes the following functions:</p>
+        <ul>
+            <li><strong>resolve:</strong> Returns a JSON string with the DID document given a DID string</li>
+        </ul>
+
+        <h2>Testing Environment</h2>
+        <ul>
+            <li><strong>Dagger Engine Version:</strong> v0.18.5</li>
+        </ul>
+
+        <h2>Issues Encountered</h2>
+        <div class="error">
+            <p>Failed to crawl module information due to API limitation: "Payment Required: Failed to scrape URL. Insufficient credits to perform this request."</p>
+        </div>
+
+        <h2>Suggestions for Improvement</h2>
+        
+        <div class="suggestion">
+            <h3>1. Add Input Validation</h3>
+            <p>Add proper input validation for the DID string to ensure it follows the correct format.</p>
+            <pre>
+func (m *Module) Resolve(ctx context.Context, did string) (*string, error) {
+    // Validate DID format
+    didPattern := `^did:[a-zA-Z0-9]+:.+$`
+    if !regexp.MatchString(didPattern, did) {
+        return nil, fmt.Errorf("invalid DID format: %s", did)
+    }
+    // ... rest of the resolve logic
+}
+            </pre>
+        </div>
+
+        <div class="suggestion">
+            <h3>2. Add Error Handling and Retries</h3>
+            <p>Implement proper error handling and retry mechanism for network failures.</p>
+            <pre>
+func (m *Module) Resolve(ctx context.Context, did string) (*string, error) {
+    maxRetries := 3
+    for i := 0; i < maxRetries; i++ {
+        doc, err := resolveDocument(ctx, did)
+        if err == nil {
+            return doc, nil
+        }
+        if i < maxRetries-1 {
+            time.Sleep(time.Second * time.Duration(i+1))
+            continue
+        }
+        return nil, fmt.Errorf("failed to resolve DID after %d attempts: %w", maxRetries, err)
+    }
+    return nil, fmt.Errorf("unexpected error")
+}
+            </pre>
+        </div>
+
+        <div class="suggestion">
+            <h3>3. Add Caching Support</h3>
+            <p>Implement caching to improve performance and reduce network calls.</p>
+            <pre>
+type Module struct {
+    cache map[string]*CacheEntry
+    mu    sync.RWMutex
+}
+
+type CacheEntry struct {
+    document  string
+    timestamp time.Time
+}
+
+func (m *Module) Resolve(ctx context.Context, did string) (*string, error) {
+    m.mu.RLock()
+    if entry, ok := m.cache[did]; ok {
+        if time.Since(entry.timestamp) < time.Hour {
+            m.mu.RUnlock()
+            return &entry.document, nil
+        }
+    }
+    m.mu.RUnlock()
+    
+    // Fetch and cache new result
+    // ... implementation
+}
+            </pre>
+        </div>
+
+        <h2>Meme Feedback</h2>
+        <img src="https://i.imgflip.com/8htvnx.jpg" alt="DID Resolution Meme" class="meme">
+        <p><em>When your DID resolution fails and you have to implement proper error handling</em></p>
+    </div>
+</body>
+</html>
