@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>QA Report - Dagger Pulumi Module</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
+        h1, h2 { color: #333; }
+        .function-list { background-color: #f5f5f5; padding: 20px; border-radius: 5px; }
+        .error { color: #dc3545; }
+        .suggestion { background-color: #e9ecef; padding: 15px; margin: 10px 0; border-radius: 5px; }
+        pre { background-color: #f8f9fa; padding: 10px; border-radius: 5px; overflow-x: auto; }
+    </style>
+</head>
+<body>
+    <h1>QA Report: Dagger Pulumi Module</h1>
+    
+    <h2>Module Information</h2>
+    <ul>
+        <li><strong>Module Name:</strong> github.com/techdecline/dagger-pulumi/pulumi</li>
+        <li><strong>Author:</strong> techdecline</li>
+        <li><strong>Latest Version:</strong> main</li>
+        <li><strong>Release Date:</strong> N/A (Unable to crawl module info)</li>
+        <li><strong>Dagger Version Used:</strong> v0.18.5</li>
+    </ul>
+
+    <h2>Module Description</h2>
+    <p>This module provides integration with Pulumi for infrastructure as code operations. It includes functionality for building containers, managing Pulumi stacks, and performing infrastructure operations.</p>
+
+    <h2>Available Functions</h2>
+    <div class="function-list">
+        <ul>
+            <li><strong>build-container:</strong> Build the Pulumi container</li>
+            <li><strong>cache-dir:</strong> The directory for caching Python Dependencies within the container</li>
+            <li><strong>container-name:</strong> The name of the Azure Storage Container for state storage</li>
+            <li><strong>create-or-select-stack:</strong> Create or select a stack in the Pulumi state file</li>
+            <li><strong>debug-env:</strong> Preview the changes to the infrastructure</li>
+            <li><strong>preview:</strong> Preview the changes to the infrastructure</li>
+            <li><strong>preview-file:</strong> Preview the changes to the infrastructure and output to a file</li>
+            <li><strong>pulumi-image:</strong> The Pulumi Docker image to use</li>
+            <li><strong>stack-name:</strong> The name of the Pulumi stack</li>
+            <li><strong>storage-account-name:</strong> The name of the Azure Storage Account for state storage</li>
+            <li><strong>up:</strong> Apply the changes to the infrastructure</li>
+        </ul>
+    </div>
+
+    <h2>Issues Encountered</h2>
+    <div class="error">
+        <p>Unable to crawl module information from daggerverse due to API limitations.</p>
+    </div>
+
+    <h2>Suggestions for Improvement</h2>
+    
+    <div class="suggestion">
+        <h3>1. Add Input Validation</h3>
+        <p>Add input validation for Azure-related parameters to ensure they meet naming conventions.</p>
+        <pre>
+// Example implementation in your module:
+func ValidateStorageAccountName(name string) error {
+    if len(name) < 3 || len(name) > 24 {
+        return fmt.Errorf("storage account name must be between 3 and 24 characters")
+    }
+    matched, _ := regexp.MatchString("^[a-z0-9]+$", name)
+    if !matched {
+        return fmt.Errorf("storage account name must contain only lowercase letters and numbers")
+    }
+    return nil
+}
+        </pre>
+        <img src="https://i.imgflip.com/2k48t0.jpg" alt="Input Validation Meme" />
+    </div>
+
+    <div class="suggestion">
+        <h3>2. Add Progress Feedback</h3>
+        <p>Implement progress feedback for long-running operations like infrastructure deployment.</p>
+        <pre>
+// Example implementation:
+type PulumiProgress struct {
+    Status string `json:"status"`
+    Progress int `json:"progress"`
+    Details string `json:"details"`
+}
+
+func (p *Pulumi) Up(ctx context.Context) (*PulumiProgress, error) {
+    return &PulumiProgress{
+        Status: "in_progress",
+        Progress: 50,
+        Details: "Deploying resources..."
+    }, nil
+}
+        </pre>
+    </div>
+
+    <div class="suggestion">
+        <h3>3. Add Error Recovery Mechanisms</h3>
+        <p>Implement retry logic for transient failures during infrastructure operations.</p>
+        <pre>
+// Example implementation:
+func (p *Pulumi) RetryableOperation(ctx context.Context, op func() error) error {
+    maxRetries := 3
+    for i := 0; i < maxRetries; i++ {
+        err := op()
+        if err == nil {
+            return nil
+        }
+        if !isTransientError(err) {
+            return err
+        }
+        time.Sleep(time.Second * time.Duration(i+1))
+    }
+    return fmt.Errorf("operation failed after %d retries", maxRetries)
+}
+        </pre>
+    </div>
+</body>
+</html>
