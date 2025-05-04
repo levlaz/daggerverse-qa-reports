@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>QA Report: dagger-module-demo</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .error { color: #dc3545; padding: 10px; background-color: #f8d7da; border-radius: 4px; }
+        .success { color: #28a745; padding: 10px; background-color: #d4edda; border-radius: 4px; }
+        .function-list { background-color: #f8f9fa; padding: 20px; border-radius: 4px; }
+        .meme { text-align: center; margin: 20px 0; }
+        pre { background-color: #f8f9fa; padding: 15px; border-radius: 4px; overflow-x: auto; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>QA Report: dagger-module-demo</h1>
+        
+        <h2>Module Information</h2>
+        <ul>
+            <li><strong>Module Name:</strong> github.com/rianfowler/dagger-module-demo</li>
+            <li><strong>Author:</strong> rianfowler</li>
+            <li><strong>Version Tested:</strong> main</li>
+            <li><strong>Release Date:</strong> N/A (Unable to fetch from daggerverse)</li>
+            <li><strong>Dagger Engine Version:</strong> v0.18.5</li>
+        </ul>
+
+        <h2>Module Description</h2>
+        <p>This is a demonstration module that provides various utility functions for container management, Kubernetes cluster deployment, and logging operations.</p>
+
+        <h2>Available Functions</h2>
+        <div class="function-list">
+            <ul>
+                <li><strong>cache-volume:</strong> Cache volume management</li>
+                <li><strong>container-echo:</strong> Returns a container that echoes provided string arguments</li>
+                <li><strong>continue:</strong> Manages container with cache volume mounting at /data</li>
+                <li><strong>create-cluster:</strong> Creates a k3s single-node cluster with pod deployment</li>
+                <li><strong>deploy-and-poll-k-8-s:</strong> Demonstrates async orchestration in Dagger</li>
+                <li><strong>deploy-k-3-s-and-app:</strong> Deploys k3s cluster with Helm app installation</li>
+                <li><strong>grep-dir:</strong> Pattern matching in directory files</li>
+                <li><strong>init:</strong> Initializes cache volume with files</li>
+                <li><strong>interactive-terminal:</strong> Provides basic interactive terminal functionality</li>
+                <li><strong>list-github-repos:</strong> GitHub repository listing using GitHub CLI</li>
+                <li><strong>logging-example & logging-test:</strong> Logging demonstration functions</li>
+                <li><strong>parse-base-64-json:</strong> JSON parsing utilities</li>
+                <li><strong>parse-multiple-logs:</strong> Multiple log line parsing</li>
+                <li><strong>parse-single-log:</strong> Single log message parsing</li>
+                <li><strong>run-container-with-logging:</strong> Container execution with logging</li>
+                <li><strong>run-three-containers:</strong> Concurrent container execution</li>
+                <li><strong>start-k-0-s-cluster:</strong> K0s cluster management</li>
+                <li><strong>start-k-3-sand-output-kubectl-commands:</strong> K3s cluster management with kubectl integration</li>
+            </ul>
+        </div>
+
+        <h2>Issues Encountered</h2>
+        <div class="error">
+            <p>Unable to crawl daggerverse page due to API limitation: "Payment Required: Failed to scrape URL. Insufficient credits to perform this request."</p>
+        </div>
+
+        <h2>Quality Improvement Suggestions</h2>
+        
+        <h3>1. Add Comprehensive Documentation</h3>
+        <p>The module would benefit from detailed documentation for each function. Here's an example:</p>
+        <pre>
+/**
+ * @function container-echo
+ * @description Returns a container that echoes a provided string
+ * @param {string} message - The message to echo
+ * @returns {Container} - A container with the echo result
+ * @example
+ * echo := container-echo with {
+ *     message: "Hello, World!"
+ * }
+ */
+</pre>
+
+        <h3>2. Implement Error Handling</h3>
+        <p>Add robust error handling for better reliability:</p>
+        <pre>
+func (m *Module) CreateCluster(ctx context.Context) (*Container, error) {
+    if err := validatePrerequisites(); err != nil {
+        return nil, fmt.Errorf("prerequisite check failed: %w", err)
+    }
+    
+    cluster, err := m.startCluster(ctx)
+    if err != nil {
+        return nil, fmt.Errorf("failed to start cluster: %w", err)
+    }
+    
+    return cluster, nil
+}
+</pre>
+
+        <h3>3. Add Testing Suite</h3>
+        <p>Implement comprehensive testing:</p>
+        <pre>
+func TestContainerEcho(t *testing.T) {
+    testCases := []struct {
+        name    string
+        input   string
+        want    string
+        wantErr bool
+    }{
+        {
+            name:    "basic echo",
+            input:   "hello",
+            want:    "hello\n",
+            wantErr: false,
+        },
+    }
+    
+    for _, tc := range testCases {
+        t.Run(tc.name, func(t *testing.T) {
+            result, err := ContainerEcho(tc.input)
+            if (err != nil) != tc.wantErr {
+                t.Errorf("ContainerEcho() error = %v, wantErr %v", err, tc.wantErr)
+                return
+            }
+            if result != tc.want {
+                t.Errorf("ContainerEcho() = %v, want %v", result, tc.want)
+            }
+        })
+    }
+}
+</pre>
+
+        <div class="meme">
+            <img src="https://i.imgflip.com/7q8prj.jpg" alt="Testing Meme" />
+            <p><em>When you realize you need more tests...</em></p>
+        </div>
+
+    </div>
+</body>
+</html>
