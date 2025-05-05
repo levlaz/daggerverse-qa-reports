@@ -3,12 +3,13 @@
 <head>
     <title>QA Report - Vault Module</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 40px; }
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
+        h1, h2 { color: #333; }
         .container { max-width: 1200px; margin: 0 auto; }
-        .function-list { background: #f5f5f5; padding: 20px; border-radius: 5px; }
-        .suggestion { margin: 20px 0; padding: 20px; background: #f0f8ff; border-radius: 5px; }
-        .error { color: #721c24; background-color: #f8d7da; padding: 10px; border-radius: 5px; }
-        code { background: #272822; color: #f8f8f2; padding: 15px; display: block; border-radius: 5px; }
+        .function-list { background-color: #f5f5f5; padding: 20px; border-radius: 5px; }
+        .suggestion { margin: 20px 0; padding: 20px; border: 1px solid #ddd; border-radius: 5px; }
+        .code { background-color: #f8f8f8; padding: 15px; border-radius: 5px; font-family: monospace; }
+        .error { color: #d63031; }
         .meme { max-width: 500px; margin: 20px 0; }
     </style>
 </head>
@@ -21,103 +22,111 @@
             <li><strong>Name:</strong> github.com/jumppad-labs/daggerverse/vault</li>
             <li><strong>Author:</strong> jumppad-labs</li>
             <li><strong>Latest Version:</strong> main</li>
-            <li><strong>Release Date:</strong> Not available (crawl failed)</li>
-            <li><strong>Dagger Engine Version Used:</strong> v0.18.5</li>
+            <li><strong>Release Date:</strong> Unable to determine (crawling failed)</li>
+            <li><strong>Dagger Version Used:</strong> v0.18.5</li>
         </ul>
 
-        <h2>Module Purpose</h2>
-        <p>This module provides integration with HashiCorp Vault, allowing secrets management and retrieval within Dagger pipelines. It includes functionality for reading and writing secrets, along with various authentication methods including JWT and UserPass.</p>
+        <h2>Module Description</h2>
+        <p>The Vault module provides integration with HashiCorp Vault, offering functionality to interact with Vault secrets and authentication mechanisms.</p>
 
-        <h2>Module Functions</h2>
+        <h2>Functions</h2>
         <div class="function-list">
-            <h3>Core Functions:</h3>
             <ul>
-                <li><strong>read:</strong> Returns a vault secret as a JSON string</li>
-                <li><strong>write:</strong> Writes a vault secret and returns the response as a JSON string</li>
+                <li><strong>host:</strong> Base host configuration</li>
+                <li><strong>jwt:</strong> JWT authentication handler</li>
                 <li><strong>kvget:</strong> GetSecretJSON returns a Vault secret as a JSON string</li>
-            </ul>
-
-            <h3>Configuration Functions:</h3>
-            <ul>
-                <li><strong>with-host:</strong> Sets the host for the Vault client</li>
-                <li><strong>with-namespace:</strong> Sets the namespace for the Vault client</li>
-                <li><strong>with-userpass-auth:</strong> Sets the userpass authentication for the Vault client</li>
-                <li><strong>with-jwtauth:</strong> Configures JWT authentication</li>
-            </ul>
-
-            <h3>Test Functions:</h3>
-            <ul>
-                <li><strong>test-read:</strong> Test function for the GetSecretJSON function</li>
-                <li><strong>test-write:</strong> Test function for the GetSecretJSON function</li>
-                <li><strong>test-kvget:</strong> Test function for the GetSecretJSON function</li>
+                <li><strong>namespace:</strong> Namespace configuration</li>
+                <li><strong>read:</strong> Read returns a vault secret as a JSON string</li>
+                <li><strong>write:</strong> Write writes a vault secret and returns the response as a JSON string</li>
+                <li><strong>with-host:</strong> WithHost sets the host for the Vault client</li>
+                <li><strong>with-jwtauth:</strong> JWT authentication configuration</li>
+                <li><strong>with-namespace:</strong> WithNamespace sets the namespace for the Vault client</li>
+                <li><strong>with-userpass-auth:</strong> WithUserpassAuth sets the userpass authentication for the Vault client</li>
+                <li><strong>test-*:</strong> Various test functions for read/write operations</li>
             </ul>
         </div>
 
-        <h2>Issues Encountered</h2>
-        <div class="error">
-            <p>Unable to crawl module information from daggerverse due to API limitations.</p>
-        </div>
-
-        <h2>Suggestions for Improvement</h2>
+        <h2>Quality Improvement Suggestions</h2>
         
         <div class="suggestion">
             <h3>1. Add Comprehensive Documentation</h3>
-            <p>The module functions lack detailed descriptions. Adding comprehensive documentation would improve usability.</p>
-            <code>
-// Example of improved documentation
-/*
-* Read retrieves a secret from Vault
-* @param path: The path to the secret (e.g., "secret/data/mysecret")
-* @param version: Optional version number for versioned secrets
-* @returns JSON string containing the secret data
-*/
-func (v *Vault) Read(ctx context.Context, path string, version *string) (string, error) {
-    // Implementation
+            <p>The module functions lack detailed descriptions. Adding proper documentation would improve usability.</p>
+            <div class="code">
+                <pre>
+// Example of improved documentation:
+#GetSecretJSON returns a secret from Vault's KV store as a JSON string
+func (v *Vault) GetSecretJSON(ctx context.Context, path string) (*Secret, error) {
+    // Function documentation
+    // @param path: The path to the secret in Vault (e.g., "secret/data/mysecret")
+    // @return: JSON string containing the secret data
+    // @error: Returns error if secret cannot be retrieved
+    ...
 }
-</code>
-            <img src="https://i.imgflip.com/65efzo.jpg" alt="Documentation Meme" class="meme">
+                </pre>
+            </div>
         </div>
 
         <div class="suggestion">
             <h3>2. Add Error Handling Examples</h3>
-            <p>Include examples of error handling and recovery scenarios.</p>
-            <code>
-// Example of error handling pattern
-func (v *Vault) WithRetry(ctx context.Context) *Vault {
-    return &Vault{
-        maxRetries: 3,
-        retryDelay: time.Second * 2,
-        onError: func(err error) error {
-            log.Printf("Retrying due to error: %v", err)
-            return nil
-        },
+            <p>Include example error handling patterns for common scenarios.</p>
+            <div class="code">
+                <pre>
+func ExampleVaultErrorHandling() {
+    client := vault.New().WithHost("http://vault:8200")
+    
+    secret, err := client.Read(ctx, "secret/myapp")
+    if err != nil {
+        switch {
+        case errors.Is(err, vault.ErrAuthentication):
+            // Handle authentication error
+        case errors.Is(err, vault.ErrNotFound):
+            // Handle not found error
+        default:
+            // Handle other errors
+        }
     }
 }
-</code>
+                </pre>
+            </div>
+            <img src="https://i.imgflip.com/7q7ukb.jpg" alt="Error Handling Meme" class="meme">
         </div>
 
         <div class="suggestion">
             <h3>3. Add Integration Tests</h3>
-            <p>While there are test functions, adding complete integration tests would improve reliability.</p>
-            <code>
-// Example of integration test
+            <p>While unit tests exist, adding integration tests would improve reliability.</p>
+            <div class="code">
+                <pre>
 func TestVaultIntegration(t *testing.T) {
     ctx := context.Background()
-    v := dag.Vault().
-        WithHost("vault.example.com").
-        WithUserpassAuth("username", "password")
     
-    // Test write
-    secret := `{"key": "value"}`
-    _, err := v.Write(ctx, "secret/data/test", secret)
+    // Start test vault server
+    vaultServer := testutils.NewTestVault(t)
+    defer vaultServer.Stop()
+
+    // Test full workflow
+    client := vault.New().
+        WithHost(vaultServer.Address()).
+        WithUserpassAuth("test", "test")
+
+    // Write secret
+    _, err := client.Write(ctx, "secret/test", map[string]string{
+        "key": "value",
+    })
     assert.NoError(t, err)
-    
-    // Test read
-    result, err := v.Read(ctx, "secret/data/test")
+
+    // Read and verify
+    secret, err := client.Read(ctx, "secret/test")
     assert.NoError(t, err)
-    assert.Contains(t, result, "value")
+    assert.Equal(t, "value", secret.Data["key"])
 }
-</code>
+                </pre>
+            </div>
+        </div>
+
+        <h2>Issues Encountered</h2>
+        <div class="error">
+            <p>1. Unable to crawl module information from daggerverse due to API limitations.</p>
+            <p>2. Limited documentation in function descriptions makes it harder to understand the full capabilities of each function.</p>
         </div>
     </div>
 </body>
