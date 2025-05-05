@@ -3,117 +3,95 @@
 <head>
     <title>QA Report - flyio Module</title>
     <style>
-        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
+        body { font-family: Arial, sans-serif; line-height: 1.6; max-width: 1200px; margin: 0 auto; padding: 20px; }
         h1, h2 { color: #333; }
-        .container { max-width: 1200px; margin: 0 auto; }
-        .error { color: #ff0000; }
-        .function-list { background-color: #f5f5f5; padding: 20px; border-radius: 5px; }
-        .suggestion { margin: 20px 0; padding: 20px; background-color: #f9f9f9; border-left: 4px solid #007bff; }
-        pre { background-color: #f0f0f0; padding: 15px; border-radius: 5px; overflow-x: auto; }
+        .function-list { background: #f5f5f5; padding: 15px; border-radius: 5px; }
+        .suggestion { margin: 20px 0; padding: 15px; background: #e9f5ff; border-radius: 5px; }
+        .error { color: #d63031; background: #ffe5e5; padding: 10px; border-radius: 5px; }
+        code { background: #f8f9fa; padding: 2px 5px; border-radius: 3px; }
+        pre { background: #f8f9fa; padding: 15px; border-radius: 5px; overflow-x: auto; }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>QA Report: flyio Module</h1>
-        
-        <h2>Module Information</h2>
+    <h1>QA Report: flyio Module</h1>
+    
+    <h2>Module Information</h2>
+    <ul>
+        <li><strong>Name:</strong> flyio</li>
+        <li><strong>Author:</strong> samalba/gerhard-daggerverse</li>
+        <li><strong>Latest Version:</strong> main</li>
+        <li><strong>Release Date:</strong> N/A (Information unavailable due to crawling error)</li>
+        <li><strong>Dagger Version Used:</strong> v0.18.5</li>
+        <li><strong>Dagger Cloud Trace:</strong> N/A</li>
+    </ul>
+
+    <h2>Module Functionality</h2>
+    <p>The flyio module provides functionality for deploying and managing applications on fly.io. It includes the following functions:</p>
+    <div class="function-list">
         <ul>
-            <li><strong>Name:</strong> github.com/gerhard/daggerverse/flyio</li>
-            <li><strong>Author:</strong> gerhard</li>
-            <li><strong>Latest Version:</strong> main</li>
-            <li><strong>Release Date:</strong> N/A (Information unavailable due to crawling error)</li>
+            <li><strong>create</strong> - Creates app - required for deploy to work</li>
+            <li><strong>deploy</strong> - Deploys app from current directory</li>
+            <li><strong>terminal</strong> - Opens terminal in this app (interactive mode)</li>
         </ul>
+    </div>
 
-        <h2>Dagger Engine Version</h2>
-        <p>v0.18.5 (docker-image://registry.dagger.io/engine:v0.18.5) linux/amd64</p>
+    <h2>Issues Encountered</h2>
+    <div class="error">
+        <p>Failed to crawl module information from daggerverse due to API limitations.</p>
+    </div>
 
-        <h2>Module Functions</h2>
-        <div class="function-list">
-            <ul>
-                <li><strong>create:</strong> Creates app - required for deploy to work</li>
-                <li><strong>deploy:</strong> Deploys app from current directory</li>
-                <li><strong>destroy:</strong> Destroys app</li>
-                <li><strong>run:</strong> Run command against app, e.g. destroy, scale, etc.</li>
-                <li><strong>terminal:</strong> Opens terminal in this app</li>
-            </ul>
-        </div>
-
-        <h2>Module Purpose</h2>
-        <p>This module provides a Dagger interface for managing applications on fly.io, including deployment, creation, destruction, and management of fly.io applications.</p>
-
-        <h2>Issues Encountered</h2>
-        <div class="error">
-            <p>Unable to crawl module information due to API limitations: "Payment Required: Failed to scrape URL. Insufficient credits to perform this request."</p>
-        </div>
-
-        <h2>Suggestions for Improvement</h2>
-        
-        <div class="suggestion">
-            <h3>1. Add Input Validation</h3>
-            <p>Add proper input validation for critical parameters like app names and directories.</p>
-            <img src="https://i.imgflip.com/65efhx.jpg" alt="Input Validation Meme" />
-            <pre>
-func (f *Flyio) Create(ctx context.Context, app string) (*Flyio, error) {
-    if app == "" {
+    <h2>Suggestions for Improvement</h2>
+    
+    <div class="suggestion">
+        <h3>1. Add Input Validation</h3>
+        <p>Add proper input validation for the app name and directory parameters to prevent deployment failures.</p>
+        <pre><code>
+func (m *Module) deploy(ctx context.Context, appName string, dir *Directory) (*Container, error) {
+    if appName == "" {
         return nil, fmt.Errorf("app name cannot be empty")
     }
-    if !regexp.MustCompile(`^[a-zA-Z0-9-]+$`).MatchString(app) {
-        return nil, fmt.Errorf("app name must contain only alphanumeric characters and hyphens")
+    if dir == nil {
+        return nil, fmt.Errorf("directory cannot be nil")
     }
-    // ... rest of the create function
+    // Rest of the deployment logic
 }
-            </pre>
-        </div>
+        </code></pre>
+    </div>
 
-        <div class="suggestion">
-            <h3>2. Add Comprehensive Error Handling</h3>
-            <p>Implement detailed error handling with specific error types for different failure scenarios.</p>
-            <pre>
-type FlyError struct {
-    Type    string
-    Message string
-    Details map[string]interface{}
+    <div class="suggestion">
+        <h3>2. Add Better Error Handling and Logging</h3>
+        <p>Implement comprehensive error handling and logging for better debugging.</p>
+        <pre><code>
+func (m *Module) create(ctx context.Context, appName string) error {
+    logger := log.New(os.Stdout, "[flyio] ", log.LstdFlags)
+    
+    logger.Printf("Creating app: %s", appName)
+    if err := m.flyctl.Command("apps", "create", appName).Run(); err != nil {
+        logger.Printf("Error creating app: %v", err)
+        return fmt.Errorf("failed to create app: %w", err)
+    }
+    logger.Printf("Successfully created app: %s", appName)
+    return nil
 }
+        </code></pre>
+    </div>
 
-func (f *Flyio) Deploy(ctx context.Context, dir string) (*Flyio, error) {
-    if _, err := os.Stat(dir); os.IsNotExist(err) {
-        return nil, &FlyError{
-            Type:    "DirectoryNotFound",
-            Message: fmt.Sprintf("Directory %s does not exist", dir),
-            Details: map[string]interface{}{"dir": dir},
+    <div class="suggestion">
+        <h3>3. Add Progress Feedback</h3>
+        <p>Implement progress feedback for long-running operations like deployments.</p>
+        <img src="https://i.imgflip.com/65rfgh.jpg" alt="Progress Bar Meme" style="max-width: 400px; margin: 10px 0;" />
+        <pre><code>
+func (m *Module) deploy(ctx context.Context, dir *Directory) error {
+    progress := make(chan float64, 1)
+    go func() {
+        for p := range progress {
+            fmt.Printf("Deployment progress: %.2f%%\n", p*100)
         }
-    }
-    // ... rest of the deploy function
+    }()
+    
+    return m.flyctl.WithProgress(progress).Deploy(dir)
 }
-            </pre>
-        </div>
-
-        <div class="suggestion">
-            <h3>3. Add Progress Reporting</h3>
-            <p>Implement progress reporting for long-running operations like deployments.</p>
-            <pre>
-type ProgressReporter interface {
-    Report(status string, progress float64)
-}
-
-func (f *Flyio) DeployWithProgress(ctx context.Context, dir string, reporter ProgressReporter) (*Flyio, error) {
-    reporter.Report("Validating directory", 0.1)
-    // ... directory validation
-    
-    reporter.Report("Preparing deployment", 0.3)
-    // ... preparation steps
-    
-    reporter.Report("Uploading files", 0.5)
-    // ... file upload
-    
-    reporter.Report("Finalizing deployment", 0.8)
-    // ... deployment finalization
-    
-    reporter.Report("Deployment complete", 1.0)
-    return f, nil
-}
-            </pre>
-        </div>
+        </code></pre>
     </div>
 </body>
 </html>
