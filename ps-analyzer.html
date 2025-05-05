@@ -4,75 +4,111 @@
     <title>QA Report - ps-analyzer</title>
     <style>
         body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
-        h1, h2 { color: #333; }
-        .error { color: #cc0000; background: #ffebeb; padding: 10px; border-radius: 5px; }
+        h1 { color: #333; }
+        .section { margin: 20px 0; }
+        .error { color: #ff0000; }
         .suggestion { background: #f5f5f5; padding: 15px; margin: 10px 0; border-radius: 5px; }
-        code { background: #f0f0f0; padding: 2px 5px; border-radius: 3px; }
+        .code { background: #f0f0f0; padding: 10px; font-family: monospace; }
+        .meme { text-align: center; margin: 20px 0; }
     </style>
 </head>
 <body>
     <h1>QA Report: ps-analyzer</h1>
     
-    <h2>Module Information</h2>
-    <ul>
-        <li><strong>Name:</strong> github.com/jedevc/dagger/modules/ps-analyzer</li>
-        <li><strong>Version tested:</strong> main</li>
-        <li><strong>Dagger Engine Version:</strong> v0.18.5</li>
-    </ul>
-
-    <h2>Testing Results</h2>
-    
-    <div class="error">
-        <h3>Installation & Build Issues</h3>
-        <p>The module failed to build due to Go version incompatibility:</p>
-        <pre>go: go.mod requires go >= 1.23.0 (running go 1.22.12; GOTOOLCHAIN=local)</pre>
+    <div class="section">
+        <h2>Module Information</h2>
+        <ul>
+            <li><strong>Name:</strong> ps-analyzer</li>
+            <li><strong>Path:</strong> github.com/shykes/dagger/modules/ps-analyzer</li>
+            <li><strong>Author:</strong> shykes</li>
+            <li><strong>Latest Version:</strong> latest</li>
+            <li><strong>Release Date:</strong> Not available (crawling failed)</li>
+        </ul>
     </div>
 
-    <h2>Suggestions for Improvement</h2>
-    
-    <div class="suggestion">
-        <h3>1. Update Go Version Requirement</h3>
-        <p>The module requires Go 1.23.0, which is currently in beta. Consider updating the go.mod file to support the latest stable Go version:</p>
-        <code>
-        // In go.mod
-        go 1.22
-        </code>
-        <p><img src="https://i.imgur.com/QmmVkTH.png" alt="Go version meme" style="max-width: 400px;"></p>
+    <div class="section">
+        <h2>Dagger Engine Version Used</h2>
+        <p>v0.18.5 (docker-image://registry.dagger.io/engine:v0.18.5) linux/amd64</p>
     </div>
 
-    <div class="suggestion">
-        <h3>2. Add Version Tags</h3>
-        <p>Consider adding proper version tags to the repository:</p>
-        <code>
-        git tag v0.1.0
-        git push origin v0.1.0
-        </code>
+    <div class="section">
+        <h2>Module Functions</h2>
+        <ul>
+            <li><code>base()</code></li>
+            <li><code>check()</code></li>
+        </ul>
     </div>
 
-    <div class="suggestion">
-        <h3>3. Include Documentation</h3>
-        <p>Add comprehensive documentation in the module root:</p>
-        <code>
-        // README.md
-        # PS Analyzer
+    <div class="section">
+        <h2>Issues Encountered</h2>
+        <div class="error">
+            <p>1. Unable to crawl the daggerverse page due to API limitations</p>
+            <p>2. Limited documentation available about function purposes and parameters</p>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>Improvement Suggestions</h2>
         
-        ## Usage
-        ```dagger
-        // Example usage code
-        ```
-        
-        ## Functions
-        - Description of available functions
-        ```
-        </code>
+        <div class="suggestion">
+            <h3>1. Add Function Documentation</h3>
+            <p>The module functions lack descriptions. Adding proper documentation would improve usability.</p>
+            <div class="code">
+                <pre>
+// Example of documented functions
+#[Function]
+/// Analyzes process information from a container
+/// Returns a structured report of running processes
+fn check(self) -> String {
+    // Implementation
+}
+
+#[Function]
+/// Sets up the base configuration for the analyzer
+/// Returns a configured analyzer instance
+fn base(self) -> Self {
+    // Implementation
+}
+                </pre>
+            </div>
+        </div>
+
+        <div class="suggestion">
+            <h3>2. Add Error Handling</h3>
+            <p>Implement proper error handling and return meaningful error messages.</p>
+            <div class="code">
+                <pre>
+fn check(self) -> Result<String, Error> {
+    match self.analyze_processes() {
+        Ok(report) => Ok(report),
+        Err(e) => Err(format!("Failed to analyze processes: {}", e))
+    }
+}
+                </pre>
+            </div>
+        </div>
+
+        <div class="suggestion">
+            <h3>3. Add Configuration Options</h3>
+            <p>Provide customization options for the analysis process.</p>
+            <div class="code">
+                <pre>
+#[Function]
+/// Configure the analyzer with custom settings
+fn with_options(self, options: AnalyzerOptions) -> Self {
+    self.with_max_processes(options.max_processes)
+        .with_sort_by(options.sort_criteria)
+        .with_filter(options.process_filter)
+}
+                </pre>
+            </div>
+        </div>
     </div>
 
-    <h2>Testing Notes</h2>
-    <ul>
-        <li>Unable to crawl daggerverse page for additional information</li>
-        <li>Module installation succeeded but build failed due to Go version requirements</li>
-        <li>Unable to list module functions due to build failure</li>
-    </ul>
+    <div class="meme">
+        <img src="https://i.imgflip.com/7q0qht.jpg" alt="Documentation Meme" />
+        <p><em>When you see a module with no documentation...</em></p>
+    </div>
 
 </body>
 </html>
