@@ -5,82 +5,105 @@
     <style>
         body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
         h1, h2 { color: #333; }
-        .error { color: red; }
-        .code { background-color: #f4f4f4; padding: 10px; border-radius: 5px; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .function-list { background-color: #f5f5f5; padding: 20px; border-radius: 5px; }
+        .error { color: #dc3545; }
+        .suggestion { margin-bottom: 20px; }
+        pre { background-color: #f8f9fa; padding: 15px; border-radius: 5px; overflow-x: auto; }
+        .meme { max-width: 500px; margin: 20px 0; }
     </style>
 </head>
 <body>
-    <h1>QA Report - GHA Module</h1>
-    
-    <h2>Module Information</h2>
-    <ul>
-        <li><strong>Name:</strong> github.com/gerhard/gha</li>
-        <li><strong>Author:</strong> gerhard</li>
-        <li><strong>Latest Version:</strong> 9f051afa2b895b5a4281d8bafb07f7a5d50d1efd</li>
-        <li><strong>Release Date:</strong> Not specified in crawl data</li>
-        <li><strong>Dagger Version Used:</strong> v0.17.2</li>
-    </ul>
+    <div class="container">
+        <h1>QA Report - GHA Module</h1>
+        
+        <h2>Module Information</h2>
+        <ul>
+            <li><strong>Name:</strong> github.com/dagger/dagger/modules/gha</li>
+            <li><strong>Author:</strong> Dagger Team</li>
+            <li><strong>Latest Version:</strong> main</li>
+            <li><strong>Release Date:</strong> N/A (using main branch)</li>
+            <li><strong>Dagger Version Used:</strong> v0.18.5</li>
+        </ul>
 
-    <h2>Module Functionality</h2>
-    <p>This module aims to help generate GitHub Actions workflow configurations from Dagger pipelines. It provides the following features:</p>
-    <ul>
-        <li>Generate GitHub Actions workflow files</li>
-        <li>Configure pipeline triggers (push, pull request, etc.)</li>
-        <li>Manage workflow permissions</li>
-        <li>Handle GitHub secrets</li>
-        <li>Configure concurrency settings</li>
-    </ul>
+        <h2>Module Description</h2>
+        <p>The GHA module provides functionality for working with GitHub Actions workflows. It allows users to generate, manage, and execute GitHub Actions workflows using Dagger.</p>
 
-    <h2>Error Encountered</h2>
-    <div class="error">
-        <p>Failed to build module due to Go version incompatibility:</p>
-        <pre>go: go.mod requires go >= 1.23.0 (running go 1.22.12; GOTOOLCHAIN=local)</pre>
-    </div>
+        <h2>Available Functions</h2>
+        <div class="function-list">
+            <ul>
+                <li><strong>generate</strong> - Generate GitHub Actions workflow</li>
+                <li><strong>job</strong> - Manage GitHub Actions job</li>
+                <li><strong>workflow</strong> - Add a workflow</li>
+                <li><strong>workflows</strong> - Manage multiple workflows</li>
+            </ul>
+            <p><em>Note: One function (with-workflow) was skipped due to unsupported types.</em></p>
+        </div>
 
-    <h2>Quality Improvement Suggestions</h2>
-    
-    <h3>1. Add Go Version Compatibility Information</h3>
-    <p>The module should clearly document its Go version requirements in the README:</p>
-    <pre class="code">
-## Requirements
+        <h2>Issues Encountered</h2>
+        <div class="error">
+            <p>❌ Unable to crawl the module page due to API limitations</p>
+        </div>
 
-- Go 1.23.0 or higher
-- Dagger v0.17.2 or higher
+        <h2>Suggestions for Improvement</h2>
+        
+        <div class="suggestion">
+            <h3>1. Add Function Documentation</h3>
+            <p>The module functions lack descriptions, which makes it harder for users to understand their purpose and usage.</p>
+            <pre>
+// Before:
+func generate() { ... }
 
-Please ensure you have the correct Go version installed before using this module.
-    </pre>
+// After:
+#Function documentation
+func generate() {
+    description="Generate a GitHub Actions workflow from a Dagger pipeline"
+    // Implementation
+}
+</pre>
+        </div>
 
-    <h3>2. Add Version Compatibility Check</h3>
-    <p>Add runtime version checking to provide better error messages:</p>
-    <pre class="code">
-func checkGoVersion() error {
-    currentVersion := runtime.Version()
-    minVersion := "go1.23.0"
-    if comparableVersion(currentVersion) < comparableVersion(minVersion) {
-        return fmt.Errorf("this module requires Go %s or higher (current: %s)", 
-            minVersion, currentVersion)
+        <div class="suggestion">
+            <h3>2. Add Input Validation</h3>
+            <p>Add proper input validation to ensure users provide correct parameters.</p>
+            <pre>
+// Before:
+func workflow(name: string) { ... }
+
+// After:
+func workflow(name: string) {
+    if name == "" {
+        error("Workflow name cannot be empty")
     }
-    return nil
+    if !strings.contains(name, ".yml") && !strings.contains(name, ".yaml") {
+        error("Workflow file must have .yml or .yaml extension")
+    }
+    // Implementation
 }
-    </pre>
+</pre>
+            <img src="https://i.imgflip.com/65efzo.jpg" alt="Input Validation Meme" class="meme">
+        </div>
 
-    <h3>3. Provide Backwards Compatibility</h3>
-    <p>Consider maintaining compatibility with older Go versions:</p>
-    <pre class="code">
-// go:build go1.22 || go1.23
-package main
-
-// Use conditional compilation to support multiple Go versions
-func initializeModule() error {
-    #if GO_VERSION >= 1.23
-        return initializeModuleNew()
-    #else
-        return initializeModuleLegacy()
-    #endif
-}
-    </pre>
-
-    <h2>Testing Results</h2>
-    <p>The module was successfully installed but failed to build due to Go version incompatibility. The module requires Go 1.23.0, but the test environment has Go 1.22.12.</p>
+        <div class="suggestion">
+            <h3>3. Add Examples and Usage Patterns</h3>
+            <p>Include more comprehensive examples to demonstrate the module's capabilities.</p>
+            <pre>
+// Example usage pattern for the GHA module
+dag.workflow("ci.yml").
+    job("build", {
+        "runs-on": "ubuntu-latest",
+        "steps": [
+            {
+                "uses": "actions/checkout@v2"
+            },
+            {
+                "name": "Build",
+                "run": "make build"
+            }
+        ]
+    })
+</pre>
+        </div>
+    </div>
 </body>
 </html>
