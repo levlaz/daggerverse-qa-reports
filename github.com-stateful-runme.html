@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>QA Report - github.com/stateful/runme</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .function-list { background-color: #f5f5f5; padding: 20px; border-radius: 5px; }
+        .suggestion { margin: 20px 0; padding: 20px; border: 1px solid #ddd; border-radius: 5px; }
+        .code { background-color: #f8f8f8; padding: 15px; border-radius: 5px; font-family: monospace; }
+        .error { color: #d32f2f; }
+        .meme { max-width: 500px; margin: 20px 0; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>QA Report: github.com/stateful/runme</h1>
+        
+        <h2>Module Information</h2>
+        <ul>
+            <li><strong>Name:</strong> github.com/stateful/runme</li>
+            <li><strong>Version:</strong> v0.3.0</li>
+            <li><strong>Tested with Dagger Version:</strong> v0.18.5</li>
+        </ul>
+
+        <h2>Module Description</h2>
+        <p>Runme is a tool for executing and managing code snippets from Markdown files. It provides functionality for building, testing, and managing releases of the Runme binary across different platforms.</p>
+
+        <h2>Available Functions</h2>
+        <div class="function-list">
+            <ul>
+                <li><strong>base</strong> - BaseImage is the base image for the Runme build environment.</li>
+                <li><strong>binary</strong> - Binary returns the Runme binary as a file.</li>
+                <li><strong>build</strong> - Build compiles the Runme binary for the target OS and architecture</li>
+                <li><strong>container</strong> - Container creates a container with Runme source and registry auth.</li>
+                <li><strong>ghcr-token</strong> - GhcrToken is the GitHub Container Registry token for authentication</li>
+                <li><strong>ghcr-username</strong> - GhcrUsername is the GitHub Container Registry username for authentication</li>
+                <li><strong>link-release</strong> - LinkRelease fetches a Runme release from GitHub and returns a directory with the uncompressed release files.</li>
+                <li><strong>list-release</strong> - ListRelease fetches a Runme release from GitHub and returns a directory with the release assets.</li>
+                <li><strong>source</strong> - Source is the source directory for building Runme</li>
+                <li><strong>target-arch</strong> - TargetArch specifies the target architecture for the build</li>
+                <li><strong>target-os</strong> - TargetOS specifies the target operating system for the build</li>
+                <li><strong>target-platform</strong> - TargetPlatform returns the target platform in the format "OS/ARCH".</li>
+                <li><strong>test</strong> - Test runs the test suite for Runme and returns the container with test results.</li>
+            </ul>
+        </div>
+
+        <h2>Quality Improvement Suggestions</h2>
+
+        <div class="suggestion">
+            <h3>1. Add Input Validation and Error Handling</h3>
+            <p>The module could benefit from more robust input validation and error handling for the build function.</p>
+            <div class="code">
+                <pre>
+func (m *Module) Build(ctx context.Context, targetOS, targetArch string) (*File, error) {
+    if !isValidOS(targetOS) || !isValidArch(targetArch) {
+        return nil, fmt.Errorf("invalid target platform: %s/%s", targetOS, targetArch)
+    }
+    
+    // Existing build logic
+    
+    if err != nil {
+        return nil, fmt.Errorf("failed to build binary: %w", err)
+    }
+    return binary, nil
+}
+
+func isValidOS(os string) bool {
+    validOS := []string{"linux", "darwin", "windows"}
+    return slices.Contains(validOS, os)
+}
+
+func isValidArch(arch string) bool {
+    validArch := []string{"amd64", "arm64"}
+    return slices.Contains(validArch, arch)
+}</pre>
+            </div>
+            <img src="https://i.imgflip.com/2k0qad.jpg" alt="Error Handling Meme" class="meme">
+        </div>
+
+        <div class="suggestion">
+            <h3>2. Add Progress Reporting</h3>
+            <p>Implement progress reporting for long-running operations like builds and tests.</p>
+            <div class="code">
+                <pre>
+type ProgressReporter interface {
+    OnProgress(percent int, status string)
+}
+
+func (m *Module) Build(ctx context.Context, reporter ProgressReporter) (*File, error) {
+    reporter.OnProgress(0, "Starting build process")
+    
+    // Setup
+    reporter.OnProgress(20, "Setting up build environment")
+    
+    // Compilation
+    reporter.OnProgress(50, "Compiling binary")
+    
+    // Testing
+    reporter.OnProgress(80, "Running tests")
+    
+    // Finishing up
+    reporter.OnProgress(100, "Build complete")
+    
+    return binary, nil
+}</pre>
+            </div>
+        </div>
+
+        <div class="suggestion">
+            <h3>3. Add Caching Strategy</h3>
+            <p>Implement caching for build artifacts to improve performance on subsequent builds.</p>
+            <div class="code">
+                <pre>
+func (m *Module) Build(ctx context.Context) (*File, error) {
+    cacheKey := fmt.Sprintf("build-%s-%s-%s", 
+        m.Version, 
+        m.TargetOS, 
+        m.TargetArch,
+    )
+    
+    // Check cache first
+    if cached := m.cache.Get(cacheKey); cached != nil {
+        return cached, nil
+    }
+    
+    // Perform build
+    result, err := m.performBuild()
+    if err != nil {
+        return nil, err
+    }
+    
+    // Store in cache
+    m.cache.Set(cacheKey, result)
+    
+    return result, nil
+}</pre>
+            </div>
+        </div>
+
+        <h2>Testing Issues Encountered</h2>
+        <ul>
+            <li>Unable to access detailed module information through crawling</li>
+            <li>No detailed changelog or documentation of breaking changes between versions</li>
+        </ul>
+
+    </div>
+</body>
+</html>
