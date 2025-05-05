@@ -1,106 +1,99 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>QA Report - Nginx Module</title>
+    <title>QA Report - NGINX Module</title>
     <style>
         body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
-        h1, h2 { color: #333; }
-        .container { max-width: 1200px; margin: 0 auto; }
-        .functions { background-color: #f5f5f5; padding: 20px; border-radius: 5px; }
-        .suggestion { margin: 20px 0; padding: 20px; background-color: #fff3cd; border-left: 5px solid #ffeeba; }
-        .code { background-color: #f8f9fa; padding: 15px; border-radius: 5px; font-family: monospace; }
-        .error { color: #721c24; background-color: #f8d7da; padding: 10px; border-radius: 5px; }
-        .meme { max-width: 500px; margin: 20px 0; }
+        h1 { color: #333; }
+        .section { margin: 20px 0; }
+        .error { color: #ff0000; }
+        .suggestion { background: #f9f9f9; padding: 15px; margin: 10px 0; border-radius: 5px; }
+        code { background: #f4f4f4; padding: 2px 5px; border-radius: 3px; }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>QA Report - Nginx Module</h1>
-        
-        <h2>Module Information</h2>
+    <h1>QA Report: NGINX Module</h1>
+    
+    <div class="section">
+        <h2>Basic Information</h2>
         <ul>
-            <li><strong>Name:</strong> nginx</li>
-            <li><strong>Author:</strong> Quartz Technology</li>
-            <li><strong>Latest Version:</strong> v0.0.3</li>
-            <li><strong>Release Date:</strong> Not specified in metadata</li>
-            <li><strong>Dagger Cloud Trace:</strong> <a href="https://daggerverse.dev/mod/github.com/quartz-technology/daggerverse/nginx@627fc4df7de8ce3bd8710fa08ea2db6cf16712b3">View on Daggerverse</a></li>
-            <li><strong>Dagger Version Used:</strong> v0.18.3</li>
+            <li><strong>Module Name:</strong> github.com/levlaz/daggerverse/nginx</li>
+            <li><strong>Author:</strong> levlaz</li>
+            <li><strong>Latest Version:</strong> main</li>
+            <li><strong>Release Date:</strong> N/A (Unable to retrieve from crawl)</li>
         </ul>
+    </div>
 
-        <h2>Module Purpose</h2>
-        <p>This module provides functionality for testing websites locally and running cypress tests in a Dagger CI environment. It's specifically designed for simple website deployments using Nginx.</p>
+    <div class="section">
+        <h2>Dagger Engine Version</h2>
+        <p>Tested with: dagger v0.18.5 (docker-image://registry.dagger.io/engine:v0.18.5) linux/amd64</p>
+    </div>
 
-        <h2>Available Functions</h2>
-        <div class="functions">
-            <ul>
-                <li><strong>version()</strong> - Returns the Nginx version (defaults to 1.25.3)</li>
-                <li><strong>source()</strong> - Manages HTML source files</li>
-                <li><strong>config()</strong> - Handles Nginx configuration overrides</li>
-                <li><strong>port()</strong> - Manages the port exposure for Nginx</li>
-                <li><strong>expose()</strong> - Exposes the Nginx server as a service</li>
-            </ul>
-        </div>
+    <div class="section">
+        <h2>Module Functionality</h2>
+        <p>This module provides NGINX server functionality with the following functions:</p>
+        <ul>
+            <li><strong>serve</strong>: Serves static content from a specified directory
+                <br>Example usage: <code>dagger up --port 8080:80 serve --directory .</code></li>
+        </ul>
+    </div>
 
-        <h2>Quality Improvement Suggestions</h2>
-        
-        <div class="suggestion">
-            <h3>1. Add Input Validation</h3>
-            <p>The module would benefit from proper input validation for the port number and version string.</p>
-            <div class="code">
-                <pre>
-func validatePort(port int) error {
-    if port < 1 || port > 65535 {
-        return fmt.Errorf("port must be between 1 and 65535")
-    }
-    return nil
-}
-
-func validateVersion(version string) error {
-    matched, _ := regexp.MatchString(`^\d+\.\d+\.\d+$`, version)
-    if !matched {
-        return fmt.Errorf("invalid version format. Expected format: X.Y.Z")
-    }
-    return nil
-}</pre>
-            </div>
-        </div>
-
-        <div class="suggestion">
-            <h3>2. Add Health Check Support</h3>
-            <p>Implement health check functionality to ensure the Nginx server is running correctly.</p>
-            <div class="code">
-                <pre>
-func (n *Nginx) withHealthCheck(ctx context.Context) (*Service, error) {
-    return n.container.WithExec([]string{
-        "nginx", "-t"
-    }).WithExposedPort(n.port).AsService()</pre>
-            </div>
-            <img src="https://i.imgflip.com/2/3pxh8r.jpg" alt="Health Check Meme" class="meme">
-        </div>
-
-        <div class="suggestion">
-            <h3>3. Enhanced Error Handling</h3>
-            <p>Implement more detailed error reporting and logging mechanisms.</p>
-            <div class="code">
-                <pre>
-type NginxError struct {
-    Code    int
-    Message string
-    Context map[string]string
-}
-
-func (n *Nginx) WithErrorHandling() *Nginx {
-    return n.WithEnv("NGINX_ERROR_LOG_LEVEL", "warn")
-}</pre>
-            </div>
-        </div>
-
+    <div class="section">
         <h2>Issues Encountered</h2>
-        <ul>
-            <li>Module is marked as "work in progress" and not ready for production use</li>
-            <li>Limited to simple website deployments</li>
-            <li>Release date information is not available in the metadata</li>
-        </ul>
+        <div class="error">
+            <p>❌ Unable to crawl module information due to API limitation:</p>
+            <pre>Failed to scrape URL. Insufficient credits to perform this request.</pre>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>Suggestions for Improvement</h2>
+        
+        <div class="suggestion">
+            <h3>1. Add Health Check Functionality</h3>
+            <p><img src="https://i.imgflip.com/2/5p66v7.jpg" alt="Health Check Meme" style="max-width: 300px;"></p>
+            <p>Add a health check endpoint to ensure the NGINX server is running properly:</p>
+            <pre><code>func (m *Nginx) WithHealthCheck(endpoint string) *Nginx {
+    return &Nginx{
+        base: m.base.WithFile("/etc/nginx/conf.d/default.conf", `
+location /health {
+    access_log off;
+    return 200 "healthy\n";
+}
+        `)
+    }
+}</code></pre>
+        </div>
+
+        <div class="suggestion">
+            <h3>2. Add Configuration Customization</h3>
+            <p>Allow users to customize NGINX configuration:</p>
+            <pre><code>func (m *Nginx) WithConfig(config string) *Nginx {
+    return &Nginx{
+        base: m.base.WithFile("/etc/nginx/nginx.conf", config)
+    }
+}</code></pre>
+        </div>
+
+        <div class="suggestion">
+            <h3>3. Add SSL Support</h3>
+            <p>Implement SSL/TLS support for secure connections:</p>
+            <pre><code>func (m *Nginx) WithSSL(certPath string, keyPath string) *Nginx {
+    return &Nginx{
+        base: m.base.
+            WithFile("/etc/nginx/ssl/cert.pem", certPath).
+            WithFile("/etc/nginx/ssl/key.pem", keyPath).
+            WithFile("/etc/nginx/conf.d/default.conf", `
+server {
+    listen 443 ssl;
+    ssl_certificate /etc/nginx/ssl/cert.pem;
+    ssl_certificate_key /etc/nginx/ssl/key.pem;
+    # ... rest of configuration
+}
+            `)
+    }
+}</code></pre>
+        </div>
     </div>
 </body>
 </html>
