@@ -1,109 +1,154 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>QA Report - bazel-pipeline</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QA Report - Bazel Pipeline</title>
     <style>
-        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
-        h1, h2 { color: #333; }
-        .error { color: #ff0000; }
-        .suggestion { margin: 20px 0; padding: 15px; background: #f9f9f9; }
-        code { background: #f4f4f4; padding: 2px 5px; border-radius: 3px; }
-        pre { background: #f4f4f4; padding: 15px; border-radius: 5px; overflow-x: auto; }
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 40px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .section {
+            margin-bottom: 30px;
+        }
+        .function-list {
+            background-color: #f5f5f5;
+            padding: 20px;
+            border-radius: 5px;
+        }
+        .suggestion {
+            border-left: 4px solid #007bff;
+            padding-left: 20px;
+            margin: 20px 0;
+        }
+        code {
+            background-color: #f8f9fa;
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+        pre {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        .error {
+            color: #dc3545;
+            padding: 10px;
+            background-color: #ffeaea;
+            border-radius: 5px;
+        }
+        .meme {
+            max-width: 500px;
+            margin: 20px 0;
+        }
     </style>
 </head>
 <body>
-    <h1>QA Report: bazel-pipeline</h1>
-    
-    <h2>Module Information</h2>
-    <ul>
-        <li><strong>Name:</strong> bazel-pipeline</li>
-        <li><strong>Author:</strong> fluent-ci-templates</li>
-        <li><strong>Latest Version:</strong> main</li>
-        <li><strong>Release Date:</strong> Not available (crawling failed)</li>
-        <li><strong>Dagger Cloud Trace:</strong> Not available</li>
-    </ul>
+    <div class="container">
+        <h1>QA Report: Bazel Pipeline</h1>
+        
+        <div class="section">
+            <h2>Module Information</h2>
+            <ul>
+                <li><strong>Name:</strong> github.com/fluent-ci-templates/bazel-pipeline</li>
+                <li><strong>Author:</strong> fluent-ci-templates</li>
+                <li><strong>Latest Version:</strong> main</li>
+                <li><strong>Release Date:</strong> N/A (Unable to retrieve from crawl)</li>
+                <li><strong>Dagger Engine Version Used:</strong> v0.18.5</li>
+            </ul>
+        </div>
 
-    <h2>Module Functionality</h2>
-    <p>This module provides Bazel pipeline functionality with the following functions:</p>
-    <ul>
-        <li><strong>build()</strong> - Build the project</li>
-        <li><strong>test()</strong> - Run tests</li>
-    </ul>
+        <div class="section">
+            <h2>Module Functionality</h2>
+            <p>This module provides Bazel pipeline functionality with the following functions:</p>
+            <div class="function-list">
+                <ul>
+                    <li><strong>build()</strong> - Build the project</li>
+                    <li><strong>test()</strong> - Run tests</li>
+                </ul>
+            </div>
+        </div>
 
-    <h2>Testing Environment</h2>
-    <p>Tested with Dagger Engine Version: v0.18.3</p>
-
-    <h2>Issues Encountered</h2>
-    <div class="error">
-        <p>The following issues were encountered during testing:</p>
-        <ul>
-            <li>Unable to crawl module information due to API limitations</li>
-        </ul>
-    </div>
-
-    <h2>Improvement Suggestions</h2>
-    
-    <div class="suggestion">
-        <h3>1. Add Input Validation</h3>
-        <p>Add proper input validation for the build and test functions to ensure robust error handling.</p>
-        <pre><code>
-func build(ctx context.Context, src *Directory, args []string) (*Directory, error) {
-    if src == nil {
-        return nil, fmt.Errorf("source directory cannot be nil")
-    }
-    if len(args) == 0 {
-        return nil, fmt.Errorf("build args cannot be empty")
-    }
-    // ... rest of the build logic
-}
-        </code></pre>
-    </div>
-
-    <div class="suggestion">
-        <h3>2. Implement Progress Reporting</h3>
-        <p>Add progress reporting to provide better visibility into long-running operations.</p>
-        <pre><code>
-func build(ctx context.Context, src *Directory, args []string) (*Directory, error) {
-    fmt.Printf("Starting Bazel build with args: %v\n", args)
-    defer fmt.Println("Build completed")
-    
-    // Add progress updates throughout the build process
-    fmt.Println("Preparing build environment...")
-    // ... build steps
-    fmt.Println("Executing Bazel command...")
-    // ... more build steps
-    return buildDir, nil
-}
-        </code></pre>
-    </div>
-
-    <div class="suggestion">
-        <h3>3. Add Comprehensive Documentation</h3>
-        <p>Enhance documentation with examples and usage patterns.</p>
-        <pre><code>
-// Example documentation block
+        <div class="section">
+            <h2>Quality Improvement Suggestions</h2>
+            
+            <div class="suggestion">
+                <h3>1. Add Comprehensive Documentation</h3>
+                <p>The functions lack detailed documentation about their parameters and return values. Add JSDoc style comments:</p>
+                <pre>
 /**
- * Build executes a Bazel build command with the specified arguments.
- * 
- * @param ctx The context for the build operation
- * @param src The source directory containing the Bazel workspace
- * @param args Additional build arguments to pass to Bazel
- * 
- * Example usage:
- * ```go
- * dir, err := pipeline.Build(ctx, src, []string{"//..."})
- * if err != nil {
- *     log.Fatal(err)
- * }
- * ```
+ * Build the Bazel project
+ * @param {string} workspaceRoot - Path to the Bazel workspace
+ * @param {string[]} targets - List of Bazel targets to build
+ * @return {Promise<BuildResult>} Build result containing status and artifacts
  */
-        </code></pre>
-    </div>
+export function build(workspaceRoot: string, targets: string[]): Promise<BuildResult> {
+    // Implementation
+}
+                </pre>
+            </div>
 
-    <div style="text-align: center; margin: 20px 0;">
-        <img src="https://i.imgflip.com/2/5mr282.jpg" alt="Quality Assurance Meme" style="max-width: 500px;">
-        <p><em>When the tests pass but you still have doubts...</em></p>
-    </div>
+            <div class="suggestion">
+                <h3>2. Add Error Handling and Recovery</h3>
+                <p>Implement robust error handling for common Bazel issues:</p>
+                <pre>
+try {
+    const result = await bazel.build(target);
+    return result;
+} catch (error) {
+    if (error instanceof BazelError) {
+        // Handle specific Bazel errors
+        if (error.code === 'WORKSPACE_NOT_FOUND') {
+            console.error('Bazel WORKSPACE file not found. Please check your project structure.');
+        } else if (error.code === 'BUILD_FAILED') {
+            console.error(`Build failed: ${error.message}`);
+            // Attempt to clean and retry
+            await bazel.clean();
+            return await bazel.build(target);
+        }
+    }
+    throw error;
+}
+                </pre>
+                <img src="https://i.imgflip.com/2/3pc5pd.jpg" alt="Error Handling Meme" class="meme">
+            </div>
 
+            <div class="suggestion">
+                <h3>3. Add Progress Reporting</h3>
+                <p>Implement progress reporting for long-running Bazel operations:</p>
+                <pre>
+export function build(workspace: string, onProgress?: (progress: BuildProgress) => void) {
+    return withProgress({
+        total: 100,
+        onProgress: (current, total) => {
+            onProgress?.({
+                percentage: (current / total) * 100,
+                currentPhase: 'Building',
+                details: `Processing target ${current}/${total}`
+            });
+        }
+    }, async () => {
+        // Actual build implementation
+    });
+}
+                </pre>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Issues Encountered</h2>
+            <div class="error">
+                <p>1. Unable to crawl module information due to API limitation:</p>
+                <code>failed to sync: select: failed to crawl github.com/fluent-ci-templates/bazel-pipeline: input: firecrawlDag.scrape Payment Required</code>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
