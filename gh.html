@@ -3,13 +3,11 @@
 <head>
     <title>QA Report - gh Module</title>
     <style>
-        body { font-family: Arial, sans-serif; line-height: 1.6; max-width: 1200px; margin: 0 auto; padding: 20px; }
-        h1, h2 { color: #333; }
-        .error { color: #dc3545; padding: 10px; background-color: #f8d7da; border-radius: 4px; }
-        .function { background-color: #f8f9fa; padding: 15px; margin: 10px 0; border-radius: 4px; }
-        code { background-color: #f1f1f1; padding: 2px 4px; border-radius: 4px; }
-        .suggestion { background-color: #e9ecef; padding: 15px; margin: 10px 0; border-radius: 4px; }
-        .meme { text-align: center; margin: 20px 0; }
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
+        h1 { color: #333; }
+        .error { color: #ff0000; background: #ffeeee; padding: 10px; border-radius: 5px; }
+        .suggestion { margin: 20px 0; padding: 10px; background: #f5f5f5; border-radius: 5px; }
+        code { background: #f0f0f0; padding: 2px 4px; border-radius: 3px; }
     </style>
 </head>
 <body>
@@ -17,109 +15,61 @@
     
     <h2>Basic Information</h2>
     <ul>
-        <li><strong>Name:</strong> gh</li>
-        <li><strong>Author:</strong> prefapp/daggerverse-aweris</li>
-        <li><strong>Latest Version:</strong> 166afb744b163650bb9fc911c14ca5ee81c420a0</li>
-        <li><strong>Release Date:</strong> Not available</li>
-        <li><strong>Dagger Version Used:</strong> v0.18.3</li>
+        <li><strong>Module Name:</strong> github.com/kpenfound/aweris-daggerverse/gh</li>
+        <li><strong>Author:</strong> kpenfound</li>
+        <li><strong>Latest Version:</strong> main</li>
+        <li><strong>Dagger Engine Version Used:</strong> v0.18.5</li>
     </ul>
 
-    <h2>Module Description</h2>
-    <p>The gh module is a Github CLI module for Dagger that provides integration with GitHub's command-line interface.</p>
-
-    <h2>Functions</h2>
-    <div class="function">
-        <h3>run()</h3>
-        <p>Executes GitHub CLI commands</p>
-        <ul>
-            <li>Required parameters:
-                <ul>
-                    <li>token (Secret): Github token</li>
-                    <li>cmd (String): command to run</li>
-                </ul>
-            </li>
-            <li>Optional parameters:
-                <ul>
-                    <li>version (String, default: "2.37.0"): version of the Github CLI</li>
-                    <li>disableCache (Boolean, default: false): disable cache</li>
-                </ul>
-            </li>
-        </ul>
-    </div>
-
-    <div class="function">
-        <h3>get()</h3>
-        <p>Returns the Github CLI binary</p>
-        <ul>
-            <li>Optional parameters:
-                <ul>
-                    <li>version (String, default: "2.37.0"): version of the Github CLI</li>
-                </ul>
-            </li>
-            <li>Returns: File</li>
-        </ul>
-    </div>
-
-    <h2>Testing Issues</h2>
+    <h2>Issues Encountered</h2>
     <div class="error">
-        <h3>Installation Error</h3>
-        <p>Failed to install the module due to authentication issues with GitHub. The error suggests that password authentication is no longer supported and modern authentication methods should be used.</p>
+        <h3>Crawling Issues:</h3>
+        <p>Failed to crawl the module due to API rate limiting on firecrawl.dev</p>
         
-        <h3>Build Error</h3>
-        <p>Unable to build the module due to the same authentication issues with the GitHub repository.</p>
+        <h3>Build Issues:</h3>
+        <p>Module failed to build with the following error:</p>
+        <pre>failed to call module "gh" to get functions: call constructor: process "go build -ldflags -s -w -o /runtime ." did not complete successfully: exit code: 1</pre>
+        <p>Specific error: Issue with Google API credentials in the gRPC transport package</p>
     </div>
 
     <h2>Suggestions for Improvement</h2>
     
     <div class="suggestion">
-        <h3>1. Add Input Validation</h3>
-        <p>Implement proper validation for the GitHub token and commands to prevent runtime errors.</p>
+        <h3>1. Add Proper Error Handling for Google Credentials</h3>
+        <p>The module seems to be missing proper Google API credentials configuration.</p>
         <code>
-func validateInput(token *dagger.Secret, cmd string) error {
-    if token == nil {
-        return fmt.Errorf("GitHub token cannot be nil")
-    }
-    if cmd == "" {
-        return fmt.Errorf("command cannot be empty")
-    }
-    return nil
-}
-        </code>
-    </div>
-
-    <div class="suggestion">
-        <h3>2. Implement Retry Mechanism</h3>
-        <p>Add retry logic for API calls to handle temporary network issues.</p>
-        <code>
-func withRetry(fn func() error, maxAttempts int) error {
-    var err error
-    for i := 0; i < maxAttempts; i++ {
-        if err = fn(); err == nil {
-            return nil
+        // Add proper credential initialization
+        creds, err := google.FindDefaultCredentials(ctx)
+        if err != nil {
+            return fmt.Errorf("failed to get default credentials: %w", err)
         }
-        time.Sleep(time.Second * time.Duration(i+1))
-    }
-    return err
-}
         </code>
     </div>
 
     <div class="suggestion">
-        <h3>3. Enhanced Error Handling</h3>
-        <p>Provide more detailed error messages and proper error wrapping.</p>
+        <h3>2. Add Module Documentation</h3>
+        <p>Add a comprehensive README.md with usage examples.</p>
         <code>
-func (g *Gh) run(ctx context.Context, token *dagger.Secret, cmd string) (string, error) {
-    if err := validateInput(token, cmd); err != nil {
-        return "", fmt.Errorf("invalid input: %w", err)
-    }
-    // ... rest of the implementation
-}
+        # Github Actions Module
+        
+        ## Usage
+        ```typescript
+        import { gh } from "github.com/kpenfound/aweris-daggerverse/gh"
+        
+        // Example usage here
+        ```
         </code>
     </div>
 
-    <div class="meme">
-        <img src="https://i.imgur.com/Fa3J2zt.jpeg" alt="When the authentication fails" width="400">
-        <p><em>When you try to authenticate with password and GitHub says no...</em></p>
+    <div class="suggestion">
+        <h3>3. Add Better Error Messages</h3>
+        <p>Improve error messages with more context and potential solutions.</p>
+        <code>
+        if err != nil {
+            return fmt.Errorf("failed to initialize GitHub client: %w. Please ensure GITHUB_TOKEN is set and has required permissions", err)
+        }
+        </code>
+        <img src="https://i.imgflip.com/2/6q5tl6.jpg" alt="Error Handling Meme" />
     </div>
 
 </body>
