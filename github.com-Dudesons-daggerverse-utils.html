@@ -1,33 +1,31 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>QA Report - github.com/Dudesons/daggerverse/utils</title>
+    <title>QA Report - utils Module</title>
     <style>
         body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
         .container { max-width: 1200px; margin: 0 auto; }
-        .error { color: #dc3545; background: #f8d7da; padding: 10px; border-radius: 4px; }
-        .suggestion { margin: 20px 0; padding: 15px; background: #f8f9fa; border-radius: 4px; }
-        .function-list { background: #f8f9fa; padding: 15px; border-radius: 4px; }
-        pre { background: #f8f9fa; padding: 10px; border-radius: 4px; overflow-x: auto; }
-        .meme { max-width: 500px; margin: 20px 0; }
+        .error { color: #dc3545; padding: 10px; background-color: #f8d7da; border-radius: 4px; }
+        .success { color: #28a745; padding: 10px; background-color: #d4edda; border-radius: 4px; }
+        .function-list { background-color: #f8f9fa; padding: 20px; border-radius: 4px; }
+        .suggestion { margin: 20px 0; padding: 20px; background-color: #e9ecef; border-radius: 4px; }
+        pre { background-color: #f8f9fa; padding: 15px; border-radius: 4px; overflow-x: auto; }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>QA Report: github.com/Dudesons/daggerverse/utils</h1>
+        <h1>QA Report: utils Module</h1>
         
-        <h2>Module Information</h2>
+        <h2>Basic Information</h2>
         <ul>
-            <li><strong>Name:</strong> github.com/Dudesons/daggerverse/utils</li>
+            <li><strong>Module Name:</strong> github.com/Dudesons/daggerverse/utils</li>
             <li><strong>Author:</strong> Dudesons</li>
-            <li><strong>Latest Version:</strong> latest</li>
-            <li><strong>Release Date:</strong> N/A (Unable to retrieve from crawler)</li>
+            <li><strong>Latest Version:</strong> main</li>
             <li><strong>Dagger Engine Version Used:</strong> v0.18.5</li>
         </ul>
 
-        <h2>Module Functionality</h2>
+        <h2>Module Functions</h2>
         <div class="function-list">
-            <h3>Available Functions:</h3>
             <ul>
                 <li><strong>with-dot-env-secret</strong> - No description provided</li>
             </ul>
@@ -35,62 +33,84 @@
 
         <h2>Issues Encountered</h2>
         <div class="error">
-            <p>1. Unable to crawl module information due to API limitation:</p>
-            <pre>Failed to scrape URL. Insufficient credits to perform this request.</pre>
-            <p>2. Limited module documentation - function description is missing</p>
+            <p>⚠️ Unable to crawl module information due to API limitations</p>
         </div>
 
         <h2>Quality Improvement Suggestions</h2>
         
         <div class="suggestion">
-            <h3>1. Add Comprehensive Function Documentation</h3>
-            <p>The module lacks proper documentation for its functions. Add detailed descriptions using Dagger's documentation format.</p>
+            <h3>1. Add Function Documentation</h3>
+            <p>The function "with-dot-env-secret" lacks description, making it unclear what it does.</p>
+            <img src="https://i.imgflip.com/2/5rdj07.jpg" alt="Documentation Meme" style="max-width: 400px;"/>
             <pre>
-#Example improvement:
-@Function
-@Description("Loads environment variables from a .env file and sets them as secrets")
-func (m *Module) WithDotEnvSecret(ctx context.Context, envFile string) (*Module, error) {
-    // existing implementation
+#Example improvement in dagger.json:
+{
+  "name": "utils",
+  "sdk": "go",
+  "functions": [
+    {
+      "name": "with-dot-env-secret",
+      "description": "Loads environment variables from a .env file and sets them as secrets in the pipeline",
+      "args": [
+        {
+          "name": "envPath",
+          "description": "Path to the .env file"
+        }
+      ]
+    }
+  ]
 }
             </pre>
         </div>
 
         <div class="suggestion">
             <h3>2. Add Input Validation</h3>
-            <p>Implement proper input validation to ensure robust error handling.</p>
+            <p>Implement proper input validation for the function parameters</p>
             <pre>
-func (m *Module) WithDotEnvSecret(ctx context.Context, envFile string) (*Module, error) {
-    if envFile == "" {
-        return nil, fmt.Errorf("envFile path cannot be empty")
+func (m *Module) WithDotEnvSecret(ctx context.Context, envPath string) (*Module, error) {
+    if envPath == "" {
+        return nil, fmt.Errorf("envPath cannot be empty")
     }
     
-    if !strings.HasSuffix(envFile, ".env") {
+    if !strings.HasSuffix(envPath, ".env") {
         return nil, fmt.Errorf("file must have .env extension")
     }
     
-    // existing implementation
+    // Rest of the implementation
 }
             </pre>
         </div>
 
         <div class="suggestion">
-            <h3>3. Add Examples and Usage Documentation</h3>
-            <p>Include example usage in the module's README.md</p>
+            <h3>3. Add Example Usage</h3>
+            <p>Include examples in the module documentation to help users understand how to use it</p>
             <pre>
-# Utils Module
-
-## Usage Examples
-
+# Example in README.md:
 ```go
-dag.WithDotEnvSecret("/path/to/.env")
+func Example() {
+    ctx := context.Background()
+    
+    client, err := dagger.Connect(ctx)
+    if err != nil {
+        panic(err)
+    }
+    defer client.Close()
+    
+    utils := dag.Utils()
+    
+    // Load secrets from .env file
+    utils = utils.WithDotEnvSecret("/path/to/.env")
+}
 ```
-
-## Environment File Format
-KEY=VALUE
-SECRET_KEY=SECRET_VALUE
             </pre>
-            <img src="https://i.imgflip.com/7q7shl.jpg" alt="Documentation Meme" class="meme">
         </div>
+
+        <h2>Additional Notes</h2>
+        <ul>
+            <li>The module appears to be minimal with just one function</li>
+            <li>Better documentation would significantly improve usability</li>
+            <li>Consider adding more utility functions to make the module more comprehensive</li>
+        </ul>
     </div>
 </body>
 </html>
