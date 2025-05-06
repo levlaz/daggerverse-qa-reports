@@ -1,94 +1,123 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>QA Report - Alpine Module</title>
+    <title>QA Report - apko Module</title>
     <style>
-        body { font-family: Arial, sans-serif; line-height: 1.6; max-width: 1200px; margin: 0 auto; padding: 20px; }
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
         h1, h2 { color: #333; }
-        .function-list { background-color: #f5f5f5; padding: 15px; border-radius: 5px; }
-        .suggestion { margin: 20px 0; padding: 15px; border-left: 4px solid #007bff; }
-        .code-snippet { background-color: #f8f9fa; padding: 15px; border-radius: 5px; font-family: monospace; }
-        .error { color: #dc3545; }
+        .function-list { background: #f5f5f5; padding: 20px; border-radius: 5px; }
+        .error { color: #ff0000; }
+        .suggestion { margin: 20px 0; padding: 15px; background: #e9f7ff; border-radius: 5px; }
+        .code { background: #f0f0f0; padding: 15px; border-radius: 5px; font-family: monospace; }
+        .meme { max-width: 500px; margin: 20px 0; }
     </style>
 </head>
 <body>
-    <h1>QA Report: Alpine Module</h1>
+    <h1>QA Report: apko Module</h1>
     
     <h2>Module Information</h2>
     <ul>
-        <li><strong>Name:</strong> github.com/dagger/dagger/modules/alpine</li>
-        <li><strong>Author:</strong> Dagger</li>
-        <li><strong>Latest Version:</strong> v0.18.2</li>
-        <li><strong>Release Date:</strong> Part of Dagger v0.18.2 release</li>
-        <li><strong>Dagger Version Used:</strong> v0.18.3</li>
-        <li><strong>Dagger Cloud Trace:</strong> <a href="https://alpha.dagger.cloud/playground">Dagger Cloud Playground</a></li>
+        <li><strong>Name:</strong> apko</li>
+        <li><strong>Repository:</strong> github.com/vito/daggerverse.git/apko</li>
+        <li><strong>Version Tested:</strong> main</li>
+        <li><strong>Dagger Engine Version:</strong> v0.18.5</li>
     </ul>
 
-    <h2>Module Purpose</h2>
-    <p>The Alpine module is designed to integrate with Alpine Linux, providing a way to create and customize Alpine Linux containers. It offers functionality for:</p>
+    <h2>Module Functionality</h2>
+    <p>The apko module is designed to work with Alpine and Wolfi-based containers. It provides functionality for building and configuring Alpine and Wolfi-based images with custom package selections and architecture support.</p>
+
+    <h2>Available Functions</h2>
     <div class="function-list">
         <ul>
-            <li><strong>arch()</strong> - Specify the hardware architecture to build for</li>
-            <li><strong>branch()</strong> - Select the Alpine branch to download packages from</li>
-            <li><strong>container()</strong> - Build an Alpine Linux container</li>
-            <li><strong>distro()</strong> - Choose the distro to use</li>
-            <li><strong>packages()</strong> - Define APK packages to install</li>
+            <li><strong>alpine():</strong> Creates a Container with specified packages installed from Alpine repositories</li>
+            <li><strong>as-container():</strong> Builds the configured image and returns it as a Container</li>
+            <li><strong>with-alpine():</strong> Adds the Alpine repository and alpine-base package</li>
+            <li><strong>with-archs():</strong> Configures the architectures to build</li>
+            <li><strong>with-packages():</strong> Adds specified packages to the list</li>
+            <li><strong>with-wolfi():</strong> Adds the Wolfi repository, keyring, and wolfi-base package</li>
+            <li><strong>wolfi():</strong> Creates a Container with specified packages installed from Alpine repositories</li>
         </ul>
+    </div>
+
+    <h2>Issues Encountered</h2>
+    <div class="error">
+        <p>Unable to crawl module information due to API limitations. This affected our ability to retrieve author information and release dates.</p>
     </div>
 
     <h2>Quality Improvement Suggestions</h2>
     
     <div class="suggestion">
-        <h3>1. Add Input Validation for Architecture</h3>
-        <p>Currently, the architecture input isn't validated against supported Alpine architectures. Adding validation would prevent issues with unsupported architectures.</p>
-        <div class="code-snippet">
+        <h3>1. Add Input Validation</h3>
+        <p>Add validation for package names and architectures to prevent invalid configurations.</p>
+        <div class="code">
         <pre>
-// Add validation for supported architectures
-func ValidateArch(arch string) error {
-    supportedArch := []string{"x86_64", "aarch64", "armv7", "ppc64le", "s390x"}
-    for _, a := range supportedArch {
-        if arch == a {
-            return nil
-        }
+func validatePackage(name string) error {
+    if name == "" {
+        return fmt.Errorf("package name cannot be empty")
     }
-    return fmt.Errorf("unsupported architecture: %s", arch)
-}
-        </pre>
-        </div>
-        <img src="https://media.giphy.com/media/13FrpeVH09Zrb2/giphy.gif" alt="Code validation meme" />
-    </div>
-
-    <div class="suggestion">
-        <h3>2. Implement Package Version Pinning</h3>
-        <p>Add support for pinning package versions to ensure reproducible builds.</p>
-        <div class="code-snippet">
-        <pre>
-// Example of package version pinning
-func (m *Alpine) WithPackageVersion(pkg string, version string) *Alpine {
-    return m.WithPackages([]string{fmt.Sprintf("%s=%s", pkg, version)})
+    // Add regex validation for valid package names
+    validName := regexp.MustCompile(`^[a-z0-9][a-z0-9+._-]*$`)
+    if !validName.MatchString(name) {
+        return fmt.Errorf("invalid package name format: %s", name)
+    }
+    return nil
 }
         </pre>
         </div>
     </div>
 
     <div class="suggestion">
-        <h3>3. Add Health Check Capability</h3>
-        <p>Implement a health check function to verify the container's basic functionality after creation.</p>
-        <div class="code-snippet">
+        <h3>2. Implement Caching Strategy</h3>
+        <p>Add caching for package metadata to improve build performance.</p>
+        <div class="code">
         <pre>
-// Add health check functionality
-func (m *Alpine) WithHealthCheck() *Alpine {
-    return m.WithExec([]string{
-        "sh", "-c",
-        "apk update && apk upgrade"
-    })
+type ApkoBuilder struct {
+    cache map[string]PackageMetadata
+}
+
+func (b *ApkoBuilder) getPackageMetadata(pkg string) (PackageMetadata, error) {
+    if metadata, ok := b.cache[pkg]; ok {
+        return metadata, nil
+    }
+    // Fetch and cache package metadata
+    metadata := fetchPackageMetadata(pkg)
+    b.cache[pkg] = metadata
+    return metadata, nil
 }
         </pre>
         </div>
     </div>
 
-    <h2>Testing Issues</h2>
-    <p>No significant issues were encountered during testing. The module installed and built successfully, and all core functions were accessible.</p>
+    <div class="suggestion">
+        <h3>3. Add Comprehensive Error Handling</h3>
+        <p>Implement detailed error reporting and recovery mechanisms.</p>
+        <div class="code">
+        <pre>
+type BuildError struct {
+    Phase   string
+    Package string
+    Err     error
+}
+
+func (e *BuildError) Error() string {
+    return fmt.Sprintf("build failed during %s for package %s: %v", 
+        e.Phase, e.Package, e.Err)
+}
+
+func (b *Builder) buildWithErrorHandling() error {
+    if err := b.prepare(); err != nil {
+        return &BuildError{Phase: "preparation", Err: err}
+    }
+    // Additional error handling...
+}
+        </pre>
+        </div>
+    </div>
+
+    <div class="meme">
+        <img src="https://i.imgflip.com/2/7ph5cq.jpg" alt="Coding Quality Meme" />
+        <p><em>"When the build fails but your error handling catches it like a pro"</em></p>
+    </div>
 
 </body>
 </html>
