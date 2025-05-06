@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>QA Report - Node Module</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
+        h1, h2 { color: #333; }
+        .function-list { background-color: #f5f5f5; padding: 20px; border-radius: 5px; }
+        .error { color: #d63031; }
+        .suggestion { margin: 20px 0; padding: 20px; background-color: #f8f9fa; border-left: 4px solid #00b894; }
+        .meme { max-width: 500px; margin: 20px 0; }
+        code { background-color: #f1f1f1; padding: 2px 5px; border-radius: 3px; }
+        pre { background-color: #f8f9fa; padding: 15px; border-radius: 5px; overflow-x: auto; }
+    </style>
+</head>
+<body>
+    <h1>QA Report: Node Module</h1>
+    
+    <h2>Module Information</h2>
+    <ul>
+        <li><strong>Name:</strong> github.com/TomChv/daggerverse/node</li>
+        <li><strong>Author:</strong> TomChv</li>
+        <li><strong>Latest Version:</strong> main</li>
+        <li><strong>Release Date:</strong> N/A (information unavailable due to crawling issues)</li>
+        <li><strong>Dagger Engine Version Used:</strong> v0.18.5</li>
+    </ul>
+
+    <h2>Module Description</h2>
+    <p>This module provides Node.js integration for Dagger pipelines, offering various functions for building, testing, and managing Node.js applications.</p>
+
+    <h2>Available Functions</h2>
+    <div class="function-list">
+        <ul>
+            <li><strong>build</strong> - Build returns the Container with the source built.</li>
+            <li><strong>container</strong> - Container returns Node container.</li>
+            <li><strong>ctr</strong> - No description provided</li>
+            <li><strong>lint</strong> - Lint returns the output of the lint command.</li>
+            <li><strong>run</strong> - Run returns the container with the command set.</li>
+            <li><strong>start</strong> - Start returns the output of the code executed.</li>
+            <li><strong>test</strong> - Test returns the result of the test executed.</li>
+            <li><strong>with-container</strong> - WithContainer returns Node container with the given container.</li>
+            <li><strong>with-npm</strong> - WithNpm returns Node container with npm configured as package manager.</li>
+            <li><strong>with-source</strong> - WithSource returns Node container with source and cache set in it.</li>
+            <li><strong>with-version</strong> - WithVersion returns Node container with given image version.</li>
+            <li><strong>with-yarn</strong> - WithYarn returns Node container with yarn configured as package manager.</li>
+        </ul>
+        <p><em>Note: Functions 'publish' and 'install' were skipped due to unsupported types.</em></p>
+    </div>
+
+    <h2>Issues Encountered</h2>
+    <div class="error">
+        <p>Unable to crawl the module page due to API limitations: "Payment Required: Failed to scrape URL. Insufficient credits to perform this request."</p>
+    </div>
+
+    <h2>Suggestions for Improvement</h2>
+    
+    <div class="suggestion">
+        <h3>1. Add Comprehensive Function Documentation</h3>
+        <p>The current function descriptions are minimal. Adding detailed documentation with examples would improve usability.</p>
+        <pre><code>// Example of improved documentation
+/*
+* Builds the Node.js application
+* @param {string} command - Custom build command (optional, defaults to 'npm run build')
+* @param {string} env - Environment variables as JSON string
+* @returns {Container} Built application container
+* @example
+* node.withSource(...).build("npm run build:prod")
+*/
+func (n *Node) build(command?: string, env?: *Container): *Container {
+    // Implementation
+}</code></pre>
+    </div>
+
+    <div class="suggestion">
+        <h3>2. Add Error Handling and Status Reporting</h3>
+        <p>Implement better error handling and status reporting for better debugging experience.</p>
+        <pre><code>// Example of improved error handling
+func (n *Node) test(command?: string): *TestResult {
+    if !n.hasTests() {
+        return &TestResult{
+            success: false,
+            error: "No test files found in the project"
+            details: "Please add test files or check the test pattern"
+        }
+    }
+    // Rest of implementation
+}</code></pre>
+        <img src="https://i.imgflip.com/2/1bij.jpg" alt="Debugging Meme" class="meme">
+    </div>
+
+    <div class="suggestion">
+        <h3>3. Add Typescript Support</h3>
+        <p>Adding native TypeScript support would improve the developer experience for TypeScript projects.</p>
+        <pre><code>// Example of TypeScript configuration
+func (n *Node) withTypeScript() *Node {
+    return n.withNpm().
+           withFile("/tsconfig.json", `{
+               "compilerOptions": {
+                   "target": "es2020",
+                   "module": "commonjs",
+                   "strict": true
+               }
+           }`).
+           withExec(["npm", "install", "--save-dev", "typescript", "@types/node"])
+}</code></pre>
+    </div>
+
+</body>
+</html>
