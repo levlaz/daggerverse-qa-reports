@@ -1,118 +1,118 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>QA Report - Ruff Module</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-            margin: 0;
-            padding: 20px;
-        }
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        .error-box {
-            background-color: #fff3f3;
-            border-left: 4px solid #ff0000;
-            padding: 15px;
-            margin: 10px 0;
-        }
-        .suggestion {
-            background-color: #f0f8ff;
-            padding: 15px;
-            margin: 10px 0;
-            border-radius: 5px;
-        }
-        pre {
-            background-color: #f5f5f5;
-            padding: 10px;
-            border-radius: 5px;
-            overflow-x: auto;
-        }
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
+        h1, h2 { color: #333; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .function-list { background-color: #f5f5f5; padding: 20px; border-radius: 5px; }
+        .suggestion { margin: 20px 0; padding: 20px; background-color: #f9f9f9; border-left: 4px solid #007bff; }
+        .code { background-color: #f4f4f4; padding: 15px; border-radius: 5px; font-family: monospace; }
+        .error { color: #dc3545; }
+        .meme { max-width: 500px; margin: 20px 0; }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>QA Report - Ruff Module</h1>
-
+        <h1>QA Report: Ruff Module</h1>
+        
         <h2>Module Information</h2>
         <ul>
-            <li><strong>Name:</strong> github.com/kpenfound/dagger-modules/ruff</li>
-            <li><strong>Author:</strong> kpenfound</li>
-            <li><strong>Latest Version:</strong> v0.1.0</li>
-            <li><strong>Release Date:</strong> Not available (unable to crawl)</li>
-            <li><strong>Dagger Engine Version Used:</strong> v0.18.5</li>
+            <li><strong>Name:</strong> github.com/softwaredevelop/daggerverse/ruff</li>
+            <li><strong>Author:</strong> softwaredevelop</li>
+            <li><strong>Latest Version:</strong> main</li>
+            <li><strong>Release Date:</strong> Not available (crawl failed)</li>
+            <li><strong>Dagger Engine Version Used:</strong> v0.18.6</li>
         </ul>
 
-        <h2>Module Purpose</h2>
-        <p>This module appears to be a Python module that interfaces with the Ruff linter. However, due to technical issues, we were unable to fully analyze its functions.</p>
+        <h2>Module Description</h2>
+        <p>The Ruff module is a Dagger module that provides integration with the Ruff Python linter. It offers functionality to check Python code using Ruff's linting capabilities.</p>
 
-        <h2>Encountered Issues</h2>
-        <div class="error-box">
-            <h3>1. Crawling Error</h3>
-            <p>Failed to crawl the module page due to API limitations.</p>
-
-            <h3>2. Build Error</h3>
-            <p>The module failed to build with the following error:</p>
-            <pre>Main object not found. You can configure it explicitly by adding an entry point to your pyproject.toml file.</pre>
+        <h2>Available Functions</h2>
+        <div class="function-list">
+            <ul>
+                <li><strong>check()</strong> - Check runs the ruff check command</li>
+                <li><strong>check-with-config()</strong> - CheckWithConfig runs the ruff check command with a configuration file</li>
+            </ul>
         </div>
 
-        <h2>Improvement Suggestions</h2>
+        <h2>Issues Encountered</h2>
+        <div class="error">
+            <p>Unable to crawl the daggerverse page due to API limitations: "Payment Required: Failed to scrape URL. Insufficient credits to perform this request."</p>
+        </div>
+
+        <h2>Quality Improvement Suggestions</h2>
         
         <div class="suggestion">
-            <h3>1. Add Proper Entry Point Configuration</h3>
-            <p>The module is missing the required entry point configuration in pyproject.toml.</p>
-            <pre>
-[project.entry-points."dagger.mod"]
-main_object = "main:Ruff"
-            </pre>
-            <img src="https://i.imgflip.com/6ikg7d.jpg" alt="Python Configuration Meme" style="max-width: 300px;"/>
+            <h3>1. Add Input Validation</h3>
+            <p>Add input validation to ensure the Python files exist before running the check.</p>
+            <div class="code">
+                <pre>
+func (r *Ruff) check(ctx context.Context, src *Directory) (*Directory, error) {
+    // Add validation
+    exists, err := src.File("setup.py").Exists(ctx)
+    if err != nil {
+        return nil, fmt.Errorf("failed to check if setup.py exists: %w", err)
+    }
+    if !exists {
+        return nil, fmt.Errorf("no Python files found in the directory")
+    }
+    
+    // Continue with existing logic
+    ...
+}</pre>
+            </div>
         </div>
 
         <div class="suggestion">
-            <h3>2. Add Comprehensive Documentation</h3>
-            <p>Include better documentation about the module's purpose and usage.</p>
-            <pre>
-# README.md
-
-# Ruff Dagger Module
-This module integrates Ruff linter with Dagger pipelines.
-
-## Usage
-```python
-from dagger import connect
-from ruff import Ruff
-
-async with connect() as client:
-    ruff = Ruff(client)
-    # Add usage examples here
-```
-            </pre>
+            <h3>2. Add Detailed Documentation</h3>
+            <p>Enhance the documentation with examples and parameter descriptions.</p>
+            <div class="code">
+                <pre>
+// Example documentation
+// CheckWithConfig runs ruff with a custom configuration
+//
+// Parameters:
+//   - src: Directory containing Python files to check
+//   - config: Path to the ruff configuration file
+//
+// Returns:
+//   - Directory containing the check results
+//   - Error if the check fails
+//
+func (r *Ruff) CheckWithConfig(
+    ctx context.Context,
+    src *Directory,
+    config string,
+) (*Directory, error) {</pre>
+            </div>
+            <img src="https://i.imgur.com/Rj9DhZs.jpg" alt="Documentation Meme" class="meme">
         </div>
 
         <div class="suggestion">
-            <h3>3. Include Error Handling and Validation</h3>
-            <p>Add proper error handling and input validation.</p>
-            <pre>
-class Ruff:
-    def __init__(self, client):
-        if not client:
-            raise ValueError("Dagger client is required")
-        self.client = client
+            <h3>3. Add Output Formatting Options</h3>
+            <p>Provide options for different output formats (JSON, CSV, etc.)</p>
+            <div class="code">
+                <pre>
+type OutputFormat string
 
-    async def lint(self, source_dir: str, config: Optional[str] = None):
-        if not source_dir:
-            raise ValueError("Source directory is required")
-        # Implementation here
-            </pre>
+const (
+    FormatText OutputFormat = "text"
+    FormatJSON OutputFormat = "json"
+    FormatCSV  OutputFormat = "csv"
+)
+
+func (r *Ruff) CheckWithFormat(
+    ctx context.Context,
+    src *Directory,
+    format OutputFormat,
+) (*Directory, error) {
+    args := []string{"check", fmt.Sprintf("--format=%s", format)}
+    // Continue with check logic
+}</pre>
+            </div>
         </div>
-
-        <h2>Build Information</h2>
-        <p>Trace ID: Not available due to build failure</p>
     </div>
 </body>
 </html>
