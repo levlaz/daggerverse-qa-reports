@@ -1,120 +1,93 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>QA Report - PHPCBF Module</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        .section {
-            margin-bottom: 30px;
-        }
-        .error {
-            color: #721c24;
-            background-color: #f8d7da;
-            padding: 10px;
-            border-radius: 4px;
-            margin: 10px 0;
-        }
-        .function {
-            background-color: #f8f9fa;
-            padding: 10px;
-            margin: 10px 0;
-            border-radius: 4px;
-        }
-        code {
-            background-color: #f8f9fa;
-            padding: 2px 5px;
-            border-radius: 3px;
-        }
-        pre {
-            background-color: #f8f9fa;
-            padding: 15px;
-            border-radius: 5px;
-            overflow-x: auto;
-        }
-        .meme {
-            max-width: 500px;
-            margin: 20px 0;
-        }
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 20px; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        h1, h2 { color: #333; }
+        .error { color: #ff0000; padding: 10px; background-color: #ffeeee; border-radius: 5px; }
+        .functions { background-color: #f5f5f5; padding: 15px; border-radius: 5px; }
+        .suggestion { margin: 20px 0; padding: 15px; background-color: #f0f8ff; border-radius: 5px; }
+        pre { background-color: #f0f0f0; padding: 10px; border-radius: 5px; overflow-x: auto; }
+        .meme { max-width: 500px; margin: 20px 0; }
     </style>
 </head>
 <body>
-    <h1>QA Report: PHPCBF Module</h1>
-    
-    <div class="section">
-        <h2>Basic Information</h2>
+    <div class="container">
+        <h1>QA Report: PHPCBF Module</h1>
+        
+        <h2>Module Information</h2>
         <ul>
-            <li><strong>Module Name:</strong> github.com/tsirysndr/daggerverse/phpcbf</li>
+            <li><strong>Name:</strong> github.com/tsirysndr/daggerverse/phpcbf</li>
             <li><strong>Author:</strong> tsirysndr</li>
             <li><strong>Latest Version:</strong> main</li>
-            <li><strong>Release Date:</strong> N/A (Unable to fetch from daggerverse)</li>
-            <li><strong>Dagger Engine Version Used:</strong> v0.18.4</li>
+            <li><strong>Release Date:</strong> N/A (Information unavailable due to crawling limitations)</li>
         </ul>
-    </div>
 
-    <div class="section">
+        <h2>Dagger Engine Version</h2>
+        <pre>dagger v0.18.5 (docker-image://registry.dagger.io/engine:v0.18.5) linux/amd64</pre>
+
         <h2>Module Functionality</h2>
-        <p>The PHPCBF (PHP Code Beautifier and Fixer) module is designed to automatically fix PHP coding standard violations. It provides the following function:</p>
-        
-        <div class="function">
-            <h3>check</h3>
-            <p>Run phpcbf on PHP files.</p>
+        <div class="functions">
+            <p>This module provides PHP Code Beautifier and Fixer (PHPCBF) functionality within Dagger pipelines.</p>
+            <h3>Available Functions:</h3>
+            <ul>
+                <li><strong>check</strong>: Run phpcbf on PHP files.</li>
+            </ul>
         </div>
-    </div>
 
-    <div class="section">
         <h2>Issues Encountered</h2>
         <div class="error">
-            <p>⚠️ Unable to crawl the daggerverse page due to API limitations:</p>
-            <pre>failed to sync: select: failed to crawl github.com/tsirysndr/daggerverse/phpcbf: input: firecrawlDag.scrape Payment Required</pre>
+            <p>Unable to crawl the daggerverse page due to API limitations. This affected our ability to gather complete metadata about the module.</p>
         </div>
-    </div>
 
-    <div class="section">
         <h2>Suggestions for Improvement</h2>
         
-        <h3>1. Add Configuration Options</h3>
-        <p>The module could benefit from allowing users to specify custom PHP_CodeSniffer configuration:</p>
-        <pre>
-func (p *PHPCBF) WithConfig(configPath string) *PHPCBF {
-    return &PHPCBF{
-        config: configPath,
+        <div class="suggestion">
+            <h3>1. Add More Configuration Options</h3>
+            <p>The module could benefit from additional configuration options for PHPCBF.</p>
+            <pre>
+// Example implementation:
+func (p *Phpcbf) WithConfig(standardName string, tabWidth int) *Phpcbf {
+    return &Phpcbf{
+        Standard: standardName,
+        TabWidth: tabWidth,
     }
 }
-        </pre>
+            </pre>
+        </div>
 
-        <h3>2. Add Support for Multiple PHP Versions</h3>
-        <p>Allow users to specify which PHP version to use:</p>
-        <pre>
-func (p *PHPCBF) WithPHPVersion(version string) *PHPCBF {
-    return &PHPCBF{
-        phpVersion: version,
+        <div class="suggestion">
+            <h3>2. Add Progress Reporting</h3>
+            <p>Implement progress reporting for better visibility during execution.</p>
+            <pre>
+// Example implementation:
+func (p *Phpcbf) WithProgressReporting() *Phpcbf {
+    return &Phpcbf{
+        ShowProgress: true,
+        OnProgress: func(percent int) {
+            fmt.Printf("Processing: %d%% complete\n", percent)
+        },
     }
 }
-        </pre>
+            </pre>
+            <img src="https://i.imgflip.com/2/7zqnrq.jpg" alt="Progress Bar Meme" class="meme">
+        </div>
 
-        <h3>3. Add Detailed Reporting Options</h3>
-        <p>Enhance the output with different reporting formats:</p>
-        <pre>
-func (p *PHPCBF) WithReportFormat(format string) *PHPCBF {
-    return &PHPCBF{
-        reportFormat: format, // json, xml, csv
+        <div class="suggestion">
+            <h3>3. Add File Filtering Options</h3>
+            <p>Add the ability to include/exclude specific files or directories.</p>
+            <pre>
+// Example implementation:
+func (p *Phpcbf) WithFilePatterns(include []string, exclude []string) *Phpcbf {
+    return &Phpcbf{
+        IncludePatterns: include,
+        ExcludePatterns: exclude,
     }
 }
-        </pre>
-
-        <div class="meme">
-            <img src="https://i.imgflip.com/6h5viz.jpg" alt="PHP Developer Meme" />
-            <p><em>When PHPCBF fixes all your coding standards violations automatically</em></p>
+            </pre>
         </div>
     </div>
-
 </body>
 </html>
