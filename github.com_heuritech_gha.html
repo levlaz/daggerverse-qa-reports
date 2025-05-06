@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>QA Report - github.com/heuritech/gha</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .error { color: #dc3545; padding: 10px; background-color: #f8d7da; border-radius: 4px; }
+        .success { color: #28a745; padding: 10px; background-color: #d4edda; border-radius: 4px; }
+        .suggestion { margin: 20px 0; padding: 15px; background-color: #f8f9fa; border-radius: 4px; }
+        code { background-color: #f8f9fa; padding: 2px 4px; border-radius: 4px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>QA Report: github.com/heuritech/gha</h1>
+        
+        <h2>Module Information</h2>
+        <ul>
+            <li><strong>Name:</strong> github.com/heuritech/gha</li>
+            <li><strong>Author:</strong> Unable to determine (crawl failed)</li>
+            <li><strong>Latest Version:</strong> main</li>
+            <li><strong>Release Date:</strong> Unable to determine (crawl failed)</li>
+            <li><strong>Tested with Dagger Version:</strong> v0.18.5</li>
+        </ul>
+
+        <h2>Module Functionality</h2>
+        <p>Unable to determine the module's functions due to build failures.</p>
+
+        <h2>Testing Results</h2>
+        <div class="error">
+            <h3>Issues Encountered:</h3>
+            <ol>
+                <li>Crawling failed: Unable to access the daggerverse page due to insufficient credits</li>
+                <li>Build failed: The module requires Go version >= 1.23.0, but the build environment uses Go 1.22.12</li>
+            </ol>
+        </div>
+
+        <h2>Quality Improvement Suggestions</h2>
+        
+        <div class="suggestion">
+            <h3>1. Update Go Version Requirements</h3>
+            <p>The module requires Go 1.23.0 which is not yet widely available. Consider supporting older stable versions.</p>
+            <p>Current go.mod:</p>
+            <pre><code>go 1.23</code></pre>
+            <p>Suggested change:</p>
+            <pre><code>go 1.22</code></pre>
+            <img src="https://media.giphy.com/media/13FrpeVH09Zrb2/giphy.gif" alt="Backward compatibility meme" />
+        </div>
+
+        <div class="suggestion">
+            <h3>2. Add Module Documentation</h3>
+            <p>Add a comprehensive README.md with installation and usage instructions:</p>
+            <pre><code># GitHub Actions Dagger Module
+
+This module provides GitHub Actions integration for Dagger.
+
+## Installation
+
+```shell
+dagger install github.com/heuritech/gha@main
+```
+
+## Usage Examples
+
+```go
+// Add usage examples here
+```</code></pre>
+        </div>
+
+        <div class="suggestion">
+            <h3>3. Implement Version Tagging</h3>
+            <p>Use semantic versioning to make the module more maintainable:</p>
+            <pre><code>git tag v0.1.0
+git push origin v0.1.0</code></pre>
+            <p>Then users can install specific versions:</p>
+            <pre><code>dagger install github.com/heuritech/gha@v0.1.0</code></pre>
+        </div>
+
+        <h2>Cloud Trace</h2>
+        <p>Cloud trace unavailable due to testing failures.</p>
+    </div>
+</body>
+</html>
