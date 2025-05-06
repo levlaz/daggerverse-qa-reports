@@ -1,97 +1,28 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>QA Report - Alpine Module</title>
+    <title>Dagger Module QA Reports</title>
     <style>
-        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
-        h1 { color: #2c3e50; }
-        h2 { color: #34495e; }
-        .error { color: #e74c3c; background: #fadbd8; padding: 10px; border-radius: 5px; }
-        .suggestion { margin: 20px 0; padding: 15px; background: #f8f9fa; border-radius: 5px; }
-        pre { background: #f8f9fa; padding: 10px; border-radius: 5px; overflow-x: auto; }
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        table { border-collapse: collapse; width: 100%; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+        .pass { color: green; }
+        .fail { color: red; }
     </style>
 </head>
 <body>
-    <h1>QA Report: Alpine Module</h1>
-    
-    <h2>Module Information</h2>
-    <ul>
-        <li><strong>Module Name:</strong> github.com/jedevc/dagger/modules/alpine</li>
-        <li><strong>Author:</strong> Not available (module crawl failed)</li>
-        <li><strong>Latest Version:</strong> Not available (module crawl failed)</li>
-        <li><strong>Release Date:</strong> Not available (module crawl failed)</li>
-    </ul>
-
-    <h2>Testing Environment</h2>
-    <ul>
-        <li><strong>Dagger Version:</strong> v0.18.5 (docker-image://registry.dagger.io/engine:v0.18.5) linux/amd64</li>
-    </ul>
-
-    <h2>Module Functionality</h2>
-    <p>Unable to determine module functionality due to installation and build failures.</p>
-
-    <h2>Errors Encountered</h2>
-    <div class="error">
-        <h3>1. Module Crawling Error</h3>
-        <p>Failed to crawl the module page due to API limitations.</p>
-
-        <h3>2. Installation Error</h3>
-        <pre>git module source "github.com/jedevc/dagger/modules/alpine" does not contain a dagger config file</pre>
-
-        <h3>3. Build Error</h3>
-        <pre>failed to get configured module: input: moduleSource path "modules/alpine" does not exist in git repo</pre>
-    </div>
-
-    <h2>Quality Improvement Suggestions</h2>
-    
-    <div class="suggestion">
-        <h3>1. Add Basic Module Configuration</h3>
-        <p>The module is missing a dagger.json configuration file, which is essential for Dagger modules.</p>
-        <pre>
-{
-    "name": "alpine",
-    "sdk": "go",
-    "description": "Alpine Linux base module for Dagger pipelines",
-    "version": "v0.1.0"
-}</pre>
-    </div>
-
-    <div class="suggestion">
-        <h3>2. Improve Repository Structure</h3>
-        <p>The module path should match the repository structure. Consider restructuring the repository.</p>
-        <pre>
-Repository Structure:
-├── modules/
-│   └── alpine/
-│       ├── dagger.json
-│       ├── main.go
-│       └── README.md</pre>
-    </div>
-
-    <div class="suggestion">
-        <h3>3. Add Documentation</h3>
-        <p>Include comprehensive documentation explaining the module's purpose and usage.</p>
-        <pre>
-# Alpine Module for Dagger
-
-## Overview
-This module provides Alpine Linux base functionality for Dagger pipelines.
-
-## Usage
-```go
-alpine := dag.Alpine()
-container := alpine.Container()
-```
-
-## Functions
-- `Container()`: Returns a base Alpine container
-- `WithVersion(version string)`: Specifies Alpine version</pre>
-    </div>
-
-    <div style="text-align: center; margin-top: 30px;">
-        <img src="https://i.imgflip.com/2/3pdi3k.jpg" alt="Module Not Found Meme" style="max-width: 400px;">
-        <p><em>When you try to use a module but it doesn't exist</em></p>
-    </div>
-
-</body>
-</html>
+    <h1>Dagger Module QA Reports</h1>
+    <table>
+        <tr>
+            <th>Module Name</th>
+            <th>Brief Description</th>
+            <th>Status</th>
+            <th>Full Report</th>
+        </tr>
+        <tr>
+            <td>DebtRepayment</td>
+            <td>Module for fetching and analyzing debt and investment data from Google Sheets using AI analysis</td>
+            <td><span class="fail">❌ Failed</span></td>
+            <td><a href="DebtRepayment.html">View Report</a></td>
+        </tr>
