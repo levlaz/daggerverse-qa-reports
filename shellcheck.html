@@ -3,96 +3,86 @@
 <head>
     <title>QA Report - Shellcheck Module</title>
     <style>
-        body { font-family: Arial, sans-serif; line-height: 1.6; max-width: 1200px; margin: 0 auto; padding: 20px; }
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
         h1, h2 { color: #333; }
-        .error { color: #ff0000; background: #ffebee; padding: 10px; border-radius: 4px; }
-        .functions { background: #f5f5f5; padding: 15px; border-radius: 4px; }
-        .suggestion { margin: 20px 0; padding: 15px; background: #e3f2fd; border-radius: 4px; }
-        pre { background: #f8f9fa; padding: 10px; border-radius: 4px; overflow-x: auto; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .error { color: #dc3545; padding: 10px; background-color: #fff3f3; border-radius: 4px; }
+        .suggestion { margin: 20px 0; padding: 15px; background-color: #f8f9fa; border-radius: 4px; }
+        code { background-color: #f6f8fa; padding: 2px 5px; border-radius: 3px; }
+        pre { background-color: #f6f8fa; padding: 15px; border-radius: 4px; overflow-x: auto; }
     </style>
 </head>
 <body>
-    <h1>QA Report: Shellcheck Module</h1>
-    
-    <h2>Module Information</h2>
-    <ul>
-        <li><strong>Name:</strong> github.com/jedevc/dagger/modules/shellcheck</li>
-        <li><strong>Author:</strong> jedevc</li>
-        <li><strong>Latest Version:</strong> main</li>
-        <li><strong>Release Date:</strong> N/A (Information unavailable due to crawling issues)</li>
-    </ul>
-
-    <h2>Dagger Engine Version Used</h2>
-    <pre>dagger v0.18.5</pre>
-
-    <h2>Module Functionality</h2>
-    <div class="functions">
-        <p>This module provides shellcheck functionality for shell scripts. It includes the following function:</p>
+    <div class="container">
+        <h1>QA Report: Shellcheck Module</h1>
+        
+        <h2>Module Information</h2>
         <ul>
-            <li><strong>check</strong>: Report the issues that need to be fixed on a given file.</li>
+            <li><strong>Name:</strong> github.com/aluzzardi/dagger/modules/shellcheck</li>
+            <li><strong>Author:</strong> aluzzardi</li>
+            <li><strong>Latest Version:</strong> main</li>
+            <li><strong>Release Date:</strong> N/A (Unable to fetch from daggerverse)</li>
+            <li><strong>Dagger Engine Version Used:</strong> v0.18.5</li>
         </ul>
-    </div>
 
-    <h2>Issues Encountered</h2>
-    <div class="error">
-        <p>Failed to crawl module information from daggerverse due to API limitations.</p>
-    </div>
+        <h2>Module Functionality</h2>
+        <p>The Shellcheck module is designed to perform static analysis on shell scripts. It provides the following function:</p>
+        <ul>
+            <li><strong>check</strong>: Reports issues that need to be fixed in a given shell script file.</li>
+        </ul>
 
-    <h2>Quality Improvement Suggestions</h2>
-    
-    <div class="suggestion">
-        <h3>1. Add Input Validation</h3>
-        <p>Implement proper input validation to ensure the file exists and is a valid shell script.</p>
-        <pre>
-func (m *Module) check(ctx context.Context, path string) (*checkResult, error) {
-    if path == "" {
-        return nil, fmt.Errorf("file path cannot be empty")
+        <h2>Issues Encountered</h2>
+        <div class="error">
+            <p>Unable to crawl the module page on daggerverse due to API limitations.</p>
+        </div>
+
+        <h2>Suggestions for Improvement</h2>
+        
+        <div class="suggestion">
+            <h3>1. Add Input Validation and Error Handling</h3>
+            <p>Improve error handling for invalid file paths or non-shell script files.</p>
+            <pre><code>// Example implementation
+func (m *Module) check(ctx context.Context, filePath string) (*File, error) {
+    if !strings.HasSuffix(filePath, ".sh") {
+        return nil, fmt.Errorf("invalid file type: only .sh files are supported")
     }
-    
-    if !strings.HasSuffix(path, ".sh") && !strings.HasSuffix(path, ".bash") {
-        return nil, fmt.Errorf("file must be a shell script (.sh or .bash)")
-    }
-    // ... rest of the implementation
+    // Rest of the implementation
+}</code></pre>
+            <img src="https://i.imgflip.com/2/1bij.jpg" alt="Input validation meme" />
+        </div>
+
+        <div class="suggestion">
+            <h3>2. Add Severity Levels Configuration</h3>
+            <p>Allow users to configure which severity levels of issues they want to check for.</p>
+            <pre><code>// Example implementation
+type CheckOpts struct {
+    ErrorLevel    bool
+    WarningLevel  bool
+    InfoLevel     bool
 }
-</pre>
-    </div>
 
-    <div class="suggestion">
-        <h3>2. Add Severity Levels and Filtering</h3>
-        <p>Allow users to filter issues based on severity levels.</p>
-        <pre>
-type SeverityLevel string
+func (m *Module) checkWithOptions(ctx context.Context, filePath string, opts CheckOpts) (*File, error) {
+    // Implementation with severity filtering
+}</code></pre>
+        </div>
 
-const (
-    Error   SeverityLevel = "error"
-    Warning SeverityLevel = "warning"
-    Info    SeverityLevel = "info"
-)
-
-func (m *Module) checkWithSeverity(ctx context.Context, path string, minSeverity SeverityLevel) (*checkResult, error) {
-    // Implementation here
-}
-</pre>
-        <img src="https://i.imgflip.com/2hwqqa.jpg" alt="Code Quality Meme" style="max-width: 400px;"/>
-    </div>
-
-    <div class="suggestion">
-        <h3>3. Add Batch Processing Capability</h3>
-        <p>Add the ability to check multiple files at once.</p>
-        <pre>
-func (m *Module) checkMultiple(ctx context.Context, paths []string) (map[string]*checkResult, error) {
-    results := make(map[string]*checkResult)
-    for _, path := range paths {
-        result, err := m.check(ctx, path)
+        <div class="suggestion">
+            <h3>3. Add Multi-file Support</h3>
+            <p>Enable checking multiple files in one operation for better performance.</p>
+            <pre><code>// Example implementation
+func (m *Module) checkMultiple(ctx context.Context, files []string) (map[string]*File, error) {
+    results := make(map[string]*File)
+    for _, file := range files {
+        result, err := m.check(ctx, file)
         if err != nil {
-            results[path] = &checkResult{Error: err.Error()}
+            results[file] = &File{Error: err.Error()}
             continue
         }
-        results[path] = result
+        results[file] = result
     }
     return results, nil
-}
-</pre>
+}</code></pre>
+        </div>
     </div>
 </body>
 </html>
