@@ -3,109 +3,108 @@
 <head>
     <title>QA Report - Caddy Module</title>
     <style>
-        body { font-family: Arial, sans-serif; line-height: 1.6; max-width: 1200px; margin: 0 auto; padding: 20px; }
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
         h1, h2 { color: #333; }
-        .container { background: #f9f9f9; padding: 20px; border-radius: 5px; margin: 20px 0; }
-        .function-list { background: #fff; padding: 15px; border-left: 3px solid #2196F3; }
-        .error { color: #dc3545; }
-        .meme { max-width: 500px; margin: 20px 0; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .function-list { background: #f5f5f5; padding: 20px; border-radius: 5px; }
+        .suggestion { margin: 20px 0; padding: 20px; background: #f0f8ff; border-radius: 5px; }
+        .error { color: #ff0000; }
         code { background: #f4f4f4; padding: 2px 5px; border-radius: 3px; }
         pre { background: #f4f4f4; padding: 15px; border-radius: 5px; overflow-x: auto; }
     </style>
 </head>
 <body>
-    <h1>QA Report: Caddy Module</h1>
-    
     <div class="container">
+        <h1>QA Report: Caddy Module</h1>
+        
         <h2>Module Information</h2>
         <ul>
-            <li><strong>Module Name:</strong> github.com/felipepimentel/daggerverse/libraries/caddy</li>
+            <li><strong>Name:</strong> github.com/felipepimentel/daggerverse/libraries/caddy</li>
             <li><strong>Author:</strong> Felipe Pimentel</li>
-            <li><strong>Latest Version:</strong> v0.0.0</li>
-            <li><strong>Release Date:</strong> Not specified</li>
-            <li><strong>Dagger Engine Version Used:</strong> v0.18.3</li>
+            <li><strong>Latest Version:</strong> main</li>
+            <li><strong>Release Date:</strong> N/A (information not available from crawl)</li>
+            <li><strong>Dagger Engine Version Used:</strong> v0.18.5</li>
         </ul>
-    </div>
 
-    <div class="container">
-        <h2>Module Purpose & Functions</h2>
-        <p>This module provides functionality for managing Caddy server configurations and services. It allows users to set up and manage reverse proxy configurations using Caddy.</p>
-        
+        <h2>Module Description</h2>
+        <p>This module provides Caddy server functionality in Dagger. It includes capabilities for container management, Caddy file configuration, and service operations.</p>
+
+        <h2>Available Functions</h2>
         <div class="function-list">
-            <h3>Available Functions:</h3>
             <ul>
-                <li><code>services()</code> - Returns a list of service configurations</li>
-                <li><code>withService()</code> - Adds a new service configuration</li>
-                <li><code>getCaddyFile()</code> - Retrieves the Caddy configuration file</li>
-                <li><code>container()</code> - Returns the Caddy container</li>
-                <li><code>serve()</code> - Starts the Caddy service</li>
+                <li><code>container</code> - Manages Caddy container operations</li>
+                <li><code>get-caddy-file</code> - Retrieves Caddy configuration file</li>
+                <li><code>serve</code> - Starts the Caddy server</li>
+                <li><code>services</code> - Manages Caddy services</li>
+                <li><code>with-service</code> - Configures Caddy with specific service</li>
             </ul>
         </div>
-    </div>
 
-    <div class="container">
-        <h2>Quality Improvement Suggestions</h2>
+        <h2>Suggestions for Improvement</h2>
         
-        <h3>1. Add Comprehensive Documentation</h3>
-        <p><img src="https://i.imgflip.com/2/2hwrpf.jpg" alt="Documentation Meme" class="meme"></p>
-        <pre>
-/**
- * Configures a new service in Caddy
- * @param upstreamService - The service to proxy to
- * @param upstreamName - Name identifier for the service
- * @param upstreamPort - Port number for the service
- * @returns Caddy - Updated Caddy instance
- * @example
- * caddy.withService(
- *   dag.container().from("nginx").withExposedPort(80),
- *   "web-app",
- *   80
- * )
- */
-func withService(upstreamService: Service!, upstreamName: String!, upstreamPort: Integer!) -> Caddy!
-</pre>
+        <div class="suggestion">
+            <h3>1. Add Function Documentation</h3>
+            <p>The module functions lack descriptions, which makes it harder for users to understand their purpose and usage.</p>
+            <pre>
+// Example of how to add documentation
+#[Description("Initializes and returns a new Caddy container instance")]
+func (m *Module) Container(ctx context.Context) (*Container, error) {
+    // Implementation
+}
 
-        <h3>2. Add Input Validation</h3>
-        <pre>
-func withService(upstreamService: Service!, upstreamName: String!, upstreamPort: Integer!) -> Caddy! {
-    if (upstreamPort < 1 || upstreamPort > 65535) {
-        throw new Error("Port number must be between 1 and 65535")
+#[Description("Retrieves the Caddy configuration file with current settings")]
+func (m *Module) GetCaddyFile(ctx context.Context) (*File, error) {
+    // Implementation
+}
+            </pre>
+            <img src="https://i.imgflip.com/2/4hp6k9.jpg" alt="Documentation Meme" />
+        </div>
+
+        <div class="suggestion">
+            <h3>2. Add Input Validation</h3>
+            <p>Implement input validation for the service configuration to prevent runtime errors.</p>
+            <pre>
+func (m *Module) WithService(ctx context.Context, service *Service) error {
+    if service == nil {
+        return fmt.Errorf("service configuration cannot be nil")
     }
-    if (!upstreamName.match(/^[a-zA-Z0-9-_]+$/)) {
-        throw new Error("Service name must contain only alphanumeric characters, hyphens, and underscores")
+    if service.Port <= 0 || service.Port > 65535 {
+        return fmt.Errorf("invalid port number: %d", service.Port)
     }
-    // ... rest of the implementation
+    // Rest of the implementation
 }
-</pre>
+            </pre>
+        </div>
 
-        <h3>3. Add Health Check Configuration</h3>
-        <pre>
-type HealthCheckConfig {
-    path: String!
-    interval: Integer!
-    timeout: Integer!
-    retries: Integer!
+        <div class="suggestion">
+            <h3>3. Add Error Handling Examples</h3>
+            <p>Provide example error handling patterns for common scenarios.</p>
+            <pre>
+func (m *Module) Serve(ctx context.Context) error {
+    container, err := m.Container(ctx)
+    if err != nil {
+        return fmt.Errorf("failed to initialize container: %w", err)
+    }
+
+    if err := container.Start(); err != nil {
+        return fmt.Errorf("failed to start Caddy server: %w", err)
+    }
+
+    return nil
 }
+            </pre>
+        </div>
 
-func withHealthCheck(config: HealthCheckConfig!) -> Caddy! {
-    // Implementation for health check configuration
-    return this
-}
-</pre>
-    </div>
+        <h2>Issues Encountered</h2>
+        <div class="error">
+            <ul>
+                <li>Unable to crawl the daggerverse page due to API limitations</li>
+                <li>Limited documentation available for function descriptions</li>
+            </ul>
+        </div>
 
-    <div class="container">
-        <h2>Testing Issues Encountered</h2>
-        <ul>
-            <li>No immediate issues were encountered during testing</li>
-            <li>The module installed and built successfully</li>
-            <li>All core functions are accessible and properly defined</li>
-        </ul>
-    </div>
-
-    <div class="container">
-        <h2>Trace Information</h2>
-        <p>Dagger Cloud Trace: <a href="https://dagger.cloud">View the trace in Dagger Cloud</a></p>
+        <h2>Testing Information</h2>
+        <p>Testing was performed using Dagger Engine version v0.18.5 on linux/amd64 platform.</p>
     </div>
 </body>
 </html>
