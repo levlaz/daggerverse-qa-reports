@@ -1,116 +1,111 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>QA Report: helm/tests</title>
+    <title>QA Report - helm/tests Module</title>
     <style>
-        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
+        body { font-family: Arial, sans-serif; margin: 40px; line-height: 1.6; }
         h1, h2 { color: #333; }
-        .function-list { background: #f5f5f5; padding: 20px; border-radius: 5px; }
-        .suggestion { margin: 20px 0; padding: 20px; background: #e9f5ff; border-radius: 5px; }
-        .error { color: #d63031; }
-        code { background: #f8f9fa; padding: 2px 5px; border-radius: 3px; }
-        .meme { max-width: 500px; margin: 20px 0; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .function-list { background-color: #f5f5f5; padding: 20px; border-radius: 5px; }
+        .error { color: #d32f2f; background-color: #ffebee; padding: 10px; border-radius: 4px; }
+        .suggestion { margin: 20px 0; padding: 15px; background-color: #e3f2fd; border-radius: 4px; }
+        pre { background-color: #f8f9fa; padding: 10px; border-radius: 4px; overflow-x: auto; }
     </style>
 </head>
 <body>
-    <h1>QA Report: helm/tests</h1>
-    
-    <h2>Module Information</h2>
-    <ul>
-        <li><strong>Name:</strong> github.com/sagikazarmark/daggerverse/helm/tests</li>
-        <li><strong>Author:</strong> sagikazarmark</li>
-        <li><strong>Latest Version:</strong> ceffda4aebd349a24fc00e591b4ed9b801535b65</li>
-        <li><strong>Release Date:</strong> Not specified in module metadata</li>
-        <li><strong>Dagger Cloud Trace:</strong> <a href="https://alpha.dagger.cloud/engine/test">View Trace</a></li>
-    </ul>
-
-    <h2>Module Purpose</h2>
-    <p>This module provides a test suite for Helm chart operations, including various functionalities such as linting, packaging, publishing, and installation of Helm charts.</p>
-
-    <h2>Functions</h2>
-    <div class="function-list">
+    <div class="container">
+        <h1>QA Report: helm/tests Module</h1>
+        
+        <h2>Module Information</h2>
         <ul>
-            <li><code>all()</code> - All executes all tests</li>
-            <li><code>create()</code> - Basic creation functionality</li>
-            <li><code>lint()</code> - Performs linting of Helm charts</li>
-            <li><code>login()</code> - Handles authentication</li>
-            <li><code>package()</code> - Packages Helm charts</li>
-            <li><code>push()</code> - Pushes Helm charts to repository</li>
-            <li><code>chartLint()</code> - Specific chart linting functionality</li>
-            <li><code>chartPackage()</code> - Specific chart packaging functionality</li>
-            <li><code>chartPublish()</code> - Publishes charts to repository</li>
-            <li><code>chartInstall()</code> - Installs charts to cluster</li>
-            <li><code>packageInstall()</code> - Installs packages</li>
-            <li><code>installNamespace()</code> - Handles namespace installation</li>
+            <li><strong>Module Name:</strong> github.com/luanmtruong/daggerverse/helm/tests</li>
+            <li><strong>Author:</strong> luanmtruong</li>
+            <li><strong>Version Tested:</strong> latest</li>
+            <li><strong>Dagger Engine Version:</strong> v0.18.6</li>
         </ul>
-    </div>
 
-    <h2>Testing Environment</h2>
-    <p><strong>Dagger Engine Version:</strong> v0.18.3</p>
+        <h2>Module Functionality</h2>
+        <p>This module provides functionality for testing Helm charts with various operations including installation, linting, packaging, and publishing.</p>
+        
+        <div class="function-list">
+            <h3>Available Functions:</h3>
+            <ul>
+                <li><strong>all()</strong> - Executes all tests</li>
+                <li><strong>chart-install()</strong> - Installs a chart</li>
+                <li><strong>chart-lint()</strong> - Performs linting on charts</li>
+                <li><strong>chart-package()</strong> - Packages the chart</li>
+                <li><strong>chart-publish()</strong> - Publishes the chart</li>
+                <li><strong>create()</strong> - Creates a new instance</li>
+                <li><strong>lint()</strong> - Performs linting</li>
+                <li><strong>login()</strong> - Handles authentication</li>
+                <li><strong>package()</strong> - Packages the module</li>
+                <li><strong>package-install()</strong> - Installs a package</li>
+                <li><strong>push()</strong> - Pushes the package</li>
+            </ul>
+        </div>
 
-    <h2>Improvement Suggestions</h2>
-    
-    <div class="suggestion">
-        <h3>1. Improve Documentation</h3>
-        <p>Many functions are marked with "TODO: improve this test" or have no description. Add comprehensive documentation for each function.</p>
-        <img src="https://media.giphy.com/media/hv53DaYcXWe3nRbR1A/giphy.gif" alt="Documentation Meme" class="meme">
-        <pre><code>
-// Example of improved documentation
+        <h2>Issues Encountered</h2>
+        <div class="error">
+            <p>Unable to crawl the daggerverse page due to API limitations.</p>
+        </div>
+
+        <h2>Quality Improvement Suggestions</h2>
+        
+        <div class="suggestion">
+            <h3>1. Improve Function Documentation</h3>
+            <p>Most functions lack proper documentation. Adding detailed descriptions would help users understand the purpose and usage of each function.</p>
+            <img src="https://i.imgflip.com/65efzo.jpg" alt="Documentation Meme" style="max-width: 300px;">
+            <pre>
 /**
- * Lints a Helm chart for best practices and potential issues
- * @param chartPath The path to the Helm chart
- * @return Void
- * @throws HelmLintError if linting fails
+ * Performs chart installation
+ * @param {string} chartName - Name of the chart to install
+ * @param {string} version - Version of the chart
+ * @param {string} namespace - Kubernetes namespace
+ * @param {object} values - Chart values to override
+ * @returns {Promise<void>}
  */
-func (m *Tests) Lint(ctx context.Context) error {
+func (h *Helm) chartInstall(chartName string, version string, namespace string, values map[string]interface{}) error {
     // Implementation
 }
-        </code></pre>
+</pre>
+        </div>
+
+        <div class="suggestion">
+            <h3>2. Add Input Validation</h3>
+            <p>Implement proper input validation for all functions to prevent runtime errors and provide better error messages.</p>
+            <pre>
+func (h *Helm) validateInput(chartName string, version string) error {
+    if chartName == "" {
+        return fmt.Errorf("chart name cannot be empty")
+    }
+    if version == "" {
+        return fmt.Errorf("version cannot be empty")
+    }
+    return nil
+}
+</pre>
+        </div>
+
+        <div class="suggestion">
+            <h3>3. Implement Error Handling and Recovery</h3>
+            <p>Add comprehensive error handling and recovery mechanisms to make the module more robust.</p>
+            <pre>
+func (h *Helm) safeExecute(operation func() error) error {
+    defer func() {
+        if r := recover(); r != nil {
+            log.Printf("Recovered from panic: %v", r)
+            // Cleanup resources if needed
+        }
+    }()
+    
+    if err := operation(); err != nil {
+        log.Printf("Operation failed: %v", err)
+        return fmt.Errorf("operation failed: %w", err)
+    }
+    return nil
+}
+</pre>
+        </div>
     </div>
-
-    <div class="suggestion">
-        <h3>2. Add Error Handling and Return Values</h3>
-        <p>Currently, most functions return Void. Consider returning meaningful values and proper error handling.</p>
-        <pre><code>
-// Example of improved error handling
-type LintResult struct {
-    Passed bool
-    Issues []string
-}
-
-func (m *Tests) Lint(ctx context.Context) (*LintResult, error) {
-    // Implementation
-    return &LintResult{
-        Passed: true,
-        Issues: []string{},
-    }, nil
-}
-        </code></pre>
-    </div>
-
-    <div class="suggestion">
-        <h3>3. Add Test Configuration Options</h3>
-        <p>Implement configuration options for tests to make them more flexible and reusable.</p>
-        <pre><code>
-type TestConfig struct {
-    ChartPath string
-    Namespace string
-    Timeout   time.Duration
-    Debug     bool
-}
-
-func (m *Tests) WithConfig(config TestConfig) *Tests {
-    // Implementation
-}
-        </code></pre>
-    </div>
-
-    <h2>Issues Encountered</h2>
-    <ul>
-        <li>Limited documentation for most functions makes it difficult to understand their exact purpose and usage</li>
-        <li>No version information or release date available in the module metadata</li>
-        <li>Most functions are marked as TODO, indicating incomplete implementation or documentation</li>
-    </ul>
-
 </body>
 </html>
