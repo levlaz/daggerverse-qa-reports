@@ -1,129 +1,129 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>QA Report - Kustomize Module</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        .error {
-            color: #721c24;
-            background-color: #f8d7da;
-            border: 1px solid #f5c6cb;
-            padding: 10px;
-            border-radius: 4px;
-            margin: 10px 0;
-        }
-        .function-list {
-            background-color: #f8f9fa;
-            padding: 15px;
-            border-radius: 4px;
-        }
-        .suggestion {
-            margin: 20px 0;
-            padding: 15px;
-            background-color: #e9ecef;
-            border-radius: 4px;
-        }
-        code {
-            background-color: #f8f9fa;
-            padding: 2px 5px;
-            border-radius: 3px;
-            font-family: monospace;
-        }
-        pre {
-            background-color: #f8f9fa;
-            padding: 15px;
-            border-radius: 4px;
-            overflow-x: auto;
-        }
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .error { color: #dc3545; padding: 10px; background-color: #f8d7da; border-radius: 4px; }
+        .suggestion { margin: 20px 0; padding: 15px; background-color: #f8f9fa; border-radius: 4px; }
+        pre { background-color: #f8f9fa; padding: 15px; border-radius: 4px; overflow-x: auto; }
+        .meme { max-width: 500px; margin: 20px 0; }
     </style>
 </head>
 <body>
-    <h1>QA Report: Kustomize Module</h1>
-    
-    <h2>Module Information</h2>
-    <ul>
-        <li><strong>Module Name:</strong> github.com/jedevc/daggerverse-sagikazarmark/kustomize</li>
-        <li><strong>Author:</strong> jedevc (forked from sagikazarmark)</li>
-        <li><strong>Latest Version:</strong> main</li>
-        <li><strong>Dagger Engine Version Used:</strong> v0.18.5</li>
-    </ul>
-
-    <h2>Module Functionality</h2>
-    <div class="function-list">
-        <h3>Available Functions:</h3>
+    <div class="container">
+        <h1>QA Report: Kustomize Module</h1>
+        
+        <h2>Module Information</h2>
         <ul>
-            <li><strong>build()</strong> - Build a kustomization target from a directory or URL.</li>
-            <li><strong>container()</strong> - Container management functionality</li>
-            <li><strong>edit()</strong> - Edit a kustomization file.</li>
+            <li><strong>Name:</strong> kustomize</li>
+            <li><strong>Author:</strong> sagikazarmark</li>
+            <li><strong>Latest Version:</strong> main</li>
+            <li><strong>Release Date:</strong> N/A (using main branch)</li>
+            <li><strong>Dagger Engine Version Used:</strong> v0.18.6</li>
         </ul>
-    </div>
 
-    <h2>Issues Encountered</h2>
-    <div class="error">
-        <p>During testing, we encountered the following issues:</p>
+        <h2>Module Functionality</h2>
+        <p>The Kustomize module provides integration with Kubernetes Kustomize tool for managing Kubernetes manifests. It offers the following functions:</p>
         <ul>
-            <li>Unable to crawl the module page on daggerverse due to API limitations</li>
+            <li><strong>build:</strong> Build a kustomization target from a directory or URL</li>
+            <li><strong>container:</strong> Container related operations</li>
+            <li><strong>edit:</strong> Edit a kustomization file</li>
         </ul>
-    </div>
 
-    <h2>Quality Improvement Suggestions</h2>
-    
-    <div class="suggestion">
-        <h3>1. Add Comprehensive Function Documentation</h3>
-        <p>The current function descriptions are minimal. Adding detailed documentation would improve usability.</p>
-        <pre><code>// Example of improved documentation
-/**
- * Build a kustomization target from a directory or URL
- * @param {string} source - Path to directory or URL containing kustomization.yaml
- * @param {string} output - Output directory for built manifests
- * @returns {Directory} - Directory containing the built Kubernetes manifests
- */
-func (m *Module) Build(ctx context.Context, source string, output string) (*Directory, error)</code></pre>
-        <img src="https://i.imgflip.com/2/7uq0h.jpg" alt="Documentation Meme" style="max-width: 400px;">
-    </div>
+        <h2>Testing Issues</h2>
+        <div class="error">
+            <p>Unable to crawl the module page due to API limitations. This prevented us from gathering additional metadata about the module.</p>
+        </div>
 
-    <div class="suggestion">
-        <h3>2. Add Input Validation</h3>
-        <p>Implement robust input validation to prevent errors and improve user experience.</p>
-        <pre><code>func (m *Module) Build(ctx context.Context, source string) (*Directory, error) {
+        <h2>Quality Improvement Suggestions</h2>
+        
+        <div class="suggestion">
+            <h3>1. Add Comprehensive Function Documentation</h3>
+            <p>The current function descriptions are minimal. Adding detailed documentation would help users understand the purpose and usage of each function.</p>
+            <pre>
+// Example of improved documentation:
+/*
+* Builds a kustomization target from a directory or URL
+* @param {string} source - Path to the kustomization directory or URL
+* @param {Object} options - Build options
+* @returns {string} - The compiled YAML output
+* @example
+* build("/path/to/kustomize", {
+*   validate: true,
+*   enableHelm: true
+* })
+*/
+func (m *Kustomize) Build(ctx context.Context, source string, opts BuildOptions) (*Container, error) {
+    // Implementation
+}
+</pre>
+        </div>
+
+        <div class="suggestion">
+            <h3>2. Add Input Validation</h3>
+            <p>Implement proper input validation to prevent errors and provide better error messages.</p>
+            <pre>
+func (m *Kustomize) validateSource(source string) error {
     if source == "" {
-        return nil, fmt.Errorf("source cannot be empty")
+        return fmt.Errorf("source cannot be empty")
     }
     
-    if !strings.HasPrefix(source, "http") && !strings.HasPrefix(source, "/") {
-        return nil, fmt.Errorf("source must be a valid URL or absolute path")
+    if strings.HasPrefix(source, "http") {
+        _, err := url.Parse(source)
+        if err != nil {
+            return fmt.Errorf("invalid URL: %w", err)
+        }
+    } else {
+        if !fs.ValidPath(source) {
+            return fmt.Errorf("invalid file path")
+        }
     }
-    
-    // ... rest of the implementation
-}</code></pre>
+    return nil
+}
+</pre>
+        </div>
+
+        <div class="suggestion">
+            <h3>3. Add Test Coverage</h3>
+            <p>Include comprehensive tests to ensure reliability.</p>
+            <pre>
+func TestKustomizeBuild(t *testing.T) {
+    tests := []struct {
+        name    string
+        source  string
+        want    string
+        wantErr bool
+    }{
+        {
+            name:    "valid local path",
+            source:  "./testdata/basic",
+            wantErr: false,
+        },
+        {
+            name:    "invalid path",
+            source:  "/nonexistent",
+            wantErr: true,
+        },
+    }
+
+    for _, tt := range tests {
+        t.Run(tt.name, func(t *testing.T) {
+            k := New()
+            got, err := k.Build(context.Background(), tt.source)
+            if (err != nil) != tt.wantErr {
+                t.Errorf("Build() error = %v, wantErr %v", err, tt.wantErr)
+                return
+            }
+            // Add assertions here
+        })
+    }
+}
+</pre>
+            <img src="https://i.imgflip.com/65efzo.jpg" alt="Testing Meme" class="meme">
+            <p><small>When you realize you need more tests...</small></p>
+        </div>
     </div>
-
-    <div class="suggestion">
-        <h3>3. Add Examples and Usage Documentation</h3>
-        <p>Include practical examples in the module's README to help users get started quickly.</p>
-        <pre><code># Example usage in README.md
-```dagger
-dagger call -m github.com/jedevc/daggerverse-sagikazarmark/kustomize \
-    build --source=/path/to/kustomize/dir
-
-# Edit a kustomization file
-dagger call -m github.com/jedevc/daggerverse-sagikazarmark/kustomize \
-    edit --file=kustomization.yaml --set-image=nginx=nginx:1.21
-```</code></pre>
-    </div>
-
-    <h2>Testing Environment</h2>
-    <ul>
-        <li>Dagger Engine Version: v0.18.5</li>
-        <li>Platform: linux/amd64</li>
-    </ul>
 </body>
 </html>
