@@ -3,79 +3,76 @@
 <head>
     <title>QA Report: github.com/helderco/dagger/modules/go</title>
     <style>
-        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
-        h1 { color: #333; }
-        .error { color: #dc3545; background: #f8d7da; padding: 10px; border-radius: 4px; }
-        .suggestion { background: #e9ecef; padding: 15px; margin: 10px 0; border-radius: 4px; }
-        pre { background: #f8f9fa; padding: 10px; border-radius: 4px; overflow-x: auto; }
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 20px; }
+        .container { max-width: 1000px; margin: 0 auto; }
+        .error { color: #dc3545; background-color: #f8d7da; padding: 10px; border-radius: 4px; }
+        .suggestions { background-color: #f8f9fa; padding: 15px; border-radius: 4px; }
+        pre { background-color: #f8f9fa; padding: 10px; border-radius: 4px; overflow-x: auto; }
+        .meme { text-align: center; margin: 20px 0; }
     </style>
 </head>
 <body>
-    <h1>QA Report: Go Module</h1>
-    
-    <h2>Module Information</h2>
-    <ul>
-        <li><strong>Name:</strong> github.com/helderco/dagger/modules/go</li>
-        <li><strong>Author:</strong> helderco</li>
-        <li><strong>Version:</strong> main (used for testing)</li>
-        <li><strong>Dagger Version Used:</strong> v0.18.5</li>
-    </ul>
-
-    <h2>Testing Results</h2>
-    <div class="error">
-        <h3>Encountered Issues:</h3>
+    <div class="container">
+        <h1>QA Report: github.com/helderco/dagger/modules/go</h1>
+        
+        <h2>Module Information</h2>
         <ul>
-            <li>Failed to crawl daggerverse page due to API limitations</li>
-            <li>Module build failed with compatibility error: requires Go 1.23.0 (tested with Go 1.22.12)</li>
-            <li>Full error trace is available in the Dagger Cloud trace (error occurred during module building)</li>
+            <li><strong>Name:</strong> github.com/helderco/dagger/modules/go</li>
+            <li><strong>Author:</strong> helderco</li>
+            <li><strong>Latest Version:</strong> main</li>
+            <li><strong>Release Date:</strong> N/A (information unavailable from crawl)</li>
+            <li><strong>Dagger Engine Version Used:</strong> v0.18.6</li>
         </ul>
-    </div>
 
-    <h2>Suggestions for Improvement</h2>
-    
-    <div class="suggestion">
-        <h3>1. Update Go Version Constraint</h3>
-        <p>The module requires Go 1.23.0 which is not yet widely available. Consider supporting the latest stable version.</p>
-        <pre>
-// In go.mod
-module github.com/helderco/dagger/modules/go
+        <h2>Module Description</h2>
+        <p>This module appears to be a Go-related module, possibly for running Go operations within Dagger pipelines.</p>
 
-go 1.22  // Update to latest stable version
-        </pre>
-    </div>
+        <h2>Functions</h2>
+        <p>Due to build errors, the complete function list could not be retrieved.</p>
 
-    <div class="suggestion">
-        <h3>2. Add Module Documentation</h3>
-        <p>Include comprehensive documentation in the module's README.md</p>
-        <pre>
-# Go Module for Dagger
+        <h2>Issues Encountered</h2>
+        <div class="error">
+            <h3>Build Errors:</h3>
+            <ul>
+                <li>Module requires Go 1.23.0 or higher, but testing environment has Go 1.22.12</li>
+                <li>Build process failed with exit code 1</li>
+                <li>Module crawling failed due to API limitations</li>
+            </ul>
+        </div>
 
-## Usage
+        <h2>Suggestions for Improvement</h2>
+        <div class="suggestions">
+            <h3>1. Update Go Version Requirements</h3>
+            <p>The module requires Go 1.23.0 which is currently not widely available. Consider supporting lower Go versions for better compatibility.</p>
+            <pre>
+// In go.mod:
+go 1.22 // Instead of requiring 1.23
+            </pre>
 
-```go
-dag.Go().Version("1.22").Build()
-```
-
-## Features
-- Feature 1
-- Feature 2
-        </pre>
-    </div>
-
-    <div class="suggestion">
-        <h3>3. Add Version Tags</h3>
-        <p>Add proper version tags to make it easier for users to pin to specific versions</p>
-        <pre>
-# Command to tag a version
-git tag -a v0.1.0 -m "Initial stable release"
+            <h3>2. Add Version Tags</h3>
+            <p>The module is currently using 'main' as the version. Adding proper version tags would improve reliability and version management.</p>
+            <pre>
+# Create a new version tag
+git tag v0.1.0
 git push origin v0.1.0
-        </pre>
-    </div>
+            </pre>
 
-    <div style="text-align: center; margin: 20px;">
-        <img src="https://i.imgflip.com/2kuh6f.jpg" alt="Golang Meme" style="max-width: 400px;" />
-        <p><em>"Go 1.23.0? That's so fetch!"</em></p>
-    </div>
+            <h3>3. Improve Error Handling</h3>
+            <p>Add better error messages and validation for Go version requirements.</p>
+            <pre>
+if runtime.Version() < "go1.22" {
+    return fmt.Errorf("this module requires Go 1.22 or later (current: %s)", runtime.Version())
+}
+            </pre>
+            
+            <div class="meme">
+                <img src="https://i.imgflip.com/2/7pi0mr.jpg" alt="Go version too high" width="400">
+                <p>When your Go version requirements are too cutting edge</p>
+            </div>
+        </div>
 
+        <h2>Cloud Trace</h2>
+        <p>Build trace available in the error logs above showing the attempt to build and analyze the module.</p>
+    </div>
 </body>
 </html>
