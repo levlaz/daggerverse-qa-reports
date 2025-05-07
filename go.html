@@ -5,110 +5,73 @@
     <style>
         body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
         h1 { color: #333; }
-        .container { max-width: 1200px; margin: 0 auto; }
-        .functions { background: #f5f5f5; padding: 20px; border-radius: 5px; }
-        .suggestion { margin: 20px 0; padding: 20px; border: 1px solid #ddd; border-radius: 5px; }
-        .code { background: #f8f8f8; padding: 15px; border-radius: 3px; font-family: monospace; }
-        .error { color: #dc3545; }
+        h2 { color: #666; }
+        .error { color: #ff0000; background: #ffebee; padding: 10px; border-radius: 4px; }
+        .suggestion { margin: 20px 0; padding: 15px; background: #f5f5f5; border-radius: 4px; }
+        .code { font-family: monospace; background: #eee; padding: 10px; border-radius: 4px; }
         .meme { max-width: 500px; margin: 20px 0; }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>QA Report: Go Module</h1>
-        
-        <h2>Module Information</h2>
-        <ul>
-            <li><strong>Name:</strong> github.com/vito/daggerverse/go</li>
-            <li><strong>Author:</strong> vito</li>
-            <li><strong>Latest Version:</strong> main</li>
-            <li><strong>Release Date:</strong> N/A (Information unavailable due to crawling error)</li>
-            <li><strong>Dagger Engine Version Used:</strong> v0.18.4</li>
-        </ul>
-
-        <h2>Module Description</h2>
-        <p>This module provides a comprehensive set of functions for working with Go in Dagger pipelines. It includes functionality for building, testing, and managing Go applications.</p>
-
-        <h2>Available Functions</h2>
-        <div class="functions">
-            <ul>
-                <li><strong>base</strong>: Base container configuration</li>
-                <li><strong>bin-path</strong>: Sets $GOBIN to /go/bin and prepends it to $PATH</li>
-                <li><strong>build</strong>: Builds Go code using the go build CLI</li>
-                <li><strong>build-cache</strong>: Manages build cache</li>
-                <li><strong>from-version</strong>: Sets the base image to the given Go version</li>
-                <li><strong>generate</strong>: Runs go generate ./... and returns the updated directory</li>
-                <li><strong>global-cache</strong>: Sets $GOMODCACHE and $GOCACHE paths</li>
-                <li><strong>golang-cilint</strong>: Runs golangci-lint</li>
-                <li><strong>gotestsum</strong>: Runs tests using the gotestsum CLI</li>
-                <li><strong>mod-cache</strong>: Manages module cache</li>
-                <li><strong>test</strong>: Runs tests using the go test CLI</li>
-            </ul>
-        </div>
-
-        <h2>Issues Encountered</h2>
-        <div class="error">
-            <p>Unable to crawl the module page on daggerverse due to API limitations.</p>
-        </div>
-
-        <h2>Suggestions for Improvement</h2>
-        
-        <div class="suggestion">
-            <h3>1. Add Comprehensive Documentation</h3>
-            <p>The module would benefit from detailed documentation for each function. Here's an example:</p>
-            <pre class="code">
-#Code example for documentation
-/**
-* Function: build
-* Description: Builds Go code using the go build CLI
-* Parameters:
-*   - src: Source directory containing Go code
-*   - output: Name of the output binary
-*   - flags: Additional build flags
-* Example Usage:
-*   dagger call build --src=. --output=myapp --flags="-race,-trimpath"
-*/
-func (m *Module) Build(src Directory, output string, flags []string) *Container {
-    // Implementation
-}</pre>
-            <img src="https://i.imgflip.com/65efzo.jpg" alt="Documentation Meme" class="meme">
-        </div>
-
-        <div class="suggestion">
-            <h3>2. Add Error Handling and Validation</h3>
-            <p>Implement better error handling and input validation:</p>
-            <pre class="code">
-#Example implementation
-func (m *Module) Build(ctx context.Context, src Directory, output string) (*Container, error) {
-    if output == "" {
-        return nil, fmt.Errorf("output binary name cannot be empty")
-    }
+    <h1>QA Report: github.com/TomChv/dagger/modules/go</h1>
     
-    if !strings.HasSuffix(output, ".exe") && runtime.GOOS == "windows" {
-        output += ".exe"
-    }
+    <h2>Module Information</h2>
+    <ul>
+        <li><strong>Name:</strong> github.com/TomChv/dagger/modules/go</li>
+        <li><strong>Latest Version:</strong> main</li>
+        <li><strong>Dagger Engine Version Used:</strong> v0.18.6</li>
+    </ul>
 
-    // Implementation with error handling
-}</pre>
-        </div>
+    <h2>Issues Encountered</h2>
+    <div class="error">
+        <p>The following errors were encountered during testing:</p>
+        <ol>
+            <li>Failed to crawl module page (API credit issue)</li>
+            <li>Module build failed due to Go version incompatibility:
+                <div class="code">go.mod requires go >= 1.23.0 (running go 1.22.12; GOTOOLCHAIN=local)</div>
+            </li>
+        </ol>
+    </div>
 
-        <div class="suggestion">
-            <h3>3. Add Cross-Compilation Support</h3>
-            <p>Enhance the build function to support cross-compilation:</p>
-            <pre class="code">
-#Example implementation
-func (m *Module) BuildCross(
-    src Directory,
-    output string,
-    goos string,
-    goarch string,
-) *Container {
-    return m.Base().
-        WithEnvVariable("GOOS", goos).
-        WithEnvVariable("GOARCH", goarch).
-        WithExec([]string{"go", "build", "-o", output})
-}</pre>
+    <h2>Suggestions for Improvement</h2>
+    
+    <div class="suggestion">
+        <h3>1. Update Go Version Requirements</h3>
+        <p>The module requires Go 1.23.0 which is not yet widely available. Consider supporting older stable versions.</p>
+        <div class="code">
+        // In go.mod
+        module github.com/TomChv/dagger/modules/go
+        go 1.22  // Lower version requirement
         </div>
     </div>
+
+    <div class="suggestion">
+        <h3>2. Add Version Compatibility Check</h3>
+        <p>Add a version check in the code to provide a better error message:</p>
+        <div class="code">
+        func init() {
+            goVersion := runtime.Version()
+            if !strings.HasPrefix(goVersion, "go1.23") {
+                log.Printf("Warning: This module is tested with Go 1.23. Current version: %s\n", goVersion)
+            }
+        }
+        </div>
+    </div>
+
+    <div class="suggestion">
+        <h3>3. Improve Error Handling</h3>
+        <p>Add better error messages and fallback mechanisms:</p>
+        <div class="code">
+        if err != nil {
+            return fmt.Errorf("failed to initialize module: %w\nPlease ensure you're using Go 1.23 or later", err)
+        }
+        </div>
+    </div>
+
+    <div class="meme">
+        <img src="https://i.imgflip.com/4/2k48t0.jpg" alt="It works on my machine" />
+        <p><em>When your module only works with unreleased Go versions...</em></p>
+    </div>
+
 </body>
 </html>
