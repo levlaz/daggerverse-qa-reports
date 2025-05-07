@@ -1,101 +1,100 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>QA Report - github.com/dagger/dagger/dev/go</title>
+    <title>QA Report: github.com/dagger/dagger/dev/go</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 40px; }
-        .error { color: red; }
-        .function-list { margin-left: 20px; }
-        .suggestion { background: #f0f0f0; padding: 10px; margin: 10px 0; }
-        .code { font-family: monospace; background: #eee; padding: 10px; }
-        .meme { max-width: 500px; margin: 20px 0; }
+        body { font-family: Arial, sans-serif; line-height: 1.6; max-width: 1200px; margin: 0 auto; padding: 20px; }
+        h1, h2 { color: #333; }
+        .error { color: #dc3545; background: #f8d7da; padding: 10px; border-radius: 4px; }
+        .suggestion { background: #f8f9fa; padding: 15px; margin: 10px 0; border-radius: 4px; }
+        pre { background: #f8f9fa; padding: 10px; border-radius: 4px; overflow-x: auto; }
     </style>
 </head>
 <body>
     <h1>QA Report: github.com/dagger/dagger/dev/go</h1>
-    
+
     <h2>Module Information</h2>
     <ul>
         <li><strong>Name:</strong> github.com/dagger/dagger/dev/go</li>
-        <li><strong>Author:</strong> Dagger Team</li>
-        <li><strong>Latest Version:</strong> v0.12.0</li>
-        <li><strong>Release Date:</strong> N/A (not available from crawl)</li>
-        <li><strong>Dagger Engine Version Used:</strong> v0.18.2</li>
+        <li><strong>Author:</strong> Not available (crawl failed)</li>
+        <li><strong>Latest Version:</strong> Attempted v0.9.3</li>
+        <li><strong>Release Date:</strong> Not available (crawl failed)</li>
+        <li><strong>Dagger Engine Version Used:</strong> v0.18.6</li>
     </ul>
 
-    <h2>Module Purpose</h2>
-    <p>This module provides Go development tools and functionality including:</p>
-    <ul class="function-list">
-        <li>version() - Get Go version</li>
-        <li>source() - Access project source directory</li>
-        <li>base() - Build base container with Go installed</li>
-        <li>env() - Prepare build environment</li>
-        <li>lint() - Lint Go code</li>
-    </ul>
+    <h2>Module Functionality</h2>
+    <p>Unable to determine module functionality due to installation and build failures.</p>
 
-    <h2>Issues Encountered</h2>
+    <h2>Encountered Issues</h2>
     <div class="error">
-        <h3>Installation Error:</h3>
-        <pre>git module source "github.com/dagger/dagger/dev/go" does not contain a dagger config file</pre>
-        
-        <h3>Build Error:</h3>
-        <pre>failed to get configured module: input: moduleSource path "dev/go" does not exist in git repo</pre>
+        <h3>Critical Issues:</h3>
+        <ol>
+            <li>Crawl failed: Insufficient credits to perform the request</li>
+            <li>Installation failed: Module does not contain a dagger config file</li>
+            <li>Build failed: Path "dev/go" does not exist in git repo</li>
+        </ol>
     </div>
 
-    <h2>Quality Improvement Suggestions</h2>
+    <h2>Improvement Suggestions</h2>
     
     <div class="suggestion">
-        <h3>1. Add Missing Configuration File</h3>
-        <p>The module is missing a required dagger.json configuration file. Here's how to add it:</p>
-        <pre class="code">
+        <h3>1. Add proper module configuration</h3>
+        <p>The module is missing a dagger.json configuration file, which is required for Dagger modules.</p>
+        <pre>
+// dagger.json
 {
     "name": "go",
     "sdk": "go",
-    "dependencies": [],
+    "description": "Go development toolkit for Dagger",
     "source": "dev/go",
-    "version": "0.12.0"
-}
-        </pre>
-        <img src="https://media.giphy.com/media/qgQUggAC3Pfv687qPC/giphy.gif" alt="Missing Configuration" class="meme">
-    </div>
-
-    <div class="suggestion">
-        <h3>2. Improve Module Documentation</h3>
-        <p>Add comprehensive documentation for each function:</p>
-        <pre class="code">
-// Example improved documentation for the lint function
-type Go interface {
-    // Lint performs static analysis on Go code
-    //
-    // Parameters:
-    //   - pkgs: List of packages to lint (empty for all packages)
-    //   - all: Whether to run all linters
-    //
-    // Returns:
-    //   - error if linting fails
-    Lint(ctx context.Context, pkgs []string, all bool) error
+    "version": "0.9.3"
 }
         </pre>
     </div>
 
     <div class="suggestion">
-        <h3>3. Add Input Validation</h3>
-        <p>Implement proper validation for function inputs:</p>
-        <pre class="code">
-func (g *Go) validateVersion(version string) error {
-    if !semver.IsValid(version) {
-        return fmt.Errorf("invalid Go version format: %s", version)
-    }
-    // Check if version is supported
-    supportedVersions := []string{"1.20", "1.21", "1.22"}
-    for _, v := range supportedVersions {
-        if strings.HasPrefix(version, v) {
-            return nil
-        }
-    }
-    return fmt.Errorf("unsupported Go version: %s", version)
-}
+        <h3>2. Fix repository structure</h3>
+        <p>The module path structure appears to be incorrect. Ensure the module is in the correct location.</p>
+        <pre>
+// Recommended directory structure:
+github.com/dagger/dagger/
+├── dev/
+│   └── go/
+│       ├── dagger.json
+│       ├── main.go
+│       └── go.mod
         </pre>
     </div>
+
+    <div class="suggestion">
+        <h3>3. Add comprehensive documentation</h3>
+        <p>Once the module is properly structured, add clear documentation.</p>
+        <pre>
+// README.md
+# Dagger Go Module
+
+## Usage
+```go
+dag.Go().Build(ctx, &amp;BuildOpts{
+    Source: dag.Host().Directory("."),
+    Target: ".",
+})
+```
+
+## Functions
+- Build: Builds a Go project
+- Test: Runs Go tests
+- Lint: Performs linting
+        </pre>
+        <img src="https://i.imgflip.com/65efzo.jpg" alt="Documentation Meme" style="max-width: 400px;">
+    </div>
+
+    <h2>Full Error Logs</h2>
+    <pre>
+Crawl Error: Failed to scrape URL. Insufficient credits to perform this request.
+Install Error: git module source "github.com/dagger/dagger/dev/go" does not contain a dagger config file
+Build Error: failed to get configured module: input: moduleSource path "dev/go" does not exist in git repo
+    </pre>
+
 </body>
 </html>
