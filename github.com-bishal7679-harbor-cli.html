@@ -5,26 +5,23 @@
     <style>
         body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
         h1, h2 { color: #333; }
-        .error { color: #dc3545; background: #f8d7da; padding: 10px; border-radius: 4px; }
-        .functions { background: #f8f9fa; padding: 15px; border-radius: 4px; }
-        .suggestion { margin: 20px 0; padding: 15px; background: #e9ecef; border-radius: 4px; }
-        pre { background: #f8f9fa; padding: 10px; border-radius: 4px; overflow-x: auto; }
-        .meme { max-width: 500px; margin: 20px 0; }
+        .error { color: red; }
+        .functions { background-color: #f5f5f5; padding: 15px; border-radius: 5px; }
+        .suggestion { margin: 20px 0; padding: 15px; background-color: #e9f7ef; border-radius: 5px; }
+        code { background-color: #f8f9fa; padding: 2px 5px; border-radius: 3px; }
+        pre { background-color: #f8f9fa; padding: 15px; border-radius: 5px; overflow-x: auto; }
     </style>
 </head>
 <body>
     <h1>QA Report: harbor-cli</h1>
     
-    <h2>Module Information</h2>
+    <h2>Basic Information</h2>
     <ul>
         <li><strong>Module Name:</strong> github.com/bishal7679/harbor-cli</li>
         <li><strong>Author:</strong> bishal7679</li>
         <li><strong>Latest Version:</strong> main</li>
-        <li><strong>Release Date:</strong> Not available (crawl failed)</li>
+        <li><strong>Dagger Version Used:</strong> v0.18.6</li>
     </ul>
-
-    <h2>Dagger Engine Version</h2>
-    <p>Tested with: dagger v0.18.4</p>
 
     <h2>Module Functions</h2>
     <div class="functions">
@@ -41,60 +38,64 @@
 
     <h2>Issues Encountered</h2>
     <div class="error">
-        <p>Failed to crawl module information from daggerverse. Error: Payment Required - Failed to scrape URL. Insufficient credits to perform this request.</p>
+        <p>Could not crawl module information from daggerverse due to API limitations.</p>
     </div>
 
     <h2>Suggestions for Improvement</h2>
     
     <div class="suggestion">
-        <h3>1. Add Function Descriptions</h3>
-        <p>Many functions lack descriptions, making it unclear what they do. Here's how to add them:</p>
+        <h3>1. Add Function Documentation</h3>
+        <p>Many functions lack proper documentation. Each function should have a clear description of its purpose, inputs, and outputs.</p>
+        <p>Example improvement:</p>
         <pre>
-// Example for build-harbor function
-#Example of how to document the function
-@doc("Builds Harbor container with specified configuration")
-func (m *Module) BuildHarbor(ctx context.Context, opts BuildOptions) (*Container, error) {
-    // Function implementation
-}
-
-type BuildOptions struct {
-    Version string `doc:"Harbor version to build"`
-    Config  string `doc:"Path to Harbor configuration file"`
-}
-        </pre>
+// Function documentation example
+func buildHarbor(ctx context.Context) *Container {
+    /*
+    * Builds Harbor from source
+    * 
+    * @return Container with Harbor built and ready to use
+    *
+    * Example usage:
+    * dag.BuildHarbor().Export("/output")
+    */
+}</pre>
+        <img src="https://i.imgflip.com/2/7twnle.jpg" alt="Documentation Meme" style="max-width: 400px"/>
     </div>
 
     <div class="suggestion">
-        <h3>2. Add Input Validation</h3>
-        <p>Add proper input validation to prevent runtime errors:</p>
+        <h3>2. Add Error Handling</h3>
+        <p>Implement proper error handling and return meaningful error messages.</p>
         <pre>
-func (m *Module) Echo(ctx context.Context, message string) (*Container, error) {
-    if message == "" {
-        return nil, fmt.Errorf("message cannot be empty")
+func (m *Module) buildHarbor(ctx context.Context) (*Container, error) {
+    result, err := someOperation()
+    if err != nil {
+        return nil, fmt.Errorf("failed to build harbor: %w", err)
     }
-    
-    // Rest of the function
-}
-        </pre>
-        <img src="https://i.imgflip.com/65939r.jpg" alt="Input Validation Meme" class="meme"/>
+    return result, nil
+}</pre>
     </div>
 
     <div class="suggestion">
-        <h3>3. Add Example Usage</h3>
-        <p>Add examples in the documentation to help users understand how to use the module:</p>
+        <h3>3. Add Tests</h3>
+        <p>Implement unit tests for the module functions to ensure reliability.</p>
         <pre>
-// Example usage in README.md
-```dagger
-export function example() {
-    harbor := harborCLI()
+func TestBuildHarbor(t *testing.T) {
+    ctx := context.Background()
     
-    result := harbor.buildHarbor(
-        version: "v2.5.0",
-        config: "./harbor.yml"
-    )
-}
-```
-        </pre>
+    t.Run("successful build", func(t *testing.T) {
+        result, err := dag.BuildHarbor().Sync(ctx)
+        require.NoError(t, err)
+        require.NotNil(t, result)
+    })
+    
+    t.Run("with custom config", func(t *testing.T) {
+        result, err := dag.BuildHarbor().
+            WithConfig("custom-config.yaml").
+            Sync(ctx)
+        require.NoError(t, err)
+        require.NotNil(t, result)
+    })
+}</pre>
     </div>
 
 </body>
