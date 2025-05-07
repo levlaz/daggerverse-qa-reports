@@ -1,129 +1,113 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>QA Report - nvidia-gpu Module</title>
+    <title>QA Report - NVIDIA GPU Module</title>
     <style>
         body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
-        h1, h2 { color: #333; }
+        h1 { color: #333; }
+        h2 { color: #666; }
         .error { color: #ff0000; }
-        .function-list { background: #f4f4f4; padding: 20px; border-radius: 5px; }
-        .suggestion { margin: 20px 0; padding: 15px; background: #e9ecef; border-radius: 5px; }
-        .code { background: #272822; color: #f8f8f2; padding: 15px; border-radius: 5px; }
-        .meme { max-width: 500px; margin: 20px 0; }
+        .function-list { background-color: #f5f5f5; padding: 20px; border-radius: 5px; }
+        .suggestion { margin: 20px 0; padding: 15px; background-color: #e1f5fe; border-radius: 5px; }
+        .code { background-color: #f8f9fa; padding: 15px; border-radius: 5px; font-family: monospace; }
+        .meme { text-align: center; margin: 20px 0; }
     </style>
 </head>
 <body>
-    <h1>QA Report: nvidia-gpu Module</h1>
-
-    <h2>Basic Information</h2>
+    <h1>QA Report: NVIDIA GPU Module</h1>
+    
+    <h2>Module Information</h2>
     <ul>
-        <li><strong>Module Name:</strong> nvidia-gpu</li>
-        <li><strong>Author:</strong> samalba</li>
+        <li><strong>Name:</strong> github.com/rajatjindal/samalba-dagger-modules/nvidia-gpu</li>
+        <li><strong>Author:</strong> rajatjindal (maintaining samalba's modules)</li>
         <li><strong>Latest Version:</strong> main</li>
-        <li><strong>Release Date:</strong> N/A (Unable to crawl repository)</li>
-        <li><strong>Dagger Engine Version Used:</strong> v0.18.4</li>
+        <li><strong>Release Date:</strong> N/A (information unavailable due to crawling issues)</li>
+        <li><strong>Dagger Engine Version Used:</strong> v0.18.6</li>
     </ul>
 
     <h2>Module Functionality</h2>
     <div class="function-list">
         <h3>Available Functions:</h3>
         <ul>
-            <li><strong>deploy-dagger-on-fly:</strong> Returns lines that match a pattern in the files of the provided Directory</li>
-            <li><strong>destroy-dagger-on-fly:</strong> Destroy the remote Flyio app</li>
-            <li><strong>has-gpu:</strong> Checks for GPU availability</li>
-            <li><strong>ollama-run:</strong> OllamaRun spins up an Ollama server and run a prompt</li>
-            <li><strong>test-cuda:</strong> TestCuda tests if it can access the GPU, returns GPU information</li>
+            <li><strong>cuda</strong> - Base CUDA functionality</li>
+            <li><strong>deploy-dagger-on-fly</strong> - Returns lines that match a pattern in the files of the provided Directory</li>
+            <li><strong>test-cuda</strong> - TestCuda tests if it can access the GPU, requires a machine with an NVIDIA GPU</li>
         </ul>
     </div>
 
     <h2>Issues Encountered</h2>
     <div class="error">
-        <ul>
-            <li>Unable to crawl module information due to API limitations</li>
-        </ul>
+        <p>Failed to crawl module information from daggerverse due to API limitations.</p>
     </div>
 
-    <h2>Suggestions for Improvement</h2>
+    <h2>Improvement Suggestions</h2>
     
     <div class="suggestion">
         <h3>1. Add Comprehensive Documentation</h3>
-        <p>The module functions lack detailed documentation. Add proper descriptions and examples.</p>
+        <p>The module functions lack detailed descriptions. Add comprehensive documentation for each function.</p>
         <div class="code">
         <pre>
-// Before:
-func hasGPU() bool {
-    return true
-}
+// Example of improved documentation
+#Schema {
+    // Cuda provides NVIDIA CUDA support for containers
+    // Requires:
+    // - NVIDIA GPU
+    // - NVIDIA drivers installed on host
+    // Returns: A container with CUDA support
+    cuda(): Container
 
-// After:
-/**
- * Checks if NVIDIA GPU is available in the current environment
- * @returns boolean indicating if GPU is detected
- * @example
- * if hasGPU() {
- *     console.log("GPU is available")
- * }
- */
-func hasGPU() bool {
-    return true
+    // TestCuda verifies GPU accessibility
+    // Performs:
+    // - NVIDIA-SMI check
+    // - CUDA sample computation
+    // - Memory availability check
+    // Returns: Test results and GPU information
+    testCuda(): String
 }
         </pre>
         </div>
     </div>
 
     <div class="suggestion">
-        <h3>2. Add Error Handling</h3>
-        <p>Implement proper error handling and return meaningful error messages.</p>
+        <h3>2. Add Error Handling and Validation</h3>
+        <p>Implement proper error handling for cases where GPU is not available.</p>
         <div class="code">
         <pre>
-// Before:
-func testCuda() string {
-    return gpuInfo
-}
-
-// After:
-func testCuda() (string, error) {
-    gpuInfo, err := nvidia.GetGPUInfo()
-    if err != nil {
-        return "", fmt.Errorf("failed to get GPU info: %w", err)
-    }
-    return gpuInfo, nil
+func TestCuda() *Container {
+    return dag.Container().
+        From("nvidia/cuda:11.0-base").
+        WithExec([]string{"nvidia-smi"}).
+        WithExec([]string{
+            "sh", "-c",
+            `if ! command -v nvidia-smi &> /dev/null; then
+                echo "Error: NVIDIA GPU not found or drivers not installed"
+                exit 1
+            fi`
+        })
 }
         </pre>
+        </div>
+        <div class="meme">
+            <img src="https://i.imgflip.com/2/54zw82.jpg" alt="Error Handling Meme" />
+            <p><em>"When your code has no error handling"</em></p>
         </div>
     </div>
 
     <div class="suggestion">
-        <h3>3. Add Configuration Options</h3>
-        <p>Implement configuration options for more flexibility.</p>
+        <h3>3. Add Version Compatibility Matrix</h3>
+        <p>Include CUDA version compatibility information and driver requirements.</p>
         <div class="code">
         <pre>
-// Before:
-func ollamaRun(prompt string) string {
-    return result
-}
+// Add version compatibility information in the module's README.md
+## Compatibility Matrix
 
-// After:
-type OllamaConfig struct {
-    Model string
-    Temperature float64
-    MaxTokens int
-}
-
-func ollamaRun(prompt string, config OllamaConfig) string {
-    return result
-}
+| Module Version | CUDA Version | Min Driver Version | Dagger Version |
+|----------------|--------------|-------------------|----------------|
+| main           | 11.0         | 450.80.02        | v0.18.6+      |
+| v1.0.0         | 10.2         | 440.33.01        | v0.18.0+      |
         </pre>
         </div>
     </div>
-
-    <div class="meme">
-        <h3>Quality Assurance be like:</h3>
-        <img src="https://i.imgflip.com/7zx87j.jpg" alt="It works on my machine meme" />
-    </div>
-
-    <h2>Testing Information</h2>
-    <p>Testing was performed using Dagger Engine version v0.18.4 on linux/amd64 platform.</p>
 
 </body>
 </html>
