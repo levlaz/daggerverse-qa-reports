@@ -3,95 +3,93 @@
 <head>
     <title>QA Report: github.com/M-Pixel/dagger/version</title>
     <style>
-        body { font-family: Arial, sans-serif; line-height: 1.6; max-width: 1200px; margin: 0 auto; padding: 20px; }
-        h1, h2 { color: #333; }
-        .error { color: #cc0000; background: #ffebeb; padding: 10px; border-radius: 5px; }
-        .suggestion { margin: 20px 0; padding: 15px; background: #f5f5f5; border-radius: 5px; }
-        pre { background: #f0f0f0; padding: 10px; border-radius: 5px; overflow-x: auto; }
-        .meme { max-width: 500px; margin: 20px 0; }
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 20px; }
+        h1 { color: #333; }
+        .error { color: #ff0000; }
+        .suggestion { margin: 10px 0; padding: 10px; background-color: #f0f0f0; }
+        code { background-color: #f5f5f5; padding: 2px 5px; border-radius: 3px; }
     </style>
 </head>
 <body>
     <h1>QA Report: github.com/M-Pixel/dagger/version</h1>
-
+    
     <h2>Module Information</h2>
     <ul>
         <li><strong>Name:</strong> github.com/M-Pixel/dagger/version</li>
         <li><strong>Author:</strong> M-Pixel</li>
-        <li><strong>Latest Version:</strong> Unknown (failed to retrieve)</li>
-        <li><strong>Release Date:</strong> Unknown (failed to retrieve)</li>
+        <li><strong>Latest Version:</strong> N/A (unable to determine)</li>
+        <li><strong>Release Date:</strong> N/A (unable to determine)</li>
     </ul>
 
     <h2>Testing Environment</h2>
     <ul>
-        <li><strong>Dagger Engine Version:</strong> v0.18.5</li>
+        <li><strong>Dagger Engine Version:</strong> v0.18.6</li>
         <li><strong>Platform:</strong> linux/amd64</li>
     </ul>
 
+    <h2>Module Functionality</h2>
+    <p>Unable to determine module functionality due to installation and build failures.</p>
+
     <h2>Testing Results</h2>
     <div class="error">
-        <h3>Encountered Issues:</h3>
-        <ol>
-            <li>Failed to crawl daggerverse page: Payment Required error from firecrawl service</li>
+        <h3>Encountered Errors:</h3>
+        <ul>
+            <li>Module crawling failed: Insufficient credits to perform the request</li>
             <li>Installation failed: Module does not contain a dagger config file</li>
             <li>Build failed: Path "version" does not exist in git repo</li>
-        </ol>
+        </ul>
     </div>
 
     <h2>Quality Improvement Suggestions</h2>
     
     <div class="suggestion">
         <h3>1. Add proper module configuration</h3>
-        <p>The module is missing a dagger.json configuration file, which is essential for Dagger modules.</p>
-        <pre>
+        <p>The module is missing a dagger.json configuration file, which is required for Dagger modules.</p>
+        <pre><code>
+// dagger.json
 {
     "name": "version",
     "sdk": "go",
-    "description": "A module for version management operations",
-    "source": "./version",
-    "dependencies": []
+    "dependencies": [],
+    "source": "./",
+    "description": "A module for version management"
 }
-        </pre>
-        <img src="https://media.giphy.com/media/l3vR6aasfs0Ae3qdG/giphy.gif" alt="Configuration Meme" class="meme">
+        </code></pre>
     </div>
 
     <div class="suggestion">
-        <h3>2. Add proper directory structure</h3>
+        <h3>2. Structure Repository Correctly</h3>
         <p>The module should follow the standard Dagger module structure.</p>
-        <pre>
+        <pre><code>
 .
-├── version/
-│   ├── dagger.json
-│   ├── main.go
-│   └── README.md
-└── .gitignore
-        </pre>
+├── dagger.json
+├── main.go
+├── go.mod
+└── README.md
+        </code></pre>
+        <p><img src="https://media.giphy.com/media/7MZ0v9KynmiSA/giphy.gif" alt="Confused John Travolta looking for files" /></p>
     </div>
 
     <div class="suggestion">
-        <h3>3. Add proper documentation</h3>
-        <p>Create a comprehensive README.md file to help users understand the module.</p>
-        <pre>
+        <h3>3. Add Documentation</h3>
+        <p>Create comprehensive documentation for the module.</p>
+        <pre><code>
+// README.md
 # Version Module
 
-## Description
-A Dagger module for version management operations.
+## Overview
+This module provides version management capabilities for Dagger pipelines.
 
 ## Usage
 ```go
-dagger install github.com/M-Pixel/dagger/version
+dag.Version().Get()
 ```
 
 ## Functions
-- List of functions will go here once the module is properly configured
-
-## Examples
-- Usage examples will go here
-        </pre>
+- `Get()`: Returns current version
+- `Compare(other string)`: Compares versions
+        </code></pre>
     </div>
-
-    <h2>Cloud Trace</h2>
-    <p>Cloud trace information is not available due to the module failing basic setup requirements.</p>
 
 </body>
 </html>
