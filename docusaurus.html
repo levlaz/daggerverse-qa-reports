@@ -3,13 +3,13 @@
 <head>
     <title>QA Report - Docusaurus Module</title>
     <style>
-        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 20px; }
-        h1, h2 { color: #333; }
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
         .container { max-width: 1200px; margin: 0 auto; }
         .function-list { background-color: #f5f5f5; padding: 20px; border-radius: 5px; }
-        .error { color: #dc3545; }
-        .suggestion { margin-bottom: 20px; }
+        .suggestion { margin: 20px 0; padding: 20px; background-color: #e9f7ef; border-radius: 5px; }
+        .error { color: #c0392b; }
         pre { background-color: #f8f9fa; padding: 15px; border-radius: 5px; overflow-x: auto; }
+        .meme { max-width: 500px; margin: 20px 0; }
     </style>
 </head>
 <body>
@@ -21,82 +21,86 @@
             <li><strong>Name:</strong> github.com/marcosnils/levlaz-daggerverse/docusaurus</li>
             <li><strong>Author:</strong> marcosnils</li>
             <li><strong>Latest Version:</strong> main</li>
-            <li><strong>Release Date:</strong> N/A (Unable to fetch from daggerverse)</li>
-            <li><strong>Dagger Engine Version:</strong> v0.18.5</li>
+            <li><strong>Release Date:</strong> N/A (using main branch)</li>
+            <li><strong>Dagger Engine Version Used:</strong> v0.18.6</li>
         </ul>
 
-        <h2>Module Description</h2>
-        <p>This module provides functionality for working with Docusaurus documentation sites. It includes capabilities for building, serving, and developing Docusaurus documentation.</p>
+        <h2>Module Purpose</h2>
+        <p>This module provides functionality for building and serving Docusaurus documentation sites. It offers both development and production environments for Docusaurus projects.</p>
 
         <h2>Available Functions</h2>
         <div class="function-list">
             <ul>
-                <li><strong>base()</strong> - Returns base container for running docusaurus with docs mounted</li>
-                <li><strong>build()</strong> - Builds production docs</li>
-                <li><strong>cache-volume-name()</strong> - Cache volume management</li>
-                <li><strong>dir()</strong> - Directory management</li>
-                <li><strong>disable-cache()</strong> - Cache control functionality</li>
-                <li><strong>serve()</strong> - Serves production docs locally as a service</li>
-                <li><strong>serve-dev()</strong> - Builds and serves development docs as a service</li>
-                <li><strong>src()</strong> - Source management</li>
+                <li><strong>base():</strong> Returns base container for running docusaurus with docs mounted</li>
+                <li><strong>build():</strong> Builds production docs</li>
+                <li><strong>serve():</strong> Serves production docs locally as a service</li>
+                <li><strong>serve-dev():</strong> Builds and serves development docs as a service</li>
+                <li><strong>cache-volume-name():</strong> Helper function for cache management</li>
+                <li><strong>dir():</strong> Directory management function</li>
+                <li><strong>disable-cache():</strong> Cache control function</li>
+                <li><strong>src():</strong> Source management function</li>
             </ul>
+        </div>
+
+        <h2>Quality Improvement Suggestions</h2>
+        
+        <div class="suggestion">
+            <h3>1. Add Function Documentation</h3>
+            <p>The module lacks proper function documentation. Each function should have clear descriptions of its purpose, parameters, and return values.</p>
+            <pre>
+/**
+ * Serves Docusaurus documentation in development mode
+ * @param {string} port - The port to serve on (default: 3000)
+ * @param {string} host - The host to bind to (default: 0.0.0.0)
+ * @returns {Container} A container running the development server
+ */
+func ServeDev(port?: string = "3000", host?: string = "0.0.0.0") {
+    // Implementation
+}
+            </pre>
+            <img src="https://i.imgflip.com/65efzo.jpg" alt="Documentation Meme" class="meme">
+        </div>
+
+        <div class="suggestion">
+            <h3>2. Add Error Handling and Validation</h3>
+            <p>Implement proper error handling and input validation for more robust operation.</p>
+            <pre>
+func Build(ctx context.Context) *Container {
+    if _, err := os.Stat("docusaurus.config.js"); err != nil {
+        return fmt.Errorf("docusaurus.config.js not found: %w", err)
+    }
+    
+    // Continue with build process
+    return container.Build(ctx)
+}
+            </pre>
+        </div>
+
+        <div class="suggestion">
+            <h3>3. Add Configuration Options</h3>
+            <p>Provide more configuration options for customizing the build and serve processes.</p>
+            <pre>
+type DocusaurusConfig struct {
+    Port string
+    Host string
+    BaseUrl string
+    TrailingSlash bool
+    GithubPages bool
+}
+
+func Build(config DocusaurusConfig) *Container {
+    // Implementation using configuration
+}
+            </pre>
         </div>
 
         <h2>Issues Encountered</h2>
         <div class="error">
-            <p>Unable to crawl the daggerverse page due to API limitations: "Insufficient credits to perform this request"</p>
-        </div>
-
-        <h2>Suggestions for Improvement</h2>
-        
-        <div class="suggestion">
-            <h3>1. Add Input Validation</h3>
-            <p>Add input validation to ensure proper directory structure and required files exist before attempting operations.</p>
-            <pre>
-func (m *Module) validateInputs(ctx context.Context) error {
-    docusaurusConfig := m.src().File("docusaurus.config.js")
-    if !docusaurusConfig.Exists() {
-        return fmt.Errorf("docusaurus.config.js not found in source directory")
-    }
-    return nil
-}
-            </pre>
-        </div>
-
-        <div class="suggestion">
-            <h3>2. Implement Better Error Handling</h3>
-            <p>Add comprehensive error handling and meaningful error messages.</p>
-            <pre>
-type BuildOptions struct {
-    OutDir     string
-    MinifyCss  bool
-    MinifyJs   bool
-}
-
-func (m *Module) build(ctx context.Context, opts BuildOptions) (*Container, error) {
-    if err := m.validateInputs(ctx); err != nil {
-        return nil, fmt.Errorf("validation failed: %w", err)
-    }
-    // Build logic here
-}
-            </pre>
-            <img src="https://i.imgflip.com/2/1bij.jpg" alt="Debug All The Things!" style="max-width: 300px;"/>
-        </div>
-
-        <div class="suggestion">
-            <h3>3. Add Progress Reporting</h3>
-            <p>Implement progress reporting for long-running operations like builds.</p>
-            <pre>
-func (m *Module) buildWithProgress(ctx context.Context) error {
-    steps := []string{"Installing dependencies", "Generating pages", "Optimizing assets"}
-    for _, step := range steps {
-        // Implement progress reporting
-        fmt.Printf("Step: %s\n", step)
-        // Actual build steps
-    }
-    return nil
-}
-            </pre>
+            <ul>
+                <li>Unable to crawl the module page due to API limitations</li>
+                <li>Limited documentation for some functions (cache-volume-name, dir, disable-cache, src)</li>
+                <li>No clear version information available (using main branch)</li>
+            </ul>
         </div>
     </div>
 </body>
