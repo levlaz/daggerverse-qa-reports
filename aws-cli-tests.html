@@ -1,16 +1,43 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>QA Report - AWS CLI Tests Module</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QA Report: AWS CLI Tests Module</title>
     <style>
-        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
-        h1, h2 { color: #333; }
-        .container { max-width: 1200px; margin: 0 auto; }
-        .functions { background-color: #f5f5f5; padding: 20px; border-radius: 5px; }
-        .error { color: #dc3545; }
-        .suggestion { margin: 20px 0; padding: 15px; background-color: #f8f9fa; border-left: 4px solid #007bff; }
-        code { background-color: #f8f9fa; padding: 2px 5px; border-radius: 3px; }
-        pre { background-color: #f8f9fa; padding: 15px; border-radius: 5px; overflow-x: auto; }
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 40px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .error {
+            color: #dc3545;
+            background-color: #f8d7da;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+        .function-list {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 4px;
+        }
+        .suggestion {
+            margin: 20px 0;
+            padding: 15px;
+            background-color: #e9ecef;
+            border-radius: 4px;
+        }
+        pre {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
     </style>
 </head>
 <body>
@@ -22,84 +49,79 @@
             <li><strong>Name:</strong> github.com/sagikazarmark/daggerverse/aws-cli/tests</li>
             <li><strong>Author:</strong> sagikazarmark</li>
             <li><strong>Latest Version:</strong> main</li>
-            <li><strong>Release Date:</strong> N/A (Unable to retrieve from daggerverse)</li>
-            <li><strong>Dagger Engine Version Used:</strong> v0.18.5</li>
+            <li><strong>Release Date:</strong> N/A (Unable to fetch from daggerverse)</li>
+            <li><strong>Dagger Engine Version:</strong> v0.18.6</li>
         </ul>
 
-        <h2>Module Description</h2>
-        <p>This module appears to be a test suite for the AWS CLI module. It provides functionality for testing AWS CLI operations.</p>
-
-        <h2>Available Functions</h2>
-        <div class="functions">
+        <h2>Module Functions</h2>
+        <div class="function-list">
             <ul>
-                <li><strong>all()</strong> - All executes all tests.</li>
-                <li><strong>test()</strong> - Test execution function (no description provided)</li>
+                <li><strong>all()</strong>: All executes all tests.</li>
+                <li><strong>test()</strong>: Test function (no description provided)</li>
             </ul>
         </div>
 
         <h2>Issues Encountered</h2>
         <div class="error">
-            <p>Unable to crawl the daggerverse page for detailed module information due to API limitations.</p>
+            <p>Unable to crawl module information from daggerverse due to API limitations.</p>
         </div>
 
-        <h2>Suggestions for Improvement</h2>
+        <h2>Quality Improvement Suggestions</h2>
         
         <div class="suggestion">
-            <h3>1. Add Detailed Function Documentation</h3>
-            <p>The current function documentation is minimal. Adding detailed descriptions would improve usability.</p>
-            <pre><code>// Example of improved documentation
-#test: {
-    description: "Executes a specific test case for AWS CLI functionality"
-    params: {
-        testName: string | *"default"
-        region: string | *"us-east-1"
-    }
-    return: {
-        success: bool
-        message: string
-    }
-}</code></pre>
-            <img src="https://i.imgflip.com/2k48t0.jpg" alt="Documentation Meme" style="max-width: 400px;">
+            <h3>1. Improve Function Documentation</h3>
+            <p>The module's functions lack proper documentation. Here's how it could be improved:</p>
+            <pre>
+// Test performs individual test execution for the AWS CLI module
+func Test() {
+    // Test specific AWS CLI functionality
+    // Example: Verify AWS CLI installation
+    // Example: Test basic AWS commands
+    // Example: Validate environment variable handling
+}
+
+// All executes the complete test suite for the AWS CLI module
+func All() *testing.T {
+    // Execute all test cases in sequence
+    // Report test results
+    // Handle test failures appropriately
+}</pre>
+            <img src="https://i.imgflip.com/2/1bij.jpg" alt="Documentation Meme" />
         </div>
 
         <div class="suggestion">
-            <h3>2. Implement Test Categories</h3>
-            <p>Group tests by category to make the test suite more organized and maintainable.</p>
-            <pre><code>// Example implementation
-#all: {
-    categories: {
-        basic: test & {category: "basic"}
-        s3: test & {category: "s3"}
-        ec2: test & {category: "ec2"}
-    }
-    // Run tests by category
-    run: {
-        basic: categories.basic
-        s3: categories.s3
-        ec2: categories.ec2
-    }
-}</code></pre>
+            <h3>2. Add Test Coverage Reports</h3>
+            <p>Implement test coverage reporting to ensure comprehensive testing:</p>
+            <pre>
+// Example implementation using go test with coverage
+func Test() {
+    test := dag.Container().
+        From("golang:latest").
+        WithExec([]string{
+            "go", "test", 
+            "-coverprofile=coverage.out",
+            "./..."
+        })
+}</pre>
         </div>
 
         <div class="suggestion">
-            <h3>3. Add Test Result Reporting</h3>
-            <p>Implement detailed test result reporting with metrics and timestamps.</p>
-            <pre><code>// Example implementation
-#test: {
-    results: {
-        startTime: string
-        endTime: string
-        passed: int
-        failed: int
-        skipped: int
-        details: [...{
-            name: string
-            status: "pass" | "fail" | "skip"
-            duration: string
-            error?: string
-        }]
-    }
-}</code></pre>
+            <h3>3. Implement Test Categories</h3>
+            <p>Organize tests into logical categories for better maintenance:</p>
+            <pre>
+// Categorized test structure
+func UnitTests() {
+    // Unit test implementation
+}
+
+func IntegrationTests() {
+    // Integration test implementation
+}
+
+func All() {
+    UnitTests()
+    IntegrationTests()
+}</pre>
         </div>
     </div>
 </body>
