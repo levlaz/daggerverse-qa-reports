@@ -1,97 +1,119 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>QA Report - Alpine Module</title>
+    <title>QA Report - ResearcherContainer</title>
     <style>
-        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
-        h1 { color: #2c3e50; }
-        h2 { color: #34495e; }
-        .error { color: #e74c3c; background: #fadbd8; padding: 10px; border-radius: 5px; }
-        .suggestion { margin: 20px 0; padding: 15px; background: #f8f9fa; border-radius: 5px; }
-        pre { background: #f8f9fa; padding: 10px; border-radius: 5px; overflow-x: auto; }
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 20px; }
+        h1, h2 { color: #333; }
+        .function-list { background: #f5f5f5; padding: 15px; border-radius: 5px; }
+        .suggestion { margin: 20px 0; padding: 15px; background: #e9ecef; border-radius: 5px; }
+        .code { background: #f8f9fa; padding: 10px; border-radius: 5px; font-family: monospace; }
+        .error { color: #dc3545; }
+        .meme { max-width: 500px; margin: 20px 0; }
     </style>
 </head>
 <body>
-    <h1>QA Report: Alpine Module</h1>
+    <h1>QA Report: ResearcherContainer</h1>
     
     <h2>Module Information</h2>
     <ul>
-        <li><strong>Module Name:</strong> github.com/jedevc/dagger/modules/alpine</li>
-        <li><strong>Author:</strong> Not available (module crawl failed)</li>
-        <li><strong>Latest Version:</strong> Not available (module crawl failed)</li>
-        <li><strong>Release Date:</strong> Not available (module crawl failed)</li>
+        <li><strong>Name:</strong> ResearcherContainer</li>
+        <li><strong>Author:</strong> EmmS21</li>
+        <li><strong>Latest Version:</strong> bd0e80d862e048ff0033b305e33c935b8ae40da3</li>
+        <li><strong>Dagger Engine Version Used:</strong> v0.18.2</li>
     </ul>
 
-    <h2>Testing Environment</h2>
+    <h2>Module Purpose</h2>
+    <p>This module interacts with an AI Agent hosted in Modal to perform research on companies. It:</p>
     <ul>
-        <li><strong>Dagger Version:</strong> v0.18.5 (docker-image://registry.dagger.io/engine:v0.18.5) linux/amd64</li>
+        <li>Conducts research on companies and their user bases</li>
+        <li>Uses web automation for internet browsing</li>
+        <li>Generates exploration paths for the agent</li>
+        <li>Collects keywords and adtext</li>
+        <li>Stores data in MongoDB collections</li>
     </ul>
 
-    <h2>Module Functionality</h2>
-    <p>Unable to determine module functionality due to installation and build failures.</p>
-
-    <h2>Errors Encountered</h2>
-    <div class="error">
-        <h3>1. Module Crawling Error</h3>
-        <p>Failed to crawl the module page due to API limitations.</p>
-
-        <h3>2. Installation Error</h3>
-        <pre>git module source "github.com/jedevc/dagger/modules/alpine" does not contain a dagger config file</pre>
-
-        <h3>3. Build Error</h3>
-        <pre>failed to get configured module: input: moduleSource path "modules/alpine" does not exist in git repo</pre>
+    <h2>Available Functions</h2>
+    <div class="function-list">
+        <h3>run()</h3>
+        <p>Calls marketing agent with business and persona data, then writes results to MongoDB.</p>
+        <p>Parameters:</p>
+        <ul>
+            <li>businessName (String, required)</li>
+            <li>personas (String, required)</li>
+            <li>connection (Secret, required)</li>
+            <li>modalEntryPoint (Secret, required)</li>
+        </ul>
     </div>
 
     <h2>Quality Improvement Suggestions</h2>
     
     <div class="suggestion">
-        <h3>1. Add Basic Module Configuration</h3>
-        <p>The module is missing a dagger.json configuration file, which is essential for Dagger modules.</p>
+        <h3>1. Add Input Validation</h3>
+        <p>The module could benefit from input validation to ensure the business name and personas are in the correct format before making the request.</p>
+        <div class="code">
         <pre>
-{
-    "name": "alpine",
-    "sdk": "go",
-    "description": "Alpine Linux base module for Dagger pipelines",
-    "version": "v0.1.0"
-}</pre>
+func validateInput(businessName string, personas string) error {
+    if len(businessName) < 2 {
+        return fmt.Errorf("business name must be at least 2 characters long")
+    }
+    if !json.Valid([]byte(personas)) {
+        return fmt.Errorf("personas must be valid JSON")
+    }
+    return nil
+}
+        </pre>
+        </div>
     </div>
 
     <div class="suggestion">
-        <h3>2. Improve Repository Structure</h3>
-        <p>The module path should match the repository structure. Consider restructuring the repository.</p>
+        <h3>2. Add Retry Mechanism</h3>
+        <p>Given that this module depends on external services (Modal and MongoDB), implementing a retry mechanism would improve reliability.</p>
+        <div class="code">
         <pre>
-Repository Structure:
-├── modules/
-│   └── alpine/
-│       ├── dagger.json
-│       ├── main.go
-│       └── README.md</pre>
+func (m *Module) runWithRetry(ctx context.Context, maxRetries int) (string, error) {
+    for i := 0; i < maxRetries; i++ {
+        result, err := m.run(ctx)
+        if err == nil {
+            return result, nil
+        }
+        time.Sleep(time.Second * time.Duration(i+1))
+    }
+    return "", fmt.Errorf("max retries exceeded")
+}
+        </pre>
+        </div>
     </div>
 
     <div class="suggestion">
-        <h3>3. Add Documentation</h3>
-        <p>Include comprehensive documentation explaining the module's purpose and usage.</p>
+        <h3>3. Add Progress Reporting</h3>
+        <p>The module could provide better feedback about the research progress.</p>
+        <div class="code">
         <pre>
-# Alpine Module for Dagger
+type ProgressReport struct {
+    Stage string `json:"stage"`
+    Progress int `json:"progress"`
+    Details string `json:"details"`
+}
 
-## Overview
-This module provides Alpine Linux base functionality for Dagger pipelines.
-
-## Usage
-```go
-alpine := dag.Alpine()
-container := alpine.Container()
-```
-
-## Functions
-- `Container()`: Returns a base Alpine container
-- `WithVersion(version string)`: Specifies Alpine version</pre>
+func (m *Module) runWithProgress(ctx context.Context) chan ProgressReport {
+    progressChan := make(chan ProgressReport)
+    go func() {
+        progressChan <- ProgressReport{
+            Stage: "Initializing research",
+            Progress: 0,
+            Details: "Setting up connection to Modal agent"
+        }
+        // ... continue with other stages
+    }()
+    return progressChan
+}
+        </pre>
+        </div>
+        <img src="https://i.imgflip.com/65efzo.jpg" alt="Progress Bar Meme" class="meme">
     </div>
 
-    <div style="text-align: center; margin-top: 30px;">
-        <img src="https://i.imgflip.com/2/3pdi3k.jpg" alt="Module Not Found Meme" style="max-width: 400px;">
-        <p><em>When you try to use a module but it doesn't exist</em></p>
-    </div>
-
+    <h2>Testing Notes</h2>
+    <p>The module was successfully installed and built. No errors were encountered during the testing process. However, full functional testing would require valid MongoDB connection strings and Modal entry points, which were not available during this QA session.</p>
 </body>
 </html>
