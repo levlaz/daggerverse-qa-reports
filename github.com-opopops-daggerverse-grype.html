@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>QA Report - Grype Module</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; max-width: 1200px; margin: 0 auto; padding: 20px; }
+        h1, h2 { color: #333; }
+        .container { background: #f9f9f9; padding: 20px; border-radius: 5px; margin: 20px 0; }
+        .function-list { background: #f5f5f5; padding: 15px; border-left: 4px solid #007bff; }
+        .error { color: #dc3545; }
+        .suggestion { background: #e9ecef; padding: 15px; margin: 10px 0; border-radius: 5px; }
+        code { background: #f8f9fa; padding: 2px 5px; border-radius: 3px; }
+        pre { background: #f8f9fa; padding: 15px; border-radius: 5px; overflow-x: auto; }
+    </style>
+</head>
+<body>
+    <h1>QA Report: Grype Module</h1>
+    
+    <div class="container">
+        <h2>Module Information</h2>
+        <p><strong>Name:</strong> github.com/opopops/daggerverse/grype</p>
+        <p><strong>Author:</strong> opopops</p>
+        <p><strong>Latest Version:</strong> latest</p>
+        <p><strong>Release Date:</strong> N/A (Unable to fetch from daggerverse)</p>
+        <p><strong>Dagger Engine Version Used:</strong> v0.18.6</p>
+    </div>
+
+    <div class="container">
+        <h2>Module Description</h2>
+        <p>The Grype module is a Dagger module that provides integration with the Grype vulnerability scanner. It allows users to scan containers, directories, and files for security vulnerabilities.</p>
+        
+        <h3>Available Functions:</h3>
+        <div class="function-list">
+            <ul>
+                <li><strong>container</strong> - Returns configured grype container</li>
+                <li><strong>scan</strong> - General scan functionality</li>
+                <li><strong>scan-directory</strong> - Scan a directory for vulnerabilities</li>
+                <li><strong>scan-file</strong> - Scan a specific file</li>
+                <li><strong>scan-image</strong> - Scan a container image</li>
+                <li><strong>with-registry-auth</strong> - Authenticate with registry</li>
+                <li><strong>with-scan</strong> - Scan (for chaining)</li>
+                <li><strong>with-scan-directory</strong> - Scan dir (for chaining)</li>
+                <li><strong>with-scan-file</strong> - Scan file (for chaining)</li>
+                <li><strong>with-scan-image</strong> - Scan container image (for chaining)</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="container">
+        <h2>Issues Encountered</h2>
+        <div class="error">
+            <p>❌ Unable to crawl daggerverse page due to API limitations</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <h2>Suggestions for Improvement</h2>
+        
+        <div class="suggestion">
+            <h3>1. Add Input Validation</h3>
+            <p>Add input validation for scan paths and image names to prevent errors and improve user experience.</p>
+            <pre><code>
+func validateInput(path string) error {
+    if path == "" {
+        return fmt.Errorf("path cannot be empty")
+    }
+    if !filepath.IsAbs(path) {
+        return fmt.Errorf("path must be absolute")
+    }
+    return nil
+}
+            </code></pre>
+        </div>
+
+        <div class="suggestion">
+            <h3>2. Add Comprehensive Documentation</h3>
+            <p>Add more detailed documentation for each function, including examples and expected outputs.</p>
+            <pre><code>
+// ScanImage scans a container image for vulnerabilities
+//
+// Parameters:
+//   - image: The container image to scan (e.g., "alpine:latest")
+//   - format: Output format (json|table|cyclonedx|template)
+//
+// Returns:
+//   - Scan results in the specified format
+func (m *Module) ScanImage(ctx context.Context, image string, format string) (*ScanResult, error) {
+    // Implementation
+}
+            </code></pre>
+        </div>
+
+        <div class="suggestion">
+            <h3>3. Add Result Filtering Options</h3>
+            <p>Add the ability to filter scan results by severity or vulnerability type.</p>
+            <pre><code>
+type ScanOptions struct {
+    MinSeverity string   // "LOW", "MEDIUM", "HIGH", "CRITICAL"
+    ExcludeTypes []string // Types of vulnerabilities to exclude
+    IncludeTypes []string // Types of vulnerabilities to include
+}
+
+func (m *Module) ScanWithOptions(ctx context.Context, opts ScanOptions) (*ScanResult, error) {
+    // Implementation
+}
+            </code></pre>
+            <img src="https://i.imgflip.com/7q8eoj.jpg" alt="Security meme" style="max-width: 400px; margin: 20px 0;">
+        </div>
+    </div>
+</body>
+</html>
