@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>QA Report - git-cliff</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .error { color: red; padding: 10px; background-color: #ffe6e6; border-radius: 5px; }
+        .function-list { background-color: #f5f5f5; padding: 20px; border-radius: 5px; }
+        .suggestion { margin-bottom: 20px; padding: 15px; background-color: #f0f8ff; border-radius: 5px; }
+        pre { background-color: #f0f0f0; padding: 10px; border-radius: 5px; overflow-x: auto; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>QA Report: git-cliff</h1>
+        
+        <h2>Module Information</h2>
+        <ul>
+            <li><strong>Name:</strong> git-cliff</li>
+            <li><strong>Author:</strong> act3-ai</li>
+            <li><strong>Latest Version:</strong> main</li>
+            <li><strong>Release Date:</strong> N/A (information unavailable due to crawling error)</li>
+            <li><strong>Dagger Engine Version Used:</strong> v0.18.6</li>
+        </ul>
+
+        <h2>Module Description</h2>
+        <p>git-cliff is a module for generating changelogs from git history. It provides various functions for managing changelog generation, version bumping, and git repository interaction.</p>
+
+        <h2>Module Functions</h2>
+        <div class="function-list">
+            <ul>
+                <li><strong>bumped-version:</strong> Prints bumped version for unreleased changes</li>
+                <li><strong>run:</strong> Run git-cliff with all options previously provided</li>
+                <li><strong>with-bump:</strong> Bump the version for unreleased changes</li>
+                <li><strong>with-config:</strong> Sets the configuration file</li>
+                <li><strong>with-current:</strong> Processes the commits that belong to the current tag</li>
+                <li><strong>with-env-variable:</strong> Adds an environment variable to the git-cliff container</li>
+                <li><strong>with-gitea-token:</strong> Sets the Gitea API token</li>
+                <li><strong>with-github-token:</strong> Sets the GitHub API token</li>
+                <li><strong>with-gitlab-token:</strong> Sets the GitLab API token</li>
+                <li><strong>with-latest:</strong> Processes the commits starting from the latest tag</li>
+                <li><strong>with-netrc:</strong> Add netrc credentials</li>
+                <li><strong>with-output:</strong> Writes output to the given file</li>
+                <li><strong>with-prepend:</strong> Prepends entries to the given changelog file</li>
+                <li><strong>with-repository:</strong> Sets the git repository</li>
+                <li><strong>with-secret-variable:</strong> Adds an env variable containing a secret</li>
+                <li><strong>with-skip-commit:</strong> Sets commits that will be skipped in the changelog</li>
+                <li><strong>with-strip:</strong> Strips the given parts from the changelog</li>
+                <li><strong>with-topo-order:</strong> Sorts the tags topologically</li>
+                <li><strong>with-unreleased:</strong> Processes the commits that do not belong to a tag</li>
+            </ul>
+        </div>
+
+        <h2>Issues Encountered</h2>
+        <div class="error">
+            <p>Unable to crawl module information due to API limitation: "Failed to scrape URL. Insufficient credits to perform this request."</p>
+        </div>
+
+        <h2>Suggestions for Improvement</h2>
+        
+        <div class="suggestion">
+            <h3>1. Add Input Validation</h3>
+            <p>Add input validation to ensure all required parameters are properly formatted before execution.</p>
+            <pre>
+// Example implementation:
+func withRepository(repo string) (*State, error) {
+    if repo == "" {
+        return nil, fmt.Errorf("repository URL cannot be empty")
+    }
+    if !strings.HasPrefix(repo, "https://") && !strings.HasPrefix(repo, "git@") {
+        return nil, fmt.Errorf("invalid repository URL format")
+    }
+    return &State{repo: repo}, nil
+}
+</pre>
+            <img src="https://i.imgflip.com/65efzo.jpg" alt="Input Validation Meme" />
+        </div>
+
+        <div class="suggestion">
+            <h3>2. Add Progress Reporting</h3>
+            <p>Implement progress reporting for long-running operations to improve user experience.</p>
+            <pre>
+// Example implementation:
+func (m *Module) Run(ctx context.Context) (*Result, error) {
+    progress := 0
+    total := 4
+    
+    fmt.Printf("Progress: %d%%\n", progress*25)
+    // Clone repository
+    progress++
+    fmt.Printf("Progress: %d%%\n", progress*25)
+    // Generate changelog
+    progress++
+    fmt.Printf("Progress: %d%%\n", progress*25)
+    // Format output
+    progress++
+    fmt.Printf("Progress: %d%%\n", progress*25)
+    
+    return result, nil
+}
+</pre>
+        </div>
+
+        <div class="suggestion">
+            <h3>3. Add Comprehensive Error Handling</h3>
+            <p>Implement detailed error handling with custom error types for better debugging.</p>
+            <pre>
+// Example implementation:
+type GitCliffError struct {
+    Stage   string
+    Message string
+    Err     error
+}
+
+func (e *GitCliffError) Error() string {
+    return fmt.Sprintf("git-cliff error at %s: %s: %v", e.Stage, e.Message, e.Err)
+}
+
+func generateChangelog() error {
+    if err := someOperation(); err != nil {
+        return &GitCliffError{
+            Stage:   "changelog generation",
+            Message: "failed to process git history",
+            Err:     err,
+        }
+    }
+    return nil
+}
+</pre>
+        </div>
+    </div>
+</body>
+</html>
