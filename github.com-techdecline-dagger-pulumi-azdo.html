@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>QA Report - dagger-pulumi/azdo</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
+        h1, h2 { color: #333; }
+        .error { color: #ff0000; background: #ffebee; padding: 10px; border-radius: 4px; }
+        .functions { background: #f5f5f5; padding: 15px; border-radius: 4px; }
+        .suggestion { margin: 20px 0; padding: 15px; background: #e3f2fd; border-radius: 4px; }
+        code { background: #f8f9fa; padding: 2px 5px; border-radius: 3px; }
+        .meme { max-width: 500px; margin: 20px 0; }
+    </style>
+</head>
+<body>
+    <h1>Module QA Report</h1>
+    
+    <h2>Basic Information</h2>
+    <ul>
+        <li><strong>Module Name:</strong> github.com/techdecline/dagger-pulumi/azdo</li>
+        <li><strong>Author:</strong> techdecline</li>
+        <li><strong>Latest Version:</strong> main</li>
+        <li><strong>Release Date:</strong> N/A (information unavailable from crawl)</li>
+        <li><strong>Dagger Version Used:</strong> v0.18.6</li>
+    </ul>
+
+    <h2>Module Functions</h2>
+    <div class="functions">
+        <ul>
+            <li><strong>comment-on-pr:</strong> Comment on an Azure DevOps pull request</li>
+            <li><strong>container-echo:</strong> Returns a container that echoes whatever string argument is provided</li>
+        </ul>
+    </div>
+
+    <h2>Issues Encountered</h2>
+    <div class="error">
+        <p>Unable to crawl module information from daggerverse due to API limitations.</p>
+    </div>
+
+    <h2>Suggestions for Improvement</h2>
+    
+    <div class="suggestion">
+        <h3>1. Add Proper Documentation</h3>
+        <p>The module would benefit from comprehensive documentation, including:</p>
+        <code>
+        // Example documentation format
+        /**
+         * @function comment-on-pr
+         * @description Comments on an Azure DevOps pull request
+         * @param {string} organization - Azure DevOps organization name
+         * @param {string} project - Azure DevOps project name
+         * @param {string} repositoryId - Repository ID
+         * @param {string} pullRequestId - Pull Request ID
+         * @param {string} comment - Comment text
+         * @returns {Promise<void>}
+         */
+        </code>
+        <img src="https://i.imgur.com/DWrI2JY.jpg" alt="Documentation Meme" class="meme">
+    </div>
+
+    <div class="suggestion">
+        <h3>2. Add Error Handling</h3>
+        <p>Implement proper error handling for API calls:</p>
+        <code>
+        func (m *Module) CommentOnPR(ctx context.Context, args CommentOnPRArgs) error {
+            if args.Organization == "" || args.Project == "" {
+                return fmt.Errorf("organization and project are required")
+            }
+            // Rest of the implementation
+        }
+        </code>
+    </div>
+
+    <div class="suggestion">
+        <h3>3. Add Tests</h3>
+        <p>Include unit tests for the module functions:</p>
+        <code>
+        func TestCommentOnPR(t *testing.T) {
+            testCases := []struct {
+                name    string
+                args    CommentOnPRArgs
+                wantErr bool
+            }{
+                {
+                    name: "valid_input",
+                    args: CommentOnPRArgs{
+                        Organization:  "testorg",
+                        Project:      "testproject",
+                        RepositoryID: "repo1",
+                        PRId:         "123",
+                        Comment:      "test comment",
+                    },
+                    wantErr: false,
+                },
+                // Add more test cases
+            }
+            // Test implementation
+        }
+        </code>
+    </div>
+
+</body>
+</html>
