@@ -1,123 +1,123 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>QA Report - DebtRepayment Module</title>
+    <title>QA Report - Golang Module</title>
     <style>
         body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
         h1, h2 { color: #333; }
-        .error { color: #dc3545; background: #ffebee; padding: 10px; border-radius: 4px; }
-        .suggestion { margin: 20px 0; padding: 15px; background: #f8f9fa; border-radius: 4px; }
-        code { background: #f4f4f4; padding: 2px 5px; border-radius: 3px; }
+        .error { color: #ff0000; }
+        .functions { background-color: #f5f5f5; padding: 20px; border-radius: 5px; }
+        .suggestion { margin: 20px 0; padding: 20px; background-color: #e9f7ef; border-radius: 5px; }
+        .code { background-color: #f8f9fa; padding: 15px; border-radius: 5px; font-family: monospace; }
         .meme { max-width: 500px; margin: 20px 0; }
     </style>
 </head>
 <body>
-    <h1>QA Report: DebtRepayment Module</h1>
+    <h1>QA Report: Golang Module</h1>
     
     <h2>Module Information</h2>
     <ul>
-        <li><strong>Name:</strong> DebtRepayment</li>
-        <li><strong>Author:</strong> EmmS21</li>
-        <li><strong>Latest Version:</strong> fbd39125783b71e8181a9f0e30b62172eea8d9a1</li>
-        <li><strong>Release Date:</strong> Not provided in metadata</li>
-        <li><strong>Dagger Cloud Trace:</strong> See terminal output</li>
+        <li><strong>Name:</strong> github.com/kpenfound/dagger-modules/golang</li>
+        <li><strong>Author:</strong> kpenfound</li>
+        <li><strong>Latest Version:</strong> main</li>
+        <li><strong>Dagger Engine Version Used:</strong> v0.18.6</li>
     </ul>
 
-    <h2>Module Purpose</h2>
-    <p>This module is designed to fetch and analyze data from two Google Sheets to process debt and investment information. It includes functionality to:</p>
-    <ul>
-        <li>Fetch data from two separate Google Sheets</li>
-        <li>Run analysis on debts and investments using an AI agent</li>
-        <li>Send results via email using SendGrid</li>
-    </ul>
-
-    <h2>Module Functions</h2>
-    <ul>
-        <li><strong>fetchData()</strong>
-            <ul>
-                <li>Arguments:
-                    <ul>
-                        <li>apiKey (Secret): Google Sheets API key</li>
-                        <li>sheet (Secret): First Google Sheet secret</li>
-                        <li>sheetTwo (Secret): Second Google Sheet secret</li>
-                        <li>openKey (Secret): OpenAI API key</li>
-                        <li>sendGrid (Secret): SendGrid API key</li>
-                        <li>name (String): Sheet name</li>
-                        <li>sendTo (String): Email recipient</li>
-                    </ul>
-                </li>
-                <li>Returns: Array of strings</li>
-            </ul>
-        </li>
-    </ul>
-
-    <h2>Testing Environment</h2>
-    <p>Tested with Dagger Engine Version: v0.18.2</p>
+    <h2>Module Functionality</h2>
+    <p>This module provides a comprehensive set of tools for Go project management and building within Dagger pipelines.</p>
+    
+    <div class="functions">
+        <h3>Available Functions:</h3>
+        <ul>
+            <li><strong>base</strong>: Sets up the Container with a golang image and cache volumes</li>
+            <li><strong>build</strong>: Build the Go project</li>
+            <li><strong>build-container</strong>: Build a Go project returning a Container containing the build</li>
+            <li><strong>build-remote</strong>: Build a remote git repo</li>
+            <li><strong>container</strong>: The go build container</li>
+            <li><strong>golangci-lint</strong>: Lint the Go project</li>
+            <li><strong>project</strong>: The go project directory</li>
+            <li><strong>test</strong>: Test the Go project</li>
+            <li><strong>with-container</strong>: Bring your own container</li>
+            <li><strong>with-project</strong>: Specify the Project to use in the module</li>
+        </ul>
+    </div>
 
     <h2>Issues Encountered</h2>
     <div class="error">
-        <p>Failed to build the module with error: "failed to sync: select: process "/runtime" did not complete successfully: exit code: 2"</p>
+        <p>⚠️ Unable to crawl module information from daggerverse due to API limitations.</p>
     </div>
 
-    <h2>Improvement Suggestions</h2>
+    <h2>Suggestions for Improvement</h2>
     
     <div class="suggestion">
         <h3>1. Add Input Validation</h3>
-        <p>Add input validation for email addresses and sheet names to prevent runtime errors.</p>
-        <code>
-func validateEmail(email string) error {
-    if _, err := mail.ParseAddress(email); err != nil {
-        return fmt.Errorf("invalid email address: %v", err)
+        <p>Add proper input validation for the build function to ensure all required parameters are provided with appropriate types.</p>
+        <div class="code">
+        <pre>
+func (m *Module) Build(ctx context.Context, opts BuildOpts) (*Container, error) {
+    if opts.GoVersion == "" {
+        return nil, fmt.Errorf("GoVersion is required")
     }
-    return nil
-}
-
-func (m *DebtRepayment) FetchData(ctx context.Context, ...) ([]string, error) {
-    if err := validateEmail(sendTo); err != nil {
-        return nil, err
+    if !semver.IsValid(opts.GoVersion) {
+        return nil, fmt.Errorf("invalid Go version format: %s", opts.GoVersion)
     }
-    // rest of the function
+    // ... rest of the function
 }
-        </code>
+        </pre>
+        </div>
     </div>
 
     <div class="suggestion">
-        <h3>2. Implement Error Handling and Retries</h3>
-        <p>Add retry mechanism for API calls to handle temporary failures.</p>
-        <code>
-func withRetry(maxAttempts int, fn func() error) error {
-    var err error
-    for i := 0; i < maxAttempts; i++ {
-        if err = fn(); err == nil {
-            return nil
-        }
-        time.Sleep(time.Second * time.Duration(math.Pow(2, float64(i))))
-    }
-    return fmt.Errorf("failed after %d attempts: %v", maxAttempts, err)
+        <h3>2. Implement Proper Error Handling</h3>
+        <p>Add comprehensive error handling and meaningful error messages.</p>
+        <div class="code">
+        <pre>
+type BuildError struct {
+    Stage string
+    Err   error
 }
-        </code>
+
+func (e *BuildError) Error() string {
+    return fmt.Sprintf("build failed at %s: %v", e.Stage, e.Err)
+}
+
+func (m *Module) Build(ctx context.Context) (*Container, error) {
+    container, err := m.container(ctx)
+    if err != nil {
+        return nil, &BuildError{Stage: "container setup", Err: err}
+    }
+    // ... rest of the function
+}
+        </pre>
+        </div>
     </div>
 
     <div class="suggestion">
-        <h3>3. Add Comprehensive Documentation</h3>
-        <p>Improve documentation with examples and usage scenarios.</p>
-        <code>
-// DebtRepayment analyzes financial data from Google Sheets
+        <h3>3. Add Documentation and Examples</h3>
+        <p>Include comprehensive documentation with examples for each function.</p>
+        <div class="code">
+        <pre>
+// Example documentation block
+// Build builds a Go project with the specified configuration.
 //
 // Example usage:
 //
-//     result, err := dag.DebtRepayment().FetchData(
-//         ctx,
-//         dag.SetSecret("GOOGLE_API_KEY", apiKey),
-//         dag.SetSecret("SHEET_ONE", sheetOne),
-//         dag.SetSecret("SHEET_TWO", sheetTwo),
-//         dag.SetSecret("OPENAI_KEY", openAIKey),
-//         dag.SetSecret("SENDGRID_KEY", sendGridKey),
-//         "MySheet",
-//         "user@example.com",
-//     )
-        </code>
-        <img src="https://i.imgflip.com/50q5zs.jpg" alt="Documentation Meme" class="meme">
+//     dag.Build(BuildOpts{
+//         GoVersion: "1.20",
+//         Targets:   []string{"./cmd/server"},
+//         Args:      []string{"-ldflags", "-s -w"},
+//     })
+//
+// Returns a container with the built binary.
+func (m *Module) Build(ctx context.Context, opts BuildOpts) (*Container, error)
+        </pre>
+        </div>
     </div>
+
+    <div class="meme">
+        <img src="https://i.imgflip.com/4/2k48t0.jpg" alt="Go gopher debugging" />
+        <p><em>When your Go build fails and you didn't add proper error handling</em></p>
+    </div>
+
 </body>
 </html>
