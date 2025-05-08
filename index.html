@@ -1,123 +1,123 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>QA Report - apko Module</title>
+    <title>QA Report - DebtRepayment Module</title>
     <style>
         body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
         h1, h2 { color: #333; }
-        .function-list { background: #f5f5f5; padding: 20px; border-radius: 5px; }
-        .error { color: #ff0000; }
-        .suggestion { margin: 20px 0; padding: 15px; background: #e9f7ff; border-radius: 5px; }
-        .code { background: #f0f0f0; padding: 15px; border-radius: 5px; font-family: monospace; }
+        .error { color: #dc3545; background: #ffebee; padding: 10px; border-radius: 4px; }
+        .suggestion { margin: 20px 0; padding: 15px; background: #f8f9fa; border-radius: 4px; }
+        code { background: #f4f4f4; padding: 2px 5px; border-radius: 3px; }
         .meme { max-width: 500px; margin: 20px 0; }
     </style>
 </head>
 <body>
-    <h1>QA Report: apko Module</h1>
+    <h1>QA Report: DebtRepayment Module</h1>
     
     <h2>Module Information</h2>
     <ul>
-        <li><strong>Name:</strong> apko</li>
-        <li><strong>Repository:</strong> github.com/vito/daggerverse.git/apko</li>
-        <li><strong>Version Tested:</strong> main</li>
-        <li><strong>Dagger Engine Version:</strong> v0.18.5</li>
+        <li><strong>Name:</strong> DebtRepayment</li>
+        <li><strong>Author:</strong> EmmS21</li>
+        <li><strong>Latest Version:</strong> fbd39125783b71e8181a9f0e30b62172eea8d9a1</li>
+        <li><strong>Release Date:</strong> Not provided in metadata</li>
+        <li><strong>Dagger Cloud Trace:</strong> See terminal output</li>
     </ul>
 
-    <h2>Module Functionality</h2>
-    <p>The apko module is designed to work with Alpine and Wolfi-based containers. It provides functionality for building and configuring Alpine and Wolfi-based images with custom package selections and architecture support.</p>
+    <h2>Module Purpose</h2>
+    <p>This module is designed to fetch and analyze data from two Google Sheets to process debt and investment information. It includes functionality to:</p>
+    <ul>
+        <li>Fetch data from two separate Google Sheets</li>
+        <li>Run analysis on debts and investments using an AI agent</li>
+        <li>Send results via email using SendGrid</li>
+    </ul>
 
-    <h2>Available Functions</h2>
-    <div class="function-list">
-        <ul>
-            <li><strong>alpine():</strong> Creates a Container with specified packages installed from Alpine repositories</li>
-            <li><strong>as-container():</strong> Builds the configured image and returns it as a Container</li>
-            <li><strong>with-alpine():</strong> Adds the Alpine repository and alpine-base package</li>
-            <li><strong>with-archs():</strong> Configures the architectures to build</li>
-            <li><strong>with-packages():</strong> Adds specified packages to the list</li>
-            <li><strong>with-wolfi():</strong> Adds the Wolfi repository, keyring, and wolfi-base package</li>
-            <li><strong>wolfi():</strong> Creates a Container with specified packages installed from Alpine repositories</li>
-        </ul>
-    </div>
+    <h2>Module Functions</h2>
+    <ul>
+        <li><strong>fetchData()</strong>
+            <ul>
+                <li>Arguments:
+                    <ul>
+                        <li>apiKey (Secret): Google Sheets API key</li>
+                        <li>sheet (Secret): First Google Sheet secret</li>
+                        <li>sheetTwo (Secret): Second Google Sheet secret</li>
+                        <li>openKey (Secret): OpenAI API key</li>
+                        <li>sendGrid (Secret): SendGrid API key</li>
+                        <li>name (String): Sheet name</li>
+                        <li>sendTo (String): Email recipient</li>
+                    </ul>
+                </li>
+                <li>Returns: Array of strings</li>
+            </ul>
+        </li>
+    </ul>
+
+    <h2>Testing Environment</h2>
+    <p>Tested with Dagger Engine Version: v0.18.2</p>
 
     <h2>Issues Encountered</h2>
     <div class="error">
-        <p>Unable to crawl module information due to API limitations. This affected our ability to retrieve author information and release dates.</p>
+        <p>Failed to build the module with error: "failed to sync: select: process "/runtime" did not complete successfully: exit code: 2"</p>
     </div>
 
-    <h2>Quality Improvement Suggestions</h2>
+    <h2>Improvement Suggestions</h2>
     
     <div class="suggestion">
         <h3>1. Add Input Validation</h3>
-        <p>Add validation for package names and architectures to prevent invalid configurations.</p>
-        <div class="code">
-        <pre>
-func validatePackage(name string) error {
-    if name == "" {
-        return fmt.Errorf("package name cannot be empty")
-    }
-    // Add regex validation for valid package names
-    validName := regexp.MustCompile(`^[a-z0-9][a-z0-9+._-]*$`)
-    if !validName.MatchString(name) {
-        return fmt.Errorf("invalid package name format: %s", name)
+        <p>Add input validation for email addresses and sheet names to prevent runtime errors.</p>
+        <code>
+func validateEmail(email string) error {
+    if _, err := mail.ParseAddress(email); err != nil {
+        return fmt.Errorf("invalid email address: %v", err)
     }
     return nil
 }
-        </pre>
-        </div>
+
+func (m *DebtRepayment) FetchData(ctx context.Context, ...) ([]string, error) {
+    if err := validateEmail(sendTo); err != nil {
+        return nil, err
+    }
+    // rest of the function
+}
+        </code>
     </div>
 
     <div class="suggestion">
-        <h3>2. Implement Caching Strategy</h3>
-        <p>Add caching for package metadata to improve build performance.</p>
-        <div class="code">
-        <pre>
-type ApkoBuilder struct {
-    cache map[string]PackageMetadata
-}
-
-func (b *ApkoBuilder) getPackageMetadata(pkg string) (PackageMetadata, error) {
-    if metadata, ok := b.cache[pkg]; ok {
-        return metadata, nil
+        <h3>2. Implement Error Handling and Retries</h3>
+        <p>Add retry mechanism for API calls to handle temporary failures.</p>
+        <code>
+func withRetry(maxAttempts int, fn func() error) error {
+    var err error
+    for i := 0; i < maxAttempts; i++ {
+        if err = fn(); err == nil {
+            return nil
+        }
+        time.Sleep(time.Second * time.Duration(math.Pow(2, float64(i))))
     }
-    // Fetch and cache package metadata
-    metadata := fetchPackageMetadata(pkg)
-    b.cache[pkg] = metadata
-    return metadata, nil
+    return fmt.Errorf("failed after %d attempts: %v", maxAttempts, err)
 }
-        </pre>
-        </div>
+        </code>
     </div>
 
     <div class="suggestion">
-        <h3>3. Add Comprehensive Error Handling</h3>
-        <p>Implement detailed error reporting and recovery mechanisms.</p>
-        <div class="code">
-        <pre>
-type BuildError struct {
-    Phase   string
-    Package string
-    Err     error
-}
-
-func (e *BuildError) Error() string {
-    return fmt.Sprintf("build failed during %s for package %s: %v", 
-        e.Phase, e.Package, e.Err)
-}
-
-func (b *Builder) buildWithErrorHandling() error {
-    if err := b.prepare(); err != nil {
-        return &BuildError{Phase: "preparation", Err: err}
-    }
-    // Additional error handling...
-}
-        </pre>
-        </div>
+        <h3>3. Add Comprehensive Documentation</h3>
+        <p>Improve documentation with examples and usage scenarios.</p>
+        <code>
+// DebtRepayment analyzes financial data from Google Sheets
+//
+// Example usage:
+//
+//     result, err := dag.DebtRepayment().FetchData(
+//         ctx,
+//         dag.SetSecret("GOOGLE_API_KEY", apiKey),
+//         dag.SetSecret("SHEET_ONE", sheetOne),
+//         dag.SetSecret("SHEET_TWO", sheetTwo),
+//         dag.SetSecret("OPENAI_KEY", openAIKey),
+//         dag.SetSecret("SENDGRID_KEY", sendGridKey),
+//         "MySheet",
+//         "user@example.com",
+//     )
+        </code>
+        <img src="https://i.imgflip.com/50q5zs.jpg" alt="Documentation Meme" class="meme">
     </div>
-
-    <div class="meme">
-        <img src="https://i.imgflip.com/2/7ph5cq.jpg" alt="Coding Quality Meme" />
-        <p><em>"When the build fails but your error handling catches it like a pro"</em></p>
-    </div>
-
 </body>
 </html>
