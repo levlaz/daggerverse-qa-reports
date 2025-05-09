@@ -5,84 +5,80 @@
     <style>
         body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
         h1, h2 { color: #333; }
-        .container { max-width: 1200px; margin: 0 auto; }
-        .error { color: #dc3545; padding: 10px; background-color: #fff3f3; border-radius: 4px; }
-        .suggestion { margin: 20px 0; padding: 15px; background-color: #f8f9fa; border-radius: 4px; }
-        code { background-color: #f6f8fa; padding: 2px 5px; border-radius: 3px; }
-        pre { background-color: #f6f8fa; padding: 15px; border-radius: 4px; overflow-x: auto; }
+        .error { color: #ff0000; background: #ffeeee; padding: 10px; border-radius: 5px; }
+        .suggestion { margin: 20px 0; padding: 10px; background: #f0f0f0; border-radius: 5px; }
+        pre { background: #f5f5f5; padding: 10px; border-radius: 5px; overflow-x: auto; }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>QA Report: Shellcheck Module</h1>
-        
-        <h2>Module Information</h2>
+    <h1>QA Report: github.com/dagger/dagger/ci/std/shellcheck</h1>
+
+    <h2>Test Environment</h2>
+    <p>Dagger Engine Version: v0.18.6</p>
+
+    <h2>Module Information</h2>
+    <p>We encountered issues retrieving the module information. The module appears to be unavailable or incorrectly configured.</p>
+
+    <h2>Testing Results</h2>
+    <div class="error">
+        <h3>Encountered Errors:</h3>
         <ul>
-            <li><strong>Name:</strong> github.com/aluzzardi/dagger/modules/shellcheck</li>
-            <li><strong>Author:</strong> aluzzardi</li>
-            <li><strong>Latest Version:</strong> main</li>
-            <li><strong>Release Date:</strong> N/A (Unable to fetch from daggerverse)</li>
-            <li><strong>Dagger Engine Version Used:</strong> v0.18.5</li>
+            <li>Crawling failed: Payment Required error when attempting to crawl the module page</li>
+            <li>Installation failed: Module does not contain a dagger config file</li>
+            <li>Build failed: Path "ci/std/shellcheck" does not exist in git repo</li>
         </ul>
-
-        <h2>Module Functionality</h2>
-        <p>The Shellcheck module is designed to perform static analysis on shell scripts. It provides the following function:</p>
-        <ul>
-            <li><strong>check</strong>: Reports issues that need to be fixed in a given shell script file.</li>
-        </ul>
-
-        <h2>Issues Encountered</h2>
-        <div class="error">
-            <p>Unable to crawl the module page on daggerverse due to API limitations.</p>
-        </div>
-
-        <h2>Suggestions for Improvement</h2>
-        
-        <div class="suggestion">
-            <h3>1. Add Input Validation and Error Handling</h3>
-            <p>Improve error handling for invalid file paths or non-shell script files.</p>
-            <pre><code>// Example implementation
-func (m *Module) check(ctx context.Context, filePath string) (*File, error) {
-    if !strings.HasSuffix(filePath, ".sh") {
-        return nil, fmt.Errorf("invalid file type: only .sh files are supported")
-    }
-    // Rest of the implementation
-}</code></pre>
-            <img src="https://i.imgflip.com/2/1bij.jpg" alt="Input validation meme" />
-        </div>
-
-        <div class="suggestion">
-            <h3>2. Add Severity Levels Configuration</h3>
-            <p>Allow users to configure which severity levels of issues they want to check for.</p>
-            <pre><code>// Example implementation
-type CheckOpts struct {
-    ErrorLevel    bool
-    WarningLevel  bool
-    InfoLevel     bool
-}
-
-func (m *Module) checkWithOptions(ctx context.Context, filePath string, opts CheckOpts) (*File, error) {
-    // Implementation with severity filtering
-}</code></pre>
-        </div>
-
-        <div class="suggestion">
-            <h3>3. Add Multi-file Support</h3>
-            <p>Enable checking multiple files in one operation for better performance.</p>
-            <pre><code>// Example implementation
-func (m *Module) checkMultiple(ctx context.Context, files []string) (map[string]*File, error) {
-    results := make(map[string]*File)
-    for _, file := range files {
-        result, err := m.check(ctx, file)
-        if err != nil {
-            results[file] = &File{Error: err.Error()}
-            continue
-        }
-        results[file] = result
-    }
-    return results, nil
-}</code></pre>
-        </div>
     </div>
+
+    <h2>Suggestions for Improvement</h2>
+    <div class="suggestion">
+        <h3>1. Add proper module configuration</h3>
+        <p>The module is missing a dagger.json configuration file. Here's a basic template:</p>
+        <pre>
+{
+    "name": "shellcheck",
+    "sdk": "go",
+    "dependencies": [],
+    "source": ".",
+    "description": "A module for running shellcheck on shell scripts"
+}
+        </pre>
+    </div>
+
+    <div class="suggestion">
+        <h3>2. Add proper directory structure</h3>
+        <p>The module should follow the standard Dagger module structure:</p>
+        <pre>
+shellcheck/
+├── dagger.json
+├── main.go
+├── shellcheck.go
+└── README.md
+        </pre>
+        <img src="https://i.imgflip.com/65efzo.jpg" alt="Directory Structure Meme" style="max-width: 400px;">
+    </div>
+
+    <div class="suggestion">
+        <h3>3. Add proper documentation</h3>
+        <p>Include a comprehensive README.md file:</p>
+        <pre>
+# Shellcheck Module
+
+## Overview
+This module provides shellcheck functionality for Dagger pipelines.
+
+## Usage
+```go
+dag.Shell().WithScript("my-script.sh").Shellcheck()
+```
+
+## Configuration
+Supported shellcheck options:
+- severity: error|warning|info
+- format: tty|json|checkstyle
+</pre>
+    </div>
+
+    <h2>Summary</h2>
+    <p>The module appears to be non-functional in its current state. Major structural issues need to be addressed before it can be used effectively.</p>
 </body>
 </html>
