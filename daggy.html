@@ -3,89 +3,105 @@
 <head>
     <title>QA Report - daggy</title>
     <style>
-        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
-        h1 { color: #333; }
-        .error { color: red; }
-        .function-list { background: #f4f4f4; padding: 15px; border-radius: 5px; }
-        .suggestion { margin: 20px 0; padding: 15px; background: #e9f7ff; border-radius: 5px; }
-        .code { background: #f8f8f8; padding: 15px; border-radius: 5px; font-family: monospace; }
-        .meme { max-width: 400px; margin: 20px 0; }
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        .error { color: red; background: #fee; padding: 10px; border-radius: 5px; }
+        .section { margin: 20px 0; }
+        .suggestion { background: #f9f9f9; padding: 15px; margin: 10px 0; border-radius: 5px; }
+        code { background: #f4f4f4; padding: 2px 5px; border-radius: 3px; }
     </style>
 </head>
 <body>
     <h1>QA Report: daggy</h1>
     
-    <h2>Module Information</h2>
-    <ul>
-        <li><strong>Name:</strong> daggy</li>
-        <li><strong>Author:</strong> shykes</li>
-        <li><strong>Latest Version:</strong> 114dc8a4f4c6e4723935ff3ae636ab6906e03dd1</li>
-        <li><strong>Documentation:</strong> <a href="https://daggerverse.dev/mod/github.com/shykes/x/daggy@114dc8a4f4c6e4723935ff3ae636ab6906e03dd1">Daggerverse Link</a></li>
-        <li><strong>Raw Crawl:</strong> <a href="daggy-crawl.html">View Raw Crawl</a></li>
-    </ul>
-
-    <h2>Module Purpose</h2>
-    <p>Daggy is an AI agent powered by OpenAI and GPTScript that knows how to drive Dagger. It provides an interface to interact with OpenAI's API through Dagger.</p>
-
-    <h2>Functions</h2>
-    <div class="function-list">
-        <h3>ask()</h3>
+    <div class="section">
+        <h2>Module Information</h2>
         <ul>
-            <li><strong>Purpose:</strong> Tell Daggy to do something</li>
-            <li><strong>Arguments:</strong>
-                <ul>
-                    <li>prompt (String!) - A prompt telling Daggy what to do</li>
-                    <li>token (Secret!) - OpenAI API key</li>
-                    <li>base (Container) - Custom base container (optional)</li>
-                </ul>
-            </li>
-            <li><strong>Return Type:</strong> String!</li>
+            <li><strong>Name:</strong> github.com/shykes/daggerverse/daggy</li>
+            <li><strong>Author:</strong> shykes</li>
+            <li><strong>Latest Version:</strong> latest</li>
+            <li><strong>Release Date:</strong> N/A (information unavailable)</li>
         </ul>
     </div>
 
-    <h2>Testing Environment</h2>
-    <p><strong>Dagger Version:</strong> v0.18.2</p>
+    <div class="section">
+        <h2>Module Description</h2>
+        <p>A utility module to query the Dagger core API directly from the CLI</p>
+    </div>
 
-    <h2>Quality Improvement Suggestions</h2>
-    
-    <div class="suggestion">
-        <h3>1. Add Input Validation</h3>
-        <p>Add proper validation for the OpenAI API token and prompt to ensure they meet requirements before making API calls.</p>
-        <div class="code">
-        func validateToken(token string) error {
-            if len(token) < 20 || !strings.HasPrefix(token, "sk-") {
-                return fmt.Errorf("invalid OpenAI API token format")
-            }
-            return nil
-        }
+    <div class="section">
+        <h2>Test Environment</h2>
+        <ul>
+            <li><strong>Dagger Engine Version:</strong> v0.18.6 (docker-image://registry.dagger.io/engine:v0.18.6) linux/amd64</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>Testing Results</h2>
+        
+        <h3>Issues Encountered</h3>
+        <div class="error">
+            <p><strong>Module Crawling Error:</strong> Unable to crawl module information due to API limits</p>
+            <p><strong>Build Error:</strong> Module failed to build due to Go version incompatibility:</p>
+            <code>go: go.mod requires go >= 1.23.0 (running go 1.22.12; GOTOOLCHAIN=local)</code>
         </div>
     </div>
 
-    <div class="suggestion">
-        <h3>2. Add Timeout Configuration</h3>
-        <p>Add configurable timeout for API calls to prevent hanging on slow responses.</p>
-        <div class="code">
-        func (d *Daggy) WithTimeout(duration time.Duration) *Daggy {
-            d.timeout = duration
-            return d
-        }
+    <div class="section">
+        <h2>Quality Improvement Suggestions</h2>
+        
+        <div class="suggestion">
+            <h3>1. Go Version Compatibility</h3>
+            <p>The module requires Go 1.23.0 which is not yet widely available. Consider supporting older stable versions.</p>
+            <p>Modification in go.mod:</p>
+            <code>
+            // Current:
+            go 1.23
+            
+            // Suggested:
+            go 1.22
+            </code>
+        </div>
+
+        <div class="suggestion">
+            <h3>2. Version Tagging</h3>
+            <p>Add proper version tags to the repository for better version management.</p>
+            <code>
+            git tag v0.1.0
+            git push origin v0.1.0
+            </code>
+            <p><img src="https://media.giphy.com/media/3o6Mb9rUQ3F4xgKhDG/giphy.gif" alt="Version control meme" /></p>
+        </div>
+
+        <div class="suggestion">
+            <h3>3. Documentation</h3>
+            <p>Add comprehensive documentation including:</p>
+            <code>
+            # daggy
+
+            A utility module to query the Dagger core API directly from the CLI
+
+            ## Usage
+
+            ```shell
+            dagger call -m github.com/shykes/daggerverse/daggy ...
+            ```
+
+            ## Requirements
+
+            - Go 1.23.0 or higher
+            ```
+            </code>
         </div>
     </div>
 
-    <div class="suggestion">
-        <h3>3. Add Retry Mechanism</h3>
-        <p>Implement retry logic for API calls to handle temporary failures.</p>
-        <div class="code">
-        func (d *Daggy) WithRetry(maxAttempts int, backoff time.Duration) *Daggy {
-            d.maxAttempts = maxAttempts
-            d.backoff = backoff
-            return d
-        }
-        </div>
-        <img src="https://i.imgflip.com/2/p2vs5.jpg" alt="Keep Calm and Retry" class="meme">
+    <div class="section">
+        <h2>Module Functions</h2>
+        <p>Unable to list functions due to build failure.</p>
     </div>
 
-    <h2>Testing Issues</h2>
-    <p>No significant issues were encountered during testing. The module installed and built successfully.</p>
+    <div class="section">
+        <h2>Test Trace</h2>
+        <p>Build log trace is available in the Dagger Cloud logs of this execution.</p>
+    </div>
 </body>
 </html>
