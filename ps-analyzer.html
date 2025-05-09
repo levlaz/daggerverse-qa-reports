@@ -1,114 +1,120 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>QA Report - ps-analyzer</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QA Report: ps-analyzer</title>
     <style>
-        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
-        h1 { color: #333; }
-        .section { margin: 20px 0; }
-        .error { color: #ff0000; }
-        .suggestion { background: #f5f5f5; padding: 15px; margin: 10px 0; border-radius: 5px; }
-        .code { background: #f0f0f0; padding: 10px; font-family: monospace; }
-        .meme { text-align: center; margin: 20px 0; }
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .error-box {
+            background-color: #ffebee;
+            border-left: 4px solid #f44336;
+            padding: 15px;
+            margin: 10px 0;
+        }
+        .suggestion {
+            background-color: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            padding: 15px;
+            margin: 10px 0;
+        }
+        code {
+            background-color: #f5f5f5;
+            padding: 2px 4px;
+            border-radius: 4px;
+        }
+        pre {
+            background-color: #f5f5f5;
+            padding: 15px;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
     </style>
 </head>
 <body>
     <h1>QA Report: ps-analyzer</h1>
     
-    <div class="section">
-        <h2>Module Information</h2>
+    <h2>Module Information</h2>
+    <ul>
+        <li><strong>Name:</strong> github.com/helderco/dagger/modules/ps-analyzer</li>
+        <li><strong>Author:</strong> helderco</li>
+        <li><strong>Latest Version:</strong> main</li>
+        <li><strong>Release Date:</strong> Not available</li>
+    </ul>
+
+    <h2>Testing Environment</h2>
+    <ul>
+        <li><strong>Dagger Engine Version:</strong> v0.18.6</li>
+    </ul>
+
+    <h2>Module Analysis</h2>
+    <div class="error-box">
+        <h3>Issues Encountered</h3>
         <ul>
-            <li><strong>Name:</strong> ps-analyzer</li>
-            <li><strong>Path:</strong> github.com/shykes/dagger/modules/ps-analyzer</li>
-            <li><strong>Author:</strong> shykes</li>
-            <li><strong>Latest Version:</strong> latest</li>
-            <li><strong>Release Date:</strong> Not available (crawling failed)</li>
+            <li>Failed to crawl module information due to API limitations</li>
+            <li>Module build failed with error: requires Go 1.23.0 (running go 1.22.12)</li>
         </ul>
     </div>
 
-    <div class="section">
-        <h2>Dagger Engine Version Used</h2>
-        <p>v0.18.5 (docker-image://registry.dagger.io/engine:v0.18.5) linux/amd64</p>
+    <h2>Quality Improvement Suggestions</h2>
+    
+    <div class="suggestion">
+        <h3>1. Update Go Version Requirements</h3>
+        <p>The module requires Go 1.23.0, which is not yet widely available. Consider supporting older stable versions.</p>
+        <pre><code>// Current go.mod
+go 1.23.0
+
+// Suggested go.mod
+go 1.22</code></pre>
     </div>
 
-    <div class="section">
-        <h2>Module Functions</h2>
-        <ul>
-            <li><code>base()</code></li>
-            <li><code>check()</code></li>
-        </ul>
+    <div class="suggestion">
+        <h3>2. Add Module Documentation</h3>
+        <p>Add a comprehensive README.md file to explain the module's purpose and usage.</p>
+        <pre><code># PS Analyzer Module
+
+A Dagger module for analyzing process states.
+
+## Features
+- List running processes
+- Analyze process statistics
+- Monitor system resources
+
+## Usage
+```dagger
+with import ps-analyzer {
+    // Your usage examples here
+}
+```</code></pre>
     </div>
 
-    <div class="section">
-        <h2>Issues Encountered</h2>
-        <div class="error">
-            <p>1. Unable to crawl the daggerverse page due to API limitations</p>
-            <p>2. Limited documentation available about function purposes and parameters</p>
-        </div>
-    </div>
-
-    <div class="section">
-        <h2>Improvement Suggestions</h2>
-        
-        <div class="suggestion">
-            <h3>1. Add Function Documentation</h3>
-            <p>The module functions lack descriptions. Adding proper documentation would improve usability.</p>
-            <div class="code">
-                <pre>
-// Example of documented functions
-#[Function]
-/// Analyzes process information from a container
-/// Returns a structured report of running processes
-fn check(self) -> String {
-    // Implementation
+    <div class="suggestion">
+        <h3>3. Add Error Handling</h3>
+        <p>Implement robust error handling with clear error messages and recovery mechanisms.</p>
+        <pre><code>// Current approach
+func someFunction() error {
+    // direct error return
+    return err
 }
 
-#[Function]
-/// Sets up the base configuration for the analyzer
-/// Returns a configured analyzer instance
-fn base(self) -> Self {
-    // Implementation
-}
-                </pre>
-            </div>
-        </div>
-
-        <div class="suggestion">
-            <h3>2. Add Error Handling</h3>
-            <p>Implement proper error handling and return meaningful error messages.</p>
-            <div class="code">
-                <pre>
-fn check(self) -> Result<String, Error> {
-    match self.analyze_processes() {
-        Ok(report) => Ok(report),
-        Err(e) => Err(format!("Failed to analyze processes: {}", e))
+// Suggested approach
+func someFunction() error {
+    if err != nil {
+        return fmt.Errorf("failed to perform operation: %w", err)
     }
-}
-                </pre>
-            </div>
-        </div>
-
-        <div class="suggestion">
-            <h3>3. Add Configuration Options</h3>
-            <p>Provide customization options for the analysis process.</p>
-            <div class="code">
-                <pre>
-#[Function]
-/// Configure the analyzer with custom settings
-fn with_options(self, options: AnalyzerOptions) -> Self {
-    self.with_max_processes(options.max_processes)
-        .with_sort_by(options.sort_criteria)
-        .with_filter(options.process_filter)
-}
-                </pre>
-            </div>
-        </div>
+    return nil
+}</code></pre>
+        <img src="https://i.imgflip.com/2/1bij.jpg" alt="Error handling meme" style="max-width: 400px;">
     </div>
 
-    <div class="meme">
-        <img src="https://i.imgflip.com/7q0qht.jpg" alt="Documentation Meme" />
-        <p><em>When you see a module with no documentation...</em></p>
-    </div>
+    <h2>Trace Information</h2>
+    <p>Due to build failures, no Dagger Cloud trace is available for this analysis.</p>
 
 </body>
 </html>
