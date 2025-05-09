@@ -3,12 +3,12 @@
 <head>
     <title>QA Report - remote-dagger</title>
     <style>
-        body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 20px; }
         h1, h2 { color: #333; }
         .error { color: #ff0000; }
-        .function { background: #f5f5f5; padding: 10px; margin: 5px 0; }
-        .suggestion { margin: 20px 0; }
-        pre { background: #f0f0f0; padding: 10px; overflow-x: auto; }
+        .function-list { background-color: #f5f5f5; padding: 15px; border-radius: 5px; }
+        .suggestion { margin: 20px 0; padding: 10px; background-color: #e9f7ef; border-radius: 5px; }
+        .code { background-color: #f8f9fa; padding: 10px; border-radius: 3px; font-family: monospace; }
     </style>
 </head>
 <body>
@@ -19,100 +19,97 @@
         <li><strong>Name:</strong> remote-dagger</li>
         <li><strong>Author:</strong> samalba</li>
         <li><strong>Latest Version:</strong> main</li>
-        <li><strong>Release Date:</strong> N/A (Unable to crawl daggerverse page)</li>
-        <li><strong>Dagger Engine Version Used:</strong> v0.18.3</li>
+        <li><strong>Release Date:</strong> Not available (crawl failed)</li>
+        <li><strong>Dagger Engine Version Used:</strong> v0.18.6</li>
     </ul>
 
     <h2>Module Description</h2>
-    <p>This module provides functionality for remote Dagger operations via SSH. It includes capabilities for remote calling and setting up Dagger on remote hosts.</p>
+    <p>The remote-dagger module appears to be designed for remote execution of Dagger commands via SSH. It provides functionality for setting up Dagger on remote hosts and executing remote calls.</p>
 
-    <h2>Available Functions</h2>
-    <div class="function">
-        <h3>remote-call</h3>
-        <p>Example usage: "dagger call --destination USER@HOST --identity-file file:${HOME}/.ssh/id_ed25519 remote-call ... stdout"</p>
-    </div>
-    <div class="function">
-        <h3>setup-dagger</h3>
-        <p>Example usage: "dagger call --destination USER@HOST --identity-file file:${HOME}/.ssh/id_ed25519 install"</p>
-    </div>
-    <div class="function">
-        <h3>sshclient</h3>
-        <p>SSH client functionality (no detailed description available)</p>
+    <h2>Module Functions</h2>
+    <div class="function-list">
+        <ul>
+            <li><strong>remote-call:</strong> Executes remote calls via SSH (Example usage: dagger call --destination USER@HOST --identity-file file:${HOME}/.ssh/id_ed25519 remote-call ... stdout)</li>
+            <li><strong>setup-dagger:</strong> Sets up Dagger on the remote host (Example usage: dagger call --destination USER@HOST --identity-file file:${HOME}/.ssh/id_ed25519 install)</li>
+            <li><strong>sshclient:</strong> SSH client functionality</li>
+        </ul>
     </div>
 
     <h2>Issues Encountered</h2>
     <div class="error">
-        <ul>
-            <li>Unable to crawl daggerverse page due to API rate limiting/credits issue</li>
-        </ul>
+        <p>Unable to crawl the module page on daggerverse due to API limitations.</p>
     </div>
 
     <h2>Suggestions for Improvement</h2>
     
     <div class="suggestion">
-        <h3>1. Add Detailed Function Documentation</h3>
-        <p>Current function descriptions are minimal. Consider adding comprehensive documentation:</p>
-        <pre>
-#[Function(
-    description: """
-    Executes a remote command via SSH on the specified host.
-    
-    Parameters:
-    - host: The remote host to connect to
-    - identity_file: Path to SSH private key
-    - command: Command to execute
-    
-    Returns:
-    - Output of the command execution
-    """
-)]
-pub fn remote_call(...) {
-    // Function implementation
-}
-        </pre>
-        <img src="https://i.imgflip.com/2k48t0.jpg" alt="Documentation Meme" />
+        <h3>1. Add Comprehensive Documentation</h3>
+        <p>The module would benefit from more detailed documentation, especially for the sshclient function which currently has no description.</p>
+        <div class="code">
+        // Example documentation structure
+        /**
+         * SSHClient establishes an SSH connection to a remote host
+         * @param {string} host - The remote host to connect to
+         * @param {string} user - The username for authentication
+         * @param {string} identityFile - Path to the SSH private key
+         * @returns {SSHClient}
+         */
+        </div>
+        <img src="https://i.imgflip.com/2/1bij.jpg" alt="Documentation all the things!" width="300">
     </div>
 
     <div class="suggestion">
-        <h3>2. Add Input Validation</h3>
-        <p>Implement proper input validation for SSH parameters:</p>
-        <pre>
-fn validate_ssh_params(host: &str, identity_file: &str) -> Result<()> {
-    if host.is_empty() {
-        return Err("Host cannot be empty".into());
-    }
-    if !host.contains('@') {
-        return Err("Host must be in format USER@HOST".into());
-    }
-    if !Path::new(identity_file).exists() {
-        return Err("Identity file does not exist".into());
-    }
-    Ok(())
-}
-        </pre>
-    </div>
-
-    <div class="suggestion">
-        <h3>3. Add Error Recovery and Retry Logic</h3>
-        <p>Implement retry logic for SSH connections:</p>
-        <pre>
-async fn connect_with_retry(config: &SSHConfig, max_retries: u32) -> Result<SSHClient> {
-    let mut retries = 0;
-    while retries < max_retries {
-        match SSHClient::connect(config).await {
-            Ok(client) => return Ok(client),
-            Err(e) => {
-                retries += 1;
-                if retries == max_retries {
-                    return Err(e);
-                }
-                tokio::time::sleep(Duration::from_secs(2)).await;
+        <h3>2. Add Error Handling and Recovery</h3>
+        <p>Implement robust error handling for SSH connection failures and command execution</p>
+        <div class="code">
+        func (m *Module) remote-call(ctx context.Context, opts RemoteCallOpts) (*Result, error) {
+            client, err := m.sshclient(opts)
+            if err != nil {
+                return nil, fmt.Errorf("failed to establish SSH connection: %w", err)
             }
+            defer client.Close()
+
+            // Add retry logic
+            for retries := 3; retries > 0; retries-- {
+                if err := executeCommand(client); err != nil {
+                    if retries > 1 {
+                        time.Sleep(time.Second * 2)
+                        continue
+                    }
+                    return nil, err
+                }
+                break
+            }
+            return result, nil
         }
-    }
-    Err("Failed to connect after max retries".into())
-}
-        </pre>
+        </div>
     </div>
+
+    <div class="suggestion">
+        <h3>3. Add Progress Feedback</h3>
+        <p>Implement progress indicators for long-running operations like setup-dagger</p>
+        <div class="code">
+        func (m *Module) setup-dagger(ctx context.Context, opts SetupOpts) error {
+            steps := []string{
+                "Connecting to remote host",
+                "Checking existing installation",
+                "Downloading Dagger",
+                "Installing dependencies",
+                "Verifying installation"
+            }
+            
+            for _, step := range steps {
+                fmt.Printf("⌛ %s...\n", step)
+                // Perform step
+                fmt.Printf("✅ %s complete\n", step)
+            }
+            return nil
+        }
+        </div>
+    </div>
+
+    <h2>Additional Notes</h2>
+    <p>The module appears to be functional but would benefit from more detailed documentation and error handling. The ability to execute Dagger commands remotely via SSH is a powerful feature that could be very useful for CI/CD pipelines and remote automation scenarios.</p>
+
 </body>
 </html>
