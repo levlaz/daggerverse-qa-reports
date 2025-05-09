@@ -1,132 +1,126 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>QA Report - borgo/tests Module</title>
+    <title>QA Report - borgo/tests</title>
     <style>
-        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
-        h1, h2 { color: #333; }
-        .error { color: #ff0000; }
-        .suggestion { margin: 20px 0; padding: 15px; background-color: #f5f5f5; }
-        pre { background-color: #f0f0f0; padding: 10px; border-radius: 5px; }
-        .meme { max-width: 500px; margin: 20px 0; }
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .error {
+            color: #dc3545;
+            background-color: #f8d7da;
+            padding: 10px;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+        .function-list {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 4px;
+        }
+        .suggestion {
+            margin: 20px 0;
+            padding: 15px;
+            background-color: #e9ecef;
+            border-radius: 4px;
+        }
+        pre {
+            background-color: #f8f9fa;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
     </style>
 </head>
 <body>
-    <h1>QA Report: borgo/tests Module</h1>
-
+    <h1>QA Report: borgo/tests</h1>
+    
     <h2>Module Information</h2>
     <ul>
-        <li><strong>Name:</strong> borgo/tests</li>
-        <li><strong>Author:</strong> luanmtruong</li>
+        <li><strong>Name:</strong> github.com/sagikazarmark/daggerverse/borgo/tests</li>
+        <li><strong>Author:</strong> sagikazarmark</li>
         <li><strong>Latest Version:</strong> main</li>
-        <li><strong>Release Date:</strong> Not available (Crawling failed)</li>
-        <li><strong>Dagger Engine Version:</strong> v0.18.5</li>
-        <li><strong>Cloud Trace:</strong> Not available</li>
+        <li><strong>Release Date:</strong> N/A (Information unavailable due to crawling error)</li>
+        <li><strong>Dagger Engine Version Used:</strong> v0.18.6</li>
     </ul>
 
-    <h2>Module Functionality</h2>
-    <p>This module appears to be a testing framework with the following functions:</p>
-    <ul>
-        <li><strong>all()</strong> - Executes all tests</li>
-        <li><strong>compile()</strong> - Compilation function (no description provided)</li>
-    </ul>
+    <h2>Module Description</h2>
+    <p>This module appears to be a testing module for borgo, providing test execution capabilities.</p>
+
+    <h2>Available Functions</h2>
+    <div class="function-list">
+        <ul>
+            <li><strong>all()</strong> - All executes all tests.</li>
+            <li><strong>compile()</strong> - No description provided</li>
+        </ul>
+    </div>
 
     <h2>Issues Encountered</h2>
     <div class="error">
-        <p>1. Module crawling failed with error: Payment Required - Failed to scrape URL. Insufficient credits to perform this request.</p>
+        <p><strong>Crawling Error:</strong> Failed to crawl the module due to API limitations.</p>
     </div>
 
-    <h2>Quality Improvement Suggestions</h2>
+    <h2>Suggestions for Improvement</h2>
     
     <div class="suggestion">
-        <h3>1. Improve Function Documentation</h3>
-        <p>The current function descriptions are minimal or non-existent. Add detailed documentation for each function.</p>
+        <h3>1. Add Function Documentation</h3>
+        <p>The module's functions lack proper documentation. Here's how to improve it:</p>
         <pre>
-// Example of improved documentation:
-#[Function(
-    description: "Executes all tests in the test suite and returns detailed results",
-    return_value: "Returns a TestResult object containing pass/fail counts and test details"
-)]
-pub fn all() -> Result<TestResult> {
+// Example of improved function documentation
+#[Function]
+/// Executes all tests in the test suite
+/// 
+/// # Returns
+/// - Success: Returns test execution results
+/// - Failure: Returns error details
+/// 
+/// # Example
+/// ```dagger
+/// all()
+/// ```
+pub fn all(&self) -> Result<String> {
     // Implementation
 }
+        </pre>
+        <img src="https://i.imgflip.com/2/2zqtq4.jpg" alt="Documentation Meme" style="max-width: 300px;">
+    </div>
 
-#[Function(
-    description: "Compiles the test suite and verifies syntax",
-    return_value: "Returns a CompileResult with compilation status and any warnings"
-)]
-pub fn compile() -> Result<CompileResult> {
+    <div class="suggestion">
+        <h3>2. Add Test Result Formatting</h3>
+        <p>Implement structured test results output:</p>
+        <pre>
+#[Function]
+pub fn all(&self) -> Result<TestResults> {
+    #[derive(Serialize)]
+    struct TestResults {
+        passed: Vec<String>,
+        failed: Vec<String>,
+        duration: f64,
+        summary: String,
+    }
     // Implementation
 }
         </pre>
     </div>
 
     <div class="suggestion">
-        <h3>2. Add Error Handling and Reporting</h3>
-        <p>Implement proper error handling and detailed error reporting.</p>
+        <h3>3. Add Test Categories and Filtering</h3>
+        <p>Implement test categorization and filtering capabilities:</p>
         <pre>
-#[derive(Debug)]
-pub struct TestError {
-    pub code: String,
-    pub message: String,
-    pub location: String,
-}
-
-impl TestError {
-    pub fn new(code: &str, message: &str, location: &str) -> Self {
-        Self {
-            code: code.to_string(),
-            message: message.to_string(),
-            location: location.to_string(),
-        }
-    }
-}
-
-pub fn all() -> Result<TestResult, TestError> {
-    match run_tests() {
-        Ok(result) => Ok(result),
-        Err(e) => Err(TestError::new(
-            "TEST_FAILURE",
-            &format!("Test execution failed: {}", e),
-            file!(),
-        ))
-    }
-}
-        </pre>
-    </div>
-
-    <div class="suggestion">
-        <h3>3. Add Test Progress Reporting</h3>
-        <p>Implement progress reporting for long-running tests.</p>
-        <pre>
-pub struct TestProgress {
-    total_tests: u32,
-    completed: u32,
-    current_test: String,
-}
-
-#[Function(
-    description: "Get current test execution progress"
-)]
-pub fn get_progress() -> TestProgress {
+#[Function]
+/// Run specific test categories
+/// 
+/// # Arguments
+/// * `categories` - List of test categories to run
+/// * `skip` - List of test categories to skip
+pub fn run_categories(&self, categories: Vec<String>, skip: Vec<String>) -> Result<String> {
     // Implementation
 }
-
-// Example usage in test runner:
-pub fn run_test(name: &str) -> Result<()> {
-    update_progress(TestProgress {
-        total_tests: 10,
-        completed: 5,
-        current_test: name.to_string(),
-    });
-    // Test implementation
-}
         </pre>
-    </div>
-
-    <div class="meme">
-        <img src="https://i.imgflip.com/2zgtxe.jpg" alt="But that's none of my business - Test Documentation Meme" />
-        <p><em>When your tests have no documentation but somehow still pass...</em></p>
     </div>
 
 </body>
