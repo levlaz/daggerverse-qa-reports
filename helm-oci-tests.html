@@ -1,105 +1,105 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>QA Report - helm-oci/tests</title>
+    <title>QA Report - helm-oci-tests</title>
     <style>
         body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
-        h1, h2 { color: #333; }
-        .error { color: #ff0000; }
-        .function-list { background-color: #f5f5f5; padding: 15px; border-radius: 5px; }
-        .suggestion { margin: 20px 0; padding: 15px; background-color: #e1f5fe; border-radius: 5px; }
-        .code { background-color: #f8f9fa; padding: 15px; border-radius: 5px; font-family: monospace; }
-        .meme { max-width: 500px; margin: 20px 0; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .section { margin-bottom: 30px; }
+        .error { color: #dc3545; padding: 10px; background-color: #f8d7da; border-radius: 4px; }
+        .function-list { background-color: #f8f9fa; padding: 15px; border-radius: 4px; }
+        .suggestion { margin-bottom: 20px; }
+        code { background-color: #f8f9fa; padding: 2px 5px; border-radius: 3px; }
+        pre { background-color: #f8f9fa; padding: 15px; border-radius: 4px; overflow-x: auto; }
     </style>
 </head>
 <body>
-    <h1>QA Report: helm-oci/tests</h1>
+    <div class="container">
+        <h1>QA Report: helm-oci-tests</h1>
+        
+        <div class="section">
+            <h2>Module Information</h2>
+            <ul>
+                <li><strong>Name:</strong> helm-oci-tests</li>
+                <li><strong>Path:</strong> github.com/purpleclay/daggerverse/helm-oci/tests</li>
+                <li><strong>Author:</strong> purpleclay</li>
+                <li><strong>Version Tested:</strong> main</li>
+                <li><strong>Dagger Version Used:</strong> v0.18.6</li>
+            </ul>
+        </div>
 
-    <h2>Module Information</h2>
-    <ul>
-        <li><strong>Module Name:</strong> github.com/purpleclay/daggerverse/helm-oci/tests</li>
-        <li><strong>Author:</strong> purpleclay</li>
-        <li><strong>Latest Version:</strong> main</li>
-        <li><strong>Release Date:</strong> N/A (unable to crawl)</li>
-        <li><strong>Dagger Engine Version:</strong> v0.18.5</li>
-    </ul>
+        <div class="section">
+            <h2>Module Functions</h2>
+            <div class="function-list">
+                <ul>
+                    <li>all-tests</li>
+                    <li>dot-env</li>
+                    <li>dot-env-git-lab</li>
+                </ul>
+            </div>
+        </div>
 
-    <h2>Module Functions</h2>
-    <div class="function-list">
-        <ul>
-            <li>all-tests</li>
-            <li>dot-env</li>
-            <li>dot-env-git-lab</li>
-        </ul>
-    </div>
+        <div class="section">
+            <h2>Module Purpose</h2>
+            <p>This appears to be a test module for the helm-oci module, containing various test cases including environment variable handling and GitLab-specific tests.</p>
+        </div>
 
-    <h2>Module Purpose</h2>
-    <p>This appears to be a test module for the helm-oci module, containing various test cases including environment variable handling and GitLab-specific tests.</p>
+        <div class="section">
+            <h2>Issues Encountered</h2>
+            <div class="error">
+                <p>🚨 Unable to crawl module information due to API limitations.</p>
+            </div>
+        </div>
 
-    <h2>Issues Encountered</h2>
-    <div class="error">
-        <p>1. Unable to crawl the daggerverse page due to API limitations</p>
-    </div>
+        <div class="section">
+            <h2>Quality Improvement Suggestions</h2>
+            
+            <div class="suggestion">
+                <h3>1. Add Function Documentation</h3>
+                <p>Currently, the functions lack descriptions. Adding proper documentation would improve usability.</p>
+                <img src="https://i.imgflip.com/65rfxw.jpg" alt="Documentation Meme" style="max-width: 400px;"/>
+                <pre><code>// Example of good function documentation
+#[Function(
+    description: "Runs all test cases for the helm-oci module",
+    parameter: {
+        name: "environment",
+        description: "The target environment for testing"
+    }
+)]
+pub fn all_tests(self, environment: String) -> Result<()> {
+    // Function implementation
+}</code></pre>
+            </div>
 
-    <h2>Suggestions for Improvement</h2>
-    
-    <div class="suggestion">
-        <h3>1. Add Function Documentation</h3>
-        <p>The functions currently lack descriptions, which makes it harder to understand their purpose.</p>
-        <div class="code">
-        // Before:
-        all-tests() {}
+            <div class="suggestion">
+                <h3>2. Implement Test Progress Reporting</h3>
+                <p>Add detailed test progress reporting to make debugging easier.</p>
+                <pre><code>pub fn run_test(&self, name: String) -> Result<()> {
+    println!("🚀 Starting test: {}", name);
+    // Test implementation
+    println!("✅ Completed test: {}", name);
+    Ok(())
+}</code></pre>
+            </div>
 
-        // After:
-        #Description: Runs all test cases for the helm-oci module
-        all-tests() {
-            // Implementation
-        }
+            <div class="suggestion">
+                <h3>3. Add Test Categories and Tags</h3>
+                <p>Organize tests with categories and tags for better test management.</p>
+                <pre><code>#[derive(Default)]
+pub struct TestConfig {
+    tags: Vec<String>,
+    category: String,
+    priority: u8,
+}
+
+#[Function(
+    description: "Run tests filtered by category or tags"
+)]
+pub fn run_filtered_tests(self, config: TestConfig) -> Result<()> {
+    // Implementation
+}</code></pre>
+            </div>
         </div>
     </div>
-
-    <div class="suggestion">
-        <h3>2. Implement Better Error Handling</h3>
-        <p>Add proper error handling and return meaningful error messages.</p>
-        <div class="code">
-        // Before:
-        dot-env() {}
-
-        // After:
-        dot-env() *TestResult {
-            if err != nil {
-                return &TestResult{
-                    Success: false,
-                    Error: fmt.Sprintf("Failed to load .env: %v", err)
-                }
-            }
-            return &TestResult{Success: true}
-        }
-        </div>
-    </div>
-
-    <div class="suggestion">
-        <h3>3. Add Test Progress Reporting</h3>
-        <p>Implement progress reporting for better visibility during test execution.</p>
-        <div class="code">
-        // Add a progress reporter
-        type TestProgress struct {
-            Total int
-            Current int
-            Status string
-        }
-
-        func (t *Test) WithProgress() *Test {
-            t.progress = &TestProgress{}
-            return t
-        }
-        </div>
-    </div>
-
-    <div class="meme">
-        <img src="https://i.imgur.com/Krjy3OI.jpg" alt="Testing meme" />
-        <p><em>When the tests pass on the first try...</em></p>
-    </div>
-
 </body>
 </html>
