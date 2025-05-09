@@ -1,123 +1,124 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>QA Report - DebtRepayment Module</title>
+    <title>QA Report - Go Module</title>
     <style>
-        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 20px; }
         h1, h2 { color: #333; }
-        .error { color: #dc3545; background: #ffebee; padding: 10px; border-radius: 4px; }
-        .suggestion { margin: 20px 0; padding: 15px; background: #f8f9fa; border-radius: 4px; }
-        code { background: #f4f4f4; padding: 2px 5px; border-radius: 3px; }
-        .meme { max-width: 500px; margin: 20px 0; }
+        .functions { background-color: #f5f5f5; padding: 15px; border-radius: 5px; }
+        .error { color: #d32f2f; }
+        .suggestion { margin: 20px 0; padding: 15px; background-color: #e3f2fd; border-radius: 5px; }
+        pre { background-color: #f8f9fa; padding: 10px; border-radius: 4px; overflow-x: auto; }
     </style>
 </head>
 <body>
-    <h1>QA Report: DebtRepayment Module</h1>
+    <h1>QA Report: Go Module</h1>
     
     <h2>Module Information</h2>
     <ul>
-        <li><strong>Name:</strong> DebtRepayment</li>
-        <li><strong>Author:</strong> EmmS21</li>
-        <li><strong>Latest Version:</strong> fbd39125783b71e8181a9f0e30b62172eea8d9a1</li>
-        <li><strong>Release Date:</strong> Not provided in metadata</li>
-        <li><strong>Dagger Cloud Trace:</strong> See terminal output</li>
+        <li><strong>Name:</strong> github.com/vito/daggerverse/go</li>
+        <li><strong>Author:</strong> vito</li>
+        <li><strong>Latest Version:</strong> main</li>
+        <li><strong>Release Date:</strong> N/A (Unable to fetch from daggerverse)</li>
+        <li><strong>Dagger Engine Version Used:</strong> v0.18.6</li>
     </ul>
 
-    <h2>Module Purpose</h2>
-    <p>This module is designed to fetch and analyze data from two Google Sheets to process debt and investment information. It includes functionality to:</p>
-    <ul>
-        <li>Fetch data from two separate Google Sheets</li>
-        <li>Run analysis on debts and investments using an AI agent</li>
-        <li>Send results via email using SendGrid</li>
-    </ul>
+    <h2>Module Description</h2>
+    <p>This module provides Go development tooling and build capabilities within Dagger pipelines.</p>
 
-    <h2>Module Functions</h2>
-    <ul>
-        <li><strong>fetchData()</strong>
-            <ul>
-                <li>Arguments:
-                    <ul>
-                        <li>apiKey (Secret): Google Sheets API key</li>
-                        <li>sheet (Secret): First Google Sheet secret</li>
-                        <li>sheetTwo (Secret): Second Google Sheet secret</li>
-                        <li>openKey (Secret): OpenAI API key</li>
-                        <li>sendGrid (Secret): SendGrid API key</li>
-                        <li>name (String): Sheet name</li>
-                        <li>sendTo (String): Email recipient</li>
-                    </ul>
-                </li>
-                <li>Returns: Array of strings</li>
-            </ul>
-        </li>
-    </ul>
-
-    <h2>Testing Environment</h2>
-    <p>Tested with Dagger Engine Version: v0.18.2</p>
+    <h2>Available Functions</h2>
+    <div class="functions">
+        <ul>
+            <li><strong>base</strong> - Base Go configuration</li>
+            <li><strong>bin-path</strong> - Sets $GOBIN to /go/bin and prepends it to $PATH</li>
+            <li><strong>build</strong> - Builds Go code using the go build CLI</li>
+            <li><strong>build-cache</strong> - Manages build cache</li>
+            <li><strong>from-version</strong> - Sets the base image to the given Go version</li>
+            <li><strong>generate</strong> - Runs go generate ./... and returns the updated directory</li>
+            <li><strong>global-cache</strong> - Sets $GOMODCACHE and $GOCACHE paths</li>
+            <li><strong>golang-cilint</strong> - Runs golangci-lint</li>
+            <li><strong>gotestsum</strong> - Runs tests using the gotestsum CLI</li>
+            <li><strong>mod-cache</strong> - Manages module cache</li>
+            <li><strong>test</strong> - Runs tests using the go test CLI</li>
+        </ul>
+    </div>
 
     <h2>Issues Encountered</h2>
     <div class="error">
-        <p>Failed to build the module with error: "failed to sync: select: process "/runtime" did not complete successfully: exit code: 2"</p>
+        <p>Unable to crawl module information from daggerverse due to API limitations.</p>
     </div>
 
-    <h2>Improvement Suggestions</h2>
+    <h2>Suggestions for Improvement</h2>
     
     <div class="suggestion">
-        <h3>1. Add Input Validation</h3>
-        <p>Add input validation for email addresses and sheet names to prevent runtime errors.</p>
-        <code>
-func validateEmail(email string) error {
-    if _, err := mail.ParseAddress(email); err != nil {
-        return fmt.Errorf("invalid email address: %v", err)
-    }
-    return nil
+        <h3>1. Add Function Documentation</h3>
+        <p>Several functions lack proper documentation. Adding detailed descriptions would improve usability.</p>
+        <img src="https://i.imgflip.com/65efzo.jpg" alt="Documentation Meme" style="max-width: 300px;">
+        <pre>
+// Example of good function documentation:
+/*
+* Base configures the default Go environment
+* @param {string} version - Go version to use (e.g., "1.20")
+* @returns {*Container} - Configured Go container
+*/
+func (m *Module) Base(version string) *Container {
+    // Implementation
 }
-
-func (m *DebtRepayment) FetchData(ctx context.Context, ...) ([]string, error) {
-    if err := validateEmail(sendTo); err != nil {
-        return nil, err
-    }
-    // rest of the function
-}
-        </code>
+        </pre>
     </div>
 
     <div class="suggestion">
-        <h3>2. Implement Error Handling and Retries</h3>
-        <p>Add retry mechanism for API calls to handle temporary failures.</p>
-        <code>
-func withRetry(maxAttempts int, fn func() error) error {
-    var err error
-    for i := 0; i < maxAttempts; i++ {
-        if err = fn(); err == nil {
-            return nil
+        <h3>2. Add Error Handling and Return Values</h3>
+        <p>Implement better error handling and return meaningful error messages.</p>
+        <pre>
+// Example implementation:
+func (m *Module) Build(ctx context.Context, src *Directory) (*File, error) {
+    if src == nil {
+        return nil, fmt.Errorf("source directory cannot be nil")
+    }
+    
+    result, err := m.container.
+        WithDirectory("/src", src).
+        WithWorkdir("/src").
+        WithExec([]string{"go", "build", "-o", "myapp"}).
+        File("myapp")
+    
+    if err != nil {
+        return nil, fmt.Errorf("build failed: %w", err)
+    }
+    
+    return result, nil
+}
+        </pre>
+    </div>
+
+    <div class="suggestion">
+        <h3>3. Add Integration Tests</h3>
+        <p>Create comprehensive integration tests to ensure module reliability.</p>
+        <pre>
+// Example test implementation:
+func TestGoModule(t *testing.T) {
+    t.Run("TestBuild", func(t *testing.T) {
+        ctx := context.Background()
+        
+        client, err := dagger.Connect(ctx)
+        if err != nil {
+            t.Fatal(err)
         }
-        time.Sleep(time.Second * time.Duration(math.Pow(2, float64(i))))
-    }
-    return fmt.Errorf("failed after %d attempts: %v", maxAttempts, err)
+        defer client.Close()
+        
+        goMod := client.Container().
+            With(go.New().
+                FromVersion("1.20").
+                WithSource(client.Host().Directory(".")))
+        
+        _, err = goMod.Stdout(ctx)
+        if err != nil {
+            t.Fatal(err)
+        }
+    })
 }
-        </code>
-    </div>
-
-    <div class="suggestion">
-        <h3>3. Add Comprehensive Documentation</h3>
-        <p>Improve documentation with examples and usage scenarios.</p>
-        <code>
-// DebtRepayment analyzes financial data from Google Sheets
-//
-// Example usage:
-//
-//     result, err := dag.DebtRepayment().FetchData(
-//         ctx,
-//         dag.SetSecret("GOOGLE_API_KEY", apiKey),
-//         dag.SetSecret("SHEET_ONE", sheetOne),
-//         dag.SetSecret("SHEET_TWO", sheetTwo),
-//         dag.SetSecret("OPENAI_KEY", openAIKey),
-//         dag.SetSecret("SENDGRID_KEY", sendGridKey),
-//         "MySheet",
-//         "user@example.com",
-//     )
-        </code>
-        <img src="https://i.imgflip.com/50q5zs.jpg" alt="Documentation Meme" class="meme">
+        </pre>
     </div>
 </body>
 </html>
