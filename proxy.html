@@ -3,96 +3,100 @@
 <head>
     <title>QA Report - Proxy Module</title>
     <style>
-        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
-        h1, h2 { color: #333; }
-        .error { color: #ff0000; background: #ffeeee; padding: 10px; border-radius: 5px; }
-        .functions { background: #f5f5f5; padding: 15px; border-radius: 5px; }
-        .suggestion { margin: 20px 0; padding: 15px; background: #f0f8ff; border-radius: 5px; }
-        .meme { margin: 20px 0; text-align: center; }
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .error { color: red; padding: 10px; background-color: #ffe6e6; border-radius: 5px; }
+        .suggestion { margin: 20px 0; padding: 15px; background-color: #f5f5f5; border-radius: 5px; }
+        pre { background-color: #f0f0f0; padding: 10px; border-radius: 5px; overflow-x: auto; }
+        .meme { max-width: 500px; margin: 20px 0; }
     </style>
 </head>
 <body>
-    <h1>Module QA Report: Proxy</h1>
-    
-    <h2>Basic Information</h2>
-    <ul>
-        <li><strong>Module Name:</strong> github.com/vito/kpenfound-dagger-modules/proxy</li>
-        <li><strong>Author:</strong> vito/kpenfound</li>
-        <li><strong>Version Tested:</strong> main</li>
-        <li><strong>Dagger Engine Version:</strong> v0.18.5</li>
-    </ul>
+    <div class="container">
+        <h1>QA Report: Proxy Module</h1>
+        
+        <h2>Module Information</h2>
+        <ul>
+            <li><strong>Name:</strong> github.com/rajatjindal/dagger-modules/proxy</li>
+            <li><strong>Author:</strong> rajatjindal</li>
+            <li><strong>Latest Version:</strong> v0.1.0</li>
+            <li><strong>Release Date:</strong> N/A (Unable to retrieve from daggerverse)</li>
+            <li><strong>Dagger Cloud Trace:</strong> N/A</li>
+        </ul>
 
-    <h2>Module Purpose & Functions</h2>
-    <p>This module provides proxy service functionality for Dagger pipelines. It allows you to create and manage proxy services within your Dagger workflows.</p>
-    
-    <div class="functions">
+        <h2>Module Functionality</h2>
+        <p>This module provides proxy functionality for Dagger pipelines. It allows you to set up and manage proxy services within your Dagger workflows.</p>
+        
         <h3>Available Functions:</h3>
         <ul>
-            <li><strong>ctr()</strong> - An OCI-compatible container interface</li>
-            <li><strong>service()</strong> - Get the proxy Service</li>
-            <li><strong>with-service()</strong> - Add a service to proxy</li>
+            <li><strong>ctr</strong> - An OCI-compatible container, also known as a Docker container.</li>
+            <li><strong>service</strong> - Get the proxy Service</li>
+            <li><strong>with-service</strong> - Add a service to proxy</li>
         </ul>
-    </div>
 
-    <h2>Issues Encountered</h2>
-    <div class="error">
-        <p>❌ Unable to crawl module information from daggerverse due to API limitations</p>
-    </div>
+        <h2>Testing Environment</h2>
+        <p><strong>Dagger Engine Version:</strong> v0.18.6</p>
 
-    <h2>Improvement Suggestions</h2>
-    
-    <div class="suggestion">
-        <h3>1. Add Input Validation</h3>
-        <p>Implement input validation for service configuration to prevent runtime errors.</p>
-        <pre>
-func ValidateServiceConfig(config ServiceConfig) error {
-    if config.Port <= 0 || config.Port > 65535 {
-        return fmt.Errorf("invalid port number: %d", config.Port)
-    }
-    if config.Host == "" {
-        return fmt.Errorf("host cannot be empty")
-    }
-    return nil
-}
-        </pre>
-    </div>
+        <h2>Quality Improvement Suggestions</h2>
+        
+        <div class="suggestion">
+            <h3>1. Add Comprehensive Documentation</h3>
+            <p>The module would benefit from detailed documentation for each function, including examples and use cases.</p>
+            <pre>
+// Example of improved documentation
++func (m *Proxy) WithService(
++    ctx context.Context,
++    service *Service,
++) (*Proxy, error) {
++    /*
++     * Adds a service to be proxied
++     * 
++     * @param service The service to proxy
++     * @return Updated Proxy instance
++     * @example
++     * proxy := dag.Proxy()
++     * service := dag.Service().WithImage("nginx:latest")
++     * proxy = proxy.WithService(service)
++     */
++}</pre>
+        </div>
 
-    <div class="suggestion">
-        <h3>2. Implement Retry Logic</h3>
-        <p>Add retry mechanism for proxy service initialization.</p>
-        <pre>
-func WithRetry(attempts int, delay time.Duration) *ProxyService {
-    for i := 0; i < attempts; i++ {
-        if err := ps.Initialize(); err == nil {
-            return ps
-        }
-        time.Sleep(delay)
-    }
-    return nil
-}
-        </pre>
-    </div>
-
-    <div class="suggestion">
-        <h3>3. Enhanced Logging</h3>
-        <p>Add structured logging for better debugging capabilities.</p>
-        <pre>
-type LoggedProxy struct {
-    *ProxyService
-    Logger *log.Logger
+        <div class="suggestion">
+            <h3>2. Add Configuration Options</h3>
+            <p>Implement more configuration options for proxy settings</p>
+            <pre>
+type ProxyConfig struct {
+    Port           int
+    TimeoutSeconds int
+    RetryAttempts  int
+    SSLEnabled     bool
+    CustomHeaders  map[string]string
 }
 
-func (lp *LoggedProxy) Forward(req *http.Request) {
-    lp.Logger.Printf("forwarding request to %s", req.URL)
-    // existing forwarding logic
-}
-        </pre>
-    </div>
+func (m *Proxy) WithConfig(config ProxyConfig) *Proxy {
+    // Implementation
+}</pre>
+        </div>
 
-    <div class="meme">
-        <img src="https://i.imgflip.com/7q8cfj.jpg" alt="Proxy Module Meme" />
-        <p><em>"When your proxy service works on the first try"</em></p>
-    </div>
+        <div class="suggestion">
+            <h3>3. Add Health Checks</h3>
+            <p>Implement health checking functionality</p>
+            <img src="https://i.imgflip.com/2ku0h1.jpg" alt="Health Check Meme" class="meme">
+            <pre>
+func (m *Proxy) WithHealthCheck(
+    path string,
+    interval time.Duration,
+    timeout time.Duration,
+) *Proxy {
+    // Implementation
+}</pre>
+        </div>
 
+        <h2>Issues Encountered</h2>
+        <div class="error">
+            <p>❌ Unable to crawl the daggerverse page due to API limitations</p>
+            <p>Error message: "Payment Required: Failed to scrape URL. Insufficient credits to perform this request."</p>
+        </div>
+    </div>
 </body>
 </html>
