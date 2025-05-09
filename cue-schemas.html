@@ -1,117 +1,148 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>QA Report - cue-schemas</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QA Report - cue-schemas Module</title>
     <style>
-        body { font-family: Arial, sans-serif; line-height: 1.6; padding: 20px; max-width: 1200px; margin: 0 auto; }
-        h1, h2 { color: #333; }
-        .function-list { background-color: #f5f5f5; padding: 15px; border-radius: 5px; }
-        .suggestion { margin: 20px 0; padding: 15px; border-left: 4px solid #007bff; }
-        .code-snippet { background-color: #f8f9fa; padding: 15px; border-radius: 5px; font-family: monospace; }
-        .error { color: #dc3545; }
-        .meme { max-width: 500px; margin: 20px 0; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            color: #333;
+        }
+        h1, h2, h3 {
+            color: #2c3e50;
+        }
+        .function-list {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 5px;
+        }
+        .error-section {
+            background-color: #fff3f3;
+            padding: 15px;
+            border-left: 4px solid #ff0000;
+            margin: 10px 0;
+        }
+        .suggestion {
+            background-color: #e3f2fd;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        pre {
+            background-color: #f4f4f4;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        .meme {
+            max-width: 500px;
+            margin: 20px 0;
+        }
     </style>
 </head>
 <body>
-    <h1>QA Report: cue-schemas</h1>
+    <h1>QA Report: cue-schemas Module</h1>
     
     <h2>Module Information</h2>
     <ul>
-        <li><strong>Name:</strong> cue-schemas</li>
+        <li><strong>Module Name:</strong> github.com/orvis98/daggerverse/cue-schemas</li>
         <li><strong>Author:</strong> orvis98</li>
-        <li><strong>Latest Version:</strong> 4bc12f753f135cbb59df1db91644c185c2fa6129</li>
-        <li><strong>Release Date:</strong> Not specified in source</li>
-        <li><strong>Dagger Version Used:</strong> v0.18.1</li>
-        <li><strong>Dagger Cloud Trace:</strong> <a href="https://cloud.dagger.io/sessions/5cb0a08e-4b86-11eb-8529-0242ac130003">View Trace</a></li>
+        <li><strong>Latest Version:</strong> main</li>
+        <li><strong>Release Date:</strong> N/A (Unable to fetch from daggerverse)</li>
+        <li><strong>Dagger Engine Version Used:</strong> v0.18.6</li>
     </ul>
 
-    <h2>Module Purpose</h2>
-    <p>A module for vendoring and publishing CUE schemas to registry. It provides functionality for:</p>
+    <h2>Module Description</h2>
+    <p>This module provides functionality for working with CUE schemas, particularly focused on Kubernetes CRDs and Timoni integration. It offers tools for exporting, validating, and vendoring CUE schemas from various sources.</p>
+
+    <h2>Available Functions</h2>
     <div class="function-list">
         <ul>
-            <li>Managing CUE and Timoni versions</li>
-            <li>Vendoring Kubernetes API and CRD schemas</li>
-            <li>Validating and publishing schemas</li>
-            <li>Exporting Kubernetes CRDs</li>
+            <li><strong>container:</strong> Returns a container with the timoni and cue binaries</li>
+            <li><strong>cue-version:</strong> Returns the cue version</li>
+            <li><strong>export:</strong> Export Kubernetes CRDs from a sources.yaml file</li>
+            <li><strong>export-github:</strong> Export Kubernetes CRDs from GitHub</li>
+            <li><strong>publish:</strong> Publish CUE schemas from a sources.yaml file</li>
+            <li><strong>timoni-version:</strong> Returns the timoni version</li>
+            <li><strong>validate:</strong> Validate a sources.yaml file</li>
+            <li><strong>vendor:</strong> Vendor CUE schemas from a sources.yaml file</li>
+            <li><strong>vendor-github:</strong> Vendor Kubernetes CRD CUE schemas from GitHub</li>
+            <li><strong>vendor-kubernetes:</strong> Vendor Kubernetes API CUE schemas</li>
+            <li><strong>vendor-timoni:</strong> Vendor Timoni CUE schemas for the current version</li>
         </ul>
     </div>
 
-    <h2>Available Functions</h2>
-    <ul>
-        <li>container() - returns a container with the timoni and cue binaries</li>
-        <li>cueVersion() - returns the cue version</li>
-        <li>export() - export Kubernetes CRDs from a sources.yaml file</li>
-        <li>exportGithub() - export Kubernetes CRDs from GitHub</li>
-        <li>publish() - publish CUE schemas from a sources.yaml file</li>
-        <li>timoniVersion() - returns the timoni version</li>
-        <li>validate() - validate a sources.yaml file</li>
-        <li>vendor() - vendor CUE schemas from a sources.yaml file</li>
-        <li>vendorGithub() - vendor Kubernetes CRD CUE schemas from GitHub</li>
-        <li>vendorKubernetes() - vendor Kubernetes API CUE schemas</li>
-        <li>vendorTimoni() - vendor Timoni CUE schemas for the current version</li>
-    </ul>
+    <h2>Issues Encountered</h2>
+    <div class="error-section">
+        <p>During testing, the following issues were encountered:</p>
+        <ul>
+            <li>Unable to crawl the daggerverse page due to API limitations</li>
+        </ul>
+    </div>
 
-    <h2>Quality Improvement Suggestions</h2>
+    <h2>Suggestions for Improvement</h2>
     
     <div class="suggestion">
         <h3>1. Add Input Validation</h3>
-        <p>Add input validation for GitHub-related functions to ensure URLs and refs are valid before processing.</p>
-        <div class="code-snippet">
-            <pre>
-func validateGitHubParams(ref string, owner string, repo string) error {
-    if !strings.HasPrefix(ref, "v") && !strings.HasPrefix(ref, "refs/") {
-        return fmt.Errorf("invalid ref format: %s", ref)
+        <p>Add comprehensive input validation for the sources.yaml file to prevent runtime errors.</p>
+        <pre>
+// Add this validation function
+func ValidateSourcesYaml(content: bytes) {
+    #SourceConfig: {
+        sources: [...{
+            name:      string
+            git?:      string
+            local?:    string
+            branch?:   string
+            tag?:      string
+            patterns: [...string]
+        }]
     }
-    if owner == "" || repo == "" {
-        return fmt.Errorf("owner and repo cannot be empty")
-    }
-    return nil
+    
+    config: #SourceConfig
+    yaml.Unmarshal(content) & config
 }
-            </pre>
-        </div>
+        </pre>
     </div>
 
     <div class="suggestion">
         <h3>2. Add Progress Reporting</h3>
-        <p>Implement progress reporting for long-running operations like vendoring and publishing.</p>
-        <img src="https://media.giphy.com/media/3o7TKv2dpcjxGXoY6Y/giphy.gif" alt="Progress Bar Meme" class="meme">
-        <div class="code-snippet">
-            <pre>
-type ProgressReporter interface {
-    OnProgress(current, total int, operation string)
+        <p>Implement progress reporting for long-running operations.</p>
+        <pre>
+// Add progress reporting
+func VendorWithProgress() {
+    for _, source in sources {
+        log.Progress(30, "Vendoring \(source.name)")
+        // existing vendor logic
+        log.Progress(100, "Completed vendoring \(source.name)")
+    }
 }
-
-func (c *CueSchemas) SetProgressReporter(reporter ProgressReporter) {
-    c.reporter = reporter
-}
-            </pre>
-        </div>
+        </pre>
+        <img src="https://i.imgur.com/QeMFB9H.png" alt="Progress Bar Meme" class="meme">
     </div>
 
     <div class="suggestion">
-        <h3>3. Add Caching Layer</h3>
-        <p>Implement caching for frequently accessed schemas to improve performance.</p>
-        <div class="code-snippet">
-            <pre>
-type SchemaCache struct {
-    cache    map[string][]byte
-    maxSize  int64
-    duration time.Duration
-}
-
-func NewSchemaCache() *SchemaCache {
-    return &SchemaCache{
-        cache:    make(map[string][]byte),
-        maxSize:  1024 * 1024 * 100, // 100MB
-        duration: time.Hour * 24,     // 24 hours
+        <h3>3. Add Caching Support</h3>
+        <p>Implement caching for vendored schemas to improve performance on subsequent runs.</p>
+        <pre>
+// Add caching logic
+func VendorWithCache() {
+    cacheKey: "\(source.name)@\(source.tag ?? source.branch ?? "main")"
+    if cache.Has(cacheKey) {
+        return cache.Get(cacheKey)
     }
+    
+    result: // existing vendor logic
+    cache.Set(cacheKey, result)
+    return result
 }
-            </pre>
-        </div>
+        </pre>
     </div>
-
-    <h2>Testing Results</h2>
-    <p>No errors were encountered during testing. The module installed and built successfully.</p>
 
 </body>
 </html>
