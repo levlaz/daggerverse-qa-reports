@@ -4,122 +4,141 @@
     <title>QA Report - inline-python Module</title>
     <style>
         body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
-        h1 { color: #2c3e50; }
-        h2 { color: #34495e; }
-        .container { max-width: 1200px; margin: 0 auto; }
-        .function-list { background-color: #f8f9fa; padding: 20px; border-radius: 5px; }
-        .error { color: #e74c3c; }
-        .suggestion { margin: 20px 0; padding: 15px; background-color: #edf2f7; border-radius: 5px; }
-        .code { background-color: #2c3e50; color: #fff; padding: 15px; border-radius: 5px; font-family: monospace; }
+        h1, h2 { color: #333; }
+        .function-list { background-color: #f5f5f5; padding: 20px; border-radius: 5px; }
+        .error { color: #dc3545; }
+        .suggestion { margin: 20px 0; padding: 15px; background-color: #e9ecef; border-radius: 5px; }
+        .code-snippet { background-color: #f8f9fa; padding: 15px; border-radius: 5px; font-family: monospace; }
         .meme { max-width: 500px; margin: 20px 0; }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>QA Report: inline-python Module</h1>
-        
-        <h2>Module Information</h2>
+    <h1>QA Report: inline-python Module</h1>
+    
+    <h2>Module Information</h2>
+    <ul>
+        <li><strong>Name:</strong> inline-python</li>
+        <li><strong>Author:</strong> felipepimentel</li>
+        <li><strong>Latest Version:</strong> main</li>
+        <li><strong>Release Date:</strong> N/A (Information unavailable due to crawling error)</li>
+        <li><strong>Dagger Engine Version Used:</strong> v0.18.6</li>
+    </ul>
+
+    <h2>Module Functionality</h2>
+    <div class="function-list">
+        <h3>Available Functions:</h3>
         <ul>
-            <li><strong>Name:</strong> inline-python</li>
-            <li><strong>Repository:</strong> github.com/samalba/dagger-modules/inline-python</li>
-            <li><strong>Author:</strong> samalba</li>
-            <li><strong>Version Tested:</strong> main</li>
-            <li><strong>Dagger Version Used:</strong> v0.18.5</li>
+            <li><strong>code</strong> - No description provided</li>
+            <li><strong>ctr</strong> - No description provided</li>
+            <li><strong>with-package</strong> - fixme: add usage</li>
+            <li><strong>with-packages</strong> - fixme: add usage</li>
         </ul>
-
-        <h2>Module Functions</h2>
-        <div class="function-list">
-            <ul>
-                <li><strong>code</strong> - No description provided</li>
-                <li><strong>ctr</strong> - No description provided</li>
-                <li><strong>with-package</strong> - fixme: add usage</li>
-                <li><strong>with-packages</strong> - fixme: add usage</li>
-            </ul>
-        </div>
-
-        <h2>Issues Encountered</h2>
-        <div class="error">
-            <p>1. Unable to crawl module information from daggerverse due to API limitations</p>
-            <p>2. Module functions lack proper documentation and descriptions</p>
-        </div>
-
-        <h2>Suggestions for Improvement</h2>
-        
-        <div class="suggestion">
-            <h3>1. Add Comprehensive Function Documentation</h3>
-            <p>The module functions lack proper documentation, making it difficult for users to understand their purpose and usage.</p>
-            <div class="code">
-                <pre>
-// Example of how to improve function documentation
-#Function Documentation
-def with-package(pkg: str) -> Container:
-    """
-    Adds a Python package to the container.
-    
-    Args:
-        pkg (str): The name of the Python package to install
-        
-    Returns:
-        Container: A new container with the package installed
-        
-    Example:
-        +python:
-            withPackage("requests")
-    """
-                </pre>
-            </div>
-        </div>
-
-        <div class="suggestion">
-            <h3>2. Add Input Validation</h3>
-            <p>The module should validate inputs to prevent errors and provide better error messages.</p>
-            <div class="code">
-                <pre>
-// Example of adding input validation
-#Input Validation
-def with-package(pkg: str) -> Container:
-    if not pkg:
-        fail("Package name cannot be empty")
-    if not isinstance(pkg, str):
-        fail("Package name must be a string")
-    // ... rest of the function
-                </pre>
-            </div>
-        </div>
-
-        <div class="suggestion">
-            <h3>3. Add Examples and Usage Patterns</h3>
-            <p>The module should include example usage patterns to help users understand how to use it effectively.</p>
-            <div class="code">
-                <pre>
-// Example of adding usage examples in the module
-#Example Usage
-"""
-Example usage of inline-python module:
-
-+python:
-    # Install a single package
-    withPackage("requests")
-    
-    # Install multiple packages
-    withPackages(["requests", "pandas"])
-    
-    # Execute Python code
-    code('''
-    import requests
-    response = requests.get('https://api.example.com')
-    print(response.json())
-    ''')
-"""
-                </pre>
-            </div>
-        </div>
-
-        <div class="meme">
-            <img src="https://i.imgflip.com/8723zf.jpg" alt="Documentation Meme" width="400">
-            <p><em>"When you find a module with no documentation"</em></p>
-        </div>
-
     </div>
+
+    <h2>Issues Encountered</h2>
+    <div class="error">
+        <p>During testing, the following issues were encountered:</p>
+        <ul>
+            <li>Unable to crawl module information due to API limitations</li>
+            <li>Function descriptions are missing or incomplete</li>
+        </ul>
+    </div>
+
+    <h2>Suggestions for Improvement</h2>
+    
+    <div class="suggestion">
+        <h3>1. Add Comprehensive Function Documentation</h3>
+        <p>Current function descriptions are missing. Add detailed documentation for each function.</p>
+        <div class="code-snippet">
+            // Example documentation format in dagger.json
+            {
+                "name": "with-package",
+                "description": "Installs a single Python package in the container",
+                "args": [
+                    {
+                        "name": "package",
+                        "description": "Name of the Python package to install",
+                        "type": "string",
+                        "required": true
+                    }
+                ],
+                "examples": [
+                    {
+                        "description": "Install requests package",
+                        "code": "dag.with-package('requests')"
+                    }
+                ]
+            }
+        </div>
+    </div>
+
+    <div class="suggestion">
+        <h3>2. Add Error Handling and Validation</h3>
+        <p>Implement proper error handling for package installation and Python code execution.</p>
+        <div class="code-snippet">
+            func (m *Module) WithPackage(ctx context.Context, pkg string) (*Module, error) {
+                if pkg == "" {
+                    return nil, fmt.Errorf("package name cannot be empty")
+                }
+                
+                // Validate package name format
+                if !validatePyPIPackageName(pkg) {
+                    return nil, fmt.Errorf("invalid package name format: %s", pkg)
+                }
+                
+                // Attempt installation with proper error handling
+                container, err := m.container.WithExec([]string{"pip", "install", pkg})
+                if err != nil {
+                    return nil, fmt.Errorf("failed to install package %s: %w", pkg, err)
+                }
+                
+                return &Module{container: container}, nil
+            }
+        </div>
+    </div>
+
+    <div class="suggestion">
+        <h3>3. Add Tests and Examples</h3>
+        <p>Include comprehensive tests and usage examples.</p>
+        <div class="code-snippet">
+            func TestPythonModule(t *testing.T) {
+                tests := []struct {
+                    name    string
+                    code    string
+                    want    string
+                    wantErr bool
+                }{
+                    {
+                        name: "simple print",
+                        code: "print('Hello, World!')",
+                        want: "Hello, World!\n",
+                    },
+                    {
+                        name: "with package",
+                        code: `
+                            import requests
+                            print(requests.__version__)
+                        `,
+                        want: "2.31.0\n",
+                    },
+                }
+                
+                for _, tt := range tests {
+                    t.Run(tt.name, func(t *testing.T) {
+                        // Test implementation
+                    })
+                }
+            }
+        </div>
+    </div>
+
+    <div class="meme">
+        <img src="https://i.imgflip.com/7zoou1.jpg" alt="Python Documentation Meme" />
+        <p><em>When you see functions without documentation...</em></p>
+    </div>
+
+    <h2>Trace Information</h2>
+    <p>Dagger Cloud Trace: Not available in current context</p>
+
 </body>
 </html>
