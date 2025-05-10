@@ -1,41 +1,17 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>QA Report - protoc-gen-doc</title>
+    <title>QA Report: protoc-gen-doc</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-            margin: 40px;
-        }
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        .function-list {
-            background-color: #f5f5f5;
-            padding: 20px;
-            border-radius: 5px;
-        }
-        .suggestion {
-            margin: 20px 0;
-            padding: 15px;
-            background-color: #e9f5ff;
-            border-radius: 5px;
-        }
-        .error {
-            color: #721c24;
-            background-color: #f8d7da;
-            padding: 15px;
-            border-radius: 5px;
-            margin: 20px 0;
-        }
-        pre {
-            background-color: #f8f9fa;
-            padding: 15px;
-            border-radius: 5px;
-            overflow-x: auto;
-        }
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
+        h1, h2 { color: #333; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .alert { padding: 15px; margin-bottom: 20px; border: 1px solid transparent; border-radius: 4px; }
+        .alert-warning { background-color: #fff3cd; border-color: #ffeeba; color: #856404; }
+        .code-block { background-color: #f8f9fa; padding: 15px; border-radius: 4px; font-family: monospace; }
+        .function-list { list-style-type: none; padding-left: 0; }
+        .function-item { margin-bottom: 10px; padding: 10px; background-color: #f8f9fa; border-radius: 4px; }
+        .suggestion { margin-bottom: 20px; padding: 15px; background-color: #e9ecef; border-radius: 4px; }
     </style>
 </head>
 <body>
@@ -45,33 +21,37 @@
         <h2>Module Information</h2>
         <ul>
             <li><strong>Name:</strong> protoc-gen-doc</li>
-            <li><strong>Author:</strong> cloudnative-pg</li>
+            <li><strong>Repository:</strong> github.com/cloudnative-pg/daggerverse/protoc-gen-doc</li>
             <li><strong>Latest Version:</strong> main</li>
-            <li><strong>Release Date:</strong> N/A (information unavailable due to crawling issues)</li>
-            <li><strong>Dagger Engine Version Used:</strong> v0.18.5</li>
+            <li><strong>Release Date:</strong> Not available (crawling failed)</li>
+            <li><strong>Dagger Engine Version Used:</strong> v0.18.6</li>
         </ul>
 
-        <h2>Module Purpose and Functions</h2>
+        <h2>Module Functionality</h2>
+        <p>This module provides functionality for generating documentation from Protocol Buffer (protobuf) files using protoc-gen-doc. The module exposes the following function:</p>
+        
         <div class="function-list">
-            <p>This module provides functionality for generating documentation from Protocol Buffer (protobuf) files using protoc-gen-doc.</p>
-            <h3>Available Functions:</h3>
+            <div class="function-item">
+                <strong>generate()</strong>: Generate runs protoc-gen-doc on proto files, returning the generated documentation as a directory.
+            </div>
+        </div>
+
+        <h2>QA Issues Encountered</h2>
+        <div class="alert alert-warning">
+            <p>During testing, the following issues were encountered:</p>
             <ul>
-                <li><strong>generate</strong>: Generate runs protoc-gen-doc on proto files, returning the generated documentation as a directory.</li>
+                <li>Unable to crawl module information from daggerverse due to API limitations</li>
             </ul>
         </div>
 
-        <h2>Issues Encountered</h2>
-        <div class="error">
-            <p>Unable to crawl the module page due to API limitations: "Payment Required: Failed to scrape URL. Insufficient credits to perform this request."</p>
-        </div>
-
-        <h2>Quality Improvement Suggestions</h2>
+        <h2>Suggestions for Improvement</h2>
         
         <div class="suggestion">
             <h3>1. Add Input Validation</h3>
-            <p>Add validation for proto file inputs to ensure they exist and are valid before processing.</p>
-            <pre>
-func (r *ProtocGenDoc) generate(ctx context.Context, protoFiles *Directory) (*Directory, error) {
+            <p>Implement input validation for the proto files to ensure they exist and are valid before processing.</p>
+            <div class="code-block">
+<pre>
+func (m *Module) generate(ctx context.Context, protoFiles *Directory) (*Directory, error) {
     // Add validation
     exists, err := protoFiles.Exists(ctx, ".")
     if err != nil || !exists {
@@ -91,70 +71,81 @@ func (r *ProtocGenDoc) generate(ctx context.Context, protoFiles *Directory) (*Di
         }
     }
     if !hasProtoFiles {
-        return nil, fmt.Errorf("no .proto files found in input directory")
+        return nil, fmt.Errorf("no .proto files found in directory")
     }
     
     // Continue with existing logic...
 }
 </pre>
+            </div>
         </div>
 
         <div class="suggestion">
             <h3>2. Add Documentation Output Format Options</h3>
-            <p>Enhance the module to support multiple output formats (HTML, Markdown, JSON)</p>
-            <pre>
+            <p>Enhance the module to support multiple documentation output formats (HTML, Markdown, JSON).</p>
+            <div class="code-block">
+<pre>
 type OutputFormat string
 
 const (
-    FormatHTML     OutputFormat = "html"
-    FormatMarkdown OutputFormat = "markdown"
-    FormatJSON     OutputFormat = "json"
+    HTML     OutputFormat = "html"
+    Markdown OutputFormat = "md"
+    JSON     OutputFormat = "json"
 )
 
-func (r *ProtocGenDoc) Generate(
+func (m *Module) Generate(
     ctx context.Context,
     protoFiles *Directory,
     format OutputFormat,
 ) (*Directory, error) {
     args := []string{
-        fmt.Sprintf("--doc_out=%s", format),
-        fmt.Sprintf("--doc_opt=%s,output.%s", format, format),
+        fmt.Sprintf("--doc_opt=%s,output", format),
+        "--doc_out=./out",
     }
     // Continue with generation logic...
 }
 </pre>
+            </div>
         </div>
 
         <div class="suggestion">
             <h3>3. Add Progress Reporting</h3>
-            <p>Implement progress reporting for better user feedback during documentation generation</p>
-            <img src="https://i.imgflip.com/7zuu7o.jpg" alt="Progress Bar Meme" style="max-width: 400px; margin: 20px 0;">
-            <pre>
-type ProgressReport struct {
-    CurrentFile string
-    Progress    float64
-    Status      string
+            <p>Implement progress reporting to provide better visibility into the documentation generation process.</p>
+            <img src="https://i.imgflip.com/2/7q5cc1.jpg" alt="Progress Bar Meme" style="max-width: 400px; margin: 20px 0;" />
+            <div class="code-block">
+<pre>
+type ProgressEvent struct {
+    Stage string
+    Progress int
+    Message string
 }
 
-func (r *ProtocGenDoc) GenerateWithProgress(
+func (m *Module) Generate(
     ctx context.Context,
     protoFiles *Directory,
-) (*Directory, chan ProgressReport) {
-    progressChan := make(chan ProgressReport)
-    
-    go func() {
-        defer close(progressChan)
-        // Process files and send progress updates
-        progressChan <- ProgressReport{
-            CurrentFile: "user.proto",
-            Progress: 0.5,
-            Status: "Generating documentation...",
+    progressCh chan<- ProgressEvent,
+) (*Directory, error) {
+    if progressCh != nil {
+        progressCh <- ProgressEvent{
+            Stage: "Initializing",
+            Progress: 0,
+            Message: "Starting documentation generation",
         }
-    }()
+    }
     
-    return output, progressChan
+    // Continue with generation logic, sending updates...
+    
+    if progressCh != nil {
+        progressCh <- ProgressEvent{
+            Stage: "Complete",
+            Progress: 100,
+            Message: "Documentation generated successfully",
+        }
+    }
+    return output, nil
 }
 </pre>
+            </div>
         </div>
     </div>
 </body>
