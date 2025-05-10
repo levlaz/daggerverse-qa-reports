@@ -4,100 +4,113 @@
     <title>QA Report - Spectral Module</title>
     <style>
         body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
-        h1, h2 { color: #333; }
-        .container { max-width: 1200px; margin: 0 auto; }
-        .error { color: #dc3545; padding: 10px; background-color: #f8d7da; border-radius: 4px; }
-        .suggestion { margin: 20px 0; padding: 15px; background-color: #f8f9fa; border-radius: 4px; }
-        pre { background-color: #f8f9fa; padding: 10px; border-radius: 4px; overflow-x: auto; }
-        .meme { margin: 20px 0; }
+        h1 { color: #333; }
+        .section { margin: 20px 0; }
+        .error { color: #dc3545; }
+        .function-list { background: #f8f9fa; padding: 15px; border-radius: 5px; }
+        .suggestion { margin: 20px 0; padding: 15px; background: #f8f9fa; border-left: 4px solid #007bff; }
+        .code { background: #f8f9fa; padding: 15px; border-radius: 5px; font-family: monospace; }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>QA Report: Spectral Module</h1>
+    <h1>QA Report: Spectral Module</h1>
+
+    <div class="section">
+        <h2>Basic Information</h2>
+        <ul>
+            <li><strong>Module Name:</strong> github.com/luanmtruong/daggerverse/spectral</li>
+            <li><strong>Author:</strong> luanmtruong</li>
+            <li><strong>Latest Version:</strong> latest (specific version unknown due to crawling issues)</li>
+            <li><strong>Release Date:</strong> Unknown (crawling failed)</li>
+            <li><strong>Dagger Engine Version Used:</strong> v0.18.6</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>Module Functionality</h2>
+        <p>This module provides functionality for linting JSON/YAML documents using Spectral.</p>
         
-        <h2>Module Information</h2>
-        <ul>
-            <li><strong>Name:</strong> github.com/sagikazarmark/daggerverse/spectral</li>
-            <li><strong>Author:</strong> sagikazarmark</li>
-            <li><strong>Latest Version:</strong> main</li>
-            <li><strong>Release Date:</strong> N/A (Using main branch)</li>
-            <li><strong>Dagger Engine Version Used:</strong> v0.18.5</li>
-        </ul>
+        <h3>Available Functions:</h3>
+        <div class="function-list">
+            <ul>
+                <li><strong>container</strong> - Base container function</li>
+                <li><strong>lint</strong> - Lint JSON/YAML documents</li>
+            </ul>
+        </div>
+    </div>
 
-        <h2>Module Purpose</h2>
-        <p>The Spectral module is designed to lint JSON/YAML documents. It provides functionality to validate and check the quality of JSON and YAML files against predefined rulesets.</p>
-
-        <h2>Available Functions</h2>
-        <ul>
-            <li><code>container()</code> - Internal container configuration</li>
-            <li><code>lint()</code> - Lint JSON/YAML documents</li>
-        </ul>
-
+    <div class="section">
         <h2>Issues Encountered</h2>
         <div class="error">
-            <p>Unable to crawl the daggerverse page due to API limitations.</p>
+            <p>1. Failed to crawl the daggerverse page due to API limitations</p>
         </div>
+    </div>
 
-        <h2>Quality Improvement Suggestions</h2>
+    <div class="section">
+        <h2>Improvement Suggestions</h2>
         
         <div class="suggestion">
-            <h3>1. Add Comprehensive Documentation</h3>
-            <p>The module would benefit from more detailed documentation, including examples and parameter descriptions.</p>
+            <h3>1. Add Input Validation</h3>
+            <p>Add proper input validation to ensure valid JSON/YAML files are provided before processing.</p>
+            <div class="code">
             <pre>
-// Example documentation improvement:
-/**
- * Lint JSON/YAML documents using Spectral
- * @param {string} file - Path to the file to lint
- * @param {string} ruleset - Optional: Path to custom ruleset
- * @returns {string} Lint results
- * @example
- * dag.lint(file: "./openapi.yaml")
- */
-func (m *Module) Lint(ctx context.Context, file string, ruleset *string) (*string, error) {
-    // Implementation
-}
-</pre>
-            <div class="meme">
-                <img src="https://i.imgflip.com/65rfxq.jpg" alt="Documentation meme" />
-                <p><em>"Documentation is like a love letter to your future self"</em></p>
+func (m *Spectral) Lint(ctx context.Context, file *File) (*File, error) {
+    // Add validation
+    if file == nil {
+        return nil, fmt.Errorf("input file cannot be nil")
+    }
+    
+    content, err := file.Contents(ctx)
+    if err != nil {
+        return nil, fmt.Errorf("failed to read file contents: %w", err)
+    }
+    
+    // Validate JSON/YAML format
+    if !isValidFormat(content) {
+        return nil, fmt.Errorf("invalid file format: must be JSON or YAML")
+    }
+    
+    // Continue with existing logic...
+}</pre>
             </div>
         </div>
 
         <div class="suggestion">
-            <h3>2. Add Error Handling and Reporting</h3>
-            <p>Implement better error handling and provide detailed error messages.</p>
+            <h3>2. Add Detailed Documentation</h3>
+            <p>Enhance documentation with examples and use cases.</p>
+            <div class="code">
             <pre>
-type LintResult struct {
-    Success bool      `json:"success"`
-    Errors  []Error   `json:"errors,omitempty"`
-    Warnings []Warning `json:"warnings,omitempty"`
-}
-
-type Error struct {
-    Line    int    `json:"line"`
-    Column  int    `json:"column"`
-    Message string `json:"message"`
-    Rule    string `json:"rule"`
-}
-</pre>
+// Lint performs linting on JSON/YAML documents using Spectral
+//
+// Example usage:
+//
+//  result, err := dag.Spectral().Lint(ctx, dag.Directory().
+//    WithFile("openapi.yaml", []byte(`openapi: 3.0.0`)))
+//
+// Available options:
+//  - SetRuleset: Specify custom ruleset file
+//  - SetFormat: Specify output format (json, text, stylish)
+func (m *Spectral) Lint(ctx context.Context, file *File) (*File, error)</pre>
+            </div>
+            <img src="https://i.imgflip.com/2k48t0.jpg" alt="Documentation meme" style="max-width: 300px;">
         </div>
 
         <div class="suggestion">
             <h3>3. Add Configuration Options</h3>
-            <p>Provide more configuration options for customizing the linting process.</p>
+            <p>Provide more configuration options for flexibility.</p>
+            <div class="code">
             <pre>
-type LintOptions struct {
-    IgnorePatterns []string `json:"ignorePatterns,omitempty"`
-    Severity       string   `json:"severity,omitempty"`
-    Format         string   `json:"format,omitempty"`
-    RulesetPath    string   `json:"rulesetPath,omitempty"`
+type SpectralConfig struct {
+    Ruleset     string   `json:"ruleset,omitempty"`
+    Format      string   `json:"format,omitempty"`
+    FailOnError bool     `json:"failOnError,omitempty"`
+    Exclude     []string `json:"exclude,omitempty"`
 }
 
-func (m *Module) LintWithOptions(ctx context.Context, file string, options *LintOptions) (*LintResult, error) {
+func (m *Spectral) WithConfig(config SpectralConfig) *Spectral {
     // Implementation
-}
-</pre>
+}</pre>
+            </div>
         </div>
     </div>
 </body>
